@@ -2652,6 +2652,19 @@
 										<br>
 										<img style="width: 40px;" src="<?= base_url('assets/img/icon/icon-web-03-300x300.png') ?>" alt="">
 										<b style="color:white;">info@ucard.id</b>
+										<div class="footer-social">
+											<div class="social row">
+												<div class="icon"><a class="facebook" href="https://www.facebook.com/adm.ucard.3" title="Facebook"><i class="fa fa-facebook"></i></a></div>
+
+												<div class="icon"><a class="Youtube" href="https://www.youtube.com/channel/UCKrowcqV4sv5FqpBP7qXZtQ" title="Youtube"><i class="fa fa-youtube"></i></a></div>
+
+												<div class="icon"><a class="instagram" href="https://www.instagram.com/kartu_idcard/" title="Instagram"><i class="fa fa-instagram"></i></a></div>
+
+												<div class="icon"><a class="Linkedin" href="https://www.linkedin.com/in/id-card-surabaya-5b0848a9/" title="Linkedin"><i class="fa fa-linkedin"></i></a></div>
+
+											</div>
+
+										</div>
 									</div>
 
 								</div>
@@ -2684,18 +2697,15 @@
 								</div>
 
 								<div class="col-sm-3 col-xs-12">
-									<div class="footer-social">
-										<div class="social row">
-											<div class="icon"><a class="facebook" href="https://www.facebook.com/adm.ucard.3" title="Facebook"><i class="fa fa-facebook"></i></a></div>
-
-											<div class="icon"><a class="Youtube" href="https://www.youtube.com/channel/UCKrowcqV4sv5FqpBP7qXZtQ" title="Youtube"><i class="fa fa-youtube"></i></a></div>
-
-											<div class="icon"><a class="instagram" href="https://www.instagram.com/kartu_idcard/" title="Instagram"><i class="fa fa-instagram"></i></a></div>
-
-											<div class="icon"><a class="Linkedin" href="https://www.linkedin.com/in/id-card-surabaya-5b0848a9/" title="Linkedin"><i class="fa fa-linkedin"></i></a></div>
-
-										</div>
-
+									<div class="copyright-text">
+										<h4 style="color: white;">Branch Office</h4>
+										<p>Jl. Bambu Apus Raya No.181,
+											Pd. Bambu, Kec. Duren Sawit,
+											Jakarta Timur 13430</p>
+										<br>
+										<br>
+										<img style="width: 40px;" src="<?= base_url('assets/img/icon/icon-web-02-300x300.png') ?>" alt="">
+										<b style="color:white;"> (021) 22982095</b>
 									</div>
 
 								</div>
