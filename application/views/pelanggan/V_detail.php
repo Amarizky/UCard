@@ -242,617 +242,754 @@
                 </div>
             </div>
         </div>
-        <?php if ($o['transaksi_terima'] == '0') : ?>
-            <div style="display:none;" class="col-lg-6">
-            <?php else : ?>
-                <div class="col-lg-6">
-                <?php endif; ?>
-                <div id="status1" class="tabcontent">
-                    <div class="card">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">Product</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="container-fluid">
-                                <b>Nama</b>
-                                <p><?= $p['product_nama'] ?></p>
-                                <b>Deskripsi</b>
-                                <p><?= $p['product_deskripsi'] ?></p>
-                                <b>Keunggulan</b>
-                                <p><?= $p['product_keunggulan'] ?></p>
-                                <b>Keterangan</b>
-                                <p><?= $p['product_keterangan'] ?></p>
-                                <b>Harga per item</b>
-                                <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
-                                <b>Jumlah dipesan</b>
-                                <p><?= $o['transaksi_jumlah'] ?></p>
-                                <b>Total dipesan</b>
-                                <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
-                                <b>Keterangan</b>
-                                <p><?= $o['transaksi_keterangan'] ?></p>
-                                <div class="grid-container">
-                                    <div class="grid-item">
-                                        <b>Personalisasi</b>
-                                        <p><?php
-                                            if ($o['transaksi_personalisasi'] == 1) {
-                                                echo "Blanko";
-                                            } elseif ($o['transaksi_personalisasi'] == 2) {
-                                                echo "Nomerator";
-                                            } elseif ($o['transaksi_personalisasi'] == 3) {
-                                                echo "Barcode";
-                                            } elseif ($o['transaksi_personalisasi'] == 4) {
-                                                echo "Data";
-                                            } elseif ($o['transaksi_personalisasi'] == 5) {
-                                                echo "Data + Foto";
-                                            } else {
-                                                echo "Tidak Diketahui";
-                                            } ?></p>
-                                    </div>
-                                    <div class="grid-item">
-                                        <b>Coating</b>
-                                        <p><?php
-                                            if ($o['transaksi_coating'] == 1) {
-                                                echo "Glossy";
-                                            } elseif ($o['transaksi_coating'] == 2) {
-                                                echo "Doff";
-                                            } elseif ($o['transaksi_coating'] == 3) {
-                                                echo "Glossy + Doff";
-                                            } else {
-                                                echo "Tidak Diketahui";
-                                            } ?></p>
-                                    </div>
-                                    <div class="grid-item">
-                                        <b>Finishing</b>
-                                        <p><?php
-                                            if ($o['transaksi_finishing'] == 1) {
-                                                echo "Tidak Ada";
-                                            } elseif ($o['transaksi_finishing'] == 2) {
-                                                echo "Urutkan";
-                                            } elseif ($o['transaksi_finishing'] == 3) {
-                                                echo "Label Gosok";
-                                            } elseif ($o['transaksi_finishing'] == 4) {
-                                                echo "Plong Oval";
-                                            } elseif ($o['transaksi_finishing'] == 5) {
-                                                echo "Plong Bulat";
-                                            } elseif ($o['transaksi_finishing'] == 6) {
-                                                echo "Urutkan";
-                                            } elseif ($o['transaksi_finishing'] == 7) {
-                                                echo "Emboss Silver";
-                                            } elseif ($o['transaksi_finishing'] == 8) {
-                                                echo "Emboss Gold";
-                                            } elseif ($o['transaksi_finishing'] == 9) {
-                                                echo "Panel";
-                                            } elseif ($o['transaksi_finishing'] == 10) {
-                                                echo "Hot Print";
-                                            } elseif ($o['transaksi_finishing'] == 11) {
-                                                echo "Swipe";
-                                            } else {
-                                                echo "Tidak Diketahui";
-                                            } ?></p>
-                                    </div>
-                                    <div class="grid-item">
-                                        <b>Function</b>
-                                        <p><?php
-                                            if ($o['transaksi_function'] == 1) {
-                                                echo "Print Thermal";
-                                            } elseif ($o['transaksi_function'] == 2) {
-                                                echo "Scan Barcode";
-                                            } elseif ($o['transaksi_function'] == 3) {
-                                                echo "Swipe Magnetic";
-                                            } elseif ($o['transaksi_function'] == 4) {
-                                                echo "Tap RFID";
-                                            } else {
-                                                echo "Tidak Diketahui";
-                                            } ?></p>
-                                    </div>
-                                    <div class="grid-item">
-                                        <b>Packaging</b>
-                                        <p><?php
-                                            if ($o['transaksi_packaging'] == 1) {
-                                                echo "Plastik 1 on 1";
-                                            } elseif ($o['transaksi_packaging'] == 2) {
-                                                echo "Plastik Terpisah";
-                                            } elseif ($o['transaksi_packaging'] == 3) {
-                                                echo "Box Kartu Nama";
-                                            } elseif ($o['transaksi_packaging'] == 4) {
-                                                echo "Box Putih";
-                                            } elseif ($o['transaksi_packaging'] == 5) {
-                                                echo "Small UCARD";
-                                            } elseif ($o['transaksi_packaging'] == 6) {
-                                                echo "Small Maxi UCARD";
-                                            } elseif ($o['transaksi_packaging'] == 7) {
-                                                echo "Large UCARD";
-                                            } elseif ($o['transaksi_packaging'] == 8) {
-                                                echo "Large Maxi UCARD";
-                                            } else {
-                                                echo "Tidak Diketahui";
-                                            } ?></p>
-                                    </div>
-                                    <div class="grid-item">
-                                        <b>Ambil/Kirim</b>
-                                        <p><?php
-                                            if ($o['transaksi_paket'] == 1) {
-                                                echo "Kirim Product";
-                                            } elseif ($o['transaksi_paket'] == 2) {
-                                                echo "Ambil Sendiri";
-                                            } else {
-                                                echo "Tidak Diketahui";
-                                            } ?></p>
+        <div class="col-lg-6 <?= $o['transaksi_terima'] == '0' ? 'd-none' : ''; ?>">
+            <div id="status1" class="tabcontent">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-left">
+                                    <h3 class="mb-0">Product</h3>
+                                </div>
+                            </div>
+                            <?php if ($o['transaksi_terima'] == '0') : ?>
+                                <div class="col">
+                                    <div class="text-right">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#correction">
+                                            Perbaikan <i class="fa fa-pen"></i>
+                                        </button>
                                     </div>
                                 </div>
-
-                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
-                <div id="status2" class="tabcontent">
-                    <div class="card">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">Design</h3>
-                        </div>
-                        <div class="card-body">
-                            <?php if ($o['transaksi_terima'] !== '1') : ?>
-                                <a href="<?= base_url('Template?id=' . $this->uri->segment(3)) ?>" style="text-align: center;" class="form-control"><i class="fa fa-image"></i> Pilih Template</a>
-                                <br>
-                                <form method="post" action="<?= base_url('Order_pelanggan/upload_design') ?>" enctype="multipart/form-data">
-                                    <h3>Upload Design</h3>
-                                    <input type="file" class="form-control" multiple name="design[]">
-                                    <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
-                                    <br>
-                                    <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
-                                </form>
-                                <hr>
-                            <?php endif ?>
-                            <?php
-                            $id = $this->uri->segment(3);
-                            $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
-                            $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
-                            if ($design) : ?>
-                                <h3>Design Anda</h3>
-                                <br>
-                                <?php
-                                foreach ($design as $d) :
-                                ?>
-
-                                    <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat"><img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt=""></a>
-                                    <hr>
-                            <?php
-                                endforeach;
-                            endif;
-                            ?>
-                            <?php if ($upload) : ?>
-                                <h3>Uploaded File/Link Design </h3>
-                                <br>
-                                <div class="table-responsive">
-                                    <table class="table table-flush" id="datatable-basic">
-                                        <thead>
-                                            <tr>
-                                                <th>File Name</th>
-                                                <th>View</th>
-                                                <th>Download</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            foreach ($upload as $u) :
-                                            ?>
-                                                <tr>
-                                                    <td><?php echo  $u['design_image']; ?></td>
-                                                    <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">View</a></td>
-                                                    <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
-                                                    <td><a id="<?= $u['design_id'] ?>" type="button" class="hapus" data-toggle="modal" data-target="#hapus" style="color:red;">Delete</a></td>
-                                                </tr>
-                                            <?php
-                                            endforeach;
-                                            ?>
-                                        </tbody>
-                                    </table>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <b>Nama</b>
+                            <p><?= $p['product_nama'] ?></p>
+                            <b>Deskripsi</b>
+                            <p><?= $p['product_deskripsi'] ?></p>
+                            <b>Keunggulan</b>
+                            <p><?= $p['product_keunggulan'] ?></p>
+                            <b>Keterangan</b>
+                            <p><?= $p['product_keterangan'] ?></p>
+                            <b>Harga per item</b>
+                            <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                            <b>Jumlah dipesan</b>
+                            <p><?= $o['transaksi_jumlah'] ?></p>
+                            <b>Total dipesan</b>
+                            <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                            <p><?= $o['transaksi_keterangan'] ?></p>
+                            <div class="grid-container">
+                                <div class="grid-item">
+                                    <b>Personalisasi</b>
+                                    <p><?php
+                                        if ($o['transaksi_personalisasi'] == 1) {
+                                            echo "Blanko";
+                                        } elseif ($o['transaksi_personalisasi'] == 2) {
+                                            echo "Nomerator";
+                                        } elseif ($o['transaksi_personalisasi'] == 3) {
+                                            echo "Barcode";
+                                        } elseif ($o['transaksi_personalisasi'] == 4) {
+                                            echo "Data";
+                                        } elseif ($o['transaksi_personalisasi'] == 5) {
+                                            echo "Data + Foto";
+                                        } else {
+                                            echo "Tidak Diketahui";
+                                        } ?></p>
                                 </div>
-                            <?php
-                            endif;
-                            ?>
-                            <?php
-                            $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                            ?>
-                            <h3>Link File </h3>
-                            <div class="form-group row">
-                                <div class="col-sm-8 pr-1">
-                                    <input type="text" class="form-control" id="link" placeholder="link file" value="<?= $link['transaksi_link_desain']; ?>">
+                                <div class="grid-item">
+                                    <b>Coating</b>
+                                    <p><?php
+                                        if ($o['transaksi_coating'] == 1) {
+                                            echo "Glossy";
+                                        } elseif ($o['transaksi_coating'] == 2) {
+                                            echo "Doff";
+                                        } elseif ($o['transaksi_coating'] == 3) {
+                                            echo "Glossy + Doff";
+                                        } else {
+                                            echo "Tidak Diketahui";
+                                        } ?></p>
                                 </div>
-                                <div class="col-sm-4 pl-1">
-                                    <button type="submit" class="btn btn-primary mb-2 w-100" id="updateLink">Save</button>
+                                <div class="grid-item">
+                                    <b>Finishing</b>
+                                    <p><?php
+                                        if ($o['transaksi_finishing'] == 1) {
+                                            echo "Tidak Ada";
+                                        } elseif ($o['transaksi_finishing'] == 2) {
+                                            echo "Urutkan";
+                                        } elseif ($o['transaksi_finishing'] == 3) {
+                                            echo "Label Gosok";
+                                        } elseif ($o['transaksi_finishing'] == 4) {
+                                            echo "Plong Oval";
+                                        } elseif ($o['transaksi_finishing'] == 5) {
+                                            echo "Plong Bulat";
+                                        } elseif ($o['transaksi_finishing'] == 6) {
+                                            echo "Urutkan";
+                                        } elseif ($o['transaksi_finishing'] == 7) {
+                                            echo "Emboss Silver";
+                                        } elseif ($o['transaksi_finishing'] == 8) {
+                                            echo "Emboss Gold";
+                                        } elseif ($o['transaksi_finishing'] == 9) {
+                                            echo "Panel";
+                                        } elseif ($o['transaksi_finishing'] == 10) {
+                                            echo "Hot Print";
+                                        } elseif ($o['transaksi_finishing'] == 11) {
+                                            echo "Swipe";
+                                        } else {
+                                            echo "Tidak Diketahui";
+                                        } ?></p>
+                                </div>
+                                <div class="grid-item">
+                                    <b>Function</b>
+                                    <p><?php
+                                        if ($o['transaksi_function'] == 1) {
+                                            echo "Print Thermal";
+                                        } elseif ($o['transaksi_function'] == 2) {
+                                            echo "Scan Barcode";
+                                        } elseif ($o['transaksi_function'] == 3) {
+                                            echo "Swipe Magnetic";
+                                        } elseif ($o['transaksi_function'] == 4) {
+                                            echo "Tap RFID";
+                                        } else {
+                                            echo "Tidak Diketahui";
+                                        } ?></p>
+                                </div>
+                                <div class="grid-item">
+                                    <b>Packaging</b>
+                                    <p><?php
+                                        if ($o['transaksi_packaging'] == 1) {
+                                            echo "Plastik 1 on 1";
+                                        } elseif ($o['transaksi_packaging'] == 2) {
+                                            echo "Plastik Terpisah";
+                                        } elseif ($o['transaksi_packaging'] == 3) {
+                                            echo "Box Kartu Nama";
+                                        } elseif ($o['transaksi_packaging'] == 4) {
+                                            echo "Box Putih";
+                                        } elseif ($o['transaksi_packaging'] == 5) {
+                                            echo "Small UCARD";
+                                        } elseif ($o['transaksi_packaging'] == 6) {
+                                            echo "Small Maxi UCARD";
+                                        } elseif ($o['transaksi_packaging'] == 7) {
+                                            echo "Large UCARD";
+                                        } elseif ($o['transaksi_packaging'] == 8) {
+                                            echo "Large Maxi UCARD";
+                                        } else {
+                                            echo "Tidak Diketahui";
+                                        } ?></p>
+                                </div>
+                                <div class="grid-item">
+                                    <b>Ambil/Kirim</b>
+                                    <p><?php
+                                        if ($o['transaksi_paket'] == 1) {
+                                            echo "Kirim Product";
+                                        } elseif ($o['transaksi_paket'] == 2) {
+                                            echo "Ambil Sendiri";
+                                        } else {
+                                            echo "Tidak Diketahui";
+                                        } ?></p>
                                 </div>
                             </div>
 
-
-
                         </div>
                     </div>
                 </div>
-                <div id="status3" class="tabcontent">
-                    <?php
-                    $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                    $total_bayar = $this->db->query("SELECT*, (transaksi_harga+transaksi_ongkir) as transaksi_total FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                    ?>
-                    <div class="card">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">Pembayaran</h3>
-                        </div>
-                        <div class="wrapper">
-                            <?php if ($o['transaksi_paket'] == '1') : ?>
-                                <input class="p" type="radio" value="1" name="paket" id="option-1" checked>
-                            <?php else : ?>
-                                <input class="p" type="radio" value="1" name="paket" id="option-1">
-                            <?php endif; ?>
-                            <?php if ($o['transaksi_paket'] == '2') : ?>
-                                <input class="p" type="radio" value="2" name="paket" id="option-2" checked>
-                            <?php else : ?>
-                                <input class="p" type="radio" value="2" name="paket" id="option-2">
-                            <?php endif; ?>
-                            <label for="option-1" class="option option-1">
-                                <div class="dot"></div>
-                                <span>Kirim Product</span>
-                            </label>
-                            <label for="option-2" class="option option-2">
-                                <div class="dot"></div>
-                                <span>Ambil Sendiri</span>
-                            </label>
-                        </div>
-                        <div class="card-body">
-                            <p>Silahkan melakukan transaksi sesuai harga yang di sepakati</p>
-                            <h3>Silahkan pilih salah satu</h3>
-
-                            <input type="radio" name="opsibayar" id="opsibayarlunas" required>
-                            <label for="opsibayarlunas">Lunas</label>
+            </div>
+            <div id="status2" class="tabcontent">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <h3 class="mb-0">Design</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php if ($o['transaksi_terima'] !== '1') : ?>
+                            <a href="<?= base_url('Template?id=' . $this->uri->segment(3)) ?>" style="text-align: center;" class="form-control"><i class="fa fa-image"></i> Pilih Template</a>
                             <br>
-                            <input type="radio" name="opsibayar" id="opsibayardp" required>
-                            <label for="opsibayardp">DP</label>
-
-                            <br>
-                            <br>
-                            <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
-                                <h3>Harga Belum Ditentukan</h3>
-                            <?php else : ?>
-                                <table style="width: 100%;">
-                                    <tr>
-                                        <td style="width: 30%;">
-                                            <h3>Harga barang:</h3>
-                                        </td>
-                                        <td>
-                                            Rp <?= number_format($o['transaksi_harga'], 2, ',', '.') ?>
-                                        </td>
-                                    </tr>
-                                    <?php if ($o['transaksi_paket'] == '1') : ?>
-                                        <tr>
-                                            <td>
-                                                <h3>Ongkos kirim:</h3>
-                                            </td>
-                                            <td>
-                                                Rp <?= number_format($ongkir['transaksi_ongkir'], 2, ',', '.') ?>
-                                            </td>
-                                        </tr>
-                                    <?php endif; ?>
-                                    <tr>
-                                        <td>
-                                            <h3>Total:</h3>
-                                        </td>
-                                        <td>
-                                            Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h3>Harus dibayar:</h3>
-                                        </td>
-                                        <td id="totalbayar">
-                                            Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
-                                        </td>
-                                    </tr>
-                                </table>
-                            <?php endif ?>
-                            <br>
-                            <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
-                                <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="id">
-                                <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
-                                <?php foreach ($bank as $b) : ?>
-                                    <div class="panel-group" id="accordion">
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title">
-                                                    <table>
-                                                        <tr>
-                                                            <td>
-                                                                <?php if ($b['bank_id'] == $o['transaksi_bank']) : ?>
-                                                                    <input checked="" required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
-                                                                <?php else : ?>
-                                                                    <input required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
-                                                                <?php endif ?>
-                                                            </td>
-                                                            <td>
-                                                                <?php if ($b['bank_nama'] === 'TUNAI') : ?>
-                                                                    <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;">
-                                                                        TUNAI
-                                                                    </a>
-                                                                <?php else : ?>
-                                                                    <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $b['bank_id'] ?>">
-                                                                        &nbsp;<img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
-                                                                    </a>
-                                                                <?php endif; ?>
-                                                                <script>
-                                                                    var checked = $('.r<?= $b['bank_id'] ?>').attr('checked');
-                                                                    $('#t<?= $b['bank_id'] ?>').click(function() {
-                                                                        if (typeof checked !== typeof undefined && checked !== false) {
-                                                                            $('.r<?= $b['bank_id'] ?>').attr('checked', '');
-                                                                        } else {
-                                                                            $('.r<?= $b['bank_id'] ?>').removeAttr('checked');
-                                                                        }
-                                                                    });
-                                                                </script>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </h4>
-                                            </div>
-                                            <?php if ($b['bank_nama'] !== 'TUNAI') : ?>
-                                                <div id="collapse<?= $b['bank_id'] ?>" class="panel-collapse collapse in">
-                                                    <div class="panel-body">
-                                                        <table class="table">
-                                                            <tr>
-                                                                <th>Atas Nama</th>
-                                                                <th>No Rekening</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><?= $b['bank_atas_nama'] ?></td>
-                                                                <td><?= $b['bank_no_rek'] ?></td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                <?php endforeach ?>
+                            <form method="post" action="<?= base_url('Order_pelanggan/upload_design') ?>" enctype="multipart/form-data">
+                                <h3>Upload Design</h3>
+                                <input type="file" class="form-control" multiple name="design[]">
+                                <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
                                 <br>
-                                <?php if (!empty($o['transaksi_bukti'])) : ?>
-                                    <b><?= $o['transaksi_atas_nama'] ?></b>
-                                    <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
-                                <?php endif ?>
-                                <?php if ($o['transaksi_terima'] !== '1') : ?>
-                                    <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
-
-                                    <div class="form-group">
-                                        <p class="mb-1">Atas Nama</p>
-                                        <input id="atas_nama" placeholder="Misal: Reza Fabriza Lesmana" type="text" name="atas_nama" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <p class="mb-1">Jumlah yang ditransfer</p>
-                                        <input id="transfer" placeholder="Misal: 500000" type="number" name="transfer" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="file" required="" name="bukti" class="form-control">
-                                    </div>
-                                    <br>
-                                    <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
-                            </form>
-                        <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-                <div id="status4" class="tabcontent">
-                    <div class="card">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">Approval</h3>
-                        </div>
-                        <div class="card-body">
-                            <form method="post" action="<?= base_url('Order_pelanggan/upload_approval_acc') ?>" enctype="multipart/form-data">
-                                <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
-                                <?php if ($o['transaksi_approval_acc'] == '1') : ?>
-                                    <label> <input type="radio" value="1" name="approval" id="apv1" checked> Original </label>
-                                <?php else : ?>
-                                    <label><input type="radio" value="1" name="approval" id="apv1"> Original </label>
-                                <?php endif; ?>
-                                <label for="apv1">
-                                    <a><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>"></a><br>
-                                </label><br>
-                                <?php if ($o['transaksi_approval_acc'] == '2') : ?>
-                                    <label><input type="radio" value="2" name="approval" id="apv2" checked> Gelap</label>
-                                <?php else : ?>
-                                    <label><input type="radio" value="2" name="approval" id="apv2"> Gelap</label>
-                                <?php endif; ?>
-                                <label for="apv2">
-                                    <a><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>"></a><br>
-                                </label><br>
-                                <?php if ($o['transaksi_approval_acc'] == '3') : ?>
-                                    <label><input type="radio" value="3" name="approval" id="apv3" checked> Terang</label>
-                                <?php else : ?>
-                                    <label><input type="radio" value="3" name="approval" id="apv3"> Terang</label>
-                                <?php endif; ?>
-                                <label for="apv3">
-                                    <a><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>"></a><br>
-                                </label><br>
                                 <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
                             </form>
+                            <hr>
+                        <?php endif ?>
+                        <?php
+                        $id = $this->uri->segment(3);
+                        $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
+                        $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
+                        if ($design) : ?>
+                            <h3>Design Anda</h3>
+                            <br>
+                            <?php
+                            foreach ($design as $d) :
+                            ?>
+
+                                <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat"><img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt=""></a>
+                                <hr>
+                        <?php
+                            endforeach;
+                        endif;
+                        ?>
+                        <?php if ($upload) : ?>
+                            <h3>Uploaded File/Link Design </h3>
+                            <br>
+                            <div class="table-responsive">
+                                <table class="table table-flush" id="datatable-basic">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>View</th>
+                                            <th>Download</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach ($upload as $u) :
+                                        ?>
+                                            <tr>
+                                                <td><?php echo  $u['design_image']; ?></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">View</a></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
+                                                <td><a id="<?= $u['design_id'] ?>" type="button" class="hapus" data-toggle="modal" data-target="#hapus" style="color:red;">Delete</a></td>
+                                            </tr>
+                                        <?php
+                                        endforeach;
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php
+                        endif;
+                        ?>
+                        <?php
+                        $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                        ?>
+                        <h3>Link File </h3>
+                        <div class="form-group row">
+                            <div class="col-sm-8 pr-1">
+                                <input type="text" class="form-control" id="link" placeholder="link file" value="<?= $link['transaksi_link_desain']; ?>">
+                            </div>
+                            <div class="col-sm-4 pl-1">
+                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateLink">Save</button>
+                            </div>
                         </div>
+
+
+
                     </div>
                 </div>
-                <div id="status5" class="tabcontent">
-                    <div class="card">
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">Cetak Produk</h3>
-                        </div>
-                        <div class="card-body">
-                            <?php
-                            if (!empty($ctk['transaksi_status']) && @$ctk['transaksi_status'] == '1') :
-                            ?>
-                                <div style="display: flex;justify-content: center;">
-                                    <img style="width:50%;margin: auto;" src="<?= base_url('assets/img/gifcheck.gif') ?>" alt="">
+            </div>
+            <div id="status3" class="tabcontent">
+                <?php
+                $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                $total_bayar = $this->db->query("SELECT*, (transaksi_harga+transaksi_ongkir) as transaksi_total FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                ?>
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <h3 class="mb-0">Pembayaran</h3>
+                    </div>
+                    <div class="wrapper">
+                        <?php if ($o['transaksi_paket'] == '1') : ?>
+                            <input class="p" type="radio" value="1" name="paket" id="option-1" checked>
+                        <?php else : ?>
+                            <input class="p" type="radio" value="1" name="paket" id="option-1">
+                        <?php endif; ?>
+                        <?php if ($o['transaksi_paket'] == '2') : ?>
+                            <input class="p" type="radio" value="2" name="paket" id="option-2" checked>
+                        <?php else : ?>
+                            <input class="p" type="radio" value="2" name="paket" id="option-2">
+                        <?php endif; ?>
+                        <label for="option-1" class="option option-1">
+                            <div class="dot"></div>
+                            <span>Kirim Product</span>
+                        </label>
+                        <label for="option-2" class="option option-2">
+                            <div class="dot"></div>
+                            <span>Ambil Sendiri</span>
+                        </label>
+                    </div>
+                    <div class="card-body">
+                        <p>Silahkan melakukan transaksi sesuai harga yang di sepakati</p>
+                        <h3>Silahkan pilih salah satu</h3>
+
+                        <input type="radio" name="opsibayar" id="opsibayarlunas" required>
+                        <label for="opsibayarlunas">Lunas</label>
+                        <br>
+                        <input type="radio" name="opsibayar" id="opsibayardp" required>
+                        <label for="opsibayardp">DP</label>
+
+                        <br>
+                        <br>
+                        <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
+                            <h3>Harga Belum Ditentukan</h3>
+                        <?php else : ?>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 30%;">
+                                        <h3>Harga barang:</h3>
+                                    </td>
+                                    <td>
+                                        Rp <?= number_format($o['transaksi_harga'], 2, ',', '.') ?>
+                                    </td>
+                                </tr>
+                                <?php if ($o['transaksi_paket'] == '1') : ?>
+                                    <tr>
+                                        <td>
+                                            <h3>Ongkos kirim:</h3>
+                                        </td>
+                                        <td>
+                                            Rp <?= number_format($ongkir['transaksi_ongkir'], 2, ',', '.') ?>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                                <tr>
+                                    <td>
+                                        <h3>Total:</h3>
+                                    </td>
+                                    <td>
+                                        Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h3>Harus dibayar:</h3>
+                                    </td>
+                                    <td id="totalbayar">
+                                        Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
+                                    </td>
+                                </tr>
+                            </table>
+                        <?php endif ?>
+                        <br>
+                        <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
+                            <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="id">
+                            <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
+                            <?php foreach ($bank as $b) : ?>
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <?php if ($b['bank_id'] == $o['transaksi_bank']) : ?>
+                                                                <input checked="" required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
+                                                            <?php else : ?>
+                                                                <input required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
+                                                            <?php endif ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php if ($b['bank_nama'] === 'TUNAI') : ?>
+                                                                <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;">
+                                                                    TUNAI
+                                                                </a>
+                                                            <?php else : ?>
+                                                                <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $b['bank_id'] ?>">
+                                                                    &nbsp;<img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
+                                                                </a>
+                                                            <?php endif; ?>
+                                                            <script>
+                                                                var checked = $('.r<?= $b['bank_id'] ?>').attr('checked');
+                                                                $('#t<?= $b['bank_id'] ?>').click(function() {
+                                                                    if (typeof checked !== typeof undefined && checked !== false) {
+                                                                        $('.r<?= $b['bank_id'] ?>').attr('checked', '');
+                                                                    } else {
+                                                                        $('.r<?= $b['bank_id'] ?>').removeAttr('checked');
+                                                                    }
+                                                                });
+                                                            </script>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </h4>
+                                        </div>
+                                        <?php if ($b['bank_nama'] !== 'TUNAI') : ?>
+                                            <div id="collapse<?= $b['bank_id'] ?>" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Atas Nama</th>
+                                                            <th>No Rekening</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><?= $b['bank_atas_nama'] ?></td>
+                                                            <td><?= $b['bank_no_rek'] ?></td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            <?php endforeach ?>
+                            <br>
+                            <?php if (!empty($o['transaksi_bukti'])) : ?>
+                                <b><?= $o['transaksi_atas_nama'] ?></b>
+                                <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
+                            <?php endif ?>
+                            <?php if ($o['transaksi_terima'] !== '1') : ?>
+                                <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
+
+                                <div class="form-group">
+                                    <p class="mb-1">Atas Nama</p>
+                                    <input id="atas_nama" placeholder="Misal: Reza Fabriza Lesmana" type="text" name="atas_nama" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <p class="mb-1">Jumlah yang ditransfer</p>
+                                    <input id="transfer" placeholder="Misal: 500000" type="number" name="transfer" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="file" required="" name="bukti" class="form-control">
                                 </div>
                                 <br>
-                                <br>
-                                <h2>Sudah selesai</h2>
+                                <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
+                        </form>
+                    <?php endif; ?>
+                    </div>
+                </div>
+            </div>
+            <div id="status4" class="tabcontent">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <h3 class="mb-0">Approval</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="<?= base_url('Order_pelanggan/upload_approval_acc') ?>" enctype="multipart/form-data">
+                            <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                            <?php if ($o['transaksi_approval_acc'] == '1') : ?>
+                                <label> <input type="radio" value="1" name="approval" id="apv1" checked> Original </label>
                             <?php else : ?>
-                                <img style="width:100%;" src="<?= base_url('assets/img/print.gif') ?>" alt="">
-                                <br>
-                                <br>
-                                <h2>Sedang membuat produk</h2>
-                                <br>
-                                <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
-                                    <?php
-                                    $produksi = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_';")->result_array();
-                                    $produksicount = 51;
-                                    ?>
-                                    <?php foreach ($produksi as $p) : ?>
-                                        <div class="timeline-block mt-1 mb-0">
-                                            <span style="background-color: <?= ($statusproduksi == $produksicount) ? "blue" : ($statusproduksi > $produksicount ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
-                                                <i class="fa fa-image"></i>
-                                            </span>
-                                            <div class="timeline-content">
-                                                <p class="my-0"><b class="font-weight-bold"><?= $p['status_status']; ?></b></p>
-                                                <p class=" text-sm mt-1 mb-0"><?= $p['status_keterangan']; ?></p>
-                                                <!-- <div class="mt-3">
+                                <label><input type="radio" value="1" name="approval" id="apv1"> Original </label>
+                            <?php endif; ?>
+                            <label for="apv1">
+                                <a><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>"></a><br>
+                            </label><br>
+                            <?php if ($o['transaksi_approval_acc'] == '2') : ?>
+                                <label><input type="radio" value="2" name="approval" id="apv2" checked> Gelap</label>
+                            <?php else : ?>
+                                <label><input type="radio" value="2" name="approval" id="apv2"> Gelap</label>
+                            <?php endif; ?>
+                            <label for="apv2">
+                                <a><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>"></a><br>
+                            </label><br>
+                            <?php if ($o['transaksi_approval_acc'] == '3') : ?>
+                                <label><input type="radio" value="3" name="approval" id="apv3" checked> Terang</label>
+                            <?php else : ?>
+                                <label><input type="radio" value="3" name="approval" id="apv3"> Terang</label>
+                            <?php endif; ?>
+                            <label for="apv3">
+                                <a><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>"></a><br>
+                            </label><br>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="status5" class="tabcontent">
+                <div class="card">
+                    <div class="card-header bg-transparent">
+                        <h3 class="mb-0">Cetak Produk</h3>
+                    </div>
+                    <div class="card-body">
+                        <?php
+                        if (!empty($ctk['transaksi_status']) && @$ctk['transaksi_status'] == '1') :
+                        ?>
+                            <div style="display: flex;justify-content: center;">
+                                <img style="width:50%;margin: auto;" src="<?= base_url('assets/img/gifcheck.gif') ?>" alt="">
+                            </div>
+                            <br>
+                            <br>
+                            <h2>Sudah selesai</h2>
+                        <?php else : ?>
+                            <img style="width:100%;" src="<?= base_url('assets/img/print.gif') ?>" alt="">
+                            <br>
+                            <br>
+                            <h2>Sedang membuat produk</h2>
+                            <br>
+                            <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
+                                <?php
+                                $produksi = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_';")->result_array();
+                                $produksicount = 51;
+                                ?>
+                                <?php foreach ($produksi as $p) : ?>
+                                    <div class="timeline-block mt-1 mb-0">
+                                        <span style="background-color: <?= ($statusproduksi == $produksicount) ? "blue" : ($statusproduksi > $produksicount ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
+                                            <i class="fa fa-image"></i>
+                                        </span>
+                                        <div class="timeline-content">
+                                            <p class="my-0"><b class="font-weight-bold"><?= $p['status_status']; ?></b></p>
+                                            <p class=" text-sm mt-1 mb-0"><?= $p['status_keterangan']; ?></p>
+                                            <!-- <div class="mt-3">
                                                     <span class="badge badge-pill badge-success">Diterima</span>
                                                     <p class="text-sm mt-2">
                                                     </p>
                                                 </div> -->
-                                            </div>
-                                        </div>
-                                        <?php $produksicount++ ?>
-                                    <?php endforeach; ?>
-
-                                </div>
-                            <?php endif; ?>
-
-                        </div>
-                    </div>
-                </div>
-                <div id="status6" class="tabcontent">
-
-                    <div class="card">
-
-                        <div class="card-header bg-transparent">
-                            <h3 class="mb-0">Konfirmasi Pesanan</h3>
-                        </div>
-
-                        <div id="terima_p" class="card-body">
-
-                            <?php if ($o['transaksi_terima'] == NULL) : ?>
-
-                                <?php
-                                $resi = $this->db->query("SELECT transaksi_resi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                                ?>
-
-                                <?php if ($o['transaksi_paket'] == '1') : ?>
-                                    <div class="wrapper">
-                                        <div class="form-group row w-100">
-                                            <label for="noresi" class="col-sm-4 col-form-label">Nomor Resi:</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" readonly class="form-control-plaintext" id="noresi" value="<?= (is_null($resi['transaksi_resi']) || empty($resi['transaksi_resi']) ? 'Belum ada resi' : $resi['transaksi_resi']); ?>">
-                                            </div>
                                         </div>
                                     </div>
-                                    <a class="btn btn-success" style="width:100%;" style="text-align: center;" href="https://cekresi.com/?v=wdg&noresi=<?= $resi['transaksi_resi'] ?>">
-                                        Cek Resi
-                                    </a>
-                                <?php endif; ?>
-                                <br>
-                                <br>
-                                <div id="paket_terima">
-                                    <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket Sudah Diterima</button> -->
-                                    <?php
-                                    if ($o['transaksi_paket'] != NULL) :
-                                    ?>
-                                        <button id="terima" style="width:100%;" class="btn btn-primary terima">Paket Sudah Diterima</button>
-                                    <?php
-                                    endif;
-                                    ?>
+                                    <?php $produksicount++ ?>
+                                <?php endforeach; ?>
+
+                            </div>
+                        <?php endif; ?>
+
+                    </div>
+                </div>
+            </div>
+            <div id="status6" class="tabcontent">
+
+                <div class="card">
+
+                    <div class="card-header bg-transparent">
+                        <h3 class="mb-0">Konfirmasi Pesanan</h3>
+                    </div>
+
+                    <div id="terima_p" class="card-body">
+
+                        <?php if ($o['transaksi_terima'] == NULL) : ?>
+
+                            <?php
+                            $resi = $this->db->query("SELECT transaksi_resi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                            ?>
+
+                            <?php if ($o['transaksi_paket'] == '1') : ?>
+                                <div class="wrapper">
+                                    <div class="form-group row w-100">
+                                        <label for="noresi" class="col-sm-4 col-form-label">Nomor Resi:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="noresi" value="<?= (is_null($resi['transaksi_resi']) || empty($resi['transaksi_resi']) ? 'Belum ada resi' : $resi['transaksi_resi']); ?>">
+                                        </div>
+                                    </div>
                                 </div>
-                            <?php else : ?>
-                                <h2 style="text-align: center;">Transaksi Anda Selesai</h2>
-                                <h2 style="text-align: center;">Terima kasih telah berbelanja di<br>UCARD Indonesia</h2>
-                                <br>
-                                <h2 style="text-align: center;">Tulis review tentang kami di Google</h2>
-                                <br>
-                                <div class="btnreviewcenter">
-                                    <a class="btn btn-info" style="text-align: center;" href="https://g.page/r/Ce2lxSIiDOxWEAE/review">
-                                        UCARD Surabaya
-                                    </a>
-                                    <a class="btn btn-danger" style="text-align: center;" href="https://g.page/r/CTvioWQ51qDNEAg/review">
-                                        UCARD Semarang
-                                    </a>
-                                    <br>
-                                    <br>
-                                    <a class="btn btn-success" style="text-align: center;" href="https://g.page/r/CQCSzZXego0MEAg/review">
-                                        UCARD Jakarta
-                                    </a>
-                                </div>
+                                <a class="btn btn-success" style="width:100%;" style="text-align: center;" href="https://cekresi.com/?v=wdg&noresi=<?= $resi['transaksi_resi'] ?>">
+                                    Cek Resi
+                                </a>
                             <?php endif; ?>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="modal fade" id="lihat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Detail Design</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="alert_design"></div>
-                            <div id="data_design"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php if ($o['transaksi_terima'] !== '1') : ?>
-                <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-                    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h6 class="modal-title" id="modal-title-default">Hapus Design</h6>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                </button>
+                            <br>
+                            <br>
+                            <div id="paket_terima">
+                                <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket Sudah Diterima</button> -->
+                                <?php
+                                if ($o['transaksi_paket'] != NULL) :
+                                ?>
+                                    <button id="terima" style="width:100%;" class="btn btn-primary terima">Paket Sudah Diterima</button>
+                                <?php
+                                endif;
+                                ?>
                             </div>
-                            <div class="modal-body">
-                                <div id="alert_hapus"></div>
-                                <h3>Apakah anda yakin?</h3>
+                        <?php else : ?>
+                            <h2 style="text-align: center;">Transaksi Anda Selesai</h2>
+                            <h2 style="text-align: center;">Terima kasih telah berbelanja di<br>UCARD Indonesia</h2>
+                            <br>
+                            <h2 style="text-align: center;">Tulis review tentang kami di Google</h2>
+                            <br>
+                            <div class="btnreviewcenter">
+                                <a class="btn btn-info" style="text-align: center;" href="https://g.page/r/Ce2lxSIiDOxWEAE/review">
+                                    UCARD Surabaya
+                                </a>
+                                <a class="btn btn-danger" style="text-align: center;" href="https://g.page/r/CTvioWQ51qDNEAg/review">
+                                    UCARD Semarang
+                                </a>
+                                <br>
+                                <br>
+                                <a class="btn btn-success" style="text-align: center;" href="https://g.page/r/CQCSzZXego0MEAg/review">
+                                    UCARD Jakarta
+                                </a>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
-                                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
+                        <?php endif; ?>
                     </div>
-                </div>
-    </div>
-    <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h6 class="modal-title" id="modal-title-default">Hapus Pelanggan</h6>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="alert_hapus"></div>
-                    <h3>Apakah anda yakin?</h3>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
-                    <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="correction" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <form action="<?= base_url('Detail_product_pelanggan/correction'); ?>" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Perbaikan Pesanan</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php
+                    $d = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id=" . $this->uri->segment(3))->row_array();
+                    ?>
+                    <div class="modal-body">
+                        <input type="hidden" value="<?= $d['transaksi_id'] ?>" name="transaksi_id">
+                        <input type="hidden" value="<?= $d['transaksi_product_id'] ?>" name="product_id">
+                        <div class="form-group">
+                            <b>Jumlah Pesanan</b>
+                            <br><br>
+                            <input type="number" placeholder="jumlah" name="jumlah" class="form-control" value="<?= $d['transaksi_jumlah']; ?>" required>
+                        </div>
+                        <div class="grid-container">
+                            <div class="grid-item">
+                                <b>Personalisasi</b>
+                                <br><br>
+                                <div class="form-group">
+                                    <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi" value="1" <?= $d['transaksi_personalisasi'] == 1 ? 'checked' : ''; ?>>
+                                    <label for="persona1">Blanko</label><br>
+                                    <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi" value="2" <?= $d['transaksi_personalisasi'] == 2 ? 'checked' : ''; ?>>
+                                    <label for="persona2">Nomerator</label><br>
+                                    <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi" value="3" <?= $d['transaksi_personalisasi'] == 3 ? 'checked' : ''; ?>>
+                                    <label for="persona3">Barcode</label><br>
+                                    <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi" value="4" <?= $d['transaksi_personalisasi'] == 4 ? 'checked' : ''; ?>>
+                                    <label for="persona4">Data</label><br>
+                                    <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi" value="5" <?= $d['transaksi_personalisasi'] == 5 ? 'checked' : ''; ?>>
+                                    <label for="persona5">Data + Foto</label>
+                                </div>
+                            </div>
+                            <div class="grid-item">
+                                <b>Coating</b>
+                                <br><br>
+                                <input type="radio" id="coating1" placeholder="coating" name="coating" value="1" <?= $d['transaksi_coating'] == 1 ? 'checked' : ''; ?>>
+                                <label for="coating1">Glossy</label><br>
+                                <input type="radio" id="coating2" placeholder="coating" name="coating" value="2" <?= $d['transaksi_coating'] == 2 ? 'checked' : ''; ?>>
+                                <label for="coating2">Doff</label><br>
+                                <input type="radio" id="coating3" placeholder="coating" name="coating" value="3" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
+                                <label for="coating3">Glossy + Doff</label>
+                            </div>
+                            <div class="grid-item">
+                                <b>Finishing</b>
+                                <br><br>
+                                <input type="radio" id="finish1" placeholder="finishing" name="finishing" value="1" <?= $d['transaksi_finishing'] == 1 ? 'checked' : ''; ?>>
+                                <label for="finish1">Tidak ada</label><br>
+                                <input type="radio" id="finish2" placeholder="finishing" name="finishing" value="2" <?= $d['transaksi_finishing'] == 2 ? 'checked' : ''; ?>>
+                                <label for="finish2">Urutkan</label><br>
+                                <input type="radio" id="finish3" placeholder="finishing" name="finishing" value="3" <?= $d['transaksi_finishing'] == 3 ? 'checked' : ''; ?>>
+                                <label for="finish3">Label Gosok</label><br>
+                                <input type="radio" id="finish4" placeholder="finishing" name="finishing" value="4" <?= $d['transaksi_finishing'] == 4 ? 'checked' : ''; ?>>
+                                <label for="finish4">Plong Oval</label><br>
+                                <input type="radio" id="finish5" placeholder="finishing" name="finishing" value="5" <?= $d['transaksi_finishing'] == 5 ? 'checked' : ''; ?>>
+                                <label for="finish5">Plong Bulat</label><br>
+                                <input type="radio" id="finish6" placeholder="finishing" name="finishing" value="6" <?= $d['transaksi_finishing'] == 6 ? 'checked' : ''; ?>>
+                                <label for="finish6">Copy Data RFID</label><br>
+                                <input type="radio" id="finish7" placeholder="finishing" name="finishing" value="7" <?= $d['transaksi_finishing'] == 7 ? 'checked' : ''; ?>>
+                                <label for="finish7">Emboss Silver</label><br>
+                                <input type="radio" id="finish8" placeholder="finishing" name="finishing" value="8" <?= $d['transaksi_finishing'] == 8 ? 'checked' : ''; ?>>
+                                <label for="finish8">Emboss Gold</label><br>
+                                <input type="radio" id="finish9" placeholder="finishing" name="finishing" value="9" <?= $d['transaksi_finishing'] == 9 ? 'checked' : ''; ?>>
+                                <label for="finish9">Panel</label><br>
+                                <input type="radio" id="finish10" placeholder="finishing" name="finishing" value="10" <?= $d['transaksi_finishing'] == 10 ? 'checked' : ''; ?>>
+                                <label for="finish10">Hot Print</label><br>
+                                <input type="radio" id="finish11" placeholder="finishing" name="finishing" value="11" <?= $d['transaksi_finishing'] == 11 ? 'checked' : ''; ?>>
+                                <label for="finish11">Swipe</label><br>
+                            </div>
+                            <div class="grid-item">
+                                <b>Function</b>
+                                <br><br>
+                                <input type="radio" id="function1" placeholder="function" name="function" value="1" <?= $d['transaksi_function'] == 1 ? 'checked' : ''; ?>>
+                                <label for="function1">Print Thermal</label><br>
+                                <input type="radio" id="function2" placeholder="function" name="function" value="2" <?= $d['transaksi_function'] == 2 ? 'checked' : ''; ?>>
+                                <label for="function2">Scan Barcode</label><br>
+                                <input type="radio" id="function3" placeholder="function" name="function" value="3" <?= $d['transaksi_function'] == 3 ? 'checked' : ''; ?>>
+                                <label for="function3">Swipe Magnetic</label><br>
+                                <input type="radio" id="function4" placeholder="function" name="function" value="4" <?= $d['transaksi_function'] == 4 ? 'checked' : ''; ?>>
+                                <label for="function4">Tap RFID</label>
+                            </div>
+                            <div class="grid-item">
+                                <b>Packaging</b>
+                                <br><br>
+                                <input type="radio" id="packaging1" placeholder="packaging" name="packaging" value="1" <?= $d['transaksi_packaging'] == 1 ? 'checked' : ''; ?>>
+                                <label for="packaging1">Plastik 1 on 1</label><br>
+                                <input type="radio" id="packaging2" placeholder="packaging" name="packaging" value="2" <?= $d['transaksi_packaging'] == 2 ? 'checked' : ''; ?>>
+                                <label for="packaging2">Plastik Terpisah</label><br>
+                                <input type="radio" id="packaging3" placeholder="packaging" name="packaging" value="3" <?= $d['transaksi_packaging'] == 3 ? 'checked' : ''; ?>>
+                                <label for="packaging3">Box Kartu Nama</label><br>
+                                <input type="radio" id="packaging4" placeholder="packaging" name="packaging" value="4" <?= $d['transaksi_packaging'] == 4 ? 'checked' : ''; ?>>
+                                <label for="packaging4">Box Putih</label><br>
+                                <input type="radio" id="packaging5" placeholder="packaging" name="packaging" value="5" <?= $d['transaksi_packaging'] == 5 ? 'checked' : ''; ?>>
+                                <label for="packaging5">Small UCARD</label><br>
+                                <input type="radio" id="packaging6" placeholder="packaging" name="packaging" value="6" <?= $d['transaksi_packaging'] == 6 ? 'checked' : ''; ?>>
+                                <label for="packaging6">Small Maxi UCARD</label><br>
+                                <input type="radio" id="packaging7" placeholder="packaging" name="packaging" value="7" <?= $d['transaksi_packaging'] == 7 ? 'checked' : ''; ?>>
+                                <label for="packaging7">Large UCARD</label><br>
+                                <input type="radio" id="packaging8" placeholder="packaging" name="packaging" value="8" <?= $d['transaksi_packaging'] == 8 ? 'checked' : ''; ?>>
+                                <label for="packaging8">Large Maxi UCARD</label>
+                            </div>
+                            <div class="grid-item">
+                                <b>Ambil/Kirim</b>
+                                <br><br>
+                                <input type="radio" id="kirim" placeholder="status" name="status" value="1" <?= $d['transaksi_paket'] == 1 ? 'checked' : ''; ?>>
+                                <label for="kirim">Kirim Product</label><br>
+                                <input type="radio" id="ambil" placeholder="status" name="status" value="2" <?= $d['transaksi_paket'] == 2 ? 'checked' : ''; ?>>
+                                <label for="ambil">Ambil Sendiri</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <b>Keterangan</b><br>
+                            <textarea class="form-control" name="keterangan" placeholder="Keterangan"><?= $d['transaksi_keterangan']; ?></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="lihat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Detail Design</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alert_design"></div>
+                    <div id="data_design"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if ($o['transaksi_terima'] !== '1') : ?>
+        <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="modal-title-default">Hapus Design</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="alert_hapus"></div>
+                        <h3>Apakah anda yakin?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+<div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="modal-title-default">Hapus Pelanggan</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="alert_hapus"></div>
+                <h3>Apakah anda yakin?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
+                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 <?php endif ?>
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
