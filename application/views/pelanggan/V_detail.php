@@ -262,8 +262,12 @@
                                 <p><?= $p['product_keunggulan'] ?></p>
                                 <b>Keterangan</b>
                                 <p><?= $p['product_keterangan'] ?></p>
-                                <b>Jumlah</b>
+                                <b>Harga per item</b>
+                                <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                                <b>Jumlah dipesan</b>
                                 <p><?= $o['transaksi_jumlah'] ?></p>
+                                <b>Total dipesan</b>
+                                <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
                                 <b>Keterangan</b>
                                 <p><?= $o['transaksi_keterangan'] ?></p>
                                 <div class="grid-container">
