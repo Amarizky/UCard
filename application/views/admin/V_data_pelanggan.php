@@ -17,6 +17,11 @@
                             <td style="text-align: left;">
                                 <h3 class="mb-0" id="judul">Data Pelanggan</h3>
                             </td>
+                            <td style="text-align: right;">
+                                <a href="<?= base_url('Laporan/pelanggan'); ?>" type="button" class="btn btn-primary">
+                                    <i class="fa fa-print"></i>
+                                </a>
+                            </td>
                         </tr>
                     </table>
                 </div>
