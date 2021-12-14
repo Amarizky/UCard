@@ -1,5 +1,5 @@
 <?php
-require('includes/fpdf/fpdf.php');
+require('fpdf/fpdf.php');
 
 class PDF extends FPDF
 {
@@ -13,7 +13,7 @@ class PDF extends FPDF
     {
         $this->SetFont('Times', 'B', 14);
         $this->Cell(80);
-        $this->Cell(30, 10, 'LAPORAN SISTEM PENDUKUNG KEPUTUSAN', 0, 0, 'C');
+        $this->Cell(30, 10, 'SPK Ucard', 0, 0, 'C');
         $this->Ln(20);
     }
 
