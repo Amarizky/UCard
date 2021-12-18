@@ -69,6 +69,38 @@
         transition: all 0.3s ease;
     }
 
+    .page[size="A6"] {
+        background: white;
+        width: 10.5cm;
+        height: 14.8cm;
+        display: block;
+        margin: 0 auto;
+        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
+    }
+
+    @media screen {
+        #printSection {
+            display: none;
+        }
+    }
+
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #printSection,
+        #printSection * {
+            visibility: visible;
+        }
+
+        #printSection {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+
     .p {
         display: none;
     }
@@ -192,6 +224,20 @@
                                             ?>
                                             <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifikator) ? " ($verifikator)" : "") ?></b></a>
                                         <?php endif; ?>
+                                        <?php switch ($s['status_urut']) {
+                                            case "1":
+                                        ?>
+                                                <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_print1"><i class="fa fa-print"> SPK Sales</i></button>
+                                            <?php
+                                                break;
+                                            case "4":
+                                            ?>
+                                                <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_print4"><i class="fa fa-print"></i> SPK Approval</button>
+                                                <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_print5"><i class="fa fa-print"></i> SPK Produksi</button>
+                                        <?php
+                                                break;
+                                        }
+                                        ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
                                             <span class="badge badge-pill badge-success">Diterima</span>
@@ -825,7 +871,494 @@
         </div>
     </div>
 </div>
+<div>
+    <div class="modal fade" id="status_print1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Print SPK Sales</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <page size="A6">
+                    <div id="printThis">
+                        <div class="modal-body">
+                            <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
+                                        Sales</strong></span></p>
+                            <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $o['transaksi_tanggal'] ?></p>
+                            <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                <tbody>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;</td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                    if ($o['transaksi_personalisasi'] == 1) {
+                                                                                        echo "Blanko";
+                                                                                    } elseif ($o['transaksi_personalisasi'] == 2) {
+                                                                                        echo "Nomerator";
+                                                                                    } elseif ($o['transaksi_personalisasi'] == 3) {
+                                                                                        echo "Barcode";
+                                                                                    } elseif ($o['transaksi_personalisasi'] == 4) {
+                                                                                        echo "Data";
+                                                                                    } elseif ($o['transaksi_personalisasi'] == 5) {
+                                                                                        echo "Data + Foto";
+                                                                                    } else {
+                                                                                        echo "Tidak Diketahui";
+                                                                                    } ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Quantity</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Coating</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                    if ($o['transaksi_coating'] == 1) {
+                                                                                        echo "Glossy";
+                                                                                    } elseif ($o['transaksi_coating'] == 2) {
+                                                                                        echo "Doff";
+                                                                                    } elseif ($o['transaksi_coating'] == 3) {
+                                                                                        echo "Glossy + Doff";
+                                                                                    } else {
+                                                                                        echo "Tidak Diketahui";
+                                                                                    } ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Finishing</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                    if ($o['transaksi_finishing'] == 1) {
+                                                                                        echo "Tidak Ada";
+                                                                                    } elseif ($o['transaksi_finishing'] == 2) {
+                                                                                        echo "Urutkan";
+                                                                                    } elseif ($o['transaksi_finishing'] == 3) {
+                                                                                        echo "Label Gosok";
+                                                                                    } elseif ($o['transaksi_finishing'] == 4) {
+                                                                                        echo "Plong Oval";
+                                                                                    } elseif ($o['transaksi_finishing'] == 5) {
+                                                                                        echo "Plong Bulat";
+                                                                                    } elseif ($o['transaksi_finishing'] == 6) {
+                                                                                        echo "Urutkan";
+                                                                                    } elseif ($o['transaksi_finishing'] == 7) {
+                                                                                        echo "Emboss Silver";
+                                                                                    } elseif ($o['transaksi_finishing'] == 8) {
+                                                                                        echo "Emboss Gold";
+                                                                                    } elseif ($o['transaksi_finishing'] == 9) {
+                                                                                        echo "Panel";
+                                                                                    } elseif ($o['transaksi_finishing'] == 10) {
+                                                                                        echo "Hot Print";
+                                                                                    } elseif ($o['transaksi_finishing'] == 11) {
+                                                                                        echo "Swipe";
+                                                                                    } else {
+                                                                                        echo "Tidak Diketahui";
+                                                                                    } ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Function</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                    if ($o['transaksi_function'] == 1) {
+                                                                                        echo "Print Thermal";
+                                                                                    } elseif ($o['transaksi_function'] == 2) {
+                                                                                        echo "Scan Barcode";
+                                                                                    } elseif ($o['transaksi_function'] == 3) {
+                                                                                        echo "Swipe Magnetic";
+                                                                                    } elseif ($o['transaksi_function'] == 4) {
+                                                                                        echo "Tap RFID";
+                                                                                    } else {
+                                                                                        echo "Tidak Diketahui";
+                                                                                    } ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Packaging</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                    if ($o['transaksi_packaging'] == 1) {
+                                                                                        echo "Plastik 1 on 1";
+                                                                                    } elseif ($o['transaksi_packaging'] == 2) {
+                                                                                        echo "Plastik Terpisah";
+                                                                                    } elseif ($o['transaksi_packaging'] == 3) {
+                                                                                        echo "Box Kartu Nama";
+                                                                                    } elseif ($o['transaksi_packaging'] == 4) {
+                                                                                        echo "Box Putih";
+                                                                                    } elseif ($o['transaksi_packaging'] == 5) {
+                                                                                        echo "Small UCARD";
+                                                                                    } elseif ($o['transaksi_packaging'] == 6) {
+                                                                                        echo "Small Maxi UCARD";
+                                                                                    } elseif ($o['transaksi_packaging'] == 7) {
+                                                                                        echo "Large UCARD";
+                                                                                    } elseif ($o['transaksi_packaging'] == 8) {
+                                                                                        echo "Large Maxi UCARD";
+                                                                                    } else {
+                                                                                        echo "Tidak Diketahui";
+                                                                                    } ?></td>
+                                    </tr>
+                                    <tr style="height: 18px;">
+                                        <td style="width: 50%; height: 18px;">Status</td>
+                                        <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                    if ($o['transaksi_paket'] == 1) {
+                                                                                        echo "Kirim Product";
+                                                                                    } elseif ($o['transaksi_paket'] == 2) {
+                                                                                        echo "Ambil Sendiri";
+                                                                                    } else {
+                                                                                        echo "Tidak Diketahui";
+                                                                                    } ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p style="text-align: left;">Assesoris :<br /><br />Tanggal/Jam Fix :&nbsp;<br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
+                                &nbsp; &nbsp; :<br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp;
+                                &nbsp; &nbsp; :</p>
+                            <p style="text-align: left;">&nbsp;</p>
+                        </div>
+                    </div>
+                </page>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="printSpk">Print</button>
+                </div>
+                <div id="alert_status"></div>
+                <div id="data_status"></div>
+            </div>
+        </div>
+    </div>
 
+    <div class="modal fade" id="status_print4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Print SPK Approval</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="printThis">
+                    <div class="modal-body">
+                        <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
+                                    Approval</strong></span></p>
+                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
+                            :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
+                            Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                        <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                            <tbody>
+                                <tr style="height: 18px;">
+                                    <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;</td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_personalisasi'] == 1) {
+                                                                                    echo "Blanko";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 2) {
+                                                                                    echo "Nomerator";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 3) {
+                                                                                    echo "Barcode";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 4) {
+                                                                                    echo "Data";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 5) {
+                                                                                    echo "Data + Foto";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Quantity</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Coating</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_coating'] == 1) {
+                                                                                    echo "Glossy";
+                                                                                } elseif ($o['transaksi_coating'] == 2) {
+                                                                                    echo "Doff";
+                                                                                } elseif ($o['transaksi_coating'] == 3) {
+                                                                                    echo "Glossy + Doff";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Finishing</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_finishing'] == 1) {
+                                                                                    echo "Tidak Ada";
+                                                                                } elseif ($o['transaksi_finishing'] == 2) {
+                                                                                    echo "Urutkan";
+                                                                                } elseif ($o['transaksi_finishing'] == 3) {
+                                                                                    echo "Label Gosok";
+                                                                                } elseif ($o['transaksi_finishing'] == 4) {
+                                                                                    echo "Plong Oval";
+                                                                                } elseif ($o['transaksi_finishing'] == 5) {
+                                                                                    echo "Plong Bulat";
+                                                                                } elseif ($o['transaksi_finishing'] == 6) {
+                                                                                    echo "Urutkan";
+                                                                                } elseif ($o['transaksi_finishing'] == 7) {
+                                                                                    echo "Emboss Silver";
+                                                                                } elseif ($o['transaksi_finishing'] == 8) {
+                                                                                    echo "Emboss Gold";
+                                                                                } elseif ($o['transaksi_finishing'] == 9) {
+                                                                                    echo "Panel";
+                                                                                } elseif ($o['transaksi_finishing'] == 10) {
+                                                                                    echo "Hot Print";
+                                                                                } elseif ($o['transaksi_finishing'] == 11) {
+                                                                                    echo "Swipe";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Function</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_function'] == 1) {
+                                                                                    echo "Print Thermal";
+                                                                                } elseif ($o['transaksi_function'] == 2) {
+                                                                                    echo "Scan Barcode";
+                                                                                } elseif ($o['transaksi_function'] == 3) {
+                                                                                    echo "Swipe Magnetic";
+                                                                                } elseif ($o['transaksi_function'] == 4) {
+                                                                                    echo "Tap RFID";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Packaging</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_packaging'] == 1) {
+                                                                                    echo "Plastik 1 on 1";
+                                                                                } elseif ($o['transaksi_packaging'] == 2) {
+                                                                                    echo "Plastik Terpisah";
+                                                                                } elseif ($o['transaksi_packaging'] == 3) {
+                                                                                    echo "Box Kartu Nama";
+                                                                                } elseif ($o['transaksi_packaging'] == 4) {
+                                                                                    echo "Box Putih";
+                                                                                } elseif ($o['transaksi_packaging'] == 5) {
+                                                                                    echo "Small UCARD";
+                                                                                } elseif ($o['transaksi_packaging'] == 6) {
+                                                                                    echo "Small Maxi UCARD";
+                                                                                } elseif ($o['transaksi_packaging'] == 7) {
+                                                                                    echo "Large UCARD";
+                                                                                } elseif ($o['transaksi_packaging'] == 8) {
+                                                                                    echo "Large Maxi UCARD";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Status</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_paket'] == 1) {
+                                                                                    echo "Kirim Product";
+                                                                                } elseif ($o['transaksi_paket'] == 2) {
+                                                                                    echo "Ambil Sendiri";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="text-align: left;"><br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                        <p style="text-align: left;">&nbsp;</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="printSpk">Print</button>
+                </div>
+                <div id="alert_status"></div>
+                <div id="data_status"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="status_print5" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Print SPK Produksi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="printThis">
+                    <div class="modal-body">
+                        <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
+                                    Produksi</strong></span></p>
+                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
+                            :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
+                            Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                        <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                            <tbody>
+                                <tr style="height: 18px;">
+                                    <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;</td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_personalisasi'] == 1) {
+                                                                                    echo "Blanko";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 2) {
+                                                                                    echo "Nomerator";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 3) {
+                                                                                    echo "Barcode";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 4) {
+                                                                                    echo "Data";
+                                                                                } elseif ($o['transaksi_personalisasi'] == 5) {
+                                                                                    echo "Data + Foto";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Quantity</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Coating</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_coating'] == 1) {
+                                                                                    echo "Glossy";
+                                                                                } elseif ($o['transaksi_coating'] == 2) {
+                                                                                    echo "Doff";
+                                                                                } elseif ($o['transaksi_coating'] == 3) {
+                                                                                    echo "Glossy + Doff";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Finishing</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_finishing'] == 1) {
+                                                                                    echo "Tidak Ada";
+                                                                                } elseif ($o['transaksi_finishing'] == 2) {
+                                                                                    echo "Urutkan";
+                                                                                } elseif ($o['transaksi_finishing'] == 3) {
+                                                                                    echo "Label Gosok";
+                                                                                } elseif ($o['transaksi_finishing'] == 4) {
+                                                                                    echo "Plong Oval";
+                                                                                } elseif ($o['transaksi_finishing'] == 5) {
+                                                                                    echo "Plong Bulat";
+                                                                                } elseif ($o['transaksi_finishing'] == 6) {
+                                                                                    echo "Urutkan";
+                                                                                } elseif ($o['transaksi_finishing'] == 7) {
+                                                                                    echo "Emboss Silver";
+                                                                                } elseif ($o['transaksi_finishing'] == 8) {
+                                                                                    echo "Emboss Gold";
+                                                                                } elseif ($o['transaksi_finishing'] == 9) {
+                                                                                    echo "Panel";
+                                                                                } elseif ($o['transaksi_finishing'] == 10) {
+                                                                                    echo "Hot Print";
+                                                                                } elseif ($o['transaksi_finishing'] == 11) {
+                                                                                    echo "Swipe";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Function</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_function'] == 1) {
+                                                                                    echo "Print Thermal";
+                                                                                } elseif ($o['transaksi_function'] == 2) {
+                                                                                    echo "Scan Barcode";
+                                                                                } elseif ($o['transaksi_function'] == 3) {
+                                                                                    echo "Swipe Magnetic";
+                                                                                } elseif ($o['transaksi_function'] == 4) {
+                                                                                    echo "Tap RFID";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Packaging</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_packaging'] == 1) {
+                                                                                    echo "Plastik 1 on 1";
+                                                                                } elseif ($o['transaksi_packaging'] == 2) {
+                                                                                    echo "Plastik Terpisah";
+                                                                                } elseif ($o['transaksi_packaging'] == 3) {
+                                                                                    echo "Box Kartu Nama";
+                                                                                } elseif ($o['transaksi_packaging'] == 4) {
+                                                                                    echo "Box Putih";
+                                                                                } elseif ($o['transaksi_packaging'] == 5) {
+                                                                                    echo "Small UCARD";
+                                                                                } elseif ($o['transaksi_packaging'] == 6) {
+                                                                                    echo "Small Maxi UCARD";
+                                                                                } elseif ($o['transaksi_packaging'] == 7) {
+                                                                                    echo "Large UCARD";
+                                                                                } elseif ($o['transaksi_packaging'] == 8) {
+                                                                                    echo "Large Maxi UCARD";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                                <tr style="height: 18px;">
+                                    <td style="width: 50%; height: 18px;">Status</td>
+                                    <td style="width: 50%; height: 18px;">&nbsp;<?php
+                                                                                if ($o['transaksi_paket'] == 1) {
+                                                                                    echo "Kirim Product";
+                                                                                } elseif ($o['transaksi_paket'] == 2) {
+                                                                                    echo "Ambil Sendiri";
+                                                                                } else {
+                                                                                    echo "Tidak Diketahui";
+                                                                                } ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p style="text-align: left;">No.Penyelesain&nbsp; &nbsp;:<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                        <p style="text-align: left;">&nbsp;</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="printSpk">Print</button>
+                </div>
+                <div id="alert_status"></div>
+                <div id="data_status"></div>
+            </div>
+        </div>
+    </div>
+    <div id="printThis2">
+        <?php
+        date_default_timezone_set('Asia/Jakarta');
+        echo 'Dicetak Pada ' . date('d-m-Y H:i:s');
+        ?>
+    </div>
+</div>
 <div class="modal fade" id="bukti" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -1151,5 +1684,36 @@
         document.execCommand("copy");
 
         alert("Copied the text: " + copyText.value);
+    }
+</script>
+<script>
+    document.getElementById("printSpk").onclick = function() {
+        printElement(document.getElementById("printThis"));
+        printElement(document.getElementById("printThis2"), true, "<hr />");
+        window.print();
+    }
+
+    function printElement(elem, append, delimiter) {
+        var domClone = elem.cloneNode(true);
+
+        var $printSection = document.getElementById("printSection");
+
+        if (!$printSection) {
+            var $printSection = document.createElement("div");
+            $printSection.id = "printSection";
+            document.body.appendChild($printSection);
+        }
+
+        if (append !== true) {
+            $printSection.innerHTML = "";
+        } else if (append === true) {
+            if (typeof(delimiter) === "string") {
+                $printSection.innerHTML += delimiter;
+            } else if (typeof(delimiter) === "object") {
+                $printSection.appendChlid(delimiter);
+            }
+        }
+
+        $printSection.appendChild(domClone);
     }
 </script>

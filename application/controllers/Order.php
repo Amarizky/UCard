@@ -762,38 +762,38 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                             <br><br>
                             <div class="form-group">
                                 <?php if ($o['transaksi_personalisasi'] == '1') : ?>
-                                    <input type="radio" id="persona1" placeholder="personalisasi" name="personalisasi" value="1" checked>
+                                    <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi" value="1" checked>
                                     <label for="persona1">Blanko</label><br>
                                 <?php else : ?>
-                                    <input type="radio" id="persona1" placeholder="personalisasi" name="personalisasi" value="1">
+                                    <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi" value="1">
                                     <label for="persona1">Blanko</label><br>
                                 <?php endif; ?>
                                 <?php if ($o['transaksi_personalisasi'] == '2') : ?>
-                                    <input type="radio" id="persona2" placeholder="personalisasi" name="personalisasi" value="2" checked>
+                                    <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi" value="2" checked>
                                     <label for="persona2">Nomerator</label><br>
                                 <?php else : ?>
-                                    <input type="radio" id="persona2" placeholder="personalisasi" name="personalisasi" value="2">
+                                    <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi" value="2">
                                     <label for="persona2">Nomerator</label><br>
                                 <?php endif; ?>
                                 <?php if ($o['transaksi_personalisasi'] == '3') : ?>
-                                    <input type="radio" id="persona3" placeholder="personalisasi" name="personalisasi" value="3" checked>
+                                    <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi" value="3" checked>
                                     <label for="persona3">Barcode</label><br>
                                 <?php else : ?>
-                                    <input type="radio" id="persona3" placeholder="personalisasi" name="personalisasi" value="3">
+                                    <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi" value="3">
                                     <label for="persona3">Barcode</label><br>
                                 <?php endif; ?>
                                 <?php if ($o['transaksi_personalisasi'] == '4') : ?>
-                                    <input type="radio" id="persona4" placeholder="personalisasi" name="personalisasi" value="4" checked>
+                                    <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi" value="4" checked>
                                     <label for="persona4">Data</label><br>
                                 <?php else : ?>
-                                    <input type="radio" id="persona4" placeholder="personalisasi" name="personalisasi" value="4">
+                                    <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi" value="4">
                                     <label for="persona4">Data</label><br>
                                 <?php endif; ?>
                                 <?php if ($o['transaksi_personalisasi'] == '5') : ?>
-                                    <input type="radio" id="persona5" placeholder="personalisasi" name="personalisasi" value="5" checked>
+                                    <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi" value="5" checked>
                                     <label for="persona5">Data + Foto</label>
                                 <?php else : ?>
-                                    <input type="radio" id="persona5" placeholder="personalisasi" name="personalisasi" value="5">
+                                    <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi" value="5">
                                     <label for="persona5">Data + Foto</label>
                                 <?php endif; ?>
                             </div>
@@ -827,80 +827,80 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                             <b>Finishing</b>
                             <br><br>
                             <?php if ($o['transaksi_finishing'] == '1') : ?>
-                                <input type="checkbox" id="finish1" placeholder="finishing" name="finishing" value="1" checked>
+                                <input type="radio" id="finish1" placeholder="finishing" name="finishing" value="1" checked>
                                 <label for="finish1">Tidak ada</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish1" placeholder="finishing" name="finishing" value="1">
+                                <input type="radio" id="finish1" placeholder="finishing" name="finishing" value="1">
                                 <label for="finish1">Tidak ada</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '2') : ?>
-                                <input type="checkbox" id="finish2" placeholder="finishing" name="finishing" value="2" checked>
+                                <input type="radio" id="finish2" placeholder="finishing" name="finishing" value="2" checked>
                                 <label for="finish2">Urutkan</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish2" placeholder="finishing" name="finishing" value="2">
+                                <input type="radio" id="finish2" placeholder="finishing" name="finishing" value="2">
                                 <label for="finish2">Urutkan</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '3') : ?>
-                                <input type="checkbox" id="finish3" placeholder="finishing" name="finishing" value="3" checked>
+                                <input type="radio" id="finish3" placeholder="finishing" name="finishing" value="3" checked>
                                 <label for="finish3">Label Gosok</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish3" placeholder="finishing" name="finishing" value="3">
+                                <input type="radio" id="finish3" placeholder="finishing" name="finishing" value="3">
                                 <label for="finish3">Label Gosok</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '4') : ?>
-                                <input type="checkbox" id="finish4" placeholder="finishing" name="finishing" value="4" checked>
+                                <input type="radio" id="finish4" placeholder="finishing" name="finishing" value="4" checked>
                                 <label for="finish4">Plong Oval</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish4" placeholder="finishing" name="finishing" value="4">
+                                <input type="radio" id="finish4" placeholder="finishing" name="finishing" value="4">
                                 <label for="finish4">Plong Oval</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '5') : ?>
-                                <input type="checkbox" id="finish5" placeholder="finishing" name="finishing" value="5" checked>
+                                <input type="radio" id="finish5" placeholder="finishing" name="finishing" value="5" checked>
                                 <label for="finish5">Plong Bulat</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish5" placeholder="finishing" name="finishing" value="5">
+                                <input type="radio" id="finish5" placeholder="finishing" name="finishing" value="5">
                                 <label for="finish5">Plong Bulat</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '6') : ?>
-                                <input type="checkbox" id="finish6" placeholder="finishing" name="finishing" value="6" checked>
+                                <input type="radio" id="finish6" placeholder="finishing" name="finishing" value="6" checked>
                                 <label for="finish6">Copy Data RFID</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish6" placeholder="finishing" name="finishing" value="6">
+                                <input type="radio" id="finish6" placeholder="finishing" name="finishing" value="6">
                                 <label for="finish6">Copy Data RFID</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '7') : ?>
-                                <input type="checkbox" id="finish7" placeholder="finishing" name="finishing" value="7" checked>
+                                <input type="radio" id="finish7" placeholder="finishing" name="finishing" value="7" checked>
                                 <label for="finish7">Emboss Silver</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish7" placeholder="finishing" name="finishing" value="7">
+                                <input type="radio" id="finish7" placeholder="finishing" name="finishing" value="7">
                                 <label for="finish7">Emboss Silver</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '8') : ?>
-                                <input type="checkbox" id="finish8" placeholder="finishing" name="finishing" value="8" checked>
+                                <input type="radio" id="finish8" placeholder="finishing" name="finishing" value="8" checked>
                                 <label for="finish8">Emboss Gold</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish8" placeholder="finishing" name="finishing" value="8">
+                                <input type="radio" id="finish8" placeholder="finishing" name="finishing" value="8">
                                 <label for="finish8">Emboss Gold</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '9') : ?>
-                                <input type="checkbox" id="finish9" placeholder="finishing" name="finishing" value="9" checked>
+                                <input type="radio" id="finish9" placeholder="finishing" name="finishing" value="9" checked>
                                 <label for="finish9">Panel</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish9" placeholder="finishing" name="finishing" value="9">
+                                <input type="radio" id="finish9" placeholder="finishing" name="finishing" value="9">
                                 <label for="finish9">Panel</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '10') : ?>
-                                <input type="checkbox" id="finish10" placeholder="finishing" name="finishing" value="10" checked>
+                                <input type="radio" id="finish10" placeholder="finishing" name="finishing" value="10" checked>
                                 <label for="finish10">Hot Print</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish10" placeholder="finishing" name="finishing" value="10">
+                                <input type="radio" id="finish10" placeholder="finishing" name="finishing" value="10">
                                 <label for="finish10">Hot Print</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_finishing'] == '11') : ?>
-                                <input type="checkbox" id="finish11" placeholder="finishing" name="finishing" value="11" checked>
+                                <input type="radio" id="finish11" placeholder="finishing" name="finishing" value="11" checked>
                                 <label for="finish11">Swipe</label><br>
                             <?php else : ?>
-                                <input type="checkbox" id="finish11" placeholder="finishing" name="finishing" value="11">
+                                <input type="radio" id="finish11" placeholder="finishing" name="finishing" value="11">
                                 <label for="finish11">Swipe</label><br>
                             <?php endif; ?>
                         </div>
