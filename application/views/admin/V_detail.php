@@ -1041,8 +1041,11 @@
                 <div id="printThis">
                     <div class="modal-body">
                         <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
-                                    Sales</strong></span></p>
-                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $o['transaksi_tanggal'] ?></p>
+                                    Approval</strong></span></p>
+                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
+                            :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
+                            Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
                         <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                             <tbody>
                                 <tr style="height: 18px;">
@@ -1173,9 +1176,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <p style="text-align: left;">Assesoris :<br /><br />Tanggal/Jam Fix :&nbsp;<br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
-                            &nbsp; &nbsp; :<br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp;
-                            &nbsp; &nbsp; :</p>
+                        <p style="text-align: left;"><br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
                         <p style="text-align: left;">&nbsp;</p>
                     </div>
                 </div>
@@ -1200,8 +1201,11 @@
                 <div id="printThis">
                     <div class="modal-body">
                         <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
-                                    Sales</strong></span></p>
-                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $o['transaksi_tanggal'] ?></p>
+                                    Produksi</strong></span></p>
+                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
+                            :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
+                            Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
+                            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
                         <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                             <tbody>
                                 <tr style="height: 18px;">
@@ -1332,9 +1336,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <p style="text-align: left;">Assesoris :<br /><br />Tanggal/Jam Fix :&nbsp;<br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
-                            &nbsp; &nbsp; :<br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp;
-                            &nbsp; &nbsp; :</p>
+                        <p style="text-align: left;">No.Penyelesain&nbsp; &nbsp;:<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
                         <p style="text-align: left;">&nbsp;</p>
                     </div>
                 </div>
