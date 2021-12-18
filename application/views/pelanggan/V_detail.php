@@ -252,7 +252,7 @@
                                     <h3 class="mb-0">Product</h3>
                                 </div>
                             </div>
-                            <?php if ($o['transaksi_terima'] == '0') : ?>
+                            <?php if ($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) : ?>
                                 <div class="col">
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#correction">
