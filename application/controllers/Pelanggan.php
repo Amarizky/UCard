@@ -42,7 +42,20 @@ class Pelanggan extends CI_Controller
         if ($check->num_rows() > 0) {
             echo '<script>alert("Nomer HP Sudah Terdaftar");</script>';
         } else {
-            $this->db->query("INSERT INTO tbl_pelanggan VALUES (NULL,'$hp','$nama','$email','$lahir','$password','$alamat',NULL,'$telephone','$kecamatan','$kabupaten','$kodepost',1,null,null) ");
+            $this->db->insert('tbl_pelanggan', [
+                'pelanggan_nohp' => $nohp,
+                'pelanggan_nama' => $nama,
+                'pelanggan_email' => $email,
+                'pelanggan_lahir' => $lahir,
+                'pelanggan_password' => $password,
+                'pelanggan_alamat' => $alamat,
+                'pelanggan_refrensi' => null,
+                'pelanggan_telephone' => $telephone,
+                'pelanggan_kecamatan' => $kecamatan,
+                'pelanggan_kabupaten' => $kabupaten,
+                'pelanggan_kodepost' => $kodepost,
+                'pelanggan_status' => 1
+            ]);
         }
         redirect('Pelanggan');
     }
