@@ -69,17 +69,17 @@ class Pelanggan extends CI_Controller
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="number" value="<?= $get['pelanggan_nohp']; ?>" placeholder="No Hp" id="no_hp" required="" class="form-control">
+                        <input type="number" value="<?= $get['pelanggan_nohp']; ?>" placeholder="No Hp" id="no_hp" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" value="<?= $get['pelanggan_nama']; ?>" placeholder="Nama" id="nama" required="" class="form-control">
+                        <input type="text" value="<?= $get['pelanggan_nama']; ?>" placeholder="Nama" id="nama" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" value="<?= $get['pelanggan_email']; ?>" placeholder="Email" id="email" required="" class="form-control">
+                        <input type="text" value="<?= $get['pelanggan_email']; ?>" placeholder="Email" id="email" required class="form-control">
                     </div>
                     <div class="form-group">
                         <input type="password" placeholder="Password" id="password" class="form-control">
-                        <input type="hidden" placeholder="Password" id="password_default" value="<?= $get['pelanggan_password']; ?>" required="" class="form-control">
+                        <input type="hidden" placeholder="Password" id="password_default" value="<?= $get['pelanggan_password']; ?>" required class="form-control">
                     </div>
                     <div class="form-group">
                         <textarea class="form-control" id="alamat" placeholder="Alamat"><?= $get['pelanggan_alamat']; ?></textarea>
@@ -87,22 +87,22 @@ class Pelanggan extends CI_Controller
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="text" value="<?= $get['pelanggan_telephone']; ?>" placeholder="Telephone" id="telephone" required="" class="form-control">
+                        <input type="text" value="<?= $get['pelanggan_telephone']; ?>" placeholder="Telephone" id="telephone" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" value="<?= $get['pelanggan_kecamatan']; ?>" placeholder="Kecamatan" id="kecamatan" required="" class="form-control">
+                        <input type="text" value="<?= $get['pelanggan_kecamatan']; ?>" placeholder="Kecamatan" id="kecamatan" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" value="<?= $get['pelanggan_nohp']; ?>" placeholder="Kota/Kabupaten" id="kabupaten" required="" class="form-control">
+                        <input type="text" value="<?= $get['pelanggan_nohp']; ?>" placeholder="Kota/Kabupaten" id="kabupaten" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="text" value="<?= $get['pelanggan_kodepost']; ?>" placeholder="Kodepost" id="kodepost" required="" class="form-control">
+                        <input type="text" value="<?= $get['pelanggan_kodepost']; ?>" placeholder="Kodepost" id="kodepost" required class="form-control">
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
-                                <select class="form-control" id="tgl_lahir" required="">
-                                    <option>DD</option>
+                                <select class="form-control" id="tgl_lahir" required>
+                                    <option>Tanggal</option>
                                     <?php for ($i = 1; $i <= 31; $i++) : ?>
                                         <?php if (date('d', strtotime($get['pelanggan_lahir'])) == $i) : ?>
                                             <option value="<?= $i; ?>" selected><?= $i; ?></option>
@@ -113,8 +113,8 @@ class Pelanggan extends CI_Controller
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <select class="form-control" id="bln_lahir" required="">
-                                    <option>MM</option>
+                                <select class="form-control" id="bln_lahir" required>
+                                    <option>Bulan</option>
                                     <?php for ($i = 1; $i <= 12; $i++) : ?>
                                         <?php if (date('m', strtotime($get['pelanggan_lahir'])) == $i) : ?>
                                             <option value="<?= $i; ?>" selected><?= $i; ?></option>
@@ -125,8 +125,8 @@ class Pelanggan extends CI_Controller
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <select class="form-control" id="thn_lahir" required="">
-                                    <option>YYYY</option>
+                                <select class="form-control" id="thn_lahir" required>
+                                    <option>Tahun</option>
                                     <?php $t = date('Y'); ?>
                                     <?php for ($i = $t; $i >= ($t - 90); $i--) : ?>
                                         <?php if (date('Y', strtotime($get['pelanggan_lahir'])) == $i) : ?>
