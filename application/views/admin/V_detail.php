@@ -530,7 +530,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <b id="view_harga">Rp. <?= number_format($o['transaksi_harga']) ?></b>
+                                    <b id="view_harga"><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></b>
                                     <input value="<?= $o['transaksi_harga'] ?>" id="harga" placeholder="Harga" type="number" class="form-control">
                                 </td>
                                 <td>
