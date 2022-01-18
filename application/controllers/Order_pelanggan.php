@@ -89,7 +89,7 @@ class Order_pelanggan extends CI_Controller
         if (empty($get['transaksi_harga'])) {
             $html .= '<p>Harga Belum Di Tentukan</p>';
         } else {
-            $html .= '<p>Rp. ' . number_format($get['transaksi_harga']) . '</p>';
+            $html .= '<p>Rp' . number_format($get['transaksi_harga'], 2, ',', '.') . '</p>';
         }
         $html .= '<br>
                     <b>Keterangan</b>

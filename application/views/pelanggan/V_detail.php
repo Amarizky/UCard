@@ -522,7 +522,7 @@
                         <br>
                         <br>
                         <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
-                            <h3>Harga Belum Ditentukan</h3>
+                            <h3>Harga belum ditentukan</h3>
                         <?php else : ?>
                             <table style="width: 100%;">
                                 <tr>
@@ -530,7 +530,7 @@
                                         <h3>Harga barang:</h3>
                                     </td>
                                     <td>
-                                        Rp <?= number_format($o['transaksi_harga'], 2, ',', '.') ?>
+                                        <?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?>
                                     </td>
                                 </tr>
                                 <?php if ($o['transaksi_paket'] == '1') : ?>
@@ -539,7 +539,7 @@
                                             <h3>Ongkos kirim:</h3>
                                         </td>
                                         <td>
-                                            Rp <?= number_format($ongkir['transaksi_ongkir'], 2, ',', '.') ?>
+                                            <?= 'Rp' . number_format($ongkir['transaksi_ongkir'], 2, ',', '.'); ?>
                                         </td>
                                     </tr>
                                 <?php endif; ?>
@@ -548,7 +548,7 @@
                                         <h3>Total:</h3>
                                     </td>
                                     <td>
-                                        Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
+                                        <?= 'Rp' . number_format($total_bayar['transaksi_total'], 2, ',', '.'); ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -556,7 +556,7 @@
                                         <h3>Harus dibayar:</h3>
                                     </td>
                                     <td id="totalbayar">
-                                        Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
+                                        <?= 'Rp' . number_format($total_bayar['transaksi_total'], 2, ',', '.'); ?>
                                     </td>
                                 </tr>
                             </table>
@@ -1132,11 +1132,10 @@ $statusRefresh = $this->db->query("SELECT max(transaksi_status_id) st, max(trans
 <script>
     $(document).ready(function() {
         $('#opsibayarlunas').click(function() {
-            $('#totalbayar').html('Rp  ' +
-                '<?= number_format($total_bayar["transaksi_total"], 2, ',', '.'); ?>');
+            $('#totalbayar').html('Rp' + '<?= number_format($total_bayar["transaksi_total"], 2, ',', '.'); ?>');
         });
         $('#opsibayardp').click(function() {
-            $('#totalbayar').html('Rp  ' + '<?= number_format($total_bayar["transaksi_total"] * 0.5, 2, ',', '.'); ?>');
+            $('#totalbayar').html('Rp' + '<?= number_format($total_bayar["transaksi_total"] * 0.5, 2, ',', '.'); ?>');
         });
 
         setInterval(function() {

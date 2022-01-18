@@ -158,7 +158,7 @@ class Order extends CI_Controller
                         <?php if (empty($e['transaksi_harga'])) : ?>
                             <p>Harga Belum Di Tentukan</p>
                         <?php else : ?>
-                            <p>Rp. <?= number_format($e['transaksi_harga']); ?></p>
+                            <p><?= 'Rp' . number_format($e['transaksi_harga'], 2, ',', '.'); ?></p>
                         <?php endif; ?>
                         <br>
                         <b>Keterangan</b>
