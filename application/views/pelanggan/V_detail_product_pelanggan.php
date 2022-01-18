@@ -109,7 +109,7 @@
                                 <div class="grid-item">
                                     <b>Personalisasi</b>
                                     <br><br>
-                                    <div class="form-group">
+                                    <div class="form-group" required>
                                         <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi" value="1">
                                         <label for="persona1">Blanko</label><br>
                                         <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi" value="2">

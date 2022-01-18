@@ -2699,13 +2699,11 @@
 								<div class="col-sm-3 col-xs-12">
 									<div class="copyright-text">
 										<h4 style="color: white;">Branch Office</h4>
-										<p>Jl. Bambu Apus Raya No.181,
-											Pd. Bambu, Kec. Duren Sawit,
-											Jakarta Timur 13430</p>
+										<p>Jl. Mangga VI No.51, Lamper Kidul, Kec. Semarang Sel., Kota Semarang, Jawa Tengah 50249</p>
 										<br>
 										<br>
 										<img style="width: 40px;" src="<?= base_url('assets/img/icon/icon-web-02-300x300.png') ?>" alt="">
-										<b style="color:white;"> (021) 22982095</b>
+										<b style="color:white;"> 081331409700</b>
 									</div>
 
 								</div>
