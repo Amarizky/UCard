@@ -2551,10 +2551,10 @@
 																<input style="width: 100%;" class="form-control" type="password" id="password" name="password" placeholder="Password" required>
 															</div>
 															<div class="form-group">
-																<textarea class="form-control" name="alamat" placeholder="Alamat Pengiriman" required="" id="alamat"></textarea>
+																<textarea class="form-control" name="alamat" placeholder="Alamat Pengiriman" required id="alamat"></textarea>
 															</div>
 															<div class="form-group">
-																<select class="form-control" name="refrensi" required="" id="refrensi">
+																<select class="form-control" name="refrensi" required id="refrensi">
 																	<option value="Refrensi Kerabat">Refrensi Kerabat</option>
 																	<option value="Google/website">Google/website</option>
 																	<option value="Instagram">Instagram</option>
@@ -2580,24 +2580,24 @@
 															<div class="form-group">
 																<div class="row">
 																	<div class="col-md-4">
-																		<select class="form-control" title="tanggal lahir" name="tgl_lahir" required="" id="tgl_lahir">
-																			<option>DD</option>
+																		<select class="form-control" title="tanggal lahir" name="tgl_lahir" required id="tgl_lahir">
+																			<option>Tanggal</option>
 																			<?php for ($i = 1; $i <= 31; $i++) : ?>
 																				<option value="<?= $i ?>"><?= $i ?></option>
 																			<?php endfor ?>
 																		</select>
 																	</div>
 																	<div class="col-md-4">
-																		<select class="form-control" title="Bulan lahir" name="bln_lahir" required="" id="bln_lahir">
-																			<option>MM</option>
+																		<select class="form-control" title="Bulan lahir" name="bln_lahir" required id="bln_lahir">
+																			<option>Bulan</option>
 																			<?php for ($i = 1; $i <= 12; $i++) : ?>
 																				<option value="<?= $i ?>"><?= $i ?></option>
 																			<?php endfor ?>
 																		</select>
 																	</div>
 																	<div class="col-md-4">
-																		<select class="form-control" title="Tahun lahir" name="thn_lahir" required="" id="thn_lahir">
-																			<option>YYYY</option>
+																		<select class="form-control" title="Tahun lahir" name="thn_lahir" required id="thn_lahir">
+																			<option>Tahun</option>
 																			<?php $t = date('Y');
 																			for ($i = $t; $i >= ($t - 90); $i--) : ?>
 																				<option value="<?= $i ?>"><?= $i ?></option>

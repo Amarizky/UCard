@@ -306,12 +306,16 @@
                         <h3 class="mb-0">Pembelian</h3>
                     </div>
                     <div class="card-body">
-                        <div class="container-fluid">
+                        <div class="container-fluid" style="padding: 0 !important;">
                             <h1>Product</h1>
                             <b>Nama Produk</b>
                             <p><?= $p['product_nama'] ?></p>
-                            <b>Jumlah</b>
+                            <b>Harga per item</b>
+                            <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                            <b>Jumlah dipesan</b>
                             <p><?= $o['transaksi_jumlah'] ?></p>
+                            <b>Total harga</b>
+                            <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
                             <b>Keterangan</b>
                             <p><?= $o['transaksi_keterangan'] ?></p>
                             <div class="grid-container">
@@ -533,7 +537,7 @@
                         <table>
                             <tr>
                                 <td>
-                                    <b id="view_harga">Rp. <?= number_format($o['transaksi_harga']) ?></b>
+                                    <b id="view_harga"><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></b>
                                     <input value="<?= $o['transaksi_harga'] ?>" id="harga" placeholder="Harga" type="number" class="form-control">
                                 </td>
                                 <td>

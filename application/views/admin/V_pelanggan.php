@@ -90,16 +90,16 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="number" placeholder="No Hp" name="no_hp" required="" class="form-control">
+                                <input type="number" placeholder="No Hp" name="no_hp" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Nama" name="nama" required="" class="form-control">
+                                <input type="text" placeholder="Nama" name="nama" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Email" name="email" required="" class="form-control">
+                                <input type="text" placeholder="Email" name="email" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="password" placeholder="Password" name="password" required="" class="form-control">
+                                <input type="password" placeholder="Password" name="password" required class="form-control">
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" name="alamat" placeholder="Alamat"></textarea>
@@ -107,38 +107,38 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input type="text" placeholder="Telephone" name="telephone" required="" class="form-control">
+                                <input type="text" placeholder="Telephone" name="telephone" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Kecamatan" name="kecamatan" required="" class="form-control">
+                                <input type="text" placeholder="Kecamatan" name="kecamatan" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Kota/Kabupaten" name="kabupaten" required="" class="form-control">
+                                <input type="text" placeholder="Kota/Kabupaten" name="kabupaten" required class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Kodepost" name="kodepost" required="" class="form-control">
+                                <input type="text" placeholder="Kodepost" name="kodepost" required class="form-control">
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <select class="form-control" name="tgl_lahir" required="">
-                                            <option>DD</option>
+                                        <select class="form-control" name="tgl_lahir" required>
+                                            <option>Tanggal</option>
                                             <?php for ($i = 1; $i <= 31; $i++) : ?>
                                                 <option value="<?= $i ?>"><?= $i ?></option>
                                             <?php endfor ?>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <select class="form-control" name="bln_lahir" required="">
-                                            <option>MM</option>
+                                        <select class="form-control" name="bln_lahir" required>
+                                            <option>Bulan</option>
                                             <?php for ($i = 1; $i <= 12; $i++) : ?>
                                                 <option value="<?= $i ?>"><?= $i ?></option>
                                             <?php endfor ?>
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <select class="form-control" name="thn_lahir" required="">
-                                            <option>YYYY</option>
+                                        <select class="form-control" name="thn_lahir" required>
+                                            <option>Tahun</option>
                                             <?php $t = date('Y');
                                             for ($i = $t; $i >= ($t - 90); $i--) : ?>
                                                 <option value="<?= $i ?>"><?= $i ?></option>
