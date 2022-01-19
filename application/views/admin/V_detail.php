@@ -459,15 +459,11 @@
                         if ($design) : ?>
                             <h3>Design Anda</h3>
                             <br>
-                            <?php
-                            foreach ($design as $d) :
-                            ?>
+                            <?php foreach ($design as $d) : ?>
                                 <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat"><img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt=""></a>
                                 <hr>
-                        <?php
-                            endforeach;
-                        endif;
-                        ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                         <?php if ($upload) : ?>
                             <h3>Uploaded File & Design</h3>
                             <br>
@@ -480,22 +476,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        foreach ($upload as $u) :
-                                        ?>
+                                        <?php foreach ($upload as $u) : ?>
                                             <tr>
                                                 <td><?php echo  $u['design_image']; ?></td>
                                                 <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
                                             </tr>
-                                        <?php
-                                        endforeach;
-                                        ?>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
-                        <?php
-                        endif;
-                        ?>
+                        <?php endif; ?>
                         <div>
                             <table>
                                 <tr>
@@ -513,14 +503,9 @@
                             </table>
                         </div>
                     </div>
-                    <?php
-
-                    ?>
                 </div>
             </div>
-            <?php
-            $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-            ?>
+            <?php $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array(); ?>
             <div id="status3" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
@@ -598,8 +583,8 @@
                                             <div class="panel-body">
                                                 <table class="table">
                                                     <tr>
-                                                        <th>Atas Nama</th>
-                                                        <th>No Rekening</th>
+                                                        <th>Atas nama</th>
+                                                        <th>Nomor rekening</th>
                                                     </tr>
                                                     <tr>
                                                         <td><?= $b['bank_atas_nama'] ?></td>
@@ -629,43 +614,63 @@
                     </div>
                     <div class="card-body">
                         <div>
-                            <b>Yang Terpilih :
-                                <?php
-                                if ($o['transaksi_approval_acc'] == 1) {
+                            Yang terpilih:
+                            <?php
+                            switch ($o['transaksi_approval_acc']) {
+                                case 1:
                                     echo "Original";
-                                } elseif ($o['transaksi_approval_acc'] == 2) {
+                                    break;
+                                case 2:
                                     echo "Gelap";
-                                } elseif ($o['transaksi_approval_acc'] == 3) {
+                                    break;
+                                case 3:
                                     echo "Terang";
-                                } else {
-                                    echo "Pelanggan Belum Menentukan Pilihan";
-                                } ?>
-                            </b>
+                                    break;
+                                default:
+                                    echo "Pelanggan belum menentukan pilihan";
+                                    break;
+                            }
+                            ?>
 
                         </div>
                         <br><br>
                         <form method="post" action="<?= base_url('Order/upload_approval1') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
-                            <label for="apv1"><b>Original</b></label><br>
-                            <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval1"><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>"></a><br>
+                            <label for="apv1"><?= $o['transaksi_approval_acc'] == 1 ? "<b>Original (dipilih)</b>" : "Original"; ?></label><br>
+                            <?php if ($o['transaksi_approval_1']) : ?>
+                                <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval1">
+                                    <img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>">
+                                </a>
+                                <br>
+                            <?php endif; ?>
                             <input type="file" id="apv1" name="approval1" class="form-control" required><br>
-                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan Sebagai Gambar Original</button>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar original</button>
                         </form>
-
+                        <br>
                         <form method="post" action="<?= base_url('Order/upload_approval2') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
-                            <label for="apv2">Gelap</label><br>
-                            <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval2"><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>"></a><br>
+                            <label for="apv2"><?= $o['transaksi_approval_acc'] == 2 ? "<b>Gelap (dipilih)</b>" : "Gelap"; ?></label><br>
+                            <?php if ($o['transaksi_approval_2']) : ?>
+                                <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval2">
+                                    <img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
+                                </a>
+                                <br>
+                            <?php endif; ?>
                             <input type="file" id="apv2" name="approval2" class="form-control"><br>
-                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan Sebagai Gambar Gelap</button>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar gelap</button>
                         </form>
-
+                        <br>
                         <form method="post" action="<?= base_url('Order/upload_approval3') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
-                            <label for="apv3">Terang</label><br>
-                            <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval3"><img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>"></a><br>
+                            <label for="apv3"><?= $o['transaksi_approval_acc'] == 3 ? "<b>Terang (dipilih)</b>" : "Terang"; ?></label><br>
+                            <?php if ($o['transaksi_approval_3']) : ?>
+                                <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval3">
+                                    <img style="width: 100%;" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
+                                </a>
+                                <br>
+                            <?php endif; ?>
                             <input type="file" id="apv3" name="approval3" class="form-control"><br>
-                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan Sebagai Gambar Terang</button>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar terang</button>
                         </form>
 
 
