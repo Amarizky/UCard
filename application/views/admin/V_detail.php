@@ -613,18 +613,19 @@
                         <h3 class="mb-0">Approval</h3>
                     </div>
                     <div class="card-body">
+                        <div>Silahkan unggah ketiga file agar dapat dipilih oleh pelanggan.</div>
+                        <br><br>
                         <div>
-                            Yang terpilih:
                             <?php
                             switch ($o['transaksi_approval_acc']) {
                                 case 1:
-                                    echo "Original";
+                                    echo "Pelanggan memlilh Original";
                                     break;
                                 case 2:
-                                    echo "Gelap";
+                                    echo "Pelanggan memlilh Gelap";
                                     break;
                                 case 3:
-                                    echo "Terang";
+                                    echo "Pelanggan memlilh Terang";
                                     break;
                                 default:
                                     echo "Pelanggan belum menentukan pilihan";
@@ -633,7 +634,7 @@
                             ?>
 
                         </div>
-                        <br><br>
+                        <br>
                         <form method="post" action="<?= base_url('Order/upload_approval1') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
                             <label for="apv1"><?= $o['transaksi_approval_acc'] == 1 ? "<b>Original (dipilih)</b>" : "Original"; ?></label><br>

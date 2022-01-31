@@ -656,31 +656,37 @@
                     </div>
                     <div class="card-body">
                         <?php if (!isset($o['transaksi_approval_1']) || !isset($o['transaksi_approval_2']) || !isset($o['transaksi_approval_3'])) : ?>
-                            <p>Harap tunggu sampai Admin mengunggah foto untuk Anda pilih</p>
+                            <div>Harap tunggu sampai Admin mengunggah foto untuk Anda pilih</div>
                         <?php else : ?>
-                            <form method="post" action="<?= base_url('Order_pelanggan/upload_approval_acc') ?>" enctype="multipart/form-data">
+                            <form id="formApproval" method="post" action="<?= base_url('Order_pelanggan/upload_approval_acc') ?>" enctype="multipart/form-data">
                                 <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
-                                <input type="radio" value="1" name="approval" id="apv1" <?= $o['transaksi_approval_acc'] == '1' ? ' checked' : null; ?>>
-                                <label for="apv1">Original</label>
+                                <?php if (empty($o['transaksi_approval_acc'])) : ?>
+                                    <div>Silahkan pilih produk yang akan di-approve dan dibuat</div>
+                                <?php else : ?>
+                                    <div>Harap tunggu Admin untuk meneruskan ke proses cetak produk.</div>
+                                <?php endif; ?>
+                                <br>
+                                <input type="radio" value="1" name="approval" id="apv1" <?= $o['transaksi_approval_acc'] == '1' ? ' checked' : null; ?> required>
+                                <label for="apv1" style="white-space: pre-wrap;">Original</label>
+                                <br>
                                 <label for="apv1">
-                                    <img class="w-100" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>">
-                                    <br>
+                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>">
                                     <br>
                                 </label>
                                 <br>
-                                <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?>>
+                                <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required>
                                 <label for="apv2">Gelap</label>
+                                <br>
                                 <label for="apv2">
-                                    <img class="w-100" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
-                                    <br>
+                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
                                     <br>
                                 </label>
                                 <br>
-                                <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?>>
+                                <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required>
                                 <label for="apv3">Terang</label>
+                                <br>
                                 <label for="apv3">
-                                    <img class="w-100" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
-                                    <br>
+                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
                                     <br>
                                 </label>
                                 <br>
@@ -999,6 +1005,9 @@
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
 <script>
+    $('#formApproval').submit(function(e) {
+        return confirm('Apakah Anda yakin ingin memilih ini?');
+    });
     $('.modal_lihat').click(function() {
         var id = $(this).attr('title');
         $('#data_design').attr('id-design', id);
