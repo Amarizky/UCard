@@ -71,7 +71,7 @@ class Product extends CI_Controller
 			<b>Keterangan</b>
 			<p><?= $get['product_keterangan']; ?></p>
 			<b>Harga</b>
-			<p>Rp <?= number_format($get['product_harga']); ?></p>
+			<p><?= 'Rp' . number_format($get['product_harga'], 2, ',', '.'); ?></p>
 		</div>
 <?php
 	}

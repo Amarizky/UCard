@@ -113,7 +113,7 @@
     </div>
 </div>
 <!-- Page content -->
-<div class="container-fluid mt--6">
+<div class="container-fluid mt-6">
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
@@ -973,33 +973,32 @@
                         <h3>Apakah anda yakin?</h3>
                     </div>
                     <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>
+                        <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+            <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="modal-title-default">Hapus Pelanggan</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="alert_hapus"></div>
+                        <h3>Apakah anda yakin?</h3>
+                    </div>
+                    <div class="modal-footer">
                         <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
                         <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
         </div>
-</div>
-<div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Hapus Pelanggan</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div id="alert_hapus"></div>
-                <h3>Apakah anda yakin?</h3>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
-                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 </div>
 <?php endif ?>
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
