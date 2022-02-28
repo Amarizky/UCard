@@ -621,18 +621,18 @@
                     </div>
                     <div class="card-body">
                         <div>Silahkan unggah ketiga file agar dapat dipilih oleh pelanggan.</div>
-                        <br><br>
+                        <br>
                         <div>
                             <?php
                             switch ($o['transaksi_approval_acc']) {
                                 case 1:
-                                    echo "Pelanggan memlilh Original";
+                                    echo "Pelanggan memilih Original";
                                     break;
                                 case 2:
-                                    echo "Pelanggan memlilh Gelap";
+                                    echo "Pelanggan memilih Gelap";
                                     break;
                                 case 3:
-                                    echo "Pelanggan memlilh Terang";
+                                    echo "Pelanggan memilih Terang";
                                     break;
                                 default:
                                     echo "Pelanggan belum menentukan pilihan";
@@ -651,7 +651,7 @@
                                 </a>
                                 <br>
                             <?php endif; ?>
-                            <input type="file" id="apv1" name="approval1" class="form-control" required><br>
+                            <input type="file" id="apv1" name="approval1" class="form-control" onchange="this.form.submit()" required><br>
                             <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar original</button>
                         </form>
                         <br>
@@ -664,7 +664,7 @@
                                 </a>
                                 <br>
                             <?php endif; ?>
-                            <input type="file" id="apv2" name="approval2" class="form-control"><br>
+                            <input type="file" id="apv2" name="approval2" class="form-control" onchange="this.form.submit()" required><br>
                             <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar gelap</button>
                         </form>
                         <br>
@@ -677,7 +677,7 @@
                                 </a>
                                 <br>
                             <?php endif; ?>
-                            <input type="file" id="apv3" name="approval3" class="form-control"><br>
+                            <input type="file" id="apv3" name="approval3" class="form-control" onchange="this.form.submit()" required><br>
                             <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar terang</button>
                         </form>
 
