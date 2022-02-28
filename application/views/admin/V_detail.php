@@ -1418,7 +1418,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
+                <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>
                 <a class="btn btn-info btn_download" download><i class="fa fa-download"></i> Download</a>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
@@ -1444,7 +1444,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
+                <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
 

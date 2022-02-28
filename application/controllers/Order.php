@@ -23,7 +23,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderverifikasi')) redirect('Dashboard');
         $x['title'] = "Verifikasi";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -32,7 +32,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderkirimdesign')) redirect('Dashboard');
         $x['title'] = "Kirim Design";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -41,7 +41,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderpembayaran')) redirect('Dashboard');
         $x['title'] = "Pembayaran";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -50,7 +50,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderapproval')) redirect('Dashboard');
         $x['title'] = "Approval";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -59,7 +59,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('ordercetakproduk')) redirect('Dashboard');
         $x['title'] = "Cetak Produk";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -68,7 +68,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderkirimambil')) redirect('Dashboard');
         $x['title'] = "Ambil / Kirim";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -77,7 +77,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderhistory')) redirect('Dashboard');
         $x['title'] = "Order History";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima = '1' OR t.transaksi_terima = '0' ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE (t.transaksi_terima = '1' OR t.transaksi_terima = '0') AND transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order_history', $x);
         $this->load->view('admin/template/V_footer');
@@ -156,13 +156,13 @@ class Order extends CI_Controller
                         <p><?= $e['transaksi_jumlah']; ?></p>
                         <b>Harga</b>
                         <?php if (empty($e['transaksi_harga'])) : ?>
-                            <p>Harga Belum Di Tentukan</p>
+                            <p>Harga belum ditentukan</p>
                         <?php else : ?>
                             <p><?= 'Rp' . number_format($e['transaksi_harga'], 2, ',', '.'); ?></p>
                         <?php endif; ?>
                         <br>
                         <b>Keterangan</b>
-                        <p>' . $e['transaksi_keterangan'] . '</p>
+                        <p><?= $e['transaksi_keterangan']; ?></p>
                     </div>
                 </div>
             </div>
@@ -230,8 +230,8 @@ class Order extends CI_Controller
     function hapus_order()
     {
         $id = $this->input->post('id');
-        $this->db->query("DELETE FROM tbl_transaksi WHERE transaksi_id = '$id' ");
-        $this->db->query("DELETE FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ");
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_deleted = '1' WHERE transaksi_id = '$id' ");
+        $this->db->query("UPDATE tbl_status_transaksi SET transaksi_deleted = '1' WHERE transaksi_order_id = '$id' ");
     }
     function batal_trans()
     {
