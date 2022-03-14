@@ -131,6 +131,8 @@
                                     <label for="coating2">Doff</label><br>
                                     <input type="radio" id="coating3" placeholder="coating" name="coating" value="3">
                                     <label for="coating3">Glossy + Doff</label>
+                                    <input type="radio" id="coating4" placeholder="coating" name="coating" value="4">
+                                    <label for="coating3">UV</label>
                                 </div>
                                 <div class="grid-item">
                                     <b>Finishing</b>

@@ -817,10 +817,17 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                             <?php endif; ?>
                             <?php if ($o['transaksi_personalisasi'] == '3') : ?>
                                 <input type="radio" id="coating3" placeholder="coating" name="coating" value="3" checked>
-                                <label for="coating3">Glossy + Doff</label>
+                                <label for="coating3">Glossy + Doff</label><br>
                             <?php else : ?>
                                 <input type="radio" id="coating3" placeholder="coating" name="coating" value="3">
-                                <label for="coating3">Glossy + Doff</label>
+                                <label for="coating3">Glossy + Doff</label><br>
+                            <?php endif; ?>
+                            <?php if ($o['transaksi_personalisasi'] == '3') : ?>
+                                <input type="radio" id="coating4" placeholder="coating" name="coating" value="4" checked>
+                                <label for="coating3">UV</label>
+                            <?php else : ?>
+                                <input type="radio" id="coating4" placeholder="coating" name="coating" value="4">
+                                <label for="coating3">UV</label>
                             <?php endif; ?>
                         </div>
                         <div class="grid-item">

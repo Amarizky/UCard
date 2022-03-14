@@ -307,6 +307,8 @@
                                             echo "Doff";
                                         } elseif ($o['transaksi_coating'] == 3) {
                                             echo "Glossy + Doff";
+                                        } elseif ($o['transaksi_coating'] == 4) {
+                                            echo "UV";
                                         } else {
                                             echo "Tidak Diketahui";
                                         } ?></p>
@@ -859,6 +861,8 @@
                                 <label for="coating2">Doff</label><br>
                                 <input type="radio" id="coating3" placeholder="coating" name="coating" value="3" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
                                 <label for="coating3">Glossy + Doff</label>
+                                <input type="radio" id="coating4" placeholder="coating" name="coating" value="4" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
+                                <label for="coating3">UV</label>
                             </div>
                             <div class="grid-item">
                                 <b>Finishing</b>

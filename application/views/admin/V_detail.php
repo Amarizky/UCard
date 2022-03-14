@@ -345,6 +345,8 @@
                                             echo "Doff";
                                         } elseif ($o['transaksi_coating'] == 3) {
                                             echo "Glossy + Doff";
+                                        } elseif ($o['transaksi_coating'] == 4) {
+                                            echo "UV";
                                         } else {
                                             echo "Tidak Diketahui";
                                         } ?></p>
@@ -947,6 +949,8 @@
                                                                                             echo "Doff";
                                                                                         } elseif ($o['transaksi_coating'] == 3) {
                                                                                             echo "Glossy + Doff";
+                                                                                        } elseif ($o['transaksi_coating'] == 4) {
+                                                                                            echo "UV";
                                                                                         } else {
                                                                                             echo "Tidak Diketahui";
                                                                                         } ?></td>
@@ -1113,6 +1117,8 @@
                                                                                             echo "Doff";
                                                                                         } elseif ($o['transaksi_coating'] == 3) {
                                                                                             echo "Glossy + Doff";
+                                                                                        } elseif ($o['transaksi_coating'] == 4) {
+                                                                                            echo "UV";
                                                                                         } else {
                                                                                             echo "Tidak Diketahui";
                                                                                         } ?></td>
@@ -1277,6 +1283,8 @@
                                                                                             echo "Doff";
                                                                                         } elseif ($o['transaksi_coating'] == 3) {
                                                                                             echo "Glossy + Doff";
+                                                                                        } elseif ($o['transaksi_coating'] == 4) {
+                                                                                            echo "UV";
                                                                                         } else {
                                                                                             echo "Tidak Diketahui";
                                                                                         } ?></td>
