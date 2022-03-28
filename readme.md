@@ -6,4 +6,5 @@
 | 2 | Kirim Design |
 | 3 | Pembayaran |
 | 4 | Approval |
-| 5 | Ambil/Kirim |
+| 5 | Cetak Produk |
+| 6 | Ambil/Kirim |
