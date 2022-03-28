@@ -1,11 +1,12 @@
 <?php
-$verif = $this->db->query("SELECT count(t.transaksi_id) AS kd FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '1' AND (s.transaksi_status = '1' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array();
-$kd = $this->db->query("SELECT count(t.transaksi_id) AS kd FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array();
-$pmb = $this->db->query("SELECT count(t.transaksi_id) AS pmb FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array();
-$apv = $this->db->query("SELECT count(t.transaksi_id) AS apv FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array();
-$ctk = $this->db->query("SELECT count(t.transaksi_id) AS ctk FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array();
-$k_a = $this->db->query("SELECT count(t.transaksi_id) AS k_a FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array();
-$h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE transaksi_terima = '1' ")->row_array();
+$jml_daftar = $this->db->query("SELECT count(t.transaksi_id) AS jml_daftar FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE (s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2')  AND t.transaksi_terima IS NULL")->row_array()['jml_daftar'];
+$jml_verif = $this->db->query("SELECT count( t.transaksi_id ) AS jml_verif FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL)")->row_array()['jml_verif'];
+$jml_design = $this->db->query("SELECT count(t.transaksi_id) AS jml_design FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array()['jml_design'];
+$jml_pemb = $this->db->query("SELECT count(t.transaksi_id) AS jml_pemb FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array()['jml_pemb'];
+$jml_approv = $this->db->query("SELECT count(t.transaksi_id) AS jml_approv FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array()['jml_approv'];
+$jml_cetak = $this->db->query("SELECT count(t.transaksi_id) AS jml_cetak FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array()['jml_cetak'];
+$jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL ")->row_array()['jml_kirim'];
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -70,19 +71,29 @@ $h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE 
                         <?php endif; ?>
                         <?php if ($perms['admin_perm_order']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order/history' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
+                                <a class="nav-link <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
                                     <i class="ni ni-cart text-green"></i>
-                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger to"><?= $h['h']; ?></span></span>
+                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger to"><?= $jml_daftar; ?></span></span>
                                 </a>
-                                <div class="collapse <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order/history' ? 'show' : ''; ?>" id="navbar-order">
+                                <div class="collapse <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">
+                                        <li class="nav-item">
+                                            <a href="<?= base_url('Order') ?>" class="nav-link <?= $seg1 == 'Order' && $seg2 == '' ? 'active' : ''; ?>"><i class="fa fa-book"></i>
+                                                <table style="width:100%;">
+                                                    <tr>
+                                                        <td>DAFTAR ORDER</td>
+                                                        <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></td>
+                                                    </tr>
+                                                </table>
+                                            </a>
+                                        </li>
                                         <?php if ($perms['admin_perm_orderverifikasi']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order/verifikasi') ?>" class="nav-link <?= $seg2 == 'verifikasi' ? 'active' : ''; ?>"><i class="fa fa-check"></i>
                                                     <table style="width:100%;">
                                                         <tr>
                                                             <td>VERIFIKASI</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger c_v">0</span></td>
+                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_verif; ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -94,7 +105,7 @@ $h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE 
                                                     <table style="width:100%;">
                                                         <tr>
                                                             <td>KIRIM DESIGN</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $kd['kd'] ?></span></td>
+                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_design ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -106,7 +117,7 @@ $h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE 
                                                     <table style="width:100%;">
                                                         <tr>
                                                             <td>PEMBAYARAN</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $pmb['pmb'] ?></span></td>
+                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_pemb ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -118,7 +129,7 @@ $h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE 
                                                     <table style="width:100%;">
                                                         <tr>
                                                             <td>APPROVAL</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $apv['apv'] ?></span></td>
+                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_approv ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -130,7 +141,7 @@ $h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE 
                                                     <table style="width:100%;">
                                                         <tr>
                                                             <td>CETAK PRODUK</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $ctk['ctk'] ?></span></td>
+                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_cetak ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -143,7 +154,7 @@ $h = $this->db->query("SELECT count(transaksi_id) AS h FROM tbl_transaksi WHERE 
                                                     <table style="width:100%;">
                                                         <tr>
                                                             <td>KIRIM / AMBIL</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $k_a['k_a'] ?></span></td>
+                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_kirim ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>

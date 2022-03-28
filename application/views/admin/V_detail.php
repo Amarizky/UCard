@@ -626,13 +626,13 @@
                             <?php
                             switch ($o['transaksi_approval_acc']) {
                                 case 1:
-                                    echo "Pelanggan memlilh Original";
+                                    echo "Pelanggan memilih Original";
                                     break;
                                 case 2:
-                                    echo "Pelanggan memlilh Gelap";
+                                    echo "Pelanggan memilih Gelap";
                                     break;
                                 case 3:
-                                    echo "Pelanggan memlilh Terang";
+                                    echo "Pelanggan memilih Terang";
                                     break;
                                 default:
                                     echo "Pelanggan belum menentukan pilihan";
