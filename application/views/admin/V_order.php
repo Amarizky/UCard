@@ -85,17 +85,43 @@
                                     <td><?= $o['pelanggan_nama'] ?></td>
                                     <td><?= $o['transaksi_tanggal'] ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
-                                    <td><?php
-                                        if ($o['transaksi_status'] == '0') {
-                                            echo 'Ditolak';
-                                        } elseif ($o['transaksi_status'] == '2') {
-                                            echo 'Menunggu Konfirmasi';
-                                        } elseif ($o['transaksi_paket'] == '0') {
-                                            echo 'Ambil Sendiri';
-                                        } elseif ($o['transaksi_paket'] == '1') {
-                                            echo 'Kirim Paket';
-                                        }
-                                        ?></td>
+                                    <td>
+                                        <?php
+                                        if ($title == "Daftar Order") :
+                                            switch ($o['transaksi_status_id']):
+                                                case '1':
+                                                    echo 'Verifikasi';
+                                                    break;
+                                                case '2':
+                                                    echo 'Kirim Design';
+                                                    break;
+                                                case '3':
+                                                    echo 'Pembayaran';
+                                                    break;
+                                                case '4':
+                                                    echo 'Approval';
+                                                    break;
+                                                case '5':
+                                                    echo 'Cetak Produk';
+                                                    break;
+                                                case '6':
+                                                    echo 'Ambil/Kirim';
+                                                    break;
+                                                default:
+                                            endswitch;
+                                        else :
+                                            if ($o['transaksi_status'] == '0') {
+                                                echo 'Ditolak';
+                                            } elseif ($o['transaksi_status'] == '2') {
+                                                echo 'Menunggu Konfirmasi';
+                                            } elseif ($o['transaksi_paket'] == '0') {
+                                                echo 'Ambil Sendiri';
+                                            } elseif ($o['transaksi_paket'] == '1') {
+                                                echo 'Kirim Paket';
+                                            }
+                                        endif;
+                                        ?>
+                                    </td>
                                     <td>
                                         <button id="<?= $o['transaksi_id'] ?>" type="button" class="btn btn-info btn-sm update_status" data-toggle="modal" data-target="#update"><i class="fa fa-pen"></i></button>
                                         <a href="<?= base_url('Order/detail/' . $o['transaksi_id']) ?>" class="btn btn-primary btn-sm"><i class="fa fa-box"></i></a>
