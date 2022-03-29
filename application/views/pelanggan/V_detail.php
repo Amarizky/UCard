@@ -400,14 +400,12 @@
             <div id="status2" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Design</h3>
+                        <h3 class="mb-0">Desain</h3>
                     </div>
                     <div class="card-body">
                         <?php if ($o['transaksi_terima'] !== '1') : ?>
-                            <a href="<?= base_url('Template?id=' . $this->uri->segment(3)) ?>" style="text-align: center;" class="form-control"><i class="fa fa-image"></i> Pilih Template</a>
-                            <br>
                             <form method="post" action="<?= base_url('Order_pelanggan/upload_design') ?>" enctype="multipart/form-data">
-                                <h3>Upload Design</h3>
+                                <h3>Upload Desain</h3>
                                 <input type="file" class="form-control" multiple name="design[]">
                                 <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
                                 <br>
@@ -420,7 +418,7 @@
                         $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         if ($design) : ?>
-                            <h3>Design Anda</h3>
+                            <h3>Desain Anda</h3>
                             <br>
                             <?php
                             foreach ($design as $d) :
@@ -433,7 +431,7 @@
                         endif;
                         ?>
                         <?php if ($upload) : ?>
-                            <h3>Uploaded File/Link Design </h3>
+                            <h3>Uploaded File/Link Desain </h3>
                             <br>
                             <div class="table-responsive">
                                 <table class="table table-flush" id="datatable-basic">
@@ -947,7 +945,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Detail Design</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Detail Desain</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -967,7 +965,7 @@
             <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title" id="modal-title-default">Hapus Design</h6>
+                        <h6 class="modal-title" id="modal-title-default">Hapus Desain</h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
