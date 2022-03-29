@@ -56,6 +56,12 @@ class Product extends CI_Controller
 	{
 		$id = $this->input->post('id');
 		$get = $this->db->get_where('tbl_product', ['product_id' => $id])->row_array();
+		$listCategory = explode(',', $get['product_category']);
+		$getCategory = $this->db->where_in('category_kode', $listCategory)->select('category_nama')->get('tbl_product_category')->result_array();
+		$category = "";
+		foreach ($getCategory as $key => $value) {
+			$category .= $value['category_nama'] . ', ';
+		}
 ?>
 		<div class="modal-body">
 			<b>Kode</b>
@@ -63,7 +69,7 @@ class Product extends CI_Controller
 			<b>Nama</b>
 			<p><?= $get['product_nama']; ?></p>
 			<b>Kategori</b>
-			<p><?= $get['product_category']; ?></p>
+			<p><?= $category; ?></p>
 			<b>Deskripsi</b>
 			<p><?= $get['product_deskripsi']; ?></p>
 			<b>Keunggulan</b>
