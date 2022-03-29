@@ -620,23 +620,24 @@
                         <div>Silahkan unggah ketiga file agar dapat dipilih oleh pelanggan.</div>
                         <br>
                         <div>
-                            <?php
-                            switch ($o['transaksi_approval_acc']) {
-                                case 1:
-                                    echo "Pelanggan memilih Original";
-                                    break;
-                                case 2:
-                                    echo "Pelanggan memilih Gelap";
-                                    break;
-                                case 3:
-                                    echo "Pelanggan memilih Terang";
-                                    break;
-                                default:
-                                    echo "Pelanggan belum menentukan pilihan";
-                                    break;
-                            }
-                            ?>
-
+                            <b>
+                                <?php
+                                switch ($o['transaksi_approval_acc']) {
+                                    case 1:
+                                        echo "Pelanggan memilih Original";
+                                        break;
+                                    case 2:
+                                        echo "Pelanggan memilih Gelap";
+                                        break;
+                                    case 3:
+                                        echo "Pelanggan memilih Terang";
+                                        break;
+                                    default:
+                                        echo "Pelanggan belum menentukan pilihan";
+                                        break;
+                                }
+                                ?>
+                            </b>
                         </div>
                         <br>
                         <form method="post" action="<?= base_url('Order/upload_approval1') ?>" enctype="multipart/form-data">
@@ -649,7 +650,7 @@
                                 <br>
                             <?php endif; ?>
                             <input type="file" id="apv1" name="approval1" class="form-control" onchange="this.form.submit()" required><br>
-                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar original</button>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai varian original</button>
                         </form>
                         <br>
                         <form method="post" action="<?= base_url('Order/upload_approval2') ?>" enctype="multipart/form-data">
@@ -662,7 +663,7 @@
                                 <br>
                             <?php endif; ?>
                             <input type="file" id="apv2" name="approval2" class="form-control" onchange="this.form.submit()" required><br>
-                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar gelap</button>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai varian gelap</button>
                         </form>
                         <br>
                         <form method="post" action="<?= base_url('Order/upload_approval3') ?>" enctype="multipart/form-data">
@@ -675,7 +676,7 @@
                                 <br>
                             <?php endif; ?>
                             <input type="file" id="apv3" name="approval3" class="form-control" onchange="this.form.submit()" required><br>
-                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai gambar terang</button>
+                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai varian terang</button>
                         </form>
 
 
@@ -698,7 +699,7 @@
                             </div>
                             <br>
                             <br>
-                            <h2>Sudah selesai</h2>
+                            <h2>Produk sudah selesai dicetak!</h2>
                         <?php else : ?>
                             <img style="width:100%;" src="<?= base_url('assets/img/print.gif') ?>" alt="">
                             <br>
@@ -771,7 +772,7 @@
                             <br>
 
                             <div id="paket_terima">
-                                <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket Sudah Diterima ?</button> -->
+                                <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket sudah diterima ?</button> -->
                                 <?php
                                 if ($o['transaksi_paket'] != NULL) :
                                 ?>
@@ -818,7 +819,7 @@
                                     <?php endif; ?>
                                     <br>
 
-                                    <button style="width:100%;" class="btn btn-primary terima">Paket Sudah Diterima ?</button>
+                                    <button style="width:100%;" class="btn btn-primary terima">Paket sudah diterima ?</button>
                                 <?php
                                 endif;
                                 ?>
@@ -832,7 +833,7 @@
                                 <?php } else { ?>
                                     <h2>Ambil Sendiri</h2>
                                 <?php } ?>
-                                <h2>Paket Sudah diterima</h2>
+                                <h2>Paket sudah diterima</h2>
                             </div>
 
                         <?php endif; ?>
@@ -1542,7 +1543,7 @@
             $('#alert_status').html('<div class="alert alert-danger alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"><i class="fa fa-times"></i></span><span class="alert-text"><strong>Keputusan Tidak Boleh Kosong</strong></span></div>');
         }
     });
-    $('.modal_lihat').click(function() {
+    $(document).on('click', '.modal_lihat', function() {
         var id = $(this).attr('title');
         $('#data_design').attr('id-design', id);
         $.ajax({

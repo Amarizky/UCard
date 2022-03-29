@@ -660,7 +660,7 @@
                                     <div>Harap tunggu Admin untuk meneruskan ke proses cetak produk.</div>
                                 <?php endif; ?>
                                 <br>
-                                <input type="radio" value="1" name="approval" id="apv1" <?= $o['transaksi_approval_acc'] == '1' ? ' checked' : null; ?> required>
+                                <input type="radio" value="1" name="approval" id="apv1" <?= $o['transaksi_approval_acc'] == '1' ? ' checked' : null; ?> required onclick="pilihGambar()">
                                 <label for="apv1" style="white-space: pre-wrap;">Original</label>
                                 <br>
                                 <label for="apv1">
@@ -668,7 +668,7 @@
                                     <br>
                                 </label>
                                 <br>
-                                <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required>
+                                <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required onclick="pilihGambar()">
                                 <label for="apv2">Gelap</label>
                                 <br>
                                 <label for="apv2">
@@ -676,7 +676,7 @@
                                     <br>
                                 </label>
                                 <br>
-                                <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required>
+                                <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required onclick="pilihGambar()">
                                 <label for="apv3">Terang</label>
                                 <br>
                                 <label for="apv3">
@@ -704,7 +704,7 @@
                             </div>
                             <br>
                             <br>
-                            <h2>Sudah selesai</h2>
+                            <h2>Produk sudah selesai dicetak!</h2>
                         <?php else : ?>
                             <img style="width:100%;" src="<?= base_url('assets/img/print.gif') ?>" alt="">
                             <br>
@@ -765,18 +765,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-success" style="width:100%;" style="text-align: center;" href="https://cekresi.com/?v=wdg&noresi=<?= $resi['transaksi_resi'] ?>">
-                                    Cek Resi
-                                </a>
+                                <?php if (!is_null($resi['transaksi_resi']) && !empty($resi['transaksi_resi'])) : ?>
+                                    <a class="btn btn-success" style="width:100%;" style="text-align: center;" href="https://cekresi.com/?v=wdg&noresi=<?= $resi['transaksi_resi'] ?>">
+                                        Cek Resi
+                                    </a>
+                                <?php endif; ?>
                             <?php endif; ?>
                             <br>
                             <br>
                             <div id="paket_terima">
-                                <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket Sudah Diterima</button> -->
+                                <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket sudah diterima</button> -->
                                 <?php
                                 if ($o['transaksi_paket'] != NULL) :
                                 ?>
-                                    <button id="terima" style="width:100%;" class="btn btn-primary terima">Paket Sudah Diterima</button>
+                                    <button id="terima" style="width:100%;" class="btn btn-primary terima">Paket sudah diterima</button>
                                 <?php
                                 endif;
                                 ?>
@@ -1000,9 +1002,11 @@
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
 <script>
-    $('#formApproval').submit(function(e) {
-        return confirm('Apakah Anda yakin ingin memilih ini?');
-    });
+    function pilihGambar() {
+        if (confirm('Anda yakin ingin memilih varian ini?')) {
+            $('#formApproval').submit();
+        }
+    }
     $('.modal_lihat').click(function() {
         var id = $(this).attr('title');
         $('#data_design').attr('id-design', id);

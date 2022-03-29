@@ -209,7 +209,7 @@ class Order extends CI_Controller
                 </div>
             </div>
         </div>
-        <?php
+    <?php
     }
     function hapus_design()
     {
@@ -363,7 +363,7 @@ class Order extends CI_Controller
 
         $pelanggan = $this->db->query("SELECT p.* FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
         $transaksi_produksi_status_id = $this->db->query("SELECT max(transaksi_produksi_status_id) as tpsi FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ")->row_array()['tpsi'];
-        $s = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$id_status' ")->row_array();
+        $s = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$status_urut' ")->row_array();
 
         if ($keputusan == '1') {
             $k = 'DITERIMA';
@@ -678,21 +678,18 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
         $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = '$val' WHERE transaksi_id = '$id' ");
         $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$val', transaksi_keterangan = 'Sudah Diterima' WHERE transaksi_status_id = '6' AND transaksi_order_id = '$id' ");
         $o = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id = '$id' ")->row_array();
-        $html = '<div class="wrapper">';
-        if ($o['transaksi_paket'] == "1") {
-            $html .= '<h2>Kirim Paket</h2>';
-        } else {
-            $html .= '<h2>Ambil Sendiri</h2>';
-        }
-        $html .= '<h2>Paket Sudah diterima</h2>';
-        $html .= '</div>';
-        echo $html;
+    ?>
+        <div class="wrapper">
+            <h2><?= $o['transaksi_paket'] == '1' ? 'Kirim Paket' : 'Ambil Sendiri'; ?></h2>
+            <h2>Paket sudah diterima</h2>
+        </div>
+        <?php
 
         $this->db->set('verif_kirimambil', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
     }
     function check()
     {
-        $check = $this->db->query("SELECT transaksi_id FROM tbl_transaksi WHERE transaksi_new = '1' ")->row_array();
+        $check = $this->db->query("SELECT transaksi_id FROM tbl_transaksi WHERE transaksi_new = '1' ORDER BY transaksi_id DESC")->row_array();
         $id = $check['transaksi_id'];
         if ($check) {
             echo 'baru';
