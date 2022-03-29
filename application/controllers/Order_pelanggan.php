@@ -49,81 +49,73 @@ class Order_pelanggan extends CI_Controller
         $p = $this->db->query("SELECT * FROM tbl_product WHERE product_id = '$id_product' ")->row_array();
         $bank_id = $get['transaksi_bank'];
         $b = $this->db->query("SELECT * FROM tbl_bank WHERE bank_id = '$bank_id' ")->row_array();
-        $html = '<div class="modal-body">
-                <div id="alert_update"></div>
-                <div class="tab">
-                  <button class="tablinks" onclick="detail(event, \'Detail\')">Detail</button>
-                  <button class="tablinks" onclick="detail(event, \'bukti\')">Bukti Transaksi</button>
-                </div>
+?>
 
-                <div id="Detail" class="tabcontent">
+        <div class="modal-body">
+            <div id="alert_update"></div>
+            <div class="tab">
+                <button class="tablinks" onclick="detail(event, 'Detail')">Detail</button>
+                <button class="tablinks" onclick="detail(event, 'Bukti')">Bukti Transaksi</button>
+            </div>
+            <div id="Detail" class="tabcontent">
                 <div class="row">
                     <div class="col-md-5">
-                    <h2>Pelanggan</h2>
-                    <hr>
-                    <b>Nama</b>
-                    <p>' . $pel['pelanggan_nama'] . '</p>
-                    <b>Email</b>
-                    <p>' . $pel['pelanggan_email'] . '</p>
-                    <b>Tgl Lahir</b>
-                    <p>' . $pel['pelanggan_lahir'] . '</p>
-                    <b>Alamat</b>
-                    <p>' . $pel['pelanggan_alamat'] . '</p>
-                    <b>Whatsapp</b>
-                    <p>' . $pel['pelanggan_nohp'] . '</p>
-                    <b>Kecamatan</b>
-                    <p>' . $pel['pelanggan_kecamatan'] . '</p>
-                    <b>Kabupaten</b>
-                    <p>' . $pel['pelanggan_kabupaten'] . '</p>
-                    <b>Kodepost</b>
-                    <p>' . $pel['pelanggan_kodepost'] . '</p>
+                        <h2>Pelanggan</h2>
+                        <hr>
+                        <b>Nama</b>
+                        <p><?= $pel['pelanggan_nama']; ?></p>
+                        <b>Email</b>
+                        <p><?= $pel['pelanggan_email']; ?></p>
+                        <b>Tgl Lahir</b>
+                        <p><?= $pel['pelanggan_lahir']; ?></p>
+                        <b>Alamat</b>
+                        <p><?= $pel['pelanggan_alamat']; ?></p>
+                        <b>Whatsapp</b>
+                        <p><?= $pel['pelanggan_nohp']; ?></p>
+                        <b>Kecamatan</b>
+                        <p><?= $pel['pelanggan_kecamatan']; ?></p>
+                        <b>Kabupaten</b>
+                        <p><?= $pel['pelanggan_kabupaten']; ?></p>
+                        <b>Kodepost</b>
+                        <p><?= $pel['pelanggan_kodepost']; ?></p>
                     </div>
                     <div class="col-md-5">
-                    <h2>Product</h2>
-                    <hr>
-                        <b>Product</b>
-                        <p>' . $p['product_nama'] . '</p>
+                        <h2>Produk</h2>
+                        <hr>
+                        <b>Produk</b>
+                        <p><?= $p['product_nama']; ?></p>
                         <b>Jumlah</b>
-                        <p>' . $get['transaksi_jumlah'] . '</p>
+                        <p><?= $get['transaksi_jumlah']; ?></p>
                         <b>Harga</b>';
-        if (empty($get['transaksi_harga'])) {
-            $html .= '<p>Harga Belum Di Tentukan</p>';
-        } else {
-            $html .= '<p>Rp' . number_format($get['transaksi_harga'], 2, ',', '.') . '</p>';
-        }
-        $html .= '<br>
-                    <b>Keterangan</b>
-                    <p>' . $get['transaksi_keterangan'] . '</p>
+                        <p><?= empty($get['transaksi_harga']) ? 'Harga belum ditentukan' : 'Rp' . number_format($get['transaksi_harga'], 2, ',', '.'); ?></p>
+                        <br>
+                        <b>Keterangan</b>
+                        <p><?= $get['transaksi_keterangan']; ?></p>
                     </div>
                 </div>
             </div>
+            <div id="bukti" class="tabcontent">
+                <h3><?= is_null($get['transaksi_bukti']) ? 'Belum ada bukti transaksi' : 'Bukti transaksi' ?></h3>
+                <img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']); ?>">
+                <table class="table">
+                    <tr>
+                        <th>Atas Nama</th>
+                        <th>No Rekening</th>
+                    </tr>
+                    <tr>
+                        <td><?= $b['bank_atas_nama']; ?></td>
+                        <td><?= $b['bank_no_rek']; ?></td>
+                    </tr>
+                </table>
+                <img style="width:100%;" src="<?= base_url('bukti_transaksi/' . $get['transaksi_bukti']); ?>">
+            </div>
+        </div>
 
-            <div id="bukti" class="tabcontent">';
-        if ($get['transaksi_bukti'] == NULL) {
-            $html .= '<h3>Belum ada bukti transaksi</h3>';
-        } else {
-            $html .= '<h3>Bukti Transaksi</h3>
-                    <img style="width: 60px;" src="' . base_url('assets/img/bank/' . $b['bank_image']) . '"> 
-                    <table class="table">
-                                        <tr>
-                                            <th>Atas Nama</th>
-                                            <th>No Rekening</th>
-                                        </tr>
-                                        <tr>
-                                            <td>' . $b['bank_atas_nama'] . '</td>
-                                            <td>' . $b['bank_no_rek'] . '</td>
-                                        </tr>
-                                        </table>
-                    <img style="width:100%;" src="' . base_url('bukti_transaksi/' . $get['transaksi_bukti']) . '" >';
-        }
-        $html .= '
-            </div>
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
-            </div>';
-        echo $html;
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+        </div>
+        <?php
     }
     function update_order()
     {
@@ -191,39 +183,51 @@ class Order_pelanggan extends CI_Controller
         $status = $this->db->query("SELECT * FROM tbl_status_transaksi AS st JOIN tbl_status AS s ON st.transaksi_status_id = s.status_id JOIN tbl_transaksi AS t ON t.transaksi_id = st.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE (transaksi_status IS NULL OR transaksi_status = '0') AND transaksi_nohp = '$nohp' ")->result_array();
         $html = '';
         foreach ($status as $s) {
-            $html .= '<a href="' . base_url('Order_pelanggan/detail/' . $s['transaksi_id']) . '" class="list-group-item list-group-item-action">
-         <div class="row align-items-center">
-           <div class="col-auto">
-             <!-- Avatar -->
-             <i class="' . $s['status_icon'] . '"></i>
-           </div>
-           <div class="col ml--2">
-             <div class="d-flex justify-content-between align-items-center">
-               <div>
-                 <h4 class="mb-0 text-sm">' . $s['pelanggan_nama'] . '</h4>
-               </div>
-               <div class="text-right text-muted">
-                 <small>' . $s['status_status'] . '</small>
-               </div>
-             </div>';
-            if ($s['transaksi_status'] == '0') {
-                $html .= '<p class="text-sm mb-0">Ditolak</p>';
-            } elseif ($s['transaksi_status_id'] == '2') {
-                $html .= '<p class="text-sm mb-0">Silakan Kirim Design</p>';
-            } elseif ($s['transaksi_status_id'] == '3') {
-                $html .= '<p class="text-sm mb-0">Silahkan Melakukan Pembayaran</p>';
-            } elseif ($s['transaksi_status_id'] == '4') {
-                $html .= '<p class="text-sm mb-0">Silahkan Pilih Desain Yang Diinginkan</p>';
-            } elseif ($s['transaksi_status_id'] == '5') {
-                $html .= '<p class="text-sm mb-0">Sedang Di cetak</p>';
-            } elseif ($s['transaksi_status_id'] == '6') {
-                $html .= '<p class="text-sm mb-0">Kirim / Ambil</p>';
-            }
-            $html .= '</div>
-         </div>
-       </a>';
+        ?>
+            <a href="<?= base_url('Order_pelanggan/detail/' . $s['transaksi_id']); ?>" class="list-group-item list-group-item-action">
+                <div class="row align-items-center">
+                    <div class="col-auto">
+                        <i class="<?= $s['status_icon']; ?>"></i>
+                    </div>
+                    <div class="col ml--2">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0 text-sm"><?= $s['pelanggan_nama']; ?></h4>
+                            </div>
+                            <div class="text-right text-muted">
+                                <small><?= $s['status_status']; ?></small>
+                            </div>
+                        </div>
+                        <?php
+                        $status = "";
+                        if ($s['transaksi_status'] == '0') {
+                            $status = "Ditolak";
+                        } else {
+                            switch ($s['transaksi_status_id']) {
+                                case '2':
+                                    $status = "Silahkan kirim desain";
+                                    break;
+                                case '3':
+                                    $status = "Silahkan melakukan pembayaran";
+                                    break;
+                                case '4':
+                                    $status = "Silahkan pilih desain yang diinginkan";
+                                    break;
+                                case '5':
+                                    $status = "Sedang dicetak";
+                                    break;
+                                case '6':
+                                    $status = "Kirim/Ambil";
+                                    break;
+                            }
+                        }
+                        ?>
+                        <p class="text-sm mb-0"><?= $status; ?></p>
+                    </div>
+                </div>
+            </a>
+        <?php
         }
-        echo $html;
     }
     function detail()
     {
@@ -271,22 +275,32 @@ class Order_pelanggan extends CI_Controller
         $id = $this->input->post('id');
         $id_transaksi = $this->input->post('id_transaksi');
         $g = $this->db->query("SELECT * FROM tbl_user_design WHERE design_id = '$id' ")->row_array();
-        $html = '<div id="alert"></div><div class="row">
-        <div class="col-md-12">
-        <center><img style="width: 200px;border-radius:5px;" src="' . base_url('design_user/') . $g['design_image'] . '" alt=""><br>
-        <p>' . $g['design_width'] . ' X ' . $g['design_height'] . '</p>
-        <br>
-        <div>
-        <table style="width:100%;">
-        <tr>
-        <td><a style="width: 100%;" href="' . base_url('Editor?design=') . $g['design_id'] . '&level=2&id=' . $id_transaksi . '" class="btn btn-primary">Edit Design</a></center></td>
-        <td><button style="width: 100%;" id="hapus_design" class="btn btn-danger">Hapus Design</button></center></td>
-        </tr>
-        </table>
+        ?>
+        <div id="alert"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <center>
+                    <img style="width: 200px;border-radius:5px;" src="<?= base_url('design_user/' . $g['design_image']); ?>">
+                    <p>
+                        <?= $g['design_width']; ?> X <?= $g['design_height']; ?>
+                    </p>
+                    <br>
+                    <div>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td>
+                                    <a href="<?= base_url('Editor?design=' . $g['design_id'] . '&level=2&id=' . $id_transaksi); ?>" class="btn btn-primary">Edit Design</a>
+                                </td>
+                                <td>
+                                    <button style="width: 100%;" id="hapus_design" class="btn btn-danger">Hapus Design</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </center>
+            </div>
         </div>
-        </div>
-    </div>';
-        echo $html;
+    <?php
     }
     function hapus_design()
     {
@@ -324,15 +338,17 @@ class Order_pelanggan extends CI_Controller
         $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = '$val' WHERE transaksi_id = '$id' ");
         $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$val', transaksi_keterangan = 'Sudah Diterima' WHERE transaksi_status_id = '6' AND transaksi_order_id = '$id' ");
         $o = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id = '$id' ")->row_array();
-        $html = '<div class="wrapper">';
-        if ($o['transaksi_paket'] == "1") {
-            $html .= '<h2>Kirim Paket</h2>';
-        } else {
-            $html .= '<h2>Ambil Sendiri</h2>';
-        }
-        $html .= '<h2>Paket Sudah diterima</h2>';
-        $html .= '</div>';
-        echo $html;
+    ?>
+        <div class="wrapper">
+            <?php if ($o['transaksi_paket'] == "1") : ?>
+                <h2>Kirim Paket</h2>
+            <?php else : ?>
+                <h2>Ambil Sendiri</h2>
+            <?php endif; ?>
+            <h2>Paket sudah diterima</h2>
+        </div>
+<?php
+        // echo $html;
 
         $this->db->set('verif_kirimambil', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
     }
