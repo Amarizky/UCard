@@ -2,15 +2,9 @@
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <!-- Header -->
-<!-- Header -->
-<div class="header bg-primary pb-6">
-    <div class="container-fluid">
-        <div class="header-body">
-        </div>
-    </div>
-</div>
+
 <!-- Page content -->
-<div class="container-fluid mt--6">
+<div class="container-fluid mt-4">
     <div class="row">
         <div class="col">
             <div class="card">
