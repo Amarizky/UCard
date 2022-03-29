@@ -243,7 +243,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="text-left">
-                                    <h3 class="mb-0">Product</h3>
+                                    <h3 class="mb-0">Produk</h3>
                                 </div>
                             </div>
                             <?php if ($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) : ?>
@@ -378,7 +378,7 @@
                                     <b>Ambil/Kirim</b>
                                     <p><?php
                                         if ($o['transaksi_paket'] == 1) {
-                                            echo "Kirim Product";
+                                            echo "Kirim Produk";
                                         } elseif ($o['transaksi_paket'] == 2) {
                                             echo "Ambil Sendiri";
                                         } else {
@@ -496,7 +496,7 @@
                         <?php endif; ?>
                         <label for="option-1" class="option option-1">
                             <div class="dot"></div>
-                            <span>Kirim Product</span>
+                            <span>Kirim Produk</span>
                         </label>
                         <label for="option-2" class="option option-2">
                             <div class="dot"></div>
@@ -918,7 +918,7 @@
                                 <b>Ambil/Kirim</b>
                                 <br><br>
                                 <input type="radio" id="kirim" placeholder="status" name="status" value="1" <?= $d['transaksi_paket'] == 1 ? 'checked' : ''; ?>>
-                                <label for="kirim">Kirim Product</label><br>
+                                <label for="kirim">Kirim Produk</label><br>
                                 <input type="radio" id="ambil" placeholder="status" name="status" value="2" <?= $d['transaksi_paket'] == 2 ? 'checked' : ''; ?>>
                                 <label for="ambil">Ambil Sendiri</label>
                             </div>

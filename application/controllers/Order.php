@@ -148,9 +148,9 @@ class Order extends CI_Controller
                         <p><?= $e['pelanggan_kodepost']; ?></p>
                     </div>
                     <div class="col-md-6">
-                        <h2 class="text-center">Product</h2>
+                        <h2 class="text-center">Produk</h2>
                         <hr class="m-2">
-                        <b>Product</b>
+                        <b>Produk</b>
                         <p><?= $e['product_nama']; ?></p>
                         <b>Jumlah</b>
                         <p><?= $e['transaksi_jumlah']; ?></p>
@@ -723,10 +723,10 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                 <div class="form-group">
                     <input id="keputusan" type="hidden" value="1">
                     <p>Status saat ini: <b><?= $curr['status_status']; ?></b><br>Status selanjutnya: <b><?= $next['status_status']; ?></b><br><br>
-                    <p class="mb-0">Lanjutkan proses produksi?</p>
+                    <p class="mb-0">Apakah Anda yakin ingin melanjutkan proses produksi ke tahap selanjutnya?</p>
                 </div>
                 <div class="modal-footer p-1 pt-0">
-                    <button style="width:100%;" id="update-status" class="btn btn-primary">Lanjutkan</button>
+                    <button style="width:100%;" id="update-status" class="btn btn-primary">Ya</button>
                 </div>
             <?php
         } else {
@@ -1008,10 +1008,10 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                             <br><br>
                             <?php if ($o['transaksi_paket'] == '1') : ?>
                                 <input type="radio" id="kirim" placeholder="status" name="status" value="1" checked>
-                                <label for="kirim">Kirim Product</label><br>
+                                <label for="kirim">Kirim Produk</label><br>
                             <?php else : ?>
                                 <input type="radio" id="kirim" placeholder="status" name="status" value="1">
-                                <label for="kirim">Kirim Product</label><br>
+                                <label for="kirim">Kirim Produk</label><br>
                             <?php endif; ?>
                             <?php if ($o['transaksi_paket'] == '2') : ?>
                                 <input type="radio" id="ambil" placeholder="status" name="status" value="2" checked>

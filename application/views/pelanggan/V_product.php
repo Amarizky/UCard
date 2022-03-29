@@ -75,7 +75,7 @@
                         <span class="fa fa-search form-control-feedback"></span>
                         <input id="search" type="text" class="form-control" placeholder="Search">
                     </div>
-                    <h3 id="t" style="float:left;">Product</h3>
+                    <h3 id="t" style="float:left;">Produk</h3>
                 </div>
 
                 <!-- Light table -->

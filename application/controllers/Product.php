@@ -55,7 +55,7 @@ class Product extends CI_Controller
 	function get_detail()
 	{
 		$id = $this->input->post('id');
-		$get = $this->db->query("SELECT * FROM tbl_product WHERE product_id = '$id' ")->row_array();
+		$get = $this->db->get_where('tbl_product', ['product_id' => $id])->row_array();
 ?>
 		<div class="modal-body">
 			<b>Kode</b>

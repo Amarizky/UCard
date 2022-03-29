@@ -215,7 +215,7 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="ni ni-bullet-list-67 text-primary"></i>
                             </td>
-                            <td colspan="2">Category</td>
+                            <td colspan="2">Kategori</td>
                             <td class="perm_check">
                                 <input type="checkbox" value="1" name="perm_category" id="perm_category" <?= $a['admin_perm_category'] == 1 ? 'checked' : ''; ?>>
                             </td>
@@ -224,7 +224,7 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="ni ni-box-2 text-danger"></i>
                             </td>
-                            <td colspan="2">Product</td>
+                            <td colspan="2">Produk</td>
                             <td class="perm_check">
                                 <input type="checkbox" value="1" name="perm_produk" id="perm_produk" <?= $a['admin_perm_produk'] == 1 ? 'checked' : ''; ?>>
                             </td>

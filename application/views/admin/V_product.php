@@ -18,7 +18,6 @@
                         </tr>
                     </table>
                 </div>
-
                 <!-- Light table -->
                 <div class="table-responsive">
                     <table class="table table-flush" id="datatable-basic">
@@ -63,14 +62,12 @@
 <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Tambah Produk</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-
             <div class="modal-body">
                 <form method="post" action="<?= base_url('Product/tambah_product') ?>" enctype="multipart/form-data">
                     <div class="form-group">
@@ -98,31 +95,25 @@
                         <input type="file" class="form-control" name="gambar">
                     </div>
             </div>
-
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Save</button>
                 </form>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
-</div>
-
 </div>
 
 <?php foreach ($product as $p) : ?>
     <div class="modal fade" id="edit<?= $p['product_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
         <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <h6 class="modal-title" id="modal-title-default">Edit Produk</h6>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-
                 <div class="modal-body">
                     <form method="post" action="<?= base_url('Product/edit_product') ?>">
                         <input type="hidden" name="id" value="<?= $p['product_id'] ?>">
@@ -152,24 +143,19 @@
                             <input type="hidden" value="<?= $p['product_image'] ?>" class="form-control" name="gambar_lama">
                         </div>
                 </div>
-
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Save</button>
                     </form>
                     <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
                 </div>
-
             </div>
         </div>
-    </div>
-
     </div>
 <?php endforeach ?>
 
 <div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Edit Produk</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -185,7 +171,6 @@
 <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Hapus Produk</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -196,12 +181,10 @@
                 <div id="alert_hapus"></div>
                 <h3>Apakah anda yakin?</h3>
             </div>
-
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -210,7 +193,6 @@
 <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Detail Produk</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">

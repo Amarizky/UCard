@@ -301,7 +301,7 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid" style="padding: 0 !important;">
-                            <h1>Product</h1>
+                            <h1>Produk</h1>
                             <b>Nama Produk</b>
                             <p><?= $p['product_nama'] ?></p>
                             <b>Harga per item</b>
@@ -416,7 +416,7 @@
                                     <b>Ambil/Kirim</b>
                                     <p><?php
                                         if ($o['transaksi_paket'] == 1) {
-                                            echo "Kirim Product";
+                                            echo "Kirim Produk";
                                         } elseif ($o['transaksi_paket'] == 2) {
                                             echo "Ambil Sendiri";
                                         } else {
@@ -758,7 +758,7 @@
                                 <?php endif; ?>
                                 <label for="option-1" class="option option-1">
                                     <div class="dot"></div>
-                                    <span>Kirim Product</span>
+                                    <span>Kirim Produk</span>
                                 </label>
                                 <label for="option-2" class="option option-2">
                                     <div class="dot"></div>
@@ -1020,7 +1020,7 @@
                                             <td style="width: 50%; height: 18px;">Status</td>
                                             <td style="width: 50%; height: 18px;">&nbsp;<?php
                                                                                         if ($o['transaksi_paket'] == 1) {
-                                                                                            echo "Kirim Product";
+                                                                                            echo "Kirim Produk";
                                                                                         } elseif ($o['transaksi_paket'] == 2) {
                                                                                             echo "Ambil Sendiri";
                                                                                         } else {
@@ -1188,7 +1188,7 @@
                                             <td style="width: 50%; height: 18px;">Status</td>
                                             <td style="width: 50%; height: 18px;">&nbsp;<?php
                                                                                         if ($o['transaksi_paket'] == 1) {
-                                                                                            echo "Kirim Product";
+                                                                                            echo "Kirim Produk";
                                                                                         } elseif ($o['transaksi_paket'] == 2) {
                                                                                             echo "Ambil Sendiri";
                                                                                         } else {
@@ -1354,7 +1354,7 @@
                                             <td style="width: 50%; height: 18px;">Status</td>
                                             <td style="width: 50%; height: 18px;">&nbsp;<?php
                                                                                         if ($o['transaksi_paket'] == 1) {
-                                                                                            echo "Kirim Product";
+                                                                                            echo "Kirim Produk";
                                                                                         } elseif ($o['transaksi_paket'] == 2) {
                                                                                             echo "Ambil Sendiri";
                                                                                         } else {

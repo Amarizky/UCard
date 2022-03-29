@@ -190,7 +190,7 @@
                                     <b>Ambil/Kirim</b>
                                     <br><br>
                                     <input type="radio" id="kirim" placeholder="status" name="status" value="1">
-                                    <label for="kirim">Kirim Product</label><br>
+                                    <label for="kirim">Kirim Produk</label><br>
                                     <input type="radio" id="ambil" placeholder="status" name="status" value="2">
                                     <label for="ambil">Ambil Sendiri</label>
                                 </div>

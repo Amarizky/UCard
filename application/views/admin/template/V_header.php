@@ -207,7 +207,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                         <?php endif; ?>
                         <?php if ($perms['admin_perm_category']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 == 'Category' ? 'active' : ''; ?>" href="<?= base_url('Category') ?>">
+                                <a class="nav-link <?= $seg1 == 'Kategori' ? 'active' : ''; ?>" href="<?= base_url('Category') ?>">
                                     <i class="ni ni-bullet-list-67 text-primary"></i>
                                     <span class="nav-link-text">Kategori</span>
                                 </a>
@@ -215,7 +215,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                         <?php endif; ?>
                         <?php if ($perms['admin_perm_produk']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 == 'Product' ? 'active' : ''; ?>" href="<?= base_url('Product') ?>">
+                                <a class="nav-link <?= $seg1 == 'Produk' ? 'active' : ''; ?>" href="<?= base_url('Product') ?>">
                                     <i class="ni ni-box-2 text-danger"></i>
                                     <span class="nav-link-text">Produk</span>
                                 </a>

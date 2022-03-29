@@ -12,7 +12,7 @@ class Product_pelanggan extends CI_Controller
 
 	function index()
 	{
-		$x['title'] = "Product";
+		$x['title'] = "Produk";
 		$this->load->view('pelanggan/template/V_header', $x);
 		$this->load->view('pelanggan/V_product');
 		$this->load->view('pelanggan/template/V_footer');

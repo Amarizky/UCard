@@ -79,13 +79,9 @@
                                     <td><?= $o['pelanggan_nama'] ?></td>
                                     <td><?= $o['transaksi_tanggal'] ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
-                                    <td><?php
-                                        if ($o['transaksi_terima'] == '1') {
-                                            echo 'Paket Sudah Diterima';
-                                        } else {
-                                            echo 'Transaksi GAGAL';
-                                        }
-                                        ?></td>
+                                    <td>
+                                        <?= $o['transaksi_terima'] == '1' ? 'Paket sudah diterima' : 'Transaksi gagal'; ?>
+                                    </td>
                                     <td>
                                         <button id="<?= $o['transaksi_id'] ?>" type="button" class="btn btn-info btn-sm update_status" data-toggle="modal" data-target="#update"><i class="fa fa-pen"></i></button>
                                         <a href="<?= base_url('Order/detail/' . $o['transaksi_id']) ?>" class="btn btn-primary btn-sm"><i class="fa fa-box"></i></a>

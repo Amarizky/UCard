@@ -11,7 +11,7 @@ class Detail_product_pelanggan extends CI_Controller
 
 	function index()
 	{
-		$x['title'] = "Detail Product";
+		$x['title'] = "Detail Produk";
 		$id = $this->input->get('id');
 		$nohp = $_SESSION['pelanggan_nohp'];
 		$x['pel'] = $this->db->query("SELECT * FROM tbl_pelanggan WHERE pelanggan_nohp = '$nohp' ")->row_array();
