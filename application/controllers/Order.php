@@ -14,7 +14,7 @@ class Order extends CI_Controller
     function index()
     {
         $x['title'] = "Daftar Order";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND ( s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2')")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND ( s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2') AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -77,7 +77,7 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderhistory')) redirect('Dashboard');
         $x['title'] = "Order History";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE (t.transaksi_terima = '1' OR t.transaksi_terima = '0') AND transaksi_deleted = '0' ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order_history', $x);
         $this->load->view('admin/template/V_footer');

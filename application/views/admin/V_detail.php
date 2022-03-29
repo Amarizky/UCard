@@ -167,10 +167,8 @@
                                     </span>
                                     <div class="timeline-content">
                                         <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
-                                        <?php
-                                        $max = $this->db->query("SELECT MAX(status_id) AS akhir FROM tbl_status WHERE status_id LIKE '_';")->row_array();
-                                        if ($s['status_urut'] != $max['akhir']) :
-                                        ?>
+                                        <?php $max = $this->db->query("SELECT MAX(status_id) AS akhir FROM tbl_status WHERE status_id LIKE '_';")->row_array(); ?>
+                                        <?php if ($s['status_urut'] != $max['akhir'] && $st['transaksi_deleted'] == 0 && $st['transaksi_status'] != '4') : ?>
                                             <button id-status="<?= $s['status_urut'] == '5' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_update"><i class="fa fa-pen"></i></button>
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
@@ -255,7 +253,9 @@
                                     </span>
                                     <div class="timeline-content">
                                         <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
-                                        <button id-status="<?= $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_update"><i class="fa fa-pen"></i></button>
+                                        <?php if ($st['transaksi_deleted'] == 0) : ?>
+                                            <button id-status="<?= $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_update"><i class="fa fa-pen"></i></button>
+                                        <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
                                             <?php if ($s['status_jangka_waktu'] != NULL) : ?>
@@ -457,7 +457,7 @@
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         if (!$design && !$upload) {
-                            echo '<h2>Belum ada design yang dikirim</h2>';
+                            echo '<h3>Pelanggan belum mengirim gambar desain ataupun link</h3>';
                         }
                         if ($design) : ?>
                             <h3>Design Anda</h3>
@@ -489,22 +489,23 @@
                                 </table>
                             </div>
                         <?php endif; ?>
-                        <div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label for="link" class="col-form-label">Link File:</label>
-                                    </td>
-                                    <td>
-                                        <input size="35%" type="text" style="border: 1px solid #ccc; border-radius: 4px;" readonly class="form-control-plaintext" id="link" value="<?= $link['transaksi_link_desain']; ?>">
-
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary" onclick="copy()">Copy</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                        <?php if (!empty($link['transaksi_link_desain'])) : ?>
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <label for="link" class="col-form-label">Link File:</label>
+                                        </td>
+                                        <td>
+                                            <input size="35%" type="text" style="border: 1px solid #ccc; border-radius: 4px;" readonly class="form-control-plaintext" id="link" value="<?= $link['transaksi_link_desain']; ?>">
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary" onclick="copy()">Copy</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
