@@ -95,25 +95,27 @@ class Order_pelanggan extends CI_Controller
                 </div>
             </div>
             <div id="bukti" class="tabcontent">
-                <h3><?= is_null($get['transaksi_bukti']) ? 'Belum ada bukti transaksi' : 'Bukti transaksi' ?></h3>
-                <img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']); ?>">
-                <table class="table">
-                    <tr>
-                        <th>Atas Nama</th>
-                        <th>No Rekening</th>
-                    </tr>
-                    <tr>
-                        <td><?= $b['bank_atas_nama']; ?></td>
-                        <td><?= $b['bank_no_rek']; ?></td>
-                    </tr>
-                </table>
-                <img style="width:100%;" src="<?= base_url('bukti_transaksi/' . $get['transaksi_bukti']); ?>">
+                <?php if (!is_null($get['transaksi_bukti'])) : ?>
+                    <h3>Bukti transaksi</h3>
+                    <img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']); ?>">
+                    <table class="table">
+                        <tr>
+                            <th>Atas Nama</th>
+                            <th>No Rekening</th>
+                        </tr>
+                        <tr>
+                            <td><?= $b['bank_atas_nama']; ?></td>
+                            <td><?= $b['bank_no_rek']; ?></td>
+                        </tr>
+                    </table>
+                    <img style="width:100%;" src="<?= base_url('bukti_transaksi/' . $get['transaksi_bukti']); ?>">
+                <?php endif; ?>
             </div>
         </div>
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
         </div>
         <?php
     }
