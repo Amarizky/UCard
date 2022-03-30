@@ -22,4 +22,28 @@ class M_admin extends CI_Model
                 ->get('tbl_admin')
                 ->row_array()['admin_perm_' . $perm] == "1" ? true : false;
     }
+    function tambahanQueryOrderYangFungsinyaBuatCekPermission()
+    {
+        $adm = $this->db->select([
+            'admin_perm_orderverifikasi verifikasi',
+            'admin_perm_orderkirimdesign kirimdesign',
+            'admin_perm_orderpembayaran pembayaran',
+            'admin_perm_orderapproval approval',
+            'admin_perm_ordercetakproduk cetakproduk',
+            'admin_perm_orderkirimambil kirimambil'
+        ])
+            ->where('admin_id', $this->session->admin_id)
+            ->get('tbl_admin')
+            ->row_array();
+
+        $allowed = [];
+        if ($adm['verifikasi']) $allowed[] = '1';
+        if ($adm['kirimdesign']) $allowed[] = '2';
+        if ($adm['pembayaran']) $allowed[] = '3';
+        if ($adm['approval']) $allowed[] = '4';
+        if ($adm['cetakproduk']) $allowed[] = '5';
+        if ($adm['kirimambil']) $allowed[] = '6';
+
+        return ' AND (s.transaksi_status_id=' . implode(' OR s.transaksi_status_id=', $allowed) . ")";
+    }
 }

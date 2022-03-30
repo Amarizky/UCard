@@ -14,7 +14,7 @@ class Order extends CI_Controller
     function index()
     {
         $x['title'] = "Daftar Order";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND ( s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2') AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' ")->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND ( s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2') AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' " . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission())->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -242,7 +242,7 @@ class Order extends CI_Controller
     {
         $x['title'] = "Detail";
         $id = $this->uri->segment(3);
-        $o = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
+        $o = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_id = '$id' " . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission())->row_array();
         if (!$o) {
             redirect('Order');
         } else {
