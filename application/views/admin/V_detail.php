@@ -869,7 +869,9 @@
         </div>
     </div>
 </div>
-
+<?php
+$id = $this->uri->segment(3);
+$y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON p.product_id = t.transaksi_product_id WHERE transaksi_id = '$id' ")->row_array(); ?>
 
 <div class="modal fade" id="status_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -913,7 +915,7 @@
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Jenis Kartu</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;</td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Personalisasi</td>
@@ -1034,9 +1036,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="text-align: left;">Assesoris :<br /><br />Tanggal/Jam Fix :&nbsp;<br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
-                                    &nbsp; &nbsp; :<br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp;
-                                    &nbsp; &nbsp; :</p>
+                                <p style="text-align: left;"><br> Assesoris :</p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
                         </div>
@@ -1081,7 +1081,7 @@
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Jenis Kartu</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;</td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Personalisasi</td>
@@ -1202,7 +1202,9 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="text-align: left;"><br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                                <p style="text-align: left;"><br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />Tanggal/Jam Fix &nbsp; &nbsp; :<br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
+                                    &nbsp; &nbsp; :<br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp;
+                                    &nbsp; &nbsp; :</p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
                         </div>
@@ -1232,10 +1234,15 @@
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
                                             Produksi</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
-                                    :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
-                                    Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp;: <input type="text" id="text" autocomplete="off">
+                                    <br />Jumlah Overlay Awal/Akhir : <input type="text" id="text" autocomplete="off">
+                                    <br />Jumlah Chip Awal/Akhir &nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
+                                    <br />Jumlah Magnetic Awal/Akhir: <input type="text" id="text" autocomplete="off">
+                                    <br />Jumlah Kartu Rusak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
+                                    <br />Jumlah Lembar Rusak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
+                                    <br />Operator &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
+                                </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
                                         <tr style="height: 18px;">
@@ -1247,7 +1254,7 @@
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Jenis Kartu</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;</td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Personalisasi</td>
