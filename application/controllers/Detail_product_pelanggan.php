@@ -29,11 +29,11 @@ class Detail_product_pelanggan extends CI_Controller
 		$harga = $this->input->post('harga');
 		$tot_h = $harga * $jumlah;
 		$tanggal = date('Y-m-d');
-		$personalisasi = $this->input->post('personalisasi');
+		$personalisasi = implode(',', $this->input->post('personalisasi'));
 		$coating = $this->input->post('coating');
-		$finishing = $this->input->post('finishing');
+		$finishing = implode(',', $this->input->post('finishing'));
 		$function = $this->input->post('function');
-		$packaging = $this->input->post('packaging');
+		$packaging = implode(',', $this->input->post('packaging'));
 		$status = $this->input->post('status');
 
 		// $this->db->query(
