@@ -1,3 +1,10 @@
+<style>
+    .jangka {
+        height: fit-content;
+        width: 50px;
+    }
+</style>
+
 <!-- Header -->
 
 <!-- Page content -->
@@ -12,7 +19,6 @@
                             <td style="text-align: left;">
                                 <h3 class="mb-0" id="judul">Status</h3>
                             </td>
-                            <!-- <td style="text-align: right;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i></button></td> -->
                         </tr>
                     </table>
                 </div>
@@ -24,9 +30,8 @@
                                 <th>Icon</th>
                                 <th>Status</th>
                                 <th>Keterangan</th>
-                                <th>Tidak Ada</th>
-                                <th>jangka Hari</th>
-                                <!-- <th>Action</th> -->
+                                <th>Aktifkan?</th>
+                                <th>Jangka Hari</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,24 +40,12 @@
                                     <td><i class="<?= $s['status_icon'] ?> fa-2x"></i></td>
                                     <td><?= $s['status_status'] ?></td>
                                     <td><?= $s['status_keterangan'] ?></td>
-                                    <td style="text-align:center;">
-                                        <?php if ($s['status_jangka_waktu'] == NULL) : ?>
-                                            <input id-s="<?= $s['status_id'] ?>" id="jangka_tidak_ada<?= $s['status_id'] ?>" type="checkbox" checked value="1" class="jangka_tidak_ada">
-                                        <?php elseif ($s['status_jangka_waktu'] !== NULL) : ?>
-                                            <input id-s="<?= $s['status_id'] ?>" id="jangka_tidak_ada<?= $s['status_id'] ?>" type="checkbox" value="1" class="jangka_tidak_ada">
-                                        <?php endif; ?>
+                                    <td class="text-center">
+                                        <input id-s="<?= $s['status_id'] ?>" id="jangka_tidak_ada<?= $s['status_id'] ?>" type="checkbox" value="1" class="jangka_tidak_ada" <?= !is_null($s['status_jangka_waktu']) ? 'checked' : ''; ?>>
                                     </td>
-                                    <td>
-                                        <?php if ($s['status_jangka_waktu'] == NULL) : ?>
-                                            <input style="display:none;" id-s="<?= $s['status_id'] ?>" id="jangka<?= $s['status_id'] ?>" type="number" placeholder="HARI" value="1" min='1' class="form-control jangka">
-                                        <?php elseif ($s['status_jangka_waktu'] !== NULL) : ?>
-                                            <input id-s="<?= $s['status_id'] ?>" id="jangka<?= $s['status_id'] ?>" type="number" placeholder="HARI" min='1' value="<?= $s['status_jangka_waktu'] ?>" class="form-control jangka">
-                                        <?php endif; ?>
+                                    <td class="p-2 text-center">
+                                        <input class="form-control m-auto jangka" id-s="<?= $s['status_id']; ?>" id="jangka<?= $s['status_id'] ?>" type="number" placeholder="Hari" min="1" <?= is_null($s['status_jangka_waktu']) ? 'value="1" style="display: none;"' : 'value="' . $s["status_jangka_waktu"] . '"'; ?>>
                                     </td>
-                                    <!-- <td>
-                      <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#edit<?= $s['status_id'] ?>"><i class="fa fa-pen"></i></button>
-                      <button id="<?= $s['status_id'] ?>" type="button" class="btn btn-danger btn-sm hapus" data-toggle="modal" data-target="#hapus"><i class="fa fa-times"></i></button>
-                    </td> -->
                                 </tr>
                             <?php endforeach ?>
                         </tbody>
@@ -199,8 +192,8 @@
     $('.jangka_tidak_ada').change(function() {
         var id = $(this).attr('id-s');
         if ($(this).is(":checked")) {
-            $('#jangka' + id).css('display', 'none');
-            var j = 0;
+            $('#jangka' + id).css('display', 'block');
+            var j = 1;
             $.ajax({
                 type: 'POST',
                 url: '<?= base_url('Status/status_jangka') ?>',
@@ -213,8 +206,8 @@
                 }
             });
         } else {
-            $('#jangka' + id).css('display', 'block');
-            var j = 1;
+            $('#jangka' + id).css('display', 'none');
+            var j = 0;
             $.ajax({
                 type: 'POST',
                 url: '<?= base_url('Status/status_jangka') ?>',
