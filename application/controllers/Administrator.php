@@ -53,298 +53,375 @@ class Administrator extends CI_Controller
                     }
                 </style>
                 <script>
+                    $(document).ready(function() {
+                        if ($(".perm_orders:checked").length == $(".perm_orders").length) $(".perm_order").prop("checked", true);
+                        else if ($(".perm_orders:checked").length) $(".perm_order").prop("indeterminate", true);
+                        if ($(".perm_datas:checked").length == $(".perm_datas").length) $(".perm_data").prop("checked", true);
+                        else if ($(".perm_datas:checked").length) $(".perm_data").prop("indeterminate", true);
+                        if ($(".perm_templates:checked").length == $(".perm_templates").length) $(".perm_template").prop("checked", true);
+                        else if ($(".perm_templates:checked").length) $(".perm_template").prop("indeterminate", true);
+                        if ($(".perm_images:checked").length == $(".perm_images").length) $(".perm_image").prop("checked", true);
+                        else if ($(".perm_images:checked").length) $(".perm_image").prop("indeterminate", true);
+                    });
                     $('#tblPerm tr').click(function() {
                         var inp = $(this).find("input")[0];
-                        if (!$(inp).is('#perm_dashboard')) {
+                        if (!$(inp).is('#perm_dashboard') && !$(inp).is('#perm_orderdaftarorder')) {
                             inp.checked = !inp.checked;
-                            if ($(inp).hasClass("perm_order")) $(".perm_orders").prop("checked", $(".perm_order").prop("checked"));
-                            if ($(inp).hasClass("perm_orders"))
-                                if ($(".perm_orders:checked").length) $(".perm_order").prop("checked", true);
-                                else $(".perm_order").prop("checked", false);
-                            if ($(inp).hasClass("perm_data")) $(".perm_datas").prop("checked", $(".perm_data").prop("checked"));
-                            if ($(inp).hasClass("perm_datas"))
-                                if ($(".perm_datas:checked").length) $(".perm_data").prop("checked", true);
-                                else $(".perm_data").prop("checked", false);
-                            if ($(inp).hasClass("perm_template")) $(".perm_templates").prop("checked", $(".perm_template").prop("checked"));
-                            if ($(inp).hasClass("perm_templates"))
-                                if ($(".perm_templates:checked").length) $(".perm_template").prop("checked", true);
-                                else $(".perm_template").prop("checked", false);
-                            if ($(inp).hasClass("perm_image")) $(".perm_images").prop("checked", $(".perm_image").prop("checked"));
-                            if ($(inp).hasClass("perm_images"))
-                                if ($(".perm_images:checked").length) $(".perm_image").prop("checked", true);
-                                else $(".perm_image").prop("checked", false);
+                            if ($(inp).hasClass("perm_order")) {
+                                $(".perm_order").prop("indeterminate", false);
+                                $(".perm_orders").prop("checked", $(".perm_order").prop("checked"));
+                                $(".perm_orderdaftarorder").prop("checked", $(".perm_order").prop("checked") || $(".perm_order").prop("indeterminate"));
+                            }
+                            if ($(inp).hasClass("perm_orders")) {
+                                if ($(".perm_orders:checked").length == $(".perm_orders").length) {
+                                    $(".perm_order").prop("indeterminate", false);
+                                    $(".perm_order").prop("checked", true);
+                                } else if ($(".perm_orders:checked").length) {
+                                    $(".perm_order").prop("indeterminate", true);
+                                    $(".perm_order").prop("checked", false);
+                                    $(".perm_orderdaftarorder").prop("checked", true);
+                                } else {
+                                    $(".perm_order").prop("indeterminate", false);
+                                    $(".perm_order").prop("checked", false);
+                                    $(".perm_orderdaftarorder").prop("checked", false);
+                                }
+                            }
+
+                            if ($(inp).hasClass("perm_data")) {
+                                $(".perm_data").prop("indeterminate", false);
+                                $(".perm_datas").prop("checked", $(".perm_data").prop("checked"));
+                            }
+                            if ($(inp).hasClass("perm_datas")) {
+                                if ($(".perm_datas:checked").length == $(".perm_datas").length) {
+                                    $(".perm_data").prop("indeterminate", false);
+                                    $(".perm_data").prop("checked", true);
+                                } else if ($(".perm_datas:checked").length) {
+                                    $(".perm_data").prop("indeterminate", true);
+                                    $(".perm_data").prop("checked", false);
+                                } else {
+                                    $(".perm_data").prop("indeterminate", false);
+                                    $(".perm_data").prop("checked", false);
+                                }
+                            }
+
+                            if ($(inp).hasClass("perm_template")) {
+                                $(".perm_template").prop("indeterminate", false);
+                                $(".perm_templates").prop("checked", $(".perm_template").prop("checked"));
+                            }
+                            if ($(inp).hasClass("perm_templates")) {
+                                if ($(".perm_templates:checked").length == $(".perm_templates").length) {
+                                    $(".perm_template").prop("indeterminate", false);
+                                    $(".perm_template").prop("checked", true);
+                                } else if ($(".perm_templates:checked").length) {
+                                    $(".perm_template").prop("indeterminate", true);
+                                    $(".perm_template").prop("checked", false);
+                                } else {
+                                    $(".perm_template").prop("indeterminate", false);
+                                    $(".perm_template").prop("checked", false);
+                                }
+                            }
+
+                            if ($(inp).hasClass("perm_image")) {
+                                $(".perm_image").prop("indeterminate", false);
+                                $(".perm_images").prop("checked", $(".perm_image").prop("checked"));
+                            }
+                            if ($(inp).hasClass("perm_images")) {
+                                if ($(".perm_images:checked").length == $(".perm_images").length) {
+                                    $(".perm_image").prop("indeterminate", false);
+                                    $(".perm_image").prop("checked", true);
+                                } else if ($(".perm_images:checked").length) {
+                                    $(".perm_image").prop("indeterminate", true);
+                                    $(".perm_image").prop("checked", false);
+                                } else {
+                                    $(".perm_image").prop("indeterminate", false);
+                                    $(".perm_image").prop("checked", false);
+                                }
+                            }
                         }
                     });
                     $('#tblPerm input').click(function() {
                         this.checked = !this.checked;
+                        this.prop("indeterminate", false);
                     })
                 </script>
-                <table id="tblPerm" class="table m-0" style="cursor: default;">
-                    <tbody>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-shop text-primary"></i>
-                            </td>
-                            <td colspan="2">Dashboard</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_dashboard" id="perm_dashboard" checked disabled>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-cart text-green"></i>
-                            </td>
-                            <td colspan="2">Order</td>
-                            <td class="perm_check">
-                                <input class="perm_order" type="checkbox" value="1" name="perm_order" id="perm_order" <?= $a['admin_perm_order'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                <form action="#" id="permissions">
+                    <table id="tblPerm" class="table m-0" style="cursor: default;">
+                        <tbody>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-shop text-primary"></i>
+                                </td>
+                                <td colspan="2">Dashboard</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_dashboard" id="perm_dashboard" checked disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-cart text-green"></i>
+                                </td>
+                                <td colspan="2">Order</td>
+                                <td class="perm_check">
+                                    <input class="perm_order" type="checkbox" value="1" name="perm_order" id="perm_order">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="fa fa-check"></i>
-                            </td>
-                            <td>VERIFIKASI</td>
-                            <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_orderverifikasi" id="perm_orderverifikasi" <?= $a['admin_perm_orderverifikasi'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="fa fa-image"></i>
-                            </td>
-                            <td>KIRIM DESIGN</td>
-                            <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_orderkirimdesign" id="perm_orderkirimdesign" <?= $a['admin_perm_orderkirimdesign'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="fa fa-credit-card"></i>
-                            </td>
-                            <td>PEMBAYARAN</td>
-                            <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_orderpembayaran" id="perm_orderpembayaran" <?= $a['admin_perm_orderpembayaran'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="fa fa-check"></i>
-                            </td>
-                            <td>APPROVAL</td>
-                            <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_orderapproval" id="perm_orderapproval" <?= $a['admin_perm_orderapproval'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="fa fa-print"></i>
-                            </td>
-                            <td>CETAK PRODUK</td>
-                            <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_ordercetakproduk" id="perm_ordercetakproduk" <?= $a['admin_perm_ordercetakproduk'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="fa fa-truck"></i>
-                            </td>
-                            <td>KIRIM / AMBIL</td>
-                            <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_orderkirimambil" id="perm_orderkirimambil" <?= $a['admin_perm_orderkirimambil'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-book"></i>
+                                </td>
+                                <td>DAFTAR ORDER</td>
+                                <td class="perm_check">
+                                    <input class="perm_orderdaftarorder" type="checkbox" value="1" name="perm_orderdaftarorder" id="perm_orderdaftarorder" <?= $a["admin_perm_orderverifikasi"] || $a["admin_perm_orderkirimdesign"] || $a["admin_perm_orderpembayaran"] || $a["admin_perm_orderapproval"] || $a["admin_perm_ordercetakproduk"] || $a["admin_perm_orderkirimambil"] ? 'checked' : ''; ?> disabled>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-check"></i>
+                                </td>
+                                <td>VERIFIKASI</td>
+                                <td class="perm_check">
+                                    <input class="perm_orders" type="checkbox" value="1" name="perm_orderverifikasi" id="perm_orderverifikasi" <?= $a['admin_perm_orderverifikasi'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-image"></i>
+                                </td>
+                                <td>KIRIM DESIGN</td>
+                                <td class="perm_check">
+                                    <input class="perm_orders" type="checkbox" value="1" name="perm_orderkirimdesign" id="perm_orderkirimdesign" <?= $a['admin_perm_orderkirimdesign'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-credit-card"></i>
+                                </td>
+                                <td>PEMBAYARAN</td>
+                                <td class="perm_check">
+                                    <input class="perm_orders" type="checkbox" value="1" name="perm_orderpembayaran" id="perm_orderpembayaran" <?= $a['admin_perm_orderpembayaran'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-check"></i>
+                                </td>
+                                <td>APPROVAL</td>
+                                <td class="perm_check">
+                                    <input class="perm_orders" type="checkbox" value="1" name="perm_orderapproval" id="perm_orderapproval" <?= $a['admin_perm_orderapproval'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-print"></i>
+                                </td>
+                                <td>CETAK PRODUK</td>
+                                <td class="perm_check">
+                                    <input class="perm_orders" type="checkbox" value="1" name="perm_ordercetakproduk" id="perm_ordercetakproduk" <?= $a['admin_perm_ordercetakproduk'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="fa fa-truck"></i>
+                                </td>
+                                <td>KIRIM / AMBIL</td>
+                                <td class="perm_check">
+                                    <input class="perm_orders" type="checkbox" value="1" name="perm_orderkirimambil" id="perm_orderkirimambil" <?= $a['admin_perm_orderkirimambil'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="fa fa-history text-green"></i>
-                            </td>
-                            <td colspan="2">Order History</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_orderhistory" id="perm_orderhistory" <?= $a['admin_perm_orderhistory'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-single-copy-04 text-info"></i>
-                            </td>
-                            <td colspan="2">Data</td>
-                            <td class="perm_check">
-                                <input class="perm_data" type="checkbox" value="1" name="perm_data" id="perm_data" <?= $a['admin_perm_data'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="fa fa-history text-green"></i>
+                                </td>
+                                <td colspan="2">Order History</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_orderhistory" id="perm_orderhistory" <?= $a['admin_perm_orderhistory'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-single-copy-04 text-info"></i>
+                                </td>
+                                <td colspan="2">Data</td>
+                                <td class="perm_check">
+                                    <input class="perm_data" type="checkbox" value="1" name="perm_data" id="perm_data">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-single-copy-04 text-info"></i>
-                            </td>
-                            <td>Data Pelanggan</td>
-                            <td class="perm_check">
-                                <input class="perm_datas" type="checkbox" value="1" name="perm_datapelanggan" id="perm_datapelanggan" <?= $a['admin_perm_datapelanggan'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-single-copy-04 text-info"></i>
-                            </td>
-                            <td>Data Produk</td>
-                            <td class="perm_check">
-                                <input class="perm_datas" type="checkbox" value="1" name="perm_dataproduk" id="perm_dataproduk" <?= $a['admin_perm_dataproduk'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-single-copy-04 text-info"></i>
-                            </td>
-                            <td>Data Penjualan</td>
-                            <td class="perm_check">
-                                <input class="perm_datas" type="checkbox" value="1" name="perm_datapenjualan" id="perm_datapenjualan" <?= $a['admin_perm_datapenjualan'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-single-copy-04 text-info"></i>
+                                </td>
+                                <td>Data Pelanggan</td>
+                                <td class="perm_check">
+                                    <input class="perm_datas" type="checkbox" value="1" name="perm_datapelanggan" id="perm_datapelanggan" <?= $a['admin_perm_datapelanggan'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-single-copy-04 text-info"></i>
+                                </td>
+                                <td>Data Produk</td>
+                                <td class="perm_check">
+                                    <input class="perm_datas" type="checkbox" value="1" name="perm_dataproduk" id="perm_dataproduk" <?= $a['admin_perm_dataproduk'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-single-copy-04 text-info"></i>
+                                </td>
+                                <td>Data Penjualan</td>
+                                <td class="perm_check">
+                                    <input class="perm_datas" type="checkbox" value="1" name="perm_datapenjualan" id="perm_datapenjualan" <?= $a['admin_perm_datapenjualan'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-bullet-list-67 text-primary"></i>
-                            </td>
-                            <td colspan="2">Kategori</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_category" id="perm_category" <?= $a['admin_perm_category'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-box-2 text-danger"></i>
-                            </td>
-                            <td colspan="2">Produk</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_produk" id="perm_produk" <?= $a['admin_perm_produk'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-image text-green"></i>
-                            </td>
-                            <td colspan="2">Template</td>
-                            <td class="perm_check">
-                                <input class="perm_template" type="checkbox" value="1" name="perm_template" id="perm_template" <?= $a['admin_perm_template'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-bullet-list-67 text-primary"></i>
+                                </td>
+                                <td colspan="2">Kategori</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_category" id="perm_category" <?= $a['admin_perm_category'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-box-2 text-danger"></i>
+                                </td>
+                                <td colspan="2">Produk</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_produk" id="perm_produk" <?= $a['admin_perm_produk'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-image text-green"></i>
+                                </td>
+                                <td colspan="2">Template</td>
+                                <td class="perm_check">
+                                    <input class="perm_template" type="checkbox" value="1" name="perm_template" id="perm_template">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-image text-green"></i>
-                            </td>
-                            <td>Template Assets</td>
-                            <td class="perm_check">
-                                <input class="perm_templates" type="checkbox" value="1" name="perm_templateassets" id="perm_templateassets" <?= $a['admin_perm_templateassets'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-image text-green"></i>
-                            </td>
-                            <td>Template Pelanggan</td>
-                            <td class="perm_check">
-                                <input class="perm_templates" type="checkbox" value="1" name="perm_templatepelanggan" id="perm_templatepelanggan" <?= $a['admin_perm_templatepelanggan'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-image text-green"></i>
+                                </td>
+                                <td>Template Assets</td>
+                                <td class="perm_check">
+                                    <input class="perm_templates" type="checkbox" value="1" name="perm_templateassets" id="perm_templateassets" <?= $a['admin_perm_templateassets'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-image text-green"></i>
+                                </td>
+                                <td>Template Pelanggan</td>
+                                <td class="perm_check">
+                                    <input class="perm_templates" type="checkbox" value="1" name="perm_templatepelanggan" id="perm_templatepelanggan" <?= $a['admin_perm_templatepelanggan'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-image text-info"></i>
-                            </td>
-                            <td colspan="2">Image</td>
-                            <td class="perm_check">
-                                <input class="perm_image" type="checkbox" value="1" name="perm_image" id="perm_image" <?= $a['admin_perm_image'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-image text-info"></i>
+                                </td>
+                                <td colspan="2">Image</td>
+                                <td class="perm_check">
+                                    <input class="perm_image" type="checkbox" value="1" name="perm_image" id="perm_image">
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-image text-info"></i>
-                            </td>
-                            <td>Image Assets</td>
-                            <td class="perm_check">
-                                <input class="perm_images" type="checkbox" value="1" name="perm_imageassets" id="perm_imageassets" <?= $a['admin_perm_imageassets'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td class="perm_icon">
-                                <i class="ni ni-image text-info"></i>
-                            </td>
-                            <td>Image Pelanggan</td>
-                            <td class="perm_check">
-                                <input class="perm_images" type="checkbox" value="1" name="perm_imagepelanggan" id="perm_imagepelanggan" <?= $a['admin_perm_imagepelanggan'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-image text-info"></i>
+                                </td>
+                                <td>Image Assets</td>
+                                <td class="perm_check">
+                                    <input class="perm_images" type="checkbox" value="1" name="perm_imageassets" id="perm_imageassets" <?= $a['admin_perm_imageassets'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="perm_icon">
+                                    <i class="ni ni-image text-info"></i>
+                                </td>
+                                <td>Image Pelanggan</td>
+                                <td class="perm_check">
+                                    <input class="perm_images" type="checkbox" value="1" name="perm_imagepelanggan" id="perm_imagepelanggan" <?= $a['admin_perm_imagepelanggan'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
 
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-single-02 text-info"></i>
-                            </td>
-                            <td colspan="2">Pelanggan</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_pelanggan" id="perm_pelanggan" <?= $a['admin_perm_pelanggan'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-circle-08 text-orange"></i>
-                            </td>
-                            <td colspan="2">Customer Services</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_customerservices" id="perm_customerservices" <?= $a['admin_perm_customerservices'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-tag text-info"></i>
-                            </td>
-                            <td colspan="2">Status</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_status" id="perm_status" <?= $a['admin_perm_status'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-credit-card text-success"></i>
-                            </td>
-                            <td colspan="2">Bank</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_bank" id="perm_bank" <?= $a['admin_perm_bank'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="perm_icon">
-                                <i class="ni ni-single-02 text-warning"></i>
-                            </td>
-                            <td colspan="2">Admin</td>
-                            <td class="perm_check">
-                                <input type="checkbox" value="1" name="perm_admin" id="perm_admin" <?= $a['admin_perm_admin'] == 1 ? 'checked' : ''; ?>>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-single-02 text-info"></i>
+                                </td>
+                                <td colspan="2">Pelanggan</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_pelanggan" id="perm_pelanggan" <?= $a['admin_perm_pelanggan'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-circle-08 text-orange"></i>
+                                </td>
+                                <td colspan="2">Customer Services</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_customerservices" id="perm_customerservices" <?= $a['admin_perm_customerservices'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-tag text-info"></i>
+                                </td>
+                                <td colspan="2">Status</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_status" id="perm_status" <?= $a['admin_perm_status'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-credit-card text-success"></i>
+                                </td>
+                                <td colspan="2">Bank</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_bank" id="perm_bank" <?= $a['admin_perm_bank'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perm_icon">
+                                    <i class="ni ni-single-02 text-warning"></i>
+                                </td>
+                                <td colspan="2">Admin</td>
+                                <td class="perm_check">
+                                    <input type="checkbox" value="1" name="perm_admin" id="perm_admin" <?= $a['admin_perm_admin'] ? 'checked' : ''; ?>>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
             </div>
             <div id="alert_edit"></div>
         </div>
         <div class="modal-footer">
             <input type="hidden" name="admin_id" value="<?= $a['admin_id']; ?>">
             <button type="submit" class="btn btn-primary update">Save</button>
-            <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
         </div>
 <?php
 
