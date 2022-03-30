@@ -45,28 +45,30 @@
             <div class="navbar-inner">
                 <!-- Collapse -->
                 <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                    <?php $seg1 = $this->uri->segment(1); ?>
+                    <?php $seg2 = $this->uri->segment(2); ?>
                     <!-- Nav items -->
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('Product_pelanggan') ?>">
+                            <a class="nav-link <?= $seg1 == 'Product_pelanggan' || $seg1 == 'Detail_product_pelanggan' ? 'active' : ''; ?>" href="<?= base_url('Product_pelanggan') ?>">
                                 <i class="ni ni-box-2 text-danger"></i>
                                 <span class="nav-link-text">Daftar Produk</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('Order_pelanggan') ?>">
+                            <a class="nav-link <?= $seg1 == 'Order_pelanggan' && $seg2 != 'history' ? 'active' : ''; ?>" href="<?= base_url('Order_pelanggan') ?>">
                                 <i class="ni ni-cart text-green"></i>
                                 <span class="nav-link-text">Order</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('Order_pelanggan/history') ?>">
+                            <a class="nav-link <?= $seg1 == 'Order_pelanggan' && $seg2 == 'history' ? 'active' : ''; ?>" href="<?= base_url('Order_pelanggan/history') ?>">
                                 <i class="fa fa-history text-green"></i>
                                 <span class="nav-link-text">Order History</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= base_url('Profile') ?>">
+                            <a class="nav-link <?= $seg1 == 'Profile' ? 'active' : ''; ?>" href="<?= base_url('Profile') ?>">
                                 <i class="ni ni-single-02 text-info"></i>
                                 <span class="nav-link-text">Profil</span>
                             </a>
