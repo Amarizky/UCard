@@ -293,7 +293,6 @@
             </div>
         </div>
         <div class="col-lg-6">
-
             <div id="status1" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
@@ -360,9 +359,9 @@
                                     <p><?= $statusFinishing; ?></p>
                                 </div>
                                 <div class="grid-item">
-                                    <?php $namaFunction = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                    <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                     <b>Ambil/Kirim</b>
-                                    <p><?= $namaFunction[$o['transaksi_paket'] ?? 0]; ?></p>
+                                    <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
                                 </div>
                             </div>
                             <h1>Customer</h1>
@@ -551,7 +550,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="status4" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
@@ -622,13 +620,9 @@
                             <input type="file" id="apv3" name="approval3" class="form-control" onchange="this.form.submit()" required><br>
                             <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan sebagai varian terang</button>
                         </form>
-
-
-
                     </div>
                 </div>
             </div>
-
             <div id="status5" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
@@ -672,24 +666,17 @@
                                     </div>
                                     <?php $produksicount++ ?>
                                 <?php endforeach; ?>
-
                             </div>
                         <?php endif; ?>
-
                     </div>
                 </div>
             </div>
-
             <div id="status6" class="tabcontent">
-
                 <div class="card">
-
                     <div class="card-header bg-transparent">
                         <h3 class="mb-0">Konfirmasi Pesanan</h3>
                     </div>
-
                     <div id="terima_p" class="card-body">
-
                         <?php if ($o['transaksi_terima'] == NULL) : ?>
                             <div class="wrapper">
                                 <?php if ($o['transaksi_paket'] == '1') : ?>
@@ -711,15 +698,11 @@
                                     <span>Ambil Sendiri</span>
                                 </label>
                             </div>
-
                             <br>
                             <br>
-
                             <div id="paket_terima">
                                 <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket sudah diterima ?</button> -->
-                                <?php
-                                if ($o['transaksi_paket'] != NULL) :
-                                ?>
+                                <?php if ($o['transaksi_paket'] != NULL) : ?>
                                     <table>
                                         <tr>
                                             <td>Alamat</td>
@@ -742,13 +725,10 @@
                                             <td><?= $o['pelanggan_kodepost'] ?></td>
                                         </tr>
                                     </table>
-
                                     <br>
-
                                     <?php
                                     $resi = $this->db->query("SELECT transaksi_resi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                                     ?>
-
                                     <?php if ($o['transaksi_paket'] == '1') : ?>
                                         <h3>Nomor Resi</h3>
                                         <div class="form-group row">
@@ -759,18 +739,14 @@
                                                 <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Update</button>
                                             </div>
                                         </div>
-
                                     <?php endif; ?>
                                     <br>
-
                                     <button style="width:100%;" class="btn btn-primary terima">Paket sudah diterima ?</button>
                                 <?php
                                 endif;
                                 ?>
                             </div>
-
                         <?php else : ?>
-
                             <div class="wrapper">
                                 <?php if ($o['transaksi_paket'] == "1") { ?>
                                     <h2>Kirim Paket</h2>
@@ -779,17 +755,13 @@
                                 <?php } ?>
                                 <h2>Paket sudah diterima</h2>
                             </div>
-
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-</div>
-
 
 <div class="modal fade" id="lihat" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -810,9 +782,11 @@
         </div>
     </div>
 </div>
+
 <?php
 $id = $this->uri->segment(3);
-$y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON p.product_id = t.transaksi_product_id WHERE transaksi_id = '$id' ")->row_array(); ?>
+$y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON p.product_id = t.transaksi_product_id WHERE transaksi_id = '$id' ")->row_array();
+?>
 
 <div class="modal fade" id="status_update" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -859,21 +833,16 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                            $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                            $statusPersonalisasi = "";
+                                            foreach ($personalisasi as $p) {
+                                                $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Personalisasi</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_personalisasi'] == 1) {
-                                                                                            echo "Blanko";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 2) {
-                                                                                            echo "Nomerator";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 3) {
-                                                                                            echo "Barcode";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 4) {
-                                                                                            echo "Data";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 5) {
-                                                                                            echo "Data + Foto";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Quantity</td>
@@ -883,97 +852,43 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                             <td style="width: 50%; height: 18px;">Coating</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_coating'] == 1) {
-                                                                                            echo "Glossy";
-                                                                                        } elseif ($o['transaksi_coating'] == 2) {
-                                                                                            echo "Doff";
-                                                                                        } elseif ($o['transaksi_coating'] == 3) {
-                                                                                            echo "Glossy + Doff";
-                                                                                        } elseif ($o['transaksi_coating'] == 4) {
-                                                                                            echo "UV";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                            $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                            $statusFinishing = "";
+                                            foreach ($finishing as $p) {
+                                                $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Finishing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_finishing'] == 1) {
-                                                                                            echo "Tidak Ada";
-                                                                                        } elseif ($o['transaksi_finishing'] == 2) {
-                                                                                            echo "Urutkan";
-                                                                                        } elseif ($o['transaksi_finishing'] == 3) {
-                                                                                            echo "Label Gosok";
-                                                                                        } elseif ($o['transaksi_finishing'] == 4) {
-                                                                                            echo "Plong Oval";
-                                                                                        } elseif ($o['transaksi_finishing'] == 5) {
-                                                                                            echo "Plong Bulat";
-                                                                                        } elseif ($o['transaksi_finishing'] == 6) {
-                                                                                            echo "Urutkan";
-                                                                                        } elseif ($o['transaksi_finishing'] == 7) {
-                                                                                            echo "Emboss Silver";
-                                                                                        } elseif ($o['transaksi_finishing'] == 8) {
-                                                                                            echo "Emboss Gold";
-                                                                                        } elseif ($o['transaksi_finishing'] == 9) {
-                                                                                            echo "Panel";
-                                                                                        } elseif ($o['transaksi_finishing'] == 10) {
-                                                                                            echo "Hot Print";
-                                                                                        } elseif ($o['transaksi_finishing'] == 11) {
-                                                                                            echo "Swipe";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                             <td style="width: 50%; height: 18px;">Function</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_function'] == 1) {
-                                                                                            echo "Print Thermal";
-                                                                                        } elseif ($o['transaksi_function'] == 2) {
-                                                                                            echo "Scan Barcode";
-                                                                                        } elseif ($o['transaksi_function'] == 3) {
-                                                                                            echo "Swipe Magnetic";
-                                                                                        } elseif ($o['transaksi_function'] == 4) {
-                                                                                            echo "Tap RFID";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                            $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                            $statusPackaging = "";
+                                            foreach ($packaging as $p) {
+                                                $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_packaging'] == 1) {
-                                                                                            echo "Plastik 1 on 1";
-                                                                                        } elseif ($o['transaksi_packaging'] == 2) {
-                                                                                            echo "Plastik Terpisah";
-                                                                                        } elseif ($o['transaksi_packaging'] == 3) {
-                                                                                            echo "Box Kartu Nama";
-                                                                                        } elseif ($o['transaksi_packaging'] == 4) {
-                                                                                            echo "Box Putih";
-                                                                                        } elseif ($o['transaksi_packaging'] == 5) {
-                                                                                            echo "Small UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 6) {
-                                                                                            echo "Small Maxi UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 7) {
-                                                                                            echo "Large UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 8) {
-                                                                                            echo "Large Maxi UCARD";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                             <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_paket'] == 1) {
-                                                                                            echo "Kirim Produk";
-                                                                                        } elseif ($o['transaksi_paket'] == 2) {
-                                                                                            echo "Ambil Sendiri";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -991,7 +906,6 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="status_print4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1005,8 +919,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                     <div id="printThis3">
                         <div class="modal-body">
                             <div class="lcfont">
-                                <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
-                                            Approval</strong></span></p>
+                                <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
                                     :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
                                     Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
@@ -1025,21 +938,16 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                            $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                            $statusPersonalisasi = "";
+                                            foreach ($personalisasi as $p) {
+                                                $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Personalisasi</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_personalisasi'] == 1) {
-                                                                                            echo "Blanko";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 2) {
-                                                                                            echo "Nomerator";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 3) {
-                                                                                            echo "Barcode";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 4) {
-                                                                                            echo "Data";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 5) {
-                                                                                            echo "Data + Foto";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Quantity</td>
@@ -1049,97 +957,43 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                             <td style="width: 50%; height: 18px;">Coating</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_coating'] == 1) {
-                                                                                            echo "Glossy";
-                                                                                        } elseif ($o['transaksi_coating'] == 2) {
-                                                                                            echo "Doff";
-                                                                                        } elseif ($o['transaksi_coating'] == 3) {
-                                                                                            echo "Glossy + Doff";
-                                                                                        } elseif ($o['transaksi_coating'] == 4) {
-                                                                                            echo "UV";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                            $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                            $statusFinishing = "";
+                                            foreach ($finishing as $p) {
+                                                $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Finishing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_finishing'] == 1) {
-                                                                                            echo "Tidak Ada";
-                                                                                        } elseif ($o['transaksi_finishing'] == 2) {
-                                                                                            echo "Urutkan";
-                                                                                        } elseif ($o['transaksi_finishing'] == 3) {
-                                                                                            echo "Label Gosok";
-                                                                                        } elseif ($o['transaksi_finishing'] == 4) {
-                                                                                            echo "Plong Oval";
-                                                                                        } elseif ($o['transaksi_finishing'] == 5) {
-                                                                                            echo "Plong Bulat";
-                                                                                        } elseif ($o['transaksi_finishing'] == 6) {
-                                                                                            echo "Urutkan";
-                                                                                        } elseif ($o['transaksi_finishing'] == 7) {
-                                                                                            echo "Emboss Silver";
-                                                                                        } elseif ($o['transaksi_finishing'] == 8) {
-                                                                                            echo "Emboss Gold";
-                                                                                        } elseif ($o['transaksi_finishing'] == 9) {
-                                                                                            echo "Panel";
-                                                                                        } elseif ($o['transaksi_finishing'] == 10) {
-                                                                                            echo "Hot Print";
-                                                                                        } elseif ($o['transaksi_finishing'] == 11) {
-                                                                                            echo "Swipe";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                             <td style="width: 50%; height: 18px;">Function</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_function'] == 1) {
-                                                                                            echo "Print Thermal";
-                                                                                        } elseif ($o['transaksi_function'] == 2) {
-                                                                                            echo "Scan Barcode";
-                                                                                        } elseif ($o['transaksi_function'] == 3) {
-                                                                                            echo "Swipe Magnetic";
-                                                                                        } elseif ($o['transaksi_function'] == 4) {
-                                                                                            echo "Tap RFID";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                            $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                            $statusPackaging = "";
+                                            foreach ($packaging as $p) {
+                                                $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_packaging'] == 1) {
-                                                                                            echo "Plastik 1 on 1";
-                                                                                        } elseif ($o['transaksi_packaging'] == 2) {
-                                                                                            echo "Plastik Terpisah";
-                                                                                        } elseif ($o['transaksi_packaging'] == 3) {
-                                                                                            echo "Box Kartu Nama";
-                                                                                        } elseif ($o['transaksi_packaging'] == 4) {
-                                                                                            echo "Box Putih";
-                                                                                        } elseif ($o['transaksi_packaging'] == 5) {
-                                                                                            echo "Small UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 6) {
-                                                                                            echo "Small Maxi UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 7) {
-                                                                                            echo "Large UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 8) {
-                                                                                            echo "Large Maxi UCARD";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                             <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_paket'] == 1) {
-                                                                                            echo "Kirim Produk";
-                                                                                        } elseif ($o['transaksi_paket'] == 2) {
-                                                                                            echo "Ambil Sendiri";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1159,7 +1013,6 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="status_print5" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1173,8 +1026,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                     <div id="printThis4">
                         <div class="modal-body">
                             <div class="lcfont">
-                                <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
-                                            Produksi</strong></span></p>
+                                <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
                                     <br />Jumlah Lembar Awal/Akhir &nbsp;: <input type="text" id="text" autocomplete="off">
                                     <br />Jumlah Overlay Awal/Akhir : <input type="text" id="text" autocomplete="off">
@@ -1198,21 +1050,16 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                            $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                            $statusPersonalisasi = "";
+                                            foreach ($personalisasi as $p) {
+                                                $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Personalisasi</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_personalisasi'] == 1) {
-                                                                                            echo "Blanko";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 2) {
-                                                                                            echo "Nomerator";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 3) {
-                                                                                            echo "Barcode";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 4) {
-                                                                                            echo "Data";
-                                                                                        } elseif ($o['transaksi_personalisasi'] == 5) {
-                                                                                            echo "Data + Foto";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <td style="width: 50%; height: 18px;">Quantity</td>
@@ -1222,97 +1069,43 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                             <td style="width: 50%; height: 18px;">Coating</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_coating'] == 1) {
-                                                                                            echo "Glossy";
-                                                                                        } elseif ($o['transaksi_coating'] == 2) {
-                                                                                            echo "Doff";
-                                                                                        } elseif ($o['transaksi_coating'] == 3) {
-                                                                                            echo "Glossy + Doff";
-                                                                                        } elseif ($o['transaksi_coating'] == 4) {
-                                                                                            echo "UV";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                            $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                            $statusFinishing = "";
+                                            foreach ($finishing as $p) {
+                                                $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Finishing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_finishing'] == 1) {
-                                                                                            echo "Tidak Ada";
-                                                                                        } elseif ($o['transaksi_finishing'] == 2) {
-                                                                                            echo "Urutkan";
-                                                                                        } elseif ($o['transaksi_finishing'] == 3) {
-                                                                                            echo "Label Gosok";
-                                                                                        } elseif ($o['transaksi_finishing'] == 4) {
-                                                                                            echo "Plong Oval";
-                                                                                        } elseif ($o['transaksi_finishing'] == 5) {
-                                                                                            echo "Plong Bulat";
-                                                                                        } elseif ($o['transaksi_finishing'] == 6) {
-                                                                                            echo "Urutkan";
-                                                                                        } elseif ($o['transaksi_finishing'] == 7) {
-                                                                                            echo "Emboss Silver";
-                                                                                        } elseif ($o['transaksi_finishing'] == 8) {
-                                                                                            echo "Emboss Gold";
-                                                                                        } elseif ($o['transaksi_finishing'] == 9) {
-                                                                                            echo "Panel";
-                                                                                        } elseif ($o['transaksi_finishing'] == 10) {
-                                                                                            echo "Hot Print";
-                                                                                        } elseif ($o['transaksi_finishing'] == 11) {
-                                                                                            echo "Swipe";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                             <td style="width: 50%; height: 18px;">Function</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_function'] == 1) {
-                                                                                            echo "Print Thermal";
-                                                                                        } elseif ($o['transaksi_function'] == 2) {
-                                                                                            echo "Scan Barcode";
-                                                                                        } elseif ($o['transaksi_function'] == 3) {
-                                                                                            echo "Swipe Magnetic";
-                                                                                        } elseif ($o['transaksi_function'] == 4) {
-                                                                                            echo "Tap RFID";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php
+                                            $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                            $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                            $statusPackaging = "";
+                                            foreach ($packaging as $p) {
+                                                $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$p];
+                                            }
+                                            ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_packaging'] == 1) {
-                                                                                            echo "Plastik 1 on 1";
-                                                                                        } elseif ($o['transaksi_packaging'] == 2) {
-                                                                                            echo "Plastik Terpisah";
-                                                                                        } elseif ($o['transaksi_packaging'] == 3) {
-                                                                                            echo "Box Kartu Nama";
-                                                                                        } elseif ($o['transaksi_packaging'] == 4) {
-                                                                                            echo "Box Putih";
-                                                                                        } elseif ($o['transaksi_packaging'] == 5) {
-                                                                                            echo "Small UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 6) {
-                                                                                            echo "Small Maxi UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 7) {
-                                                                                            echo "Large UCARD";
-                                                                                        } elseif ($o['transaksi_packaging'] == 8) {
-                                                                                            echo "Large Maxi UCARD";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
+                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                             <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?php
-                                                                                        if ($o['transaksi_paket'] == 1) {
-                                                                                            echo "Kirim Produk";
-                                                                                        } elseif ($o['transaksi_paket'] == 2) {
-                                                                                            echo "Ambil Sendiri";
-                                                                                        } else {
-                                                                                            echo "Tidak Diketahui";
-                                                                                        } ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1326,8 +1119,8 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                     </div>
                     <div id="alert_status"></div>
                     <div id="data_status"></div>
+                </page>
             </div>
-            </page>
         </div>
     </div>
     <div id="printThis2">
@@ -1359,7 +1152,6 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 <div class="modal fade" id="design" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Design</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1371,13 +1163,11 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                 <h3>Ukuran :</h3>
                 <h3 id="info_design"></h3>
             </div>
-
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>
                 <a class="btn btn-info btn_download" download><i class="fa fa-download"></i> Download</a>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -1386,7 +1176,6 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
     <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
         <div class="modal-content">
-
             <div class="modal-header">
                 <h6 class="modal-title" id="modal-title-default">Hapus Pelanggan</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -1397,17 +1186,14 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                 <div id="alert_hapus"></div>
                 <h3>Apakah anda yakin?</h3>
             </div>
-
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
-
         </div>
     </div>
 </div>
 
-</div>
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
 <script>
