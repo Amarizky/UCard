@@ -77,7 +77,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                 </a>
                                 <div class="collapse <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">
-                                        <?php if ($perms['admin_perm_order'] && $perms['admin_perm_orderverifikasi'] && $perms['admin_perm_orderkirimdesign'] && $perms['admin_perm_orderpembayaran'] && $perms['admin_perm_orderapproval'] && $perms['admin_perm_ordercetakproduk'] && $perms['admin_perm_orderkirimambil']) : ?>
+                                        <?php if ($perms['admin_perm_order']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order') ?>" class="nav-link <?= $seg1 == 'Order' && $seg2 == '' ? 'active' : ''; ?>"><i class="fa fa-book"></i>
                                                     <table style="width:100%;">
