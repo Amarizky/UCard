@@ -684,7 +684,11 @@
                                     <br>
                                 </label>
                                 <br>
+                                <input type="radio" value="4" name="approval" id="apv4" <?= $o['transaksi_approval_acc'] == '4' ? ' checked' : null; ?> required onclick="pilihGambar()">
+                                <label for="apv4">Revisi</label>
+                                <br>
                                 <button type="submit" class="btn btn-primary w-100">Pilih</button>
+
                             </form>
                         <?php endif; ?>
                     </div>

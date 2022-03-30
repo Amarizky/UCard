@@ -632,6 +632,9 @@
                                     case 3:
                                         echo "Pelanggan memilih Terang";
                                         break;
+                                    case 4:
+                                        echo "Pelanggan Meminta Revisi";
+                                        break;
                                     default:
                                         echo "Pelanggan belum menentukan pilihan";
                                         break;
