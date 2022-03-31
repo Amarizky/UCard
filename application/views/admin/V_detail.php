@@ -356,7 +356,7 @@
                                     }
                                     ?>
                                     <b>Packaging</b>
-                                    <p><?= $statusFinishing; ?></p>
+                                    <p><?= $statusPackaging; ?></p>
                                 </div>
                                 <div class="grid-item">
                                     <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -1241,11 +1241,12 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
         var id = $('#id').val();
         var id_status = $('#id_status').val();
         var keputusan = $('#keputusan').val();
-        var personalisasi = $('#personalisasi').val();
-        var coating = $('#coating').val();
-        var functionn = $('#functionn').val();
-        var packaging = $('#packaging').val();
-        var status = $('#status').val();
+        var personalisasi = $('input[name="personalisasi[]"]:checked').map((i, el) => el.value).get().join(',');
+        var coating = $('input[name="coating"]:checked').val();
+        var finishing = $('input[name="finishing[]"]:checked').map((i, el) => el.value).get().join(',');
+        var functionn = $('input[name="function"]:checked').val();
+        var packaging = $('input[name="packaging[]"]:checked').map((i, el) => el.value).get().join(',');
+        var status = $('input[name="status"]:checked').val();
         var keterangan = $('#keterangan').val();
         var loggeduser = $('#loggeduser').val();
         if (keputusan !== '') {
@@ -1262,7 +1263,8 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                         keputusan: keputusan,
                         personalisasi: personalisasi,
                         coating: coating,
-                        functionn: functionn,
+                        finishing: finishing,
+                        function: functionn,
                         packaging: packaging,
                         status: status,
                         keterangan: keterangan,

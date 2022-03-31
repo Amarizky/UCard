@@ -658,6 +658,20 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
             );
 
             $this->db->insert('tbl_status_transaksi', $data);
+
+            $updatePersonalisasiDkk = [
+                'transaksi_personalisasi' => $personalisasi,
+                'transaksi_coating'       => $coating,
+                'transaksi_finishing'     => $finishing,
+                'transaksi_function'      => $function,
+                'transaksi_packaging'     => $packaging,
+                'transaksi_paket'         => $status
+            ];
+
+            $this->db
+                ->set($updatePersonalisasiDkk)
+                ->where('transaksi_id', $id)
+                ->update('tbl_transaksi');
         } else {
             $k = 'DITOLAK';
             $tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
@@ -755,19 +769,19 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                     </div>
                     <div class="grid-container">
                         <div class="grid-item">
+                            <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
                             <b>Personalisasi</b>
                             <br><br>
-                            <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
                             <div class="form-group">
-                                <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi" value="1" <?= in_array('1', $personalisasi) ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi[]" value="1" <?= in_array('1', $personalisasi) ? 'checked' : ''; ?>>
                                 <label for="persona1">Blanko</label><br>
-                                <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi" value="2" <?= in_array('2', $personalisasi) ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi[]" value="2" <?= in_array('2', $personalisasi) ? 'checked' : ''; ?>>
                                 <label for="persona2">Nomerator</label><br>
-                                <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi" value="3" <?= in_array('3', $personalisasi) ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi[]" value="3" <?= in_array('3', $personalisasi) ? 'checked' : ''; ?>>
                                 <label for="persona3">Barcode</label><br>
-                                <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi" value="4" <?= in_array('4', $personalisasi) ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi[]" value="4" <?= in_array('4', $personalisasi) ? 'checked' : ''; ?>>
                                 <label for="persona4">Data</label><br>
-                                <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi" value="5" <?= in_array('5', $personalisasi) ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi[]" value="5" <?= in_array('5', $personalisasi) ? 'checked' : ''; ?>>
                                 <label for="persona5">Data + Foto</label>
                             </div>
                         </div>
@@ -784,63 +798,63 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
                             <label for="coating3">UV</label>
                         </div>
                         <div class="grid-item">
+                            <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
                             <b>Finishing</b>
                             <br><br>
-                            <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
-                            <input type="checkbox" id="finish1" placeholder="finishing" name="finishing" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish1" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish1">Tidak ada</label><br>
-                            <input type="checkbox" id="finish2" placeholder="finishing" name="finishing" value="2" <?= in_array('2', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish2" placeholder="finishing" name="finishing[]" value="2" <?= in_array('2', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish2">Urutkan</label><br>
-                            <input type="checkbox" id="finish3" placeholder="finishing" name="finishing" value="3" <?= in_array('3', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish3" placeholder="finishing" name="finishing[]" value="3" <?= in_array('3', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish3">Label Gosok</label><br>
-                            <input type="checkbox" id="finish4" placeholder="finishing" name="finishing" value="4" <?= in_array('4', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish4" placeholder="finishing" name="finishing[]" value="4" <?= in_array('4', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish4">Plong Oval</label><br>
-                            <input type="checkbox" id="finish5" placeholder="finishing" name="finishing" value="5" <?= in_array('5', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish5" placeholder="finishing" name="finishing[]" value="5" <?= in_array('5', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish5">Plong Bulat</label><br>
-                            <input type="checkbox" id="finish6" placeholder="finishing" name="finishing" value="6" <?= in_array('6', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish6" placeholder="finishing" name="finishing[]" value="6" <?= in_array('6', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish6">Copy Data RFID</label><br>
-                            <input type="checkbox" id="finish7" placeholder="finishing" name="finishing" value="7" <?= in_array('7', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish7" placeholder="finishing" name="finishing[]" value="7" <?= in_array('7', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish7">Emboss Silver</label><br>
-                            <input type="checkbox" id="finish8" placeholder="finishing" name="finishing" value="8" <?= in_array('8', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish8" placeholder="finishing" name="finishing[]" value="8" <?= in_array('8', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish8">Emboss Gold</label><br>
-                            <input type="checkbox" id="finish9" placeholder="finishing" name="finishing" value="9" <?= in_array('9', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish9" placeholder="finishing" name="finishing[]" value="9" <?= in_array('9', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish9">Panel</label><br>
-                            <input type="checkbox" id="finish10" placeholder="finishing" name="finishing" value="10" <?= in_array('10', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish10" placeholder="finishing" name="finishing[]" value="10" <?= in_array('10', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish10">Hot Print</label><br>
-                            <input type="checkbox" id="finish11" placeholder="finishing" name="finishing" value="11" <?= in_array('11', $finishing) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="finish11" placeholder="finishing" name="finishing[]" value="11" <?= in_array('11', $finishing) ? 'checked' : ''; ?>>
                             <label for="finish11">Swipe</label><br>
                         </div>
                         <div class="grid-item">
                             <b>Function</b>
                             <br><br>
-                            <input type="radio" id="function1" placeholder="function" name="functionn" value="1" <?= $o['transaksi_function'] == '1' ? 'checked' : ''; ?>>
+                            <input type="radio" id="function1" placeholder="function" name="function" value="1" <?= $o['transaksi_function'] == '1' ? 'checked' : ''; ?>>
                             <label for="function1">Print Thermal</label><br>
-                            <input type="radio" id="function2" placeholder="function" name="functionn" value="2" <?= $o['transaksi_function'] == '2' ? 'checked' : ''; ?>>
+                            <input type="radio" id="function2" placeholder="function" name="function" value="2" <?= $o['transaksi_function'] == '2' ? 'checked' : ''; ?>>
                             <label for="function2">Scan Barcode</label><br>
-                            <input type="radio" id="function3" placeholder="function" name="functionn" value="3" <?= $o['transaksi_function'] == '3' ? 'checked' : ''; ?>>
+                            <input type="radio" id="function3" placeholder="function" name="function" value="3" <?= $o['transaksi_function'] == '3' ? 'checked' : ''; ?>>
                             <label for="function3">Swipe Magnetic</label><br>
-                            <input type="radio" id="function4" placeholder="function" name="functionn" value="4" <?= $o['transaksi_function'] == '4' ? 'checked' : ''; ?>>
+                            <input type="radio" id="function4" placeholder="function" name="function" value="4" <?= $o['transaksi_function'] == '4' ? 'checked' : ''; ?>>
                             <label for="function4">Tap RFID</label>
                         </div>
                         <div class="grid-item">
+                            <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
                             <b>Packaging</b>
                             <br><br>
-                            <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
-                            <input type="checkbox" id="packaging1" placeholder="packaging" name="packaging" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging1" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging1">Plastik 1 on 1</label><br>
-                            <input type="checkbox" id="packaging2" placeholder="packaging" name="packaging" value="2" <?= in_array('2', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging2" placeholder="packaging" name="packaging[]" value="2" <?= in_array('2', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging2">Plastik Terpisah</label><br>
-                            <input type="checkbox" id="packaging3" placeholder="packaging" name="packaging" value="3" <?= in_array('3', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging3" placeholder="packaging" name="packaging[]" value="3" <?= in_array('3', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging3">Box Kartu Nama</label><br>
-                            <input type="checkbox" id="packaging4" placeholder="packaging" name="packaging" value="4" <?= in_array('4', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging4" placeholder="packaging" name="packaging[]" value="4" <?= in_array('4', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging4">Box Putih</label><br>
-                            <input type="checkbox" id="packaging5" placeholder="packaging" name="packaging" value="5" <?= in_array('5', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging5" placeholder="packaging" name="packaging[]" value="5" <?= in_array('5', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging5">Small UCARD</label><br>
-                            <input type="checkbox" id="packaging6" placeholder="packaging" name="packaging" value="6" <?= in_array('6', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging6" placeholder="packaging" name="packaging[]" value="6" <?= in_array('6', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging6">Small Maxi UCARD</label><br>
-                            <input type="checkbox" id="packaging7" placeholder="packaging" name="packaging" value="7" <?= in_array('7', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging7" placeholder="packaging" name="packaging[]" value="7" <?= in_array('7', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging7">Large UCARD</label><br>
-                            <input type="checkbox" id="packaging8" placeholder="packaging" name="packaging" value="8" <?= in_array('8', $packaging) ? 'checked' : ''; ?>>
+                            <input type="checkbox" id="packaging8" placeholder="packaging" name="packaging[]" value="8" <?= in_array('8', $packaging) ? 'checked' : ''; ?>>
                             <label for="packaging8">Large Maxi UCARD</label>
                         </div>
                         <div class="grid-item">
