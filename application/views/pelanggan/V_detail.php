@@ -397,6 +397,8 @@
                         <h3 class="mb-0">Desain</h3>
                     </div>
                     <div class="card-body">
+                        <p>Jika ukuran file terlalu besar silahkan upload ke file hosting lalu masukkan link ke kolom Link File.</p>
+                        <hr>
                         <?php if ($o['transaksi_terima'] !== '1') : ?>
                             <form method="post" action="<?= base_url('Order_pelanggan/upload_design') ?>" enctype="multipart/form-data">
                                 <h3>Upload Desain</h3>
@@ -417,7 +419,6 @@
                             <?php
                             foreach ($design as $d) :
                             ?>
-
                                 <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat"><img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt=""></a>
                                 <hr>
                         <?php
@@ -425,16 +426,16 @@
                         endif;
                         ?>
                         <?php if ($upload) : ?>
-                            <h3>Uploaded File/Link Desain </h3>
+                            <h3>Uploaded File/Design Link</h3>
                             <br>
                             <div class="table-responsive">
                                 <table class="table table-flush" id="datatable-basic">
                                     <thead>
                                         <tr>
-                                            <th>File Name</th>
-                                            <th>View</th>
+                                            <th>Nama File</th>
+                                            <th>Lihat</th>
                                             <th>Download</th>
-                                            <th>Delete</th>
+                                            <th>Hapus</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -442,10 +443,10 @@
                                         foreach ($upload as $u) :
                                         ?>
                                             <tr>
-                                                <td><?php echo  $u['design_image']; ?></td>
-                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">View</a></td>
+                                                <td><?= $u['design_image']; ?></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">Lihat</a></td>
                                                 <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
-                                                <td><a id="<?= $u['design_id'] ?>" type="button" class="hapus" data-toggle="modal" data-target="#hapus" style="color:red;">Delete</a></td>
+                                                <td><a id="<?= $u['design_id'] ?>" type="button" class="hapus" data-toggle="modal" data-target="#hapus" style="color:red;">Hapus</a></td>
                                             </tr>
                                         <?php
                                         endforeach;
@@ -459,18 +460,16 @@
                         <?php
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         ?>
-                        <h3>Link File </h3>
-                        <div class="form-group row">
+                        <h3>Link File</h3>
+                        <form method="post" action="<?= base_url('Order_pelanggan/update_link'); ?>" class="form-group row">
+                            <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
                             <div class="col-sm-8 pr-1">
-                                <input type="text" class="form-control" id="link" placeholder="link file" value="<?= $link['transaksi_link_desain']; ?>">
+                                <input type="text" class="form-control" name="link" placeholder="Masukkan link file" value="<?= $link['transaksi_link_desain']; ?>">
                             </div>
                             <div class="col-sm-4 pl-1">
-                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateLink">Save</button>
+                                <button type="submit" class="btn btn-primary mb-2 w-100">Save</button>
                             </div>
-                        </div>
-
-
-
+                        </form>
                     </div>
                 </div>
             </div>
@@ -1102,24 +1101,6 @@
     });
 </script>
 <script>
-    $('#updateLink').click(function(e) {
-        e.preventDefault();
-
-        var id = $('#id').val();
-        var link = $('#link').val();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?= base_url('Order_pelanggan/updateLink') ?>",
-            data: {
-                id: id,
-                link: link
-            },
-            success: function(data) {
-                alert('Link Berhasil Di Update');
-            }
-        });
-    });
     $('.terima').click(function() {
         if (confirm('Apakah anda yakin paket sudah diterima?')) {
             var val = 1;

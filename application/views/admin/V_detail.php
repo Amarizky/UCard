@@ -456,7 +456,7 @@
                         $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                        if (!$design && !$upload) {
+                        if (!$design && !$upload && (empty($link['transaksi_link_desain'] || !$link))) {
                             echo '<h3>Pelanggan belum mengirim gambar desain ataupun link</h3>';
                         }
                         if ($design) : ?>
@@ -533,12 +533,15 @@
                             <tr></tr>
                             <?php if ($o['transaksi_paket'] == '1') : ?>
                                 <tr>
-                                    <td>
-                                        <input type="number" name="ongkir" id="ongkir" placeholder="Masukkan ongkir" value="<?= $ongkir['transaksi_ongkir']; ?>">
-                                    </td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary btn-sm" id="updateOngkir">Update</button>
-                                    </td>
+                                    <form action="<?= base_url('Order/update_ongkir'); ?>" method="post">
+                                        <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
+                                        <td>
+                                            <input type="number" name="ongkir" placeholder="Masukkan ongkir" value="<?= $ongkir['transaksi_ongkir'] ?? ''; ?>">
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                        </td>
+                                    </form>
                                 </tr>
                             <?php endif ?>
                         </table>
@@ -801,35 +804,29 @@
                                             <td><?= $o['pelanggan_kodepost'] ?></td>
                                         </tr>
                                     </table>
-
                                     <br>
-
                                     <?php
                                     $resi = $this->db->query("SELECT transaksi_resi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                                     ?>
-
                                     <?php if ($o['transaksi_paket'] == '1') : ?>
                                         <h3>Nomor Resi</h3>
-                                        <div class="form-group row">
+                                        <form action="<?= base_url('Order/update_resi'); ?>" method="post" class="form-group row">
+                                            <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
                                             <div class="col-sm-8 pr-1">
-                                                <input type="text" class="form-control" id="resi" placeholder="Nomor Resi" value="<?= empty($resi['transaksi_resi']) && is_null(empty($resi['transaksi_resi'])) ? "Belum ada resi" : $resi['transaksi_resi']; ?>">
+                                                <input type="text" class="form-control" name="resi" placeholder="Masukkan nomor resi" value="<?= $resi['transaksi_resi']; ?>">
                                             </div>
                                             <div class="col-sm-4 pl-1">
                                                 <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Update</button>
                                             </div>
-                                        </div>
-
+                                        </form>
                                     <?php endif; ?>
                                     <br>
-
                                     <button style="width:100%;" class="btn btn-primary terima">Paket sudah diterima ?</button>
                                 <?php
                                 endif;
                                 ?>
                             </div>
-
                         <?php else : ?>
-
                             <div class="wrapper">
                                 <?php if ($o['transaksi_paket'] == "1") { ?>
                                     <h2>Kirim Paket</h2>
@@ -838,12 +835,10 @@
                                 <?php } ?>
                                 <h2>Paket sudah diterima</h2>
                             </div>
-
                         <?php endif; ?>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
@@ -1666,45 +1661,6 @@
     });
 </script>
 <script>
-    $('#updateResi').click(function(e) {
-        e.preventDefault();
-
-        // if (confirm('Apakah anda yakin ingin merubah nomor resi?')) {
-        var id = $('#id').val();
-        var resi = $('#resi').val();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?= base_url('Order/updateResi') ?>",
-            data: {
-                id: id,
-                resi: resi
-            },
-            success: function(data) {
-                alert('Nomor resi berhasil diubah');
-            }
-        });
-        // }
-    });
-    $('#updateOngkir').click(function(e) {
-        e.preventDefault();
-
-        var id = $('#id').val();
-        var ongkir = $('#ongkir').val();
-
-        $.ajax({
-            type: 'POST',
-            url: "<?= base_url('Order/updateOngkir') ?>",
-            data: {
-                id: id,
-                ongkir: ongkir
-            },
-            success: function(data) {
-                alert('Ongkir berhasil diubah');
-            }
-        });
-    });
-
     function copy() {
         var copyText = document.getElementById("link");
 
