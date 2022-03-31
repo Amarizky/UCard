@@ -439,7 +439,7 @@
                             <p><?= $o['pelanggan_kecamatan'] ?></p>
                             <b>Kabupaten</b>
                             <p><?= $o['pelanggan_kabupaten'] ?></p>
-                            <b>KodePost</b>
+                            <b>Kode Pos</b>
                             <p><?= $o['pelanggan_kodepost'] ?></p>
                         </div>
                     </div>
@@ -799,7 +799,7 @@
                                             <td><?= $o['pelanggan_kabupaten'] ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Kode Post</td>
+                                            <td>Kode Pos</td>
                                             <td> : </td>
                                             <td><?= $o['pelanggan_kodepost'] ?></td>
                                         </tr>
