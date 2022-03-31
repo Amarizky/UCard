@@ -1,7 +1,7 @@
 # transaksi_status_id
 
 | id | status |
-| -- | ----------- |
+| -- | ------ |
 | 1 | Verifikasi |
 | 2 | Kirim Design |
 | 3 | Pembayaran |
@@ -11,5 +11,6 @@
 
 # transaksi_paket
 | id | status |
+| -- | ------ |
 | 0 | Ambil sendiri |
 | 1 | Kirim paket |
