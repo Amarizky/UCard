@@ -11,7 +11,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">VERIFIKASI</h5>
-                                        <span class="h2 font-weight-bold mb-0 c_v">0</span>
+                                        <span class="h2 font-weight-bold mb-0 c_v"><?= $jml_verif; ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -31,7 +31,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">KIRIM DESIGN</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $kd['kd'] ?></span>
+                                        <span class="h2 font-weight-bold mb-0"><?= $jml_design ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -51,7 +51,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">PEMBAYARAN</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $pmb['pmb'] ?></span>
+                                        <span class="h2 font-weight-bold mb-0"><?= $jml_pemb ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -71,7 +71,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">APPROVAL</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $apv['apv'] ?></span>
+                                        <span class="h2 font-weight-bold mb-0"><?= $jml_approv ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -91,7 +91,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">CETAK PRODUK</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $ctk['ctk'] ?></span>
+                                        <span class="h2 font-weight-bold mb-0"><?= $jml_cetak ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -111,7 +111,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">KIRIM / AMBIL</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $k_a['k_a'] ?></span>
+                                        <span class="h2 font-weight-bold mb-0"><?= $jml_kirim ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -123,7 +123,6 @@
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
