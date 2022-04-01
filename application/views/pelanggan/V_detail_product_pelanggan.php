@@ -156,19 +156,19 @@
                                     <b>Varian Casing Karet</b>
                                     <br><br>
                                     <input type="radio" id="ck1" placeholder="ck" name="ck" value="1">
-                                    <label for="ck1">Kirim Produk</label><br>
+                                    <label for="ck1">Casing karet 1 sisi</label><br>
                                     <input type="radio" id="ck2" placeholder="ck" name="ck" value="2">
-                                    <label for="ck2">Ambil Sendiri</label><br>
+                                    <label for="ck2">Casing karet 2 sisi</label><br>
                                     <input type="radio" id="ck3" placeholder="ck" name="ck" value="3">
-                                    <label for="ck3">Kirim Produk</label><br>
+                                    <label for="ck3">Casing karet double landscape</label><br>
                                     <input type="radio" id="ck4" placeholder="ck" name="ck" value="4">
-                                    <label for="ck4">Ambil Sendiri</label>
+                                    <label for="ck4">Casing karet single landscape</label>
                                 </div>
                                 <div class="grid-item">
                                     <b>Logo Resin</b>
                                     <br><br>
                                     <input type="radio" id="lr" placeholder="lr" name="lr" value="1">
-                                    <label for="lr">Kirim Produk</label>
+                                    <label for="lr">logo resin</label>
                                 </div>
                                 <div class="grid-item">
                                     <b>Penjepit Buaya</b>
