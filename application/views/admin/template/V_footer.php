@@ -48,7 +48,7 @@
     $(document).ready(function() {
         $(window).resize(function() {
             notif();
-            var refInterval = window.setInterval('notif()', 2000);
+            var refInterval = window.setInterval('notif()', 12000);
         });
     });
 
