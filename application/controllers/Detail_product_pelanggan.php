@@ -98,9 +98,16 @@ class Detail_product_pelanggan extends CI_Controller
 		}
 	}
 
-	function correction()
+	function perbaikan()
 	{
-		$harga = $this->db->query("SELECT * FROM tbl_product WHERE product_id=" . $this->input->post('product_id'))->row_array()['product_harga'];
+		$product_id = $this->input->post('product_id');
+		$transaksi_id = $this->input->post('transaksi_id');
+
+		$harga = $this->db
+			->where('product_id', $product_id)
+			->get('tbl_product')
+			->row_array()['product_harga'];
+
 		$data = array(
 			'transaksi_jumlah' 				=> $this->input->post('jumlah'),
 			'transaksi_keterangan' 			=> $this->input->post('keterangan'),
@@ -113,8 +120,8 @@ class Detail_product_pelanggan extends CI_Controller
 			'transaksi_paket' 				=> $this->input->post('status')
 		);
 
-		$this->db->where('transaksi_id', $this->input->post('transaksi_id'));
+		$this->db->where('transaksi_id', $transaksi_id);
 		$this->db->update('tbl_transaksi', $data);
-		redirect(base_url('Order_pelanggan/detail/' . $this->input->post('transaksi_id')));
+		redirect(base_url('Order_pelanggan/detail/' . $transaksi_id));
 	}
 }
