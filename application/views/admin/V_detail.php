@@ -884,7 +884,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             }
                                             ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -988,7 +988,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             }
                                             ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -1099,7 +1099,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             }
                                             ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -1229,7 +1229,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             }
                                             ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -1345,7 +1345,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             }
                                             ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -1458,7 +1458,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                             }
                                             ?>
                                             <td style="width: 50%; height: 18px;">Packaging</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
                                         </tr>
                                         <tr style="height: 18px;">
                                             <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -1598,17 +1598,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
     });
     $(document).on('click', '#update-status', function() {
         var url = document.URL;
-        var id = $('#id').val();
-        var id_status = $('#id_status').val();
         var keputusan = $('#keputusan').val();
-        var personalisasi = $('input[name="personalisasi[]"]:checked').map((i, el) => el.value).get().join(',');
-        var coating = $('input[name="coating"]:checked').val();
-        var finishing = $('input[name="finishing[]"]:checked').map((i, el) => el.value).get().join(',');
-        var functionn = $('input[name="function"]:checked').val();
-        var packaging = $('input[name="packaging[]"]:checked').map((i, el) => el.value).get().join(',');
-        var status = $('input[name="status"]:checked').val();
-        var keterangan = $('#keterangan').val();
-        var loggeduser = $('#loggeduser').val();
         if (keputusan !== '') {
             if (keputusan == '0' && keterangan == '') {
                 $('#alert_status').html('<div class="alert alert-danger alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"><i class="fa fa-times"></i></span><span class="alert-text"><strong>Harus Ada Keterangan</strong></span></div>');
@@ -1618,17 +1608,17 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                     type: 'POST',
                     url: '<?= base_url('Order/status') ?>',
                     data: {
-                        id: id,
-                        id_status: id_status,
+                        id: $('#id').val(),
+                        id_status: $('#id_status').val(),
                         keputusan: keputusan,
-                        personalisasi: personalisasi,
-                        coating: coating,
-                        finishing: finishing,
-                        function: functionn,
-                        packaging: packaging,
-                        status: status,
-                        keterangan: keterangan,
-                        user: loggeduser
+                        personalisasi: $('input[name="personalisasi[]"]:checked').map((i, el) => el.value).get().join(','),
+                        coating: $('input[name="coating"]:checked').val(),
+                        finishing: $('input[name="finishing[]"]:checked').map((i, el) => el.value).get().join(','),
+                        function: $('input[name="function"]:checked').val(),
+                        packaging: $('input[name="packaging[]"]:checked').map((i, el) => el.value).get().join(','),
+                        status: $('input[name="status"]:checked').val(),
+                        keterangan: $('#keterangan').val(),
+                        user: $('#loggeduser').val()
                     },
                     success: function(data) {
                         $('#alert_status').html('<div class="alert alert-success alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"><i class="fa fa-check"></i></span><span class="alert-text"><strong>Berhasil!</strong></span></div>');

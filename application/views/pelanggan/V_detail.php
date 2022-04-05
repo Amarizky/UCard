@@ -248,10 +248,10 @@
                                     <h3 class="mb-0">Produk</h3>
                                 </div>
                             </div>
-                            <?php if ($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) : ?>
+                            <?php if (($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) && $id_status == '1') : ?>
                                 <div class="col">
                                     <div class="text-right">
-                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#correction">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#perbaikan">
                                             Perbaikan <i class="fa fa-pen"></i>
                                         </button>
                                     </div>
@@ -321,7 +321,7 @@
                                     }
                                     ?>
                                     <b>Packaging</b>
-                                    <p><?= $statusFinishing; ?></p>
+                                    <p><?= $statusPackaging; ?></p>
                                 </div>
                                 <div class="grid-item">
                                     <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
@@ -750,10 +750,10 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="correction" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="perbaikan" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
-                <form action="<?= base_url('Detail_product_pelanggan/correction'); ?>" method="post">
+                <form id="form_perbaikan" action="<?= base_url('Detail_product_pelanggan/perbaikan'); ?>" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">Perbaikan Pesanan</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -776,15 +776,15 @@
                                 <b>Personalisasi</b>
                                 <br><br>
                                 <div class="form-group">
-                                    <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi" value="1" <?= $d['transaksi_personalisasi'] == 1 ? 'checked' : ''; ?>>
+                                    <input type="checkbox" id="persona1" placeholder="personalisasi" name="personalisasi[]" value="1" <?= in_array('1', $personalisasi) ? 'checked' : ''; ?>>
                                     <label for="persona1">Blanko</label><br>
-                                    <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi" value="2" <?= $d['transaksi_personalisasi'] == 2 ? 'checked' : ''; ?>>
+                                    <input type="checkbox" id="persona2" placeholder="personalisasi" name="personalisasi[]" value="2" <?= in_array('2', $personalisasi) ? 'checked' : ''; ?>>
                                     <label for="persona2">Nomerator</label><br>
-                                    <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi" value="3" <?= $d['transaksi_personalisasi'] == 3 ? 'checked' : ''; ?>>
+                                    <input type="checkbox" id="persona3" placeholder="personalisasi" name="personalisasi[]" value="3" <?= in_array('3', $personalisasi) ? 'checked' : ''; ?>>
                                     <label for="persona3">Barcode</label><br>
-                                    <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi" value="4" <?= $d['transaksi_personalisasi'] == 4 ? 'checked' : ''; ?>>
+                                    <input type="checkbox" id="persona4" placeholder="personalisasi" name="personalisasi[]" value="4" <?= in_array('4', $personalisasi) ? 'checked' : ''; ?>>
                                     <label for="persona4">Data</label><br>
-                                    <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi" value="5" <?= $d['transaksi_personalisasi'] == 5 ? 'checked' : ''; ?>>
+                                    <input type="checkbox" id="persona5" placeholder="personalisasi" name="personalisasi[]" value="5" <?= in_array('5', $personalisasi) ? 'checked' : ''; ?>>
                                     <label for="persona5">Data + Foto</label>
                                 </div>
                             </div>
@@ -796,34 +796,34 @@
                                 <input type="radio" id="coating2" placeholder="coating" name="coating" value="2" <?= $d['transaksi_coating'] == 2 ? 'checked' : ''; ?>>
                                 <label for="coating2">Doff</label><br>
                                 <input type="radio" id="coating3" placeholder="coating" name="coating" value="3" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
-                                <label for="coating3">Glossy + Doff</label>
+                                <label for="coating3">Glossy + Doff</label><br>
                                 <input type="radio" id="coating4" placeholder="coating" name="coating" value="4" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
                                 <label for="coating3">UV</label>
                             </div>
                             <div class="grid-item">
                                 <b>Finishing</b>
                                 <br><br>
-                                <input type="radio" id="finish1" placeholder="finishing" name="finishing" value="1" <?= $d['transaksi_finishing'] == 1 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish1" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish1">Tidak ada</label><br>
-                                <input type="radio" id="finish2" placeholder="finishing" name="finishing" value="2" <?= $d['transaksi_finishing'] == 2 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish2" placeholder="finishing" name="finishing[]" value="2" <?= in_array('2', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish2">Urutkan</label><br>
-                                <input type="radio" id="finish3" placeholder="finishing" name="finishing" value="3" <?= $d['transaksi_finishing'] == 3 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish3" placeholder="finishing" name="finishing[]" value="3" <?= in_array('3', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish3">Label Gosok</label><br>
-                                <input type="radio" id="finish4" placeholder="finishing" name="finishing" value="4" <?= $d['transaksi_finishing'] == 4 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish4" placeholder="finishing" name="finishing[]" value="4" <?= in_array('4', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish4">Plong Oval</label><br>
-                                <input type="radio" id="finish5" placeholder="finishing" name="finishing" value="5" <?= $d['transaksi_finishing'] == 5 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish5" placeholder="finishing" name="finishing[]" value="5" <?= in_array('5', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish5">Plong Bulat</label><br>
-                                <input type="radio" id="finish6" placeholder="finishing" name="finishing" value="6" <?= $d['transaksi_finishing'] == 6 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish6" placeholder="finishing" name="finishing[]" value="6" <?= in_array('6', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish6">Copy Data RFID</label><br>
-                                <input type="radio" id="finish7" placeholder="finishing" name="finishing" value="7" <?= $d['transaksi_finishing'] == 7 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish7" placeholder="finishing" name="finishing[]" value="7" <?= in_array('7', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish7">Emboss Silver</label><br>
-                                <input type="radio" id="finish8" placeholder="finishing" name="finishing" value="8" <?= $d['transaksi_finishing'] == 8 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish8" placeholder="finishing" name="finishing[]" value="8" <?= in_array('8', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish8">Emboss Gold</label><br>
-                                <input type="radio" id="finish9" placeholder="finishing" name="finishing" value="9" <?= $d['transaksi_finishing'] == 9 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish9" placeholder="finishing" name="finishing[]" value="9" <?= in_array('9', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish9">Panel</label><br>
-                                <input type="radio" id="finish10" placeholder="finishing" name="finishing" value="10" <?= $d['transaksi_finishing'] == 10 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish10" placeholder="finishing" name="finishing[]" value="10" <?= in_array('10', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish10">Hot Print</label><br>
-                                <input type="radio" id="finish11" placeholder="finishing" name="finishing" value="11" <?= $d['transaksi_finishing'] == 11 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="finish11" placeholder="finishing" name="finishing[]" value="11" <?= in_array('11', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish11">Swipe</label><br>
                             </div>
                             <div class="grid-item">
@@ -841,21 +841,21 @@
                             <div class="grid-item">
                                 <b>Packaging</b>
                                 <br><br>
-                                <input type="radio" id="packaging1" placeholder="packaging" name="packaging" value="1" <?= $d['transaksi_packaging'] == 1 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging1" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging1">Plastik 1 on 1</label><br>
-                                <input type="radio" id="packaging2" placeholder="packaging" name="packaging" value="2" <?= $d['transaksi_packaging'] == 2 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging2" placeholder="packaging" name="packaging[]" value="2" <?= in_array('2', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging2">Plastik Terpisah</label><br>
-                                <input type="radio" id="packaging3" placeholder="packaging" name="packaging" value="3" <?= $d['transaksi_packaging'] == 3 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging3" placeholder="packaging" name="packaging[]" value="3" <?= in_array('3', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging3">Box Kartu Nama</label><br>
-                                <input type="radio" id="packaging4" placeholder="packaging" name="packaging" value="4" <?= $d['transaksi_packaging'] == 4 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging4" placeholder="packaging" name="packaging[]" value="4" <?= in_array('4', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging4">Box Putih</label><br>
-                                <input type="radio" id="packaging5" placeholder="packaging" name="packaging" value="5" <?= $d['transaksi_packaging'] == 5 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging5" placeholder="packaging" name="packaging[]" value="5" <?= in_array('5', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging5">Small UCARD</label><br>
-                                <input type="radio" id="packaging6" placeholder="packaging" name="packaging" value="6" <?= $d['transaksi_packaging'] == 6 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging6" placeholder="packaging" name="packaging[]" value="6" <?= in_array('6', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging6">Small Maxi UCARD</label><br>
-                                <input type="radio" id="packaging7" placeholder="packaging" name="packaging" value="7" <?= $d['transaksi_packaging'] == 7 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging7" placeholder="packaging" name="packaging[]" value="7" <?= in_array('7', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging7">Large UCARD</label><br>
-                                <input type="radio" id="packaging8" placeholder="packaging" name="packaging" value="8" <?= $d['transaksi_packaging'] == 8 ? 'checked' : ''; ?>>
+                                <input type="checkbox" id="packaging8" placeholder="packaging" name="packaging[]" value="8" <?= in_array('8', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging8">Large Maxi UCARD</label>
                             </div>
                             <div class="grid-item">
@@ -949,6 +949,29 @@
             $('#formApproval').submit();
         }
     }
+    $('#form_perbaikan').submit(function(evt) {
+        evt.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: $('#form_perbaikan').attr('action'),
+            data: {
+                product_id: $('input[name="product_id"]').val(),
+                transaksi_id: $('input[name="transaksi_id"]').val(),
+                jumlah: $('input[name="jumlah"]').val(),
+                keterangan: $('#keterangan').val(),
+                personalisasi: $('input[name="personalisasi[]"]:checked').map((i, el) => el.value).get().join(','),
+                coating: $('input[name="coating"]:checked').val(),
+                finishing: $('input[name="finishing[]"]:checked').map((i, el) => el.value).get().join(','),
+                function: $('input[name="function"]:checked').val(),
+                packaging: $('input[name="packaging[]"]:checked').map((i, el) => el.value).get().join(','),
+                status: $('input[name="status"]:checked').val(),
+            },
+            success: function(data) {
+                window.location.href = location.URL;
+            }
+        });
+    })
     $('.modal_lihat').click(function() {
         var id = $(this).attr('title');
         $('#data_design').attr('id-design', id);
