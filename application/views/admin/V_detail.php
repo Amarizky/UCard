@@ -893,7 +893,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="text-align: left;"><br> Assesoris : </p>
+                                <p style="text-align: left;"><br> Assesoris : <?= $o['transaksi_spkkartu_assesoris'] ?></p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
                         </div>
@@ -907,6 +907,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
             </div>
         </div>
     </div>
+    <?php $assesoris = $this->db->query("SELECT transaksi_spkkartu_assesoris FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array(); ?>
     <div class="modal fade" id="status_printedit1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -996,14 +997,14 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="text-align: left;"><br> Assesoris : <input type="text" id="assep"></p>
+                                <p style="text-align: left;"><br> Assesoris : <input type="text" name="assesoris" id="assesoris" placeholder="Masukkan Keterangan Assesoris" value="<?= $assesoris['transaksi_spkkartu_assesoris']; ?>"></p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
                         </div>
                     </div>
                 </page>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="savespksales">Save</button>
+                    <button type="submit" class="btn btn-primary" id="savespksales">Update</button>
                 </div>
                 <div id="alert_status"></div>
                 <div id="data_status"></div>
@@ -1025,10 +1026,15 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit2"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?><br />Jumlah Lembar Awal/Akhir&nbsp;
-                                    :<br />Jumlah Overlay Awal/Akhir&nbsp; :<br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<br />Jumlah Magnetic
-                                    Awal/Akhir:<br />Jumlah Kartu Rusak&nbsp; &nbsp; :<br />Jumlah Lembar Rusak :<br />Operator&nbsp; &nbsp; &nbsp;
-                                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <?= $o['transaksi_spkkartu_jumlahlembarawalakhir'] ?>
+                                    <br />Jumlah Overlay Awal/Akhir &nbsp; : <?= $o['transaksi_spkkartu_jumlahoverlayawalakhir'] ?>
+                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahchipawalakhir'] ?>
+                                    <br />Jumlah Magnetic Awal/Akhir &nbsp;: <?= $o['transaksi_spkkartu_jumlahmagneticawalakhir'] ?>
+                                    <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spkkartu_jumlahkarturusak'] ?>
+                                    <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahlembarrusak'] ?>
+                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
+                                </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
                                         <tr style="height: 18px;">
@@ -1103,12 +1109,10 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                     </tbody>
                                 </table>
                                 <p style="text-align: left;">
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:
-                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; :
-                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
-                                    &nbsp; &nbsp; :
-                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :
+                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?>
+                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?>
+                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?>
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
                                 </p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
@@ -1123,6 +1127,21 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
             </div>
         </div>
     </div>
+
+    <?php
+    $JLembarAA = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JOverlayAA = $this->db->query("SELECT transaksi_spkkartu_jumlahoverlayawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JChipAA = $this->db->query("SELECT transaksi_spkkartu_jumlahchipawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JLembarRusak = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarrusak FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JKartuRusak = $this->db->query("SELECT transaksi_spkkartu_jumlahkarturusak FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JMagneticAA = $this->db->query("SELECT transaksi_spkkartu_jumlahmagneticawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    ?>
     <div class="modal fade" id="status_printedit2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1138,13 +1157,13 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Lembar Awal/Akhir&nbsp;: <input type="text">
-                                    <br />Jumlah Overlay Awal/Akhir&nbsp; :<input type="text">
-                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; :<input type="text">
-                                    <br />Jumlah Magnetic Awal/Akhir:<input type="text">
-                                    <br />Jumlah Kartu Rusak&nbsp; &nbsp; :<input type="text">
-                                    <br />Jumlah Lembar Rusak :<input type="text">
-                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<input type="text">
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" name="JLembarAA" id="JLembarAA" placeholder="Masukkan Jumlah Lembar Awal/Akhir" value="<?= $JLembarAA['transaksi_spkkartu_jumlahlembarawalakhir']; ?>">
+                                    <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" name="JOverlayAA" id="JOverlayAA" placeholder="Masukkan Jumlah Overlay Awal/Akhir" value="<?= $JOverlayAA['transaksi_spkkartu_jumlahoverlayawalakhir']; ?>">
+                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" name="JChipAA" id="JChipAA" placeholder="Masukkan Jumlah Chip Awal/Akhir" value="<?= $JChipAA['transaksi_spkkartu_jumlahchipawalakhir']; ?>">
+                                    <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" name="JMagneticAA" id="JMagneticAA" placeholder="Masukkan Jumlah Magnetic Awal/Akhir" value="<?= $JMagneticAA['transaksi_spkkartu_jumlahmagneticawalakhir']; ?>">
+                                    <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusak" id="JKartuRusak" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
+                                    <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusak" id="JLembarRusak" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
+                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
@@ -1220,12 +1239,10 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                     </tbody>
                                 </table>
                                 <p style="text-align: left;">
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;:<input type="text">
-                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; :<input type="datetime">
-                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp;
-                                    &nbsp; &nbsp; :<input type="text">
-                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<input type="text">
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :<input type="datetime">
+                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
                                 </p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
@@ -1256,13 +1273,13 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                 <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit3"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Lembar Awal/Akhir &nbsp;:
-                                    <br />Jumlah Overlay Awal/Akhir :
-                                    <br />Jumlah Chip Awal/Akhir &nbsp;&nbsp;&nbsp;:
-                                    <br />Jumlah Magnetic Awal/Akhir:
-                                    <br />Jumlah Kartu Rusak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                                    <br />Jumlah Lembar Rusak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                                    <br />Operator &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <?= $o['transaksi_spkkartu_jumlahlembarawalakhir'] ?>
+                                    <br />Jumlah Overlay Awal/Akhir &nbsp; : <?= $o['transaksi_spkkartu_jumlahoverlayawalakhir'] ?>
+                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahchipawalakhir'] ?>
+                                    <br />Jumlah Magnetic Awal/Akhir &nbsp;: <?= $o['transaksi_spkkartu_jumlahmagneticawalakhir'] ?>
+                                    <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spkkartu_jumlahkarturusak'] ?>
+                                    <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahlembarrusak'] ?>
+                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
@@ -1337,13 +1354,15 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="text-align: left;">No.Penyelesain&nbsp; &nbsp;:<br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; :</p>
+                                <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                </p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" id="savespkprdksi">Save</button>
+                        <button class="btn btn-primary" id="printSpk2">Print</button>
                     </div>
                     <div id="alert_status"></div>
                     <div id="data_status"></div>
@@ -1356,7 +1375,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Print SPK Produksi</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit SPK Produksi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -1367,13 +1386,13 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Lembar Awal/Akhir &nbsp;: <input type="text" id="text" autocomplete="off">
-                                    <br />Jumlah Overlay Awal/Akhir : <input type="text" id="text" autocomplete="off">
-                                    <br />Jumlah Chip Awal/Akhir &nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
-                                    <br />Jumlah Magnetic Awal/Akhir: <input type="text" id="text" autocomplete="off">
-                                    <br />Jumlah Kartu Rusak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
-                                    <br />Jumlah Lembar Rusak &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
-                                    <br />Operator &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <input type="text" id="text" autocomplete="off">
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" name="JLembarAA" id="JLembarAA" placeholder="Masukkan Jumlah Lembar Awal/Akhir" value="<?= $JLembarAA['transaksi_spkkartu_jumlahlembarawalakhir']; ?>">
+                                    <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" name="JOverlayAA" id="JOverlayAA" placeholder="Masukkan Jumlah Overlay Awal/Akhir" value="<?= $JOverlayAA['transaksi_spkkartu_jumlahoverlayawalakhir']; ?>">
+                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" name="JChipAA" id="JChipAA" placeholder="Masukkan Jumlah Chip Awal/Akhir" value="<?= $JChipAA['transaksi_spkkartu_jumlahchipawalakhir']; ?>">
+                                    <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" name="JMagneticAA" id="JMagneticAA" placeholder="Masukkan Jumlah Magnetic Awal/Akhir" value="<?= $JMagneticAA['transaksi_spkkartu_jumlahmagneticawalakhir']; ?>">
+                                    <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusak" id="JKartuRusak" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
+                                    <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusak" id="JLembarRusak" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
+                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
@@ -1448,15 +1467,15 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                         </tr>
                                     </tbody>
                                 </table>
-                                <p style="text-align: left;">No.Penyelesain&nbsp; &nbsp;: <input type="text">
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text">
+                                <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
                                 </p>
                                 <p style="text-align: left;">&nbsp;</p>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" id="printSpk2">Print</button>
+                        <button class="btn btn-primary" id="savespkprdksi">Save</button>
                     </div>
                     <div id="alert_status"></div>
                     <div id="data_status"></div>
@@ -1792,6 +1811,108 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 
         alert("Copied the text: " + copyText.value);
     }
+</script>
+<script>
+    $('#savespksales').click(function(e) {
+        e.preventDefault();
+
+
+        var id = $('#id').val();
+        var assesoris = $('#assesoris').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "<?= base_url('Order/savespksales') ?>",
+            data: {
+                id: id,
+                assesoris: assesoris
+            },
+            success: function(data) {
+                location.reload();
+            }
+        });
+
+    });
+
+    $('#savespkapv').click(function(e) {
+        e.preventDefault();
+        var id = $('#id').val();
+        var JLembarAA = $('#JLembarAA').val();
+        var JOverlayAA = $('#JOverlayAA').val();
+        var JChipAA = $('#JChipAA').val();
+        var JMagneticAA = $('#JMagneticAA').val();
+        var JKartuRusak = $('#JKartuRusak').val();
+        var JLembarRusak = $('#JLembarRusak').val();
+        var spkOperator = $('#spkOperator').val();
+        var tanggalJamFix = $('#tanggalJamFix').val();
+        var kodeFix = $('#kodeFix').val();
+        var Speeling = $('#Speeling').val();
+        var deadline = $('#deadline').val();
+        var noPenyelesaian = $('#noPenyelesaian').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "<?= base_url('Order/savespkapv') ?>",
+            data: {
+                id: id,
+                JLembarAA: JLembarAA,
+                JOverlayAA: JOverlayAA,
+                JChipAA: JChipAA,
+                JMagneticAA: JMagneticAA,
+                JKartuRusak: JKartuRusak,
+                JLembarRusak: JLembarRusak,
+                spkOperator: spkOperator,
+                tanggalJamFix: tanggalJamFix,
+                kodeFix: kodeFix,
+                Speeling: Speeling,
+                deadline: deadline,
+                noPenyelesaian: noPenyelesaian
+            },
+            success: function(data) {
+                location.reload();
+            }
+        });
+    });
+
+    $('#savespkprdksi').click(function(e) {
+        e.preventDefault();
+        var id = $('#id').val();
+        var JLembarAA = $('#JLembarAA').val();
+        var JOverlayAA = $('#JOverlayAA').val();
+        var JChipAA = $('#JChipAA').val();
+        var JMagneticAA = $('#JMagneticAA').val();
+        var JKartuRusak = $('#JKartuRusak').val();
+        var JLembarRusak = $('#JLembarRusak').val();
+        var spkOperator = $('#spkOperator').val();
+        var tanggalJamFix = $('#tanggalJamFix').val();
+        var kodeFix = $('#kodeFix').val();
+        var Speeling = $('#Speeling').val();
+        var deadline = $('#deadline').val();
+        var noPenyelesaian = $('#noPenyelesaian').val();
+
+        $.ajax({
+            type: 'POST',
+            url: "<?= base_url('Order/savespkapv') ?>",
+            data: {
+                id: id,
+                JLembarAA: JLembarAA,
+                JOverlayAA: JOverlayAA,
+                JChipAA: JChipAA,
+                JMagneticAA: JMagneticAA,
+                JKartuRusak: JKartuRusak,
+                JLembarRusak: JLembarRusak,
+                spkOperator: spkOperator,
+                tanggalJamFix: tanggalJamFix,
+                kodeFix: kodeFix,
+                Speeling: Speeling,
+                deadline: deadline,
+                noPenyelesaian: noPenyelesaian
+            },
+            success: function(data) {
+                location.reload();
+            }
+        });
+    });
 </script>
 <script>
     document.getElementById("printSpk").onclick = function() {

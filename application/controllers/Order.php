@@ -968,4 +968,46 @@ body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color
         $ongkir = $this->input->post('ongkir');
         $this->db->query("UPDATE tbl_transaksi SET transaksi_ongkir = '$ongkir' WHERE transaksi_id = '$id';");
     }
+    function savespksales()
+    {
+        $id = $this->input->post('id');
+        $assesoris = $this->input->post('assesoris');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_spkkartu_assesoris = '$assesoris' WHERE transaksi_id = '$id';");
+    }
+    function savespkapv()
+    {
+        $id = $this->input->post('id');
+        $JLembarAA = $this->input->post('JLembarAA');
+        $JOverlayAA = $this->input->post('JOverlayAA');
+        $JChipAA = $this->input->post('JChipAA');
+        $JMagneticAA = $this->input->post('JMagneticAA');
+        $JKartuRusak = $this->input->post('JKartuRusak');
+        $JLembarRusak = $this->input->post('JLembarRusak');
+        $spkOperator = $this->input->post('spkOperator');
+        $tanggalJamFix = $this->input->post('tanggalJamFix');
+        $kodeFix = $this->input->post('kodeFix');
+        $Speeling = $this->input->post('Speeling');
+        $deadline = $this->input->post('deadline');
+        $noPenyelesaian = $this->input->post('noPenyelesaian');
+
+
+
+        $data = array(
+            'transaksi_spkkartu_jumlahlembarawalakhir'                 => $JLembarAA,
+            'transaksi_spkkartu_jumlahoverlayawalakhir'                => $JOverlayAA,
+            'transaksi_spk_operator'                                   => $spkOperator,
+            'transaksi_spkkartu_jumlahchipawalakhir'                   => $JChipAA,
+            'transaksi_spkkartu_jumlahlembarrusak'                     => $JLembarRusak,
+            'transaksi_spkkartu_jumlahkarturusak'                      => $JKartuRusak,
+            'transaksi_spkkartu_jumlahmagneticawalakhir'               => $JMagneticAA,
+            'transaksi_spk_tanggaljamfix'                              => $tanggalJamFix,
+            'transaksi_spk_kodefix'                                    => $kodeFix,
+            'transaksi_spk_speeling'                                   => $Speeling,
+            'transaksi_spk_deadline'                                   => $deadline,
+            'transaksi_no_penyelesaian'                                => $noPenyelesaian
+
+        );
+        $this->db->where('transaksi_id', $id);
+        $this->db->update('tbl_transaksi', $data);
+    }
 }
