@@ -336,14 +336,17 @@
             <div id="status2" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Desain</h3>
+                        <h3 class="mb-0">Kirim Desain</h3>
                     </div>
                     <div class="card-body">
-                        <p>Jika ukuran file terlalu besar silahkan upload ke file hosting lalu masukkan link ke kolom Link File.</p>
+                        <p>
+                            Jika ukuran file terlalu besar silahkan upload ke file hosting lalu masukkan link ke kolom Link File.
+                            <br>Jika sudah silahkan tunggu sampai Admin memverifikasi desain Anda.
+                        </p>
                         <hr>
                         <?php if ($o['transaksi_terima'] !== '1') : ?>
                             <form method="post" action="<?= base_url('Order_pelanggan/upload_design') ?>" enctype="multipart/form-data">
-                                <h3>Upload Desain</h3>
+                                <h3>Unggah Desain</h3>
                                 <input type="file" class="form-control" multiple name="design[]">
                                 <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
                                 <br>
@@ -368,31 +371,30 @@
                         endif;
                         ?>
                         <?php if ($upload) : ?>
-                            <h3>Uploaded File/Design Link</h3>
+                            <h3>Desain Terunggah</h3>
                             <br>
                             <div class="table-responsive">
-                                <table class="table table-flush" id="datatable-basic">
+                                <table class="table table-flush">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Nama File</th>
                                             <th>Lihat</th>
-                                            <th>Download</th>
+                                            <th>Unduh</th>
                                             <th>Hapus</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        foreach ($upload as $u) :
-                                        ?>
+                                        <?php $i = 1; ?>
+                                        <?php foreach ($upload as $u) : ?>
                                             <tr>
+                                                <td><?= $i++; ?></td>
                                                 <td><?= $u['design_image']; ?></td>
                                                 <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">Lihat</a></td>
-                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Unduh</a></td>
                                                 <td><a id="<?= $u['design_id'] ?>" type="button" class="hapus" data-toggle="modal" data-target="#hapus" style="color:red;">Hapus</a></td>
                                             </tr>
-                                        <?php
-                                        endforeach;
-                                        ?>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -402,14 +404,15 @@
                         <?php
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         ?>
+                        <hr>
                         <h3>Link File</h3>
                         <form method="post" action="<?= base_url('Order_pelanggan/update_link'); ?>" class="form-group row">
                             <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
-                            <div class="col-sm-8 pr-1">
+                            <div class="col-sm-9 pr-1">
                                 <input type="text" class="form-control" name="link" placeholder="Masukkan link file" value="<?= $link['transaksi_link_desain']; ?>">
                             </div>
-                            <div class="col-sm-4 pl-1">
-                                <button type="submit" class="btn btn-primary mb-2 w-100">Save</button>
+                            <div class="col-sm-3 pl-1">
+                                <button type="submit" class="btn btn-primary mb-2 w-100">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -445,9 +448,9 @@
                         </label>
                     </div>
                     <div class="card-body">
-                        <p>Silahkan melakukan transaksi sesuai harga yang di sepakati</p>
-                        <h3>Silahkan pilih salah satu</h3>
+                        <p>Silahkan melakukan transfer ke rekening di bawah sesuai harga yang telah disepakati.</p>
 
+                        <h3>Silahkan pilih salah satu</h3>
                         <input type="radio" name="opsibayar" id="opsibayarlunas" required>
                         <label for="opsibayarlunas">Lunas</label>
                         <br>
