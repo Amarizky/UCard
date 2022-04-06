@@ -72,31 +72,39 @@
                 <form method="post" action="<?= base_url('Product/tambah_product') ?>" enctype="multipart/form-data">
                     <b>Kode</b><br>
                     <div class="form-group">
-                        <input type="text" placeholder="Kode" name="kode" class="form-control">
+                        <input type="text" placeholder="Masukkan kode" name="kode" class="form-control">
                     </div>
                     <b>Nama</b><br>
                     <div class="form-group">
-                        <input type="text" placeholder="Nama" name="nama" class="form-control">
+                        <input type="text" placeholder="Masukkan nama" name="nama" class="form-control">
                     </div>
                     <b>Kategori</b><br>
                     <div class="form-group">
                         <input type="text" class="form-control tag-input narrow" name="category" id="tags3" placeholder="Kategori">
                     </div>
+                    <b>Tipe Produk</b><br>
+                    <div class="form-group">
+                        <select class="form-control" name="tipe">
+                            <option value="0">Kartu</option>
+                            <option value="1">Aksesoris</option>
+                            <option value="2">Tali</option>
+                        </select>
+                    </div>
                     <b>Deskripsi</b><br>
                     <div class="form-group">
-                        <textarea name="deskripsi" class="form-control" placeholder="Deskripsi"></textarea>
+                        <textarea name="deskripsi" class="form-control" placeholder="Masukkan deskripsi"></textarea>
                     </div>
                     <b>Keunggulan</b><br>
                     <div class="form-group">
-                        <textarea name="keunggulan" class="form-control" placeholder="Keunggulan"></textarea>
+                        <textarea name="keunggulan" class="form-control" placeholder="Masukkan keunggulan"></textarea>
                     </div>
                     <b>Keterangan</b><br>
                     <div class="form-group">
-                        <textarea name="keterangan" class="form-control" placeholder="Keterangan"></textarea>
+                        <textarea name="keterangan" class="form-control" placeholder="Masukkan keterangan"></textarea>
                     </div>
                     <b>Harga</b><br>
                     <div class="form-group">
-                        <input type="number" name="harga" class="form-control" placeholder="Harga">
+                        <input type="number" name="harga" class="form-control" placeholder="Masukkan harga">
                     </div>
                     <b>Gambar</b><br>
                     <div class="form-group">
@@ -127,31 +135,39 @@
                         <input type="hidden" name="id" value="<?= $p['product_id'] ?>">
                         <b>Kode</b><br>
                         <div class="form-group">
-                            <input type="text" placeholder="Kode" value="<?= $p['product_kode'] ?>" name="kode" class="form-control">
+                            <input type="text" placeholder="Masukkan kode" value="<?= $p['product_kode'] ?>" name="kode" class="form-control" required>
                         </div>
                         <b>Nama</b><br>
                         <div class="form-group">
-                            <input type="text" placeholder="Nama" value="<?= $p['product_nama'] ?>" name="nama" class="form-control">
+                            <input type="text" placeholder="Masukkan nama" value="<?= $p['product_nama'] ?>" name="nama" class="form-control" required>
                         </div>
                         <b>Kategori</b><br>
                         <div class="form-group">
-                            <input type="text" class="form-control tag-input narrow" value="<?= $this->M_category->kode_to_text($p['product_category'], '|') ?>" name="category" id="tags3" placeholder="Kategori">
+                            <input type="text" class="form-control tag-input narrow" value="<?= $this->M_category->kode_to_text($p['product_category'], '|') ?>" name="category" id="tags3" placeholder="Masukkan kategori" required>
+                        </div>
+                        <b>Tipe Produk</b><br>
+                        <div class="form-group">
+                            <select class="form-control" name="redirect">
+                                <option value="0" <?= $p['product_tipe'] == 0 ? 'selected' : ''; ?>>Kartu</option>
+                                <option value="1" <?= $p['product_tipe'] == 1 ? 'selected' : ''; ?>>Aksesoris</option>
+                                <option value="2" <?= $p['product_tipe'] == 2 ? 'selected' : ''; ?>>Tali</option>
+                            </select>
                         </div>
                         <b>Deskripsi</b><br>
                         <div class="form-group">
-                            <textarea name="deskripsi" class="form-control" placeholder="Deskripsi"><?= $p['product_deskripsi'] ?></textarea>
+                            <textarea name="deskripsi" class="form-control" placeholder="Masukkan deskripsi" required><?= $p['product_deskripsi'] ?></textarea>
                         </div>
                         <b>Keunggulan</b><br>
                         <div class="form-group">
-                            <textarea name="keunggulan" class="form-control" placeholder="Keunggulan"><?= $p['product_keunggulan'] ?></textarea>
+                            <textarea name="keunggulan" class="form-control" placeholder="Masukkan keunggulan"><?= $p['product_keunggulan'] ?></textarea>
                         </div>
                         <b>Keterangan</b><br>
                         <div class="form-group">
-                            <textarea name="keterangan" class="form-control" placeholder="Keterangan"><?= $p['product_keterangan'] ?></textarea>
+                            <textarea name="keterangan" class="form-control" placeholder="Masukkan keterangan"><?= $p['product_keterangan'] ?></textarea>
                         </div>
                         <b>Harga</b><br>
                         <div class="form-group">
-                            <input type="number" name="harga" value="<?= $p['product_harga'] ?>" class="form-control" placeholder="Harga">
+                            <input type="number" name="harga" value="<?= $p['product_harga'] ?>" class="form-control" placeholder="Masukkan harga" required>
                         </div>
                         <b>Gambar</b><br>
                         <div class="form-group">
@@ -168,20 +184,6 @@
         </div>
     </div>
 <?php endforeach ?>
-
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
-    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Edit Produk</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div id="form_edit"></div>
-        </div>
-    </div>
-</div>
 
 </div>
 <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">

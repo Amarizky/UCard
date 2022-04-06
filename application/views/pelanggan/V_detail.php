@@ -50,6 +50,10 @@
         font-size: 15px;
     }
 
+    .grid-item-nopadding {
+        padding: 0 0 20px 0 !important;
+    }
+
     .item1 {
         width: 100%;
         grid-column: 2;
@@ -248,7 +252,7 @@
                                     <h3 class="mb-0">Produk</h3>
                                 </div>
                             </div>
-                            <?php if (($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) && $id_status == '1') : ?>
+                            <?php if ($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) : ?>
                                 <div class="col">
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#perbaikan">
@@ -260,7 +264,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="container-fluid">
+                        <div class="container-fluid" style="padding: 0 !important;">
                             <b>Nama</b>
                             <p><?= $p['product_nama'] ?></p>
                             <b>Deskripsi</b>
@@ -277,7 +281,7 @@
                             <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
                             <p><?= $o['transaksi_keterangan'] ?></p>
                             <div class="grid-container">
-                                <div class="grid-item">
+                                <div class="grid-item grid-item-nopadding">
                                     <?php
                                     $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                     $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -289,12 +293,12 @@
                                     <b>Personalisasi</b>
                                     <p><?= $statusPersonalisasi; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item grid-item-nopadding">
                                     <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                     <b>Coating</b>
                                     <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item grid-item-nopadding">
                                     <?php
                                     $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
                                     $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -306,12 +310,12 @@
                                     <b>Finishing</b>
                                     <p><?= $statusFinishing; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item grid-item-nopadding">
                                     <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                     <b>Function</b>
                                     <p><?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item grid-item-nopadding">
                                     <?php
                                     $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                     $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -323,7 +327,7 @@
                                     <b>Packaging</b>
                                     <p><?= $statusPackaging; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item grid-item-nopadding">
                                     <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                     <b>Ambil/Kirim</b>
                                     <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -775,7 +779,7 @@
                             <input type="number" placeholder="jumlah" name="jumlah" class="form-control" value="<?= $d['transaksi_jumlah']; ?>" required>
                         </div>
                         <div class="grid-container">
-                            <div class="grid-item">
+                            <div class="grid-item grid-item-nopadding">
                                 <b>Personalisasi</b>
                                 <br><br>
                                 <div class="form-group">
@@ -791,7 +795,7 @@
                                     <label for="persona5">Data + Foto</label>
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item grid-item-nopadding">
                                 <b>Coating</b>
                                 <br><br>
                                 <input type="radio" id="coating1" placeholder="coating" name="coating" value="1" <?= $d['transaksi_coating'] == 1 ? 'checked' : ''; ?>>
@@ -803,7 +807,7 @@
                                 <input type="radio" id="coating4" placeholder="coating" name="coating" value="4" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
                                 <label for="coating3">UV</label>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item grid-item-nopadding">
                                 <b>Finishing</b>
                                 <br><br>
                                 <input type="checkbox" id="finish1" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
@@ -829,7 +833,7 @@
                                 <input type="checkbox" id="finish11" placeholder="finishing" name="finishing[]" value="11" <?= in_array('11', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish11">Swipe</label><br>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item grid-item-nopadding">
                                 <b>Function</b>
                                 <br><br>
                                 <input type="radio" id="function1" placeholder="function" name="function" value="1" <?= $d['transaksi_function'] == 1 ? 'checked' : ''; ?>>
@@ -841,7 +845,7 @@
                                 <input type="radio" id="function4" placeholder="function" name="function" value="4" <?= $d['transaksi_function'] == 4 ? 'checked' : ''; ?>>
                                 <label for="function4">Tap RFID</label>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item grid-item-nopadding">
                                 <b>Packaging</b>
                                 <br><br>
                                 <input type="checkbox" id="packaging1" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
@@ -861,7 +865,7 @@
                                 <input type="checkbox" id="packaging8" placeholder="packaging" name="packaging[]" value="8" <?= in_array('8', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging8">Large Maxi UCARD</label>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item grid-item-nopadding">
                                 <b>Ambil/Kirim</b>
                                 <br><br>
                                 <input type="radio" id="kirim" placeholder="status" name="status" value="1" <?= $d['transaksi_paket'] == 1 ? 'checked' : ''; ?>>
@@ -872,7 +876,7 @@
                         </div>
                         <div class="form-group">
                             <b>Keterangan</b><br>
-                            <textarea class="form-control" name="keterangan" placeholder="Keterangan"><?= $d['transaksi_keterangan']; ?></textarea>
+                            <textarea class="form-control" name="keterangan" placeholder="Masukkan keterangan"><?= $d['transaksi_keterangan']; ?></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1038,7 +1042,7 @@
             tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         $('#' + status).css('display', 'block');
-        evt.currentTarget.className += " active";
+        $(evt.currentTarget).addClass(" active");
     }
 
     // Get the element with id="defaultOpen" and click on it

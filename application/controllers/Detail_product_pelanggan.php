@@ -24,41 +24,34 @@ class Detail_product_pelanggan extends CI_Controller
 	{
 		$jumlah = $this->input->post('jumlah');
 		$keterangan = $this->input->post('keterangan');
-		$id_product = $this->input->post('id_product');
+		$product_id = $this->input->post('product_id');
 		$nohp = $this->input->post('nohp');
 		$harga = $this->input->post('harga');
-		$tot_h = $harga * $jumlah;
-		$tanggal = date('Y-m-d');
-		$personalisasi = implode(',', $this->input->post('personalisasi'));
-		$coating = $this->input->post('coating');
-		$finishing = implode(',', $this->input->post('finishing'));
-		$function = $this->input->post('function');
-		$packaging = implode(',', $this->input->post('packaging'));
-		$status = $this->input->post('status');
-		$material = $this->input->post('material');
-		$finish = $this->input->post('finish');
-		$jp = $this->input->post('jp');
-		$yoyo = $this->input->post('yoyo');
-		$warna = $this->input->post('warna');
-		$casing = $this->input->post('casing');
-		$ck = $this->input->post('ck');
-		$lr = $this->input->post('lr');
-		$pb = $this->input->post('pb');
+		$total_harga = $harga * $jumlah;
+		$tanggal = time();
+		$personalisasi = $this->input->post('personalisasi') ? implode(',', $this->input->post('personalisasi')) : null;
+		$finishing = $this->input->post('finishing') ? implode(',', $this->input->post('finishing')) : null;
+		$packaging = $this->input->post('packaging') ? implode(',', $this->input->post('packaging')) : null;
+		$coating = $this->input->post('coating') ?? null;
+		$function = $this->input->post('function') ?? null;
+		$status = $this->input->post('status') ?? null;
+		$material = $this->input->post('material') ?? null;
+		$finish = $this->input->post('finish') ?? null;
+		$jp = $this->input->post('jp') ?? null;
+		$yoyo = $this->input->post('yoyo') ?? null;
+		$warna = $this->input->post('warna') ?? null;
+		$casing = $this->input->post('casing') ?? null;
+		$ck = $this->input->post('ck') ?? null;
+		$lr = $this->input->post('lr') ?? null;
+		$pb = $this->input->post('pb') ?? null;
 
-
-		// $this->db->query(
-		// 	"INSERT INTO tbl_transaksi VALUES (NULL,'$nohp','$id_product','$tanggal',
-		// 	'$jumlah','$keterangan','$personalisasi','$coating','$finishing','$function','$packaging','$tot_h',NULL,NULL,NULL,NULL,NULL,1) "
-		// );
-
-		$data = array(
-			'transaksi_id' 					=> null,
+		$data = [
 			'transaksi_nohp' 				=> $nohp,
-			'transaksi_product_id' 			=> $id_product,
+			'transaksi_product_id' 			=> $product_id,
 			'transaksi_tanggal' 			=> $tanggal,
 			'transaksi_jumlah' 				=> $jumlah,
 			'transaksi_keterangan' 			=> $keterangan,
-			'transaksi_harga' 				=> $tot_h,
+			'transaksi_harga' 				=> $total_harga,
 			'transaksi_personalisasi' 		=> $personalisasi,
 			'transaksi_coating' 			=> $coating,
 			'transaksi_finishing' 			=> $finishing,
@@ -73,23 +66,19 @@ class Detail_product_pelanggan extends CI_Controller
 			'transaksi_ck' 					=> $ck,
 			'transaksi_logo' 				=> $lr,
 			'transaksi_pb' 					=> $pb,
-			'transaksi_bank' 				=> null,
-			'transaksi_atas_nama' 			=> null,
-			'transaksi_bukti' 				=> null,
 			'transaksi_paket' 				=> $status,
-			'transaksi_terima' 				=> null,
-			'transaksi_new' 				=> 1,
-			'transaksi_resi' 				=> null,
-			'transaksi_ongkir'				=> 0
-		);
+			'transaksi_new' 				=> 1
+		];
 
 		$this->db->insert('tbl_transaksi', $data);
-
 		$id_transaksi = $this->db->insert_id();
 
 		$tanggal_ini = time();
-		$s = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '1' ")->row_array();
-		$tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
+		$status_jangka_waktu = $this->db
+			->where('status_id', '1')
+			->get('tbl_status')
+			->row_array()['status_jangka_waktu'];
+		$tanggal_hangus = $tanggal_ini + (86400 * $status_jangka_waktu);
 
 		$data = array(
 			'transaksi_status_id'			=> 1,
