@@ -55,12 +55,21 @@ class Administrator extends CI_Controller
                 <script>
                     $('#tblPerm tr').click(function() {
                         var inp = $(this).find("input")[0];
-                        if (!$(inp).is('#perm_dashboard')) {
+                        if (!$(inp).is('#perm_dashboard') && !$(inp).is('#perm_orderdaftarorder')) {
                             inp.checked = !inp.checked;
-                            if ($(inp).hasClass("perm_order")) $(".perm_orders").prop("checked", $(".perm_order").prop("checked"));
-                            if ($(inp).hasClass("perm_orders"))
-                                if ($(".perm_orders:checked").length) $(".perm_order").prop("checked", true);
-                                else $(".perm_order").prop("checked", false);
+                            if ($(inp).hasClass("perm_order")) {
+                                $(".perm_orders").prop("checked", $(".perm_order").prop("checked"));
+                                $(".perm_orderdaftarorder").prop("checked", $(".perm_order").prop("checked"));
+                            }
+                            if ($(inp).hasClass("perm_orders")) {
+                                if ($(".perm_orders:checked").length) {
+                                    $(".perm_order").prop("checked", true);
+                                    $(".perm_orderdaftarorder").prop("checked", true);
+                                } else {
+                                    $(".perm_order").prop("checked", false);
+                                    $(".perm_orderdaftarorder").prop("checked", false);
+                                }
+                            }
                             if ($(inp).hasClass("perm_data")) $(".perm_datas").prop("checked", $(".perm_data").prop("checked"));
                             if ($(inp).hasClass("perm_datas"))
                                 if ($(".perm_datas:checked").length) $(".perm_data").prop("checked", true);
@@ -100,6 +109,16 @@ class Administrator extends CI_Controller
                             </td>
                         </tr>
 
+                        <tr>
+                            <td></td>
+                            <td class="perm_icon">
+                                <i class="fa fa-book"></i>
+                            </td>
+                            <td>DAFTAR ORDER</td>
+                            <td class="perm_check">
+                                <input class="perm_orderdaftarorder" type="checkbox" value="1" name="perm_orderdaftarorder" id="perm_orderdaftarorder" <?= $a["admin_perm_orderverifikasi"] || $a["admin_perm_orderkirimdesign"] || $a["admin_perm_orderpembayaran"] || $a["admin_perm_orderapproval"] || $a["admin_perm_ordercetakproduk"] || $a["admin_perm_orderkirimambil"] ? 'checked' : ''; ?> disabled>
+                            </td>
+                        </tr>
                         <tr>
                             <td></td>
                             <td class="perm_icon">

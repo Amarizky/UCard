@@ -35,6 +35,16 @@ class Detail_product_pelanggan extends CI_Controller
 		$function = $this->input->post('function');
 		$packaging = implode(',', $this->input->post('packaging'));
 		$status = $this->input->post('status');
+		$material = $this->input->post('material');
+		$finish = $this->input->post('finish');
+		$jp = $this->input->post('jp');
+		$yoyo = $this->input->post('yoyo');
+		$warna = $this->input->post('warna');
+		$casing = $this->input->post('casing');
+		$ck = $this->input->post('ck');
+		$lr = $this->input->post('lr');
+		$pb = $this->input->post('pb');
+
 
 		// $this->db->query(
 		// 	"INSERT INTO tbl_transaksi VALUES (NULL,'$nohp','$id_product','$tanggal',
@@ -54,6 +64,15 @@ class Detail_product_pelanggan extends CI_Controller
 			'transaksi_finishing' 			=> $finishing,
 			'transaksi_function' 			=> $function,
 			'transaksi_packaging' 			=> $packaging,
+			'transaksi_material' 			=> $material,
+			'transaksi_finish' 				=> $finish,
+			'transaksi_jp' 					=> $jp,
+			'transaksi_yoyo' 				=> $yoyo,
+			'transaksi_warna' 				=> $warna,
+			'transaksi_casing' 				=> $casing,
+			'transaksi_ck' 					=> $ck,
+			'transaksi_logo' 				=> $lr,
+			'transaksi_pb' 					=> $pb,
 			'transaksi_bank' 				=> null,
 			'transaksi_atas_nama' 			=> null,
 			'transaksi_bukti' 				=> null,

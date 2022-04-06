@@ -80,7 +80,7 @@
                                     <td><?= $o['transaksi_tanggal'] ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
                                     <td>
-                                        <?= $o['transaksi_terima'] == '1' ? 'Paket sudah diterima' : 'Transaksi gagal'; ?>
+                                        <?= $o['transaksi_terima'] == '1' ? 'Transaksi selesai' : 'Sedang berjalan'; ?>
                                     </td>
                                     <td>
                                         <button id="<?= $o['transaksi_id'] ?>" type="button" class="btn btn-info btn-sm update_status" data-toggle="modal" data-target="#update"><i class="fa fa-pen"></i></button>

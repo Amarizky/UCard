@@ -50,7 +50,6 @@
                     </td>
                 </div>
 
-
                 <!-- Light table -->
                 <div class="table-responsive">
                     <table class="table table-flush" id="datatable-basic">
@@ -69,11 +68,7 @@
                         <tbody>
                             <?php $n = 1;
                             foreach ($order as $o) : ?>
-                                <?php if ($o['transaksi_status'] == '0') : ?>
-                                    <tr style="background-color:#f7d7d7;">
-                                    <?php else : ?>
-                                    <tr>
-                                    <?php endif; ?>
+                                <tr style="<?= $o['transaksi_status'] == '0' ? 'background-color: #f7d7d7;' : ''; ?>">
                                     <td><?= $n++ ?></td>
                                     <td><?= $o['transaksi_nohp'] ?></td>
                                     <td><?= $o['pelanggan_nama'] ?></td>
@@ -81,39 +76,68 @@
                                     <td><?= $o['transaksi_jumlah'] ?></td>
                                     <td>
                                         <?php
-                                        if ($title == "Daftar Order") :
-                                            switch ($o['transaksi_status_id']):
-                                                case '1':
-                                                    echo 'Verifikasi';
-                                                    break;
-                                                case '2':
-                                                    echo 'Kirim Design';
-                                                    break;
-                                                case '3':
-                                                    echo 'Pembayaran';
-                                                    break;
-                                                case '4':
-                                                    echo 'Approval';
-                                                    break;
-                                                case '5':
-                                                    echo 'Cetak Produk';
-                                                    break;
-                                                case '6':
-                                                    echo 'Ambil/Kirim';
-                                                    break;
-                                                default:
-                                            endswitch;
-                                        else :
-                                            if ($o['transaksi_status'] == '0') {
-                                                echo 'Ditolak';
-                                            } elseif ($o['transaksi_status'] == '2') {
-                                                echo 'Menunggu Konfirmasi';
-                                            } elseif ($o['transaksi_paket'] == '0') {
-                                                echo 'Ambil Sendiri';
-                                            } elseif ($o['transaksi_paket'] == '1') {
-                                                echo 'Kirim Paket';
-                                            }
-                                        endif;
+                                        switch ($o['transaksi_status_id']):
+                                            case '1':
+                                                if ($o['transaksi_status'] == '0')
+                                                    echo 'Ditolak';
+                                                elseif ($o['transaksi_status'] == '2')
+                                                    echo 'Menunggu Konfirmasi';
+                                                break;
+                                            case '2':
+                                                $kdd = $this->db
+                                                    ->where('design_transaksi_id', $o['transaksi_id'])
+                                                    ->get('tbl_design_kirim')
+                                                    ->result_array();
+                                                if ($o['transaksi_status'] == '0')
+                                                    echo 'Ditolak';
+                                                else if (count($kdd) < 1 && (is_null($o['transaksi_link_desain']) || empty($o['transaksi_link_desain'])))
+                                                    echo 'Belum mengirim desain';
+                                                else
+                                                    echo 'Menunggu konfirmasi';
+                                                break;
+                                            case '3':
+                                                if ($o['transaksi_status'] == '0')
+                                                    echo 'Ditolak';
+                                                else if (is_null($o['transaksi_bukti']))
+                                                    echo 'Belum ada bukti transfer';
+                                                else
+                                                    echo 'Menunggu konfirmasi';
+                                                break;
+                                            case '4':
+                                                if ($o['transaksi_status'] == '0')
+                                                    echo 'Ditolak';
+                                                else if ((is_null($o['transaksi_approval_1']) || empty($o['transaksi_approval_1']))
+                                                    || is_null($o['transaksi_approval_2']) || empty($o['transaksi_approval_2'])
+                                                    || is_null($o['transaksi_approval_3']) || empty($o['transaksi_approval_3'])
+                                                )
+                                                    echo 'Belum upload pilihan';
+                                                else if (is_null($o['transaksi_approval_acc']) || empty($o['transaksi_approval_acc']))
+                                                    echo 'Pelanggan belum memilih';
+                                                else
+                                                    echo 'Menunggu konfirmasi';
+                                                break;
+                                            case '5':
+                                                $st = $this->db
+                                                    ->from('tbl_status_transaksi')
+                                                    ->join('tbl_status', 'transaksi_produksi_status_id=status_id')
+                                                    ->where('transaksi_order_id', $o['transaksi_id'])
+                                                    ->order_by('transaksi_id', 'DESC')
+                                                    ->limit(1)
+                                                    ->get()
+                                                    ->row_array();
+                                                echo $st['status_status'];
+                                                break;
+                                            case '6':
+                                                if (is_null($o['transaksi_resi']) || empty($o['transaksi_resi']))
+                                                    echo 'Belum ada resi';
+                                                else if (is_null($o['transaksi_terima']) || empty($o['transaksi_terima']))
+                                                    echo 'Sedang dikirim';
+                                                else
+                                                    echo 'Transaksi selesai';
+                                                break;
+                                            default:
+                                                echo '-';
+                                        endswitch;
                                         ?>
                                     </td>
                                     <td>
@@ -123,8 +147,8 @@
                                     <td>
                                         <button id="<?= $o['transaksi_id'] ?>" type="button" class="btn btn-danger btn-sm hapus" data-toggle="modal" data-target="#hapus"><i class="fa fa-times"></i></button>
                                     </td>
-                                    </tr>
-                                <?php endforeach ?>
+                                </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>

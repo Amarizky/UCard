@@ -1,13 +1,13 @@
 <?php
-$jml_daftar = $this->db->query("SELECT count(t.transaksi_id) AS jml_daftar FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE (s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_daftar'];
-$jml_verif = $this->db->query("SELECT count( t.transaksi_id ) AS jml_verif FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_verif'];
+$jml_daftar = count(($this->db->query("SELECT t.transaksi_id FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE (s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'" . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission() . ' GROUP BY t.transaksi_id')->result_array()));
+$jml_verif = $this->db->query("SELECT count(t.transaksi_id) AS jml_verif FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_verif'];
 $jml_design = $this->db->query("SELECT count(t.transaksi_id) AS jml_design FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_design'];
 $jml_pemb = $this->db->query("SELECT count(t.transaksi_id) AS jml_pemb FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_pemb'];
 $jml_approv = $this->db->query("SELECT count(t.transaksi_id) AS jml_approv FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_approv'];
-$jml_cetak = $this->db->query("SELECT count(t.transaksi_id) AS jml_cetak FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_cetak'];
+$jml_cetak = count($this->db->query("SELECT t.transaksi_id FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id")->result_array());
 $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status IS NULL OR s.transaksi_status = '0')  AND t.transaksi_terima IS NULL AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0'")->row_array()['jml_kirim'];
-
 ?>
+
 <!DOCTYPE html>
 <html>
 <!-- buat push doang -->
@@ -77,7 +77,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                 </a>
                                 <div class="collapse <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">
-                                        <?php if ($perms['admin_perm_order'] && $perms['admin_perm_orderverifikasi'] && $perms['admin_perm_orderkirimdesign'] && $perms['admin_perm_orderpembayaran'] && $perms['admin_perm_orderapproval'] && $perms['admin_perm_ordercetakproduk'] && $perms['admin_perm_orderkirimambil']) : ?>
+                                        <?php if ($perms['admin_perm_order']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order') ?>" class="nav-link <?= $seg1 == 'Order' && $seg2 == '' ? 'active' : ''; ?>"><i class="fa fa-book"></i>
                                                     <table style="width:100%;">
@@ -174,32 +174,32 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <?php if ($perms['admin_perm_data']) : ?>
+                        <?php if ($perms['admin_perm_laporan']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 == 'Data' ? 'active' : ''; ?>" href="#navbar-data" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-data">
+                                <a class="nav-link <?= $seg1 == 'Laporan' ? 'active' : ''; ?>" href="#navbar-laporan" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-data">
                                     <i class="ni ni-single-copy-04 text-info"></i>
-                                    <span class="nav-link-text">Data</span>
+                                    <span class="nav-link-text">Laporan</span>
                                 </a>
-                                <div class="collapse <?= $seg1 == 'Data' ? 'show' : ''; ?>" id="navbar-data">
+                                <div class="collapse <?= $seg1 == 'Laporan' ? 'show' : ''; ?>" id="navbar-laporan">
                                     <ul class="nav nav-sm flex-column">
-                                        <?php if ($perms['admin_perm_datapelanggan']) : ?>
+                                        <?php if ($perms['admin_perm_laporanpelanggan']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Data/pelanggan') ?>" class="nav-link <?= $seg2 == 'pelanggan' ? 'active' : ''; ?>">
-                                                    <i class="ni ni-single-copy-04 text-info"></i>Data Pelanggan
+                                                <a href="<?= base_url('Laporan/pelanggan') ?>" class="nav-link <?= $seg2 == 'pelanggan' ? 'active' : ''; ?>">
+                                                    <i class="ni ni-single-copy-04 text-info"></i>Pelanggan
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        <?php if ($perms['admin_perm_dataproduk']) : ?>
+                                        <?php if ($perms['admin_perm_laporanproduk']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Data/produk') ?>" class="nav-link <?= $seg2 == 'produk' ? 'active' : ''; ?>">
-                                                    <i class="ni ni-single-copy-04 text-info"></i>Data Produk
+                                                <a href="<?= base_url('Laporan/produk') ?>" class="nav-link <?= $seg2 == 'produk' ? 'active' : ''; ?>">
+                                                    <i class="ni ni-single-copy-04 text-info"></i>Produk
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        <?php if ($perms['admin_perm_datapenjualan']) : ?>
+                                        <?php if ($perms['admin_perm_laporanpenjualan']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Data/penjualan') ?>" class="nav-link <?= $seg2 == 'penjualan' ? 'active' : ''; ?>">
-                                                    <i class="ni ni-single-copy-04 text-info"></i>Data Penjualan
+                                                <a href="<?= base_url('Laporan/penjualan') ?>" class="nav-link <?= $seg2 == 'penjualan' ? 'active' : ''; ?>">
+                                                    <i class="ni ni-single-copy-04 text-info"></i>Penjualan
                                                 </a>
                                             </li>
                                         <?php endif; ?>

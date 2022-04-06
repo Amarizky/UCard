@@ -78,6 +78,8 @@
                                             echo 'Selesai';
                                         } elseif ($o['transaksi_terima'] == '0') {
                                             echo 'Gagal';
+                                        } else {
+                                            echo 'Sedang berjalan';
                                         }
                                         ?>
                                     </td>
