@@ -1034,12 +1034,26 @@ HTML
     function savespkapv()
     {
         $id = $this->input->post('id');
-        $JLembarAA = $this->input->post('JLembarAA');
-        $JOverlayAA = $this->input->post('JOverlayAA');
-        $JChipAA = $this->input->post('JChipAA');
-        $JMagneticAA = $this->input->post('JMagneticAA');
+        $JLembarAwal = $this->input->post('JLembarAwal');
+        $JLembarAkhir = $this->input->post('JLembarAkhir');
+        $JOverlayAwal = $this->input->post('JOverlayAwal');
+        $JOverlayAkhir = $this->input->post('JOverlayAkhir');
+        $JChipAwal = $this->input->post('JChipAwal');
+        $JChipAkhir = $this->input->post('JChipAkhir');
+        $JMagneticAwal = $this->input->post('JMagneticAwal');
+        $JMagneticAkhir = $this->input->post('JMagneticAkhir');
         $JKartuRusak = $this->input->post('JKartuRusak');
         $JLembarRusak = $this->input->post('JLembarRusak');
+        $JTaliAwal = $this->input->post('JTaliAwal');
+        $JTaliAkhir = $this->input->post('JTaliAkhir');
+        $JTaliStopperAwal = $this->input->post('JTaliStopperAwal');
+        $JTaliStopperAkhir = $this->input->post('JTaliStopperAkhir');
+        $JKlemAwal = $this->input->post('JKlemAwal');
+        $JKlemAkhir = $this->input->post('JKlemAkhir');
+        $JKaitAwal = $this->input->post('JKaitAwal');
+        $JKaitAkhir = $this->input->post('JKaitAkhir');
+        $JStopperAwal = $this->input->post('JStopperAwal');
+        $JStopperAkhir = $this->input->post('JStopperAkhir');
         $spkOperator = $this->input->post('spkOperator');
         $tanggalJamFix = $this->input->post('tanggalJamFix');
         $kodeFix = $this->input->post('kodeFix');
@@ -1047,22 +1061,90 @@ HTML
         $deadline = $this->input->post('deadline');
         $noPenyelesaian = $this->input->post('noPenyelesaian');
 
-
-
         $data = array(
-            'transaksi_spkkartu_jumlahlembarawalakhir'                 => $JLembarAA,
-            'transaksi_spkkartu_jumlahoverlayawalakhir'                => $JOverlayAA,
+            'transaksi_spkkartu_jumlahlembarawal'                      => $JLembarAwal,
+            'transaksi_spkkartu_jumlahlembarakhir'                     => $JLembarAkhir,
+            'transaksi_spkkartu_jumlahoverlayawal'                     => $JOverlayAwal,
+            'transaksi_spkkartu_jumlahoverlayakhir'                    => $JOverlayAkhir,
+            'transaksi_spk_jumlahtaliawal'                             => $JTaliAwal,
+            'transaksi_spk_jumlahtaliakhir'                            => $JTaliAkhir,
+            'transaksi_spk_jumlahtalistopperawal'                      => $JTaliStopperAwal,
+            'transaksi_spk_jumlahtalistopperakhir'                     => $JTaliStopperAkhir,
+            'transaksi_spk_jumlahklemawal'                             => $JKlemAwal,
+            'transaksi_spk_jumlahklemakhir'                            => $JKlemAkhir,
+            'transaksi_spk_jumlahkaitawal'                             => $JKaitAwal,
+            'transaksi_spk_jumlahkaitakhir'                            => $JKaitAkhir,
+            'transaksi_spk_jumlahstopperawal'                          => $JStopperAwal,
+            'transaksi_spk_jumlahstopperakhir'                         => $JStopperAkhir,
             'transaksi_spk_operator'                                   => $spkOperator,
-            'transaksi_spkkartu_jumlahchipawalakhir'                   => $JChipAA,
+            'transaksi_spkkartu_jumlahchipawal'                        => $JChipAwal,
+            'transaksi_spkkartu_jumlahchipakhir'                       => $JChipAkhir,
             'transaksi_spkkartu_jumlahlembarrusak'                     => $JLembarRusak,
             'transaksi_spkkartu_jumlahkarturusak'                      => $JKartuRusak,
-            'transaksi_spkkartu_jumlahmagneticawalakhir'               => $JMagneticAA,
+            'transaksi_spkkartu_jumlahmagneticawal'                    => $JMagneticAwal,
+            'transaksi_spkkartu_jumlahmagneticakhir'                   => $JMagneticAkhir,
             'transaksi_spk_tanggaljamfix'                              => $tanggalJamFix,
             'transaksi_spk_kodefix'                                    => $kodeFix,
             'transaksi_spk_speeling'                                   => $Speeling,
             'transaksi_spk_deadline'                                   => $deadline,
             'transaksi_no_penyelesaian'                                => $noPenyelesaian
+        );
+        $this->db->where('transaksi_id', $id);
+        $this->db->update('tbl_transaksi', $data);
+    }
+    function savespkprdksi()
+    {
+        $id = $this->input->post('id');
+        $JLembarAwal = $this->input->post('JLembarAwalp');
+        $JLembarAkhir = $this->input->post('JLembarAkhirp');
+        $JOverlayAwal = $this->input->post('JOverlayAwalp');
+        $JOverlayAkhir = $this->input->post('JOverlayAkhirp');
+        $JChipAwal = $this->input->post('JChipAwalp');
+        $JChipAkhir = $this->input->post('JChipAkhirp');
+        $JMagneticAwal = $this->input->post('JMagneticAwalp');
+        $JMagneticAkhir = $this->input->post('JMagneticAkhirp');
+        $JTaliAwal = $this->input->post('JTaliAwalp');
+        $JTaliAkhir = $this->input->post('JTaliAkhirp');
+        $JTaliStopperAwal = $this->input->post('JTaliStopperAwalp');
+        $JTaliStopperAkhir = $this->input->post('JTaliStopperAkhirp');
+        $JKlemAwal = $this->input->post('JKlemAwalp');
+        $JKlemAkhir = $this->input->post('JKlemAkhirp');
+        $JKaitAwal = $this->input->post('JKaitAwalp');
+        $JKaitAkhir = $this->input->post('JKaitAkhirp');
+        $JStopperAwal = $this->input->post('JStopperAwalp');
+        $JStopperAkhir = $this->input->post('JStopperAkhirp');
+        $spkOperator = $this->input->post('spkOperatorp');
+        $tanggalJamFix = $this->input->post('tanggalJamFix');
+        $kodeFix = $this->input->post('kodeFix');
+        $Speeling = $this->input->post('Speeling');
+        $deadline = $this->input->post('deadline');
+        $noPenyelesaian = $this->input->post('noPenyelesaian');
 
+        $data = array(
+            'transaksi_spkkartu_jumlahlembarawal'                      => $JLembarAwal,
+            'transaksi_spkkartu_jumlahlembarakhir'                     => $JLembarAkhir,
+            'transaksi_spkkartu_jumlahoverlayawal'                     => $JOverlayAwal,
+            'transaksi_spkkartu_jumlahoverlayakhir'                    => $JOverlayAkhir,
+            'transaksi_spkkartu_jumlahmagneticawal'                    => $JMagneticAwal,
+            'transaksi_spkkartu_jumlahmagneticakhir'                   => $JMagneticAkhir,
+            'transaksi_spkkartu_jumlahchipawal'                        => $JChipAwal,
+            'transaksi_spkkartu_jumlahchipakhir'                       => $JChipAkhir,
+            'transaksi_spk_jumlahtaliawal'                             => $JTaliAwal,
+            'transaksi_spk_jumlahtaliakhir'                            => $JTaliAkhir,
+            'transaksi_spk_jumlahtalistopperawal'                      => $JTaliStopperAwal,
+            'transaksi_spk_jumlahtalistopperakhir'                     => $JTaliStopperAkhir,
+            'transaksi_spk_jumlahklemawal'                             => $JKlemAwal,
+            'transaksi_spk_jumlahklemakhir'                            => $JKlemAkhir,
+            'transaksi_spk_jumlahkaitawal'                             => $JKaitAwal,
+            'transaksi_spk_jumlahkaitakhir'                            => $JKaitAkhir,
+            'transaksi_spk_jumlahstopperawal'                          => $JStopperAwal,
+            'transaksi_spk_jumlahstopperakhir'                         => $JStopperAkhir,
+            'transaksi_spk_operator'                                   => $spkOperator,
+            'transaksi_spk_tanggaljamfix'                              => $tanggalJamFix,
+            'transaksi_spk_kodefix'                                    => $kodeFix,
+            'transaksi_spk_speeling'                                   => $Speeling,
+            'transaksi_spk_deadline'                                   => $deadline,
+            'transaksi_no_penyelesaian'                                => $noPenyelesaian
         );
         $this->db->where('transaksi_id', $id);
         $this->db->update('tbl_transaksi', $data);
