@@ -342,12 +342,13 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                     <ul class="navbar-nav align-items-center ml-auto ml-md-0">
                         <li class="nav-item dropdown">
                             <a id="s-n" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="ni ni-bell-55"></i><b class="notif_status">0</b>
+                                <i class="ni ni-bell-55"></i>
+                                <b class="notif_status">0</b>
                             </a>
                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
                                 <!-- Dropdown header -->
                                 <div class="px-3 py-3">
-                                    <h6 class="text-sm text-muted m-0">Ada <b class="text-primary notif_status">0</b> Notifikasi.</h6>
+                                    <h6 class="text-sm text-muted m-0">Ada <b class="text-primary notif_status">0</b> notifikasi</h6>
                                 </div>
                                 <!-- List group -->
                                 <div style="max-height:500px;overflow-y:auto;" id="list-notif" class="list-group list-group-flush">

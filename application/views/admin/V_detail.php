@@ -388,164 +388,103 @@
             <div id="status2" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Design</h3>
+                        <h3 class="mb-0">Kirim Design</h3>
                     </div>
                     <div class="card-body">
+                        <p>File dan/atau link akan muncul jika pelanggan sudah mengunggahnya</p>
+                        <hr>
                         <?php
                         $id = $this->uri->segment(3);
                         $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                        if (!$design && !$upload) {
-                            echo '<h3>Pelanggan belum mengirim gambar desain ataupun link</h3>';
-                        }
                         if ($design) : ?>
-                            <h3>Design Anda</h3>
+                            <h3>Design Pelanggan</h3>
                             <br>
                             <?php foreach ($design as $d) : ?>
-                                <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat"><img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt=""></a>
+                                <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat">
+                                    <img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt="">
+                                </a>
                                 <hr>
                             <?php endforeach; ?>
                         <?php endif; ?>
-                        <?php if ($upload) : ?>
-                            <h3>Uploaded File & Design</h3>
-                            <br>
-                            <div class="table-responsive">
-                                <table class="table table-flush" id="datatable-basic">
-                                    <thead>
+                        <h3>Desain Terunggah</h3>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table table-flush">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama File</th>
+                                        <th>Lihat</th>
+                                        <th>Unduh</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    <?php if (count($upload) < 1) : ?>
                                         <tr>
-                                            <th>File Name</th>
-                                            <th>Download</th>
+                                            <td colspan="4">Pelanggan belum mengirimkan file desain</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
+                                    <?php else : ?>
                                         <?php foreach ($upload as $u) : ?>
                                             <tr>
+                                                <td><?= $i++; ?></td>
                                                 <td><?php echo  $u['design_image']; ?></td>
-                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">Lihat</a></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Unduh</a></td>
                                             </tr>
                                         <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php endif; ?>
-                        <?php if (!empty($link['transaksi_link_desain'])) : ?>
-                            <div>
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <label for="link" class="col-form-label">Link File:</label>
-                                        </td>
-                                        <td>
-                                            <input size="35%" type="text" style="border: 1px solid #ccc; border-radius: 4px;" readonly class="form-control-plaintext" id="link" value="<?= $link['transaksi_link_desain']; ?>">
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" onclick="copy()">Copy</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <h3>Link File</h3>
+                        <div class="col p-0">
+                            <input type="text" class="form-control" name="link" value="<?= !empty($link['transaksi_link_desain']) && !is_null($link['transaksi_link_desain']) ? $link['transaksi_link_desain'] : 'Pelanggan belum mengirimkan link file'; ?>">
+                        </div>
                     </div>
                 </div>
             </div>
-            <?php $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array(); ?>
             <div id="status3" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Pembayaran</h3>
-                    </div>
-                    <div class="card-body">
-                        <table>
-                            <tr>
-                                <td>
-                                    <b id="view_harga"><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></b>
-                                    <input value="<?= $o['transaksi_harga'] ?>" id="harga" placeholder="Harga" type="number" class="form-control">
-                                </td>
-                                <td>
-                                    <button id="tombol_update" class="btn btn-primary btn-sm">Update</button>
-                                    <button id="update_harga" class="btn btn-primary">Save</button>
-                                </td>
-                                <td><i id="alert"></i></td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr></tr>
-                            <?php if ($o['transaksi_paket'] == '1') : ?>
-                                <tr>
-                                    <td>
-                                        <input type="number" name="ongkir" id="ongkir" placeholder="Masukkan ongkir" value="<?= $ongkir['transaksi_ongkir']; ?>">
-                                    </td>
-                                    <td>
-                                        <button type="submit" class="btn btn-primary btn-sm" id="updateOngkir">Update</button>
-                                    </td>
-                                </tr>
-                            <?php endif ?>
-                        </table>
-                        <br>
-                        <?php foreach ($bank as $b) : ?>
-                            <div class="panel-group" id="accordion">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <?php if ($b['bank_id'] == $o['transaksi_bank']) : ?>
-                                                            <input checked="" required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
-                                                        <?php else : ?>
-                                                            <input required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
-                                                        <?php endif ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php if ($b['bank_nama'] === 'TUNAI') : ?>
-                                                            <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;">
-                                                                TUNAI
-                                                            </a>
-                                                        <?php else : ?>
-                                                            <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $b['bank_id'] ?>">
-                                                                &nbsp;<img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
-                                                            </a>
-                                                        <?php endif; ?>
-                                                        <script>
-                                                            var checked = $('.r<?= $b['bank_id'] ?>').attr('checked');
-                                                            $('#t<?= $b['bank_id'] ?>').click(function() {
-                                                                if (typeof checked !== typeof undefined && checked !== false) {
-                                                                    $('.r<?= $b['bank_id'] ?>').attr('checked', '');
-                                                                } else {
-                                                                    $('.r<?= $b['bank_id'] ?>').removeAttr('checked');
-                                                                }
-                                                            });
-                                                        </script>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </h4>
-                                    </div>
-                                    <?php if ($b['bank_nama'] !== 'TUNAI') : ?>
-                                        <div id="collapse<?= $b['bank_id'] ?>" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                <table class="table">
-                                                    <tr>
-                                                        <th>Atas nama</th>
-                                                        <th>Nomor rekening</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><?= $b['bank_atas_nama'] ?></td>
-                                                        <td><?= $b['bank_no_rek'] ?></td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    <?php endif; ?>
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-left">
+                                    <h3 class="mb-0">Pembayaran</h3>
                                 </div>
                             </div>
-                        <?php endforeach ?>
-                        <br>
+                            <?php $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' ORDER BY transaksi_id DESC LIMIT 1 ")->row_array(); ?>
+                            <?php if ($st['transaksi_status_id'] == '3') : ?>
+                                <div class="col">
+                                    <div class="text-right">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ubah_harga">
+                                            Ubah Harga <i class="fa fa-pen"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p>Silahkan ubah harga dan/atau ongkir jika diperlukan. Bukti transfer akan muncul setelah pelanggan mengunggah file bukti transfer.</p>
+                        <hr>
+                        <b>Harga</b>
+                        <p>Rp<?= number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                        <b>Ongkir</b>
+                        <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.'); ?></p>
+                        <b>Total perlu dibayar (Lunas)</b>
+                        <p>Rp<?= number_format($o['transaksi_harga'] + $o['transaksi_ongkir'], 2, ',', '.'); ?></p>
+                        <b>Total perlu dibayar (DP)</b>
+                        <p>Rp<?= number_format(($o['transaksi_harga'] + $o['transaksi_ongkir']) * 0.5, 2, ',', '.'); ?></p>
+                        <hr>
+                        <b>Bukti Transfer</b>
                         <?php if (!empty($o['transaksi_bukti'])) : ?>
                             <a type="button" class="modal_lihat" data-toggle="modal" data-target="#bukti"><img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>"></a>
                         <?php else : ?>
-                            <h2>Belum ada bukti transfer</h2>
+                            <p>Pelanggan belum mengunggah bukti transfer</p>
                         <?php endif ?>
                     </div>
                 </div>
@@ -760,6 +699,32 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ubah_harga" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <form method="post" action="<?= base_url('Order/update_harga'); ?>" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Ubah Harga</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                <div class="form-group">
+                    <label for="harga"><b>Harga</b></label>
+                    <input class="form-control" id="harga" type="number" name="harga" value="<?= $o['transaksi_harga']; ?>">
+                    <br>
+                    <label for="ongkir"><b>Ongkir</b></label>
+                    <input class="form-control" id="ongkir" type="number" name="ongkir" value="<?= $o['transaksi_ongkir'] ?? '0'; ?>">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -1561,30 +1526,6 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
 <script>
-    $('#harga').css('display', 'none');
-    $('#update_harga').css('display', 'none');
-    $('#tombol_update').click(function() {
-        $('#harga').css('display', 'block');
-        $('#view_harga').css('display', 'none');
-        $('#tombol_update').css('display', 'none');
-        $('#update_harga').css('display', 'block');
-    });
-    $('#update_harga').click(function() {
-        var id = $('#id').val();
-        var harga = $('#harga').val();
-        $('#alert').attr('class', '');
-        $.ajax({
-            url: "<?= base_url('Order/update_order') ?>",
-            type: "POST",
-            data: {
-                id: id,
-                harga: harga
-            },
-            success: function(data) {
-                $('#alert').attr('class', 'fa fa-check fa-2x');
-            }
-        });
-    });
     $('.status').click(function() {
         var id = $('#id').val();
         var id_status = $(this).attr('id-status');
@@ -1809,9 +1750,11 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 <script>
     $(document).ready(function() {
         var baseUrl = window.location.href;
-        var elId = baseUrl.substring(baseUrl.lastIndexOf('#'));
-        if (elId !== null) $(elId).modal('show');
-
+        var hash = baseUrl.lastIndexOf('#');
+        if (hash != -1) {
+            var elId = baseUrl.substring(hash);
+            if (elId !== null) $(elId).modal('show');
+        }
     })
 
     $('#savespksales').click(function(e) {

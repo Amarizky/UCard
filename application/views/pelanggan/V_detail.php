@@ -248,7 +248,7 @@
                                     <h3 class="mb-0">Produk</h3>
                                 </div>
                             </div>
-                            <?php if (($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) && $id_status == '1') : ?>
+                            <?php if ($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) : ?>
                                 <div class="col">
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#perbaikan">
@@ -260,7 +260,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="container-fluid">
+                        <div class="container-fluid" style="padding: 0 !important;">
                             <b>Nama</b>
                             <p><?= $p['product_nama'] ?></p>
                             <b>Deskripsi</b>
@@ -277,7 +277,7 @@
                             <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
                             <p><?= $o['transaksi_keterangan'] ?></p>
                             <div class="grid-container">
-                                <div class="grid-item">
+                                <div class="grid-item p-0 pb-3">
                                     <?php
                                     $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                     $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -289,12 +289,12 @@
                                     <b>Personalisasi</b>
                                     <p><?= $statusPersonalisasi; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item p-0 pb-3">
                                     <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                     <b>Coating</b>
                                     <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item p-0 pb-3">
                                     <?php
                                     $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
                                     $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -306,12 +306,12 @@
                                     <b>Finishing</b>
                                     <p><?= $statusFinishing; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item p-0 pb-3">
                                     <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                     <b>Function</b>
                                     <p><?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item p-0 pb-3">
                                     <?php
                                     $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                     $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -323,7 +323,7 @@
                                     <b>Packaging</b>
                                     <p><?= $statusPackaging; ?></p>
                                 </div>
-                                <div class="grid-item">
+                                <div class="grid-item p-0 pb-3">
                                     <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                     <b>Ambil/Kirim</b>
                                     <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -336,14 +336,17 @@
             <div id="status2" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Desain</h3>
+                        <h3 class="mb-0">Kirim Desain</h3>
                     </div>
                     <div class="card-body">
-                        <p>Jika ukuran file terlalu besar silahkan upload ke file hosting lalu masukkan link ke kolom Link File.</p>
+                        <p>
+                            Jika ukuran file terlalu besar silahkan upload ke file hosting lalu masukkan link ke kolom Link File.
+                            <br>Jika sudah silahkan tunggu sampai Admin memverifikasi desain Anda.
+                        </p>
                         <hr>
                         <?php if ($o['transaksi_terima'] !== '1') : ?>
                             <form method="post" action="<?= base_url('Order_pelanggan/upload_design') ?>" enctype="multipart/form-data">
-                                <h3>Upload Desain</h3>
+                                <h3>Unggah Desain</h3>
                                 <input type="file" class="form-control" multiple name="design[]">
                                 <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
                                 <br>
@@ -368,31 +371,30 @@
                         endif;
                         ?>
                         <?php if ($upload) : ?>
-                            <h3>Uploaded File/Design Link</h3>
+                            <h3>Desain Terunggah</h3>
                             <br>
                             <div class="table-responsive">
-                                <table class="table table-flush" id="datatable-basic">
+                                <table class="table table-flush">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Nama File</th>
                                             <th>Lihat</th>
-                                            <th>Download</th>
+                                            <th>Unduh</th>
                                             <th>Hapus</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        foreach ($upload as $u) :
-                                        ?>
+                                        <?php $i = 1; ?>
+                                        <?php foreach ($upload as $u) : ?>
                                             <tr>
+                                                <td><?= $i++; ?></td>
                                                 <td><?= $u['design_image']; ?></td>
                                                 <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" target="_blank">Lihat</a></td>
-                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Unduh</a></td>
                                                 <td><a id="<?= $u['design_id'] ?>" type="button" class="hapus" data-toggle="modal" data-target="#hapus" style="color:red;">Hapus</a></td>
                                             </tr>
-                                        <?php
-                                        endforeach;
-                                        ?>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -402,14 +404,15 @@
                         <?php
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         ?>
+                        <hr>
                         <h3>Link File</h3>
                         <form method="post" action="<?= base_url('Order_pelanggan/update_link'); ?>" class="form-group row">
                             <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
-                            <div class="col-sm-8 pr-1">
+                            <div class="col-sm-9 pr-1">
                                 <input type="text" class="form-control" name="link" placeholder="Masukkan link file" value="<?= $link['transaksi_link_desain']; ?>">
                             </div>
-                            <div class="col-sm-4 pl-1">
-                                <button type="submit" class="btn btn-primary mb-2 w-100">Save</button>
+                            <div class="col-sm-3 pl-1">
+                                <button type="submit" class="btn btn-primary mb-2 w-100">Simpan</button>
                             </div>
                         </form>
                     </div>
@@ -445,9 +448,9 @@
                         </label>
                     </div>
                     <div class="card-body">
-                        <p>Silahkan melakukan transaksi sesuai harga yang di sepakati</p>
-                        <h3>Silahkan pilih salah satu</h3>
+                        <p>Silahkan melakukan transfer ke rekening di bawah sesuai harga yang telah disepakati.</p>
 
+                        <h3>Silahkan pilih salah satu</h3>
                         <input type="radio" name="opsibayar" id="opsibayarlunas" required>
                         <label for="opsibayarlunas">Lunas</label>
                         <br>
@@ -775,7 +778,7 @@
                             <input type="number" placeholder="jumlah" name="jumlah" class="form-control" value="<?= $d['transaksi_jumlah']; ?>" required>
                         </div>
                         <div class="grid-container">
-                            <div class="grid-item">
+                            <div class="grid-item p-0 pb-3">
                                 <b>Personalisasi</b>
                                 <br><br>
                                 <div class="form-group">
@@ -791,7 +794,7 @@
                                     <label for="persona5">Data + Foto</label>
                                 </div>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item p-0 pb-3">
                                 <b>Coating</b>
                                 <br><br>
                                 <input type="radio" id="coating1" placeholder="coating" name="coating" value="1" <?= $d['transaksi_coating'] == 1 ? 'checked' : ''; ?>>
@@ -803,7 +806,7 @@
                                 <input type="radio" id="coating4" placeholder="coating" name="coating" value="4" <?= $d['transaksi_coating'] == 3 ? 'checked' : ''; ?>>
                                 <label for="coating3">UV</label>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item p-0 pb-3">
                                 <b>Finishing</b>
                                 <br><br>
                                 <input type="checkbox" id="finish1" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
@@ -829,7 +832,7 @@
                                 <input type="checkbox" id="finish11" placeholder="finishing" name="finishing[]" value="11" <?= in_array('11', $finishing) ? 'checked' : ''; ?>>
                                 <label for="finish11">Swipe</label><br>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item p-0 pb-3">
                                 <b>Function</b>
                                 <br><br>
                                 <input type="radio" id="function1" placeholder="function" name="function" value="1" <?= $d['transaksi_function'] == 1 ? 'checked' : ''; ?>>
@@ -841,7 +844,7 @@
                                 <input type="radio" id="function4" placeholder="function" name="function" value="4" <?= $d['transaksi_function'] == 4 ? 'checked' : ''; ?>>
                                 <label for="function4">Tap RFID</label>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item p-0 pb-3">
                                 <b>Packaging</b>
                                 <br><br>
                                 <input type="checkbox" id="packaging1" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
@@ -861,7 +864,7 @@
                                 <input type="checkbox" id="packaging8" placeholder="packaging" name="packaging[]" value="8" <?= in_array('8', $packaging) ? 'checked' : ''; ?>>
                                 <label for="packaging8">Large Maxi UCARD</label>
                             </div>
-                            <div class="grid-item">
+                            <div class="grid-item p-0 pb-3">
                                 <b>Ambil/Kirim</b>
                                 <br><br>
                                 <input type="radio" id="kirim" placeholder="status" name="status" value="1" <?= $d['transaksi_paket'] == 1 ? 'checked' : ''; ?>>
@@ -872,7 +875,7 @@
                         </div>
                         <div class="form-group">
                             <b>Keterangan</b><br>
-                            <textarea class="form-control" name="keterangan" placeholder="Keterangan"><?= $d['transaksi_keterangan']; ?></textarea>
+                            <textarea class="form-control" name="keterangan" placeholder="Masukkan keterangan"><?= $d['transaksi_keterangan']; ?></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -1038,7 +1041,7 @@
             tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
         $('#' + status).css('display', 'block');
-        evt.currentTarget.className += " active";
+        $(evt.currentTarget).addClass(" active");
     }
 
     // Get the element with id="defaultOpen" and click on it

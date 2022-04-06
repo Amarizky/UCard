@@ -216,16 +216,21 @@ class Order extends CI_Controller
         $id = $this->input->post('id');
         $this->db->query("DELETE FROM tbl_user_design WHERE design_id = '$id' ");
     }
-    function update_order()
+    function update_harga()
     {
-        $id = $this->input->post('id');
-        $harga = $this->input->post('harga');
-        if (empty($harga)) {
-            $h = NULL;
-        } else {
-            $h = $harga;
-        }
-        $this->db->query("UPDATE tbl_transaksi SET transaksi_harga = '$h' WHERE transaksi_id = '$id' ");
+        $id = $this->input->post('transaksi_id');
+        $harga = !empty($this->input->post('harga')) ? $this->input->post('harga') : null;
+        $ongkir = $this->input->post('ongkir');
+
+        $this->db
+            ->set('transaksi_harga', $harga)
+            ->set('transaksi_ongkir', $ongkir)
+            ->where('transaksi_id', $id)
+            ->update('tbl_transaksi');
+
+        // $this->db->query("UPDATE tbl_transaksi SET transaksi_harga = '$h' WHERE transaksi_id = '$id' ");
+        // $this->db->query("UPDATE tbl_transaksi SET transaksi_ongkir = '$ongkir' WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
     }
     function hapus_order()
     {
@@ -1016,13 +1021,6 @@ HTML
         $id = $this->input->post('transaksi_id');
         $resi = $this->input->post('resi');
         $this->db->query("UPDATE tbl_transaksi SET transaksi_resi = '$resi' WHERE transaksi_id = '$id';");
-        redirect('Order/detail/' . $id);
-    }
-    function update_ongkir()
-    {
-        $id = $this->input->post('transaksi_id');
-        $ongkir = $this->input->post('ongkir');
-        $this->db->query("UPDATE tbl_transaksi SET transaksi_ongkir = '$ongkir' WHERE transaksi_id = '$id';");
         redirect('Order/detail/' . $id);
     }
     function savespksales()

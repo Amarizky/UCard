@@ -82,6 +82,7 @@ class Product extends CI_Controller
 		$kode = $this->input->post('kode');
 		$nama = $this->input->post('nama');
 		$category = $this->M_category->text_to_kode($this->input->post('category'), '|');
+		$tipe = $this->input->post('tipe');
 		$deskripsi = $this->input->post('deskripsi');
 		$keunggulan = $this->input->post('keunggulan');
 		$keterangan = $this->input->post('keterangan');
@@ -96,7 +97,20 @@ class Product extends CI_Controller
 			$this->upload->data();
 		}
 
-		$this->db->query("INSERT INTO tbl_product VALUES (NULL,'$kode','$category','$gambar','$nama','$deskripsi','$keunggulan','$keterangan','$harga') ");
+		$data = [
+			"product_kode" => $kode,
+			"product_tipe" => $tipe,
+			"product_category" => $category,
+			"product_image" => $gambar,
+			"product_nama" => $nama,
+			"product_deskripsi" => $deskripsi,
+			"product_keunggulan" => $keunggulan,
+			"product_keterangan" => $keterangan,
+			"product_harga" => $harga
+		];
+
+		$this->db->insert('tbl_product', $data);
+		// $this->db->query("INSERT INTO tbl_product VALUES (NULL,'$kode','$category','$gambar','$nama','$deskripsi','$keunggulan','$keterangan','$harga') ");
 		redirect('Product');
 	}
 	function edit_product()
