@@ -56,9 +56,17 @@
         width: 300px;
     }
 
+    #category {
+        width: 300px;
+    }
+
     @media only screen and (max-width: 600px) {
+        #category {
+            width: 100%;
+        }
+
         #search {
-            width: 200px;
+            width: 100%;
         }
     }
 </style>
@@ -70,12 +78,23 @@
         <div class="col">
             <div class="card">
                 <!-- Card header -->
-                <div class="card-header border-0">
-                    <div style="float:right;" class="form-group has-search">
+                <div class="card-header row m-0">
+                    <div class="col">
+                        <h3>Produk</h3>
+                    </div>
+                    <div class="col has-search">
+                        <span class="ni ni-bullet-list-67 form-control-feedback"></span>
+                        <select id="category" type="text" class="form-control" placeholder="Kategori">
+                            <option value="0" selected>Pilih Kategori</option>
+                            <?php foreach ($list_category as $c) : ?>
+                                <option value="<?= $c['category_kode']; ?>"><?= $c['category_nama']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="col has-search">
                         <span class="fa fa-search form-control-feedback"></span>
                         <input id="search" type="text" class="form-control" placeholder="Search">
                     </div>
-                    <h3 id="t" style="float:left;">Produk</h3>
                 </div>
 
                 <!-- Light table -->
@@ -90,9 +109,24 @@
 
     <script>
         $(document).ready(function() {
+            $('#category').on('change', () => refresh_list());
+            $('#search').on('keydown', () => refresh_list());
+
+            function refresh_list() {
+                $.ajax({
+                    type: "GET",
+                    url: "<?= base_url('Product_pelanggan/search_product') ?>",
+                    data: {
+                        'keyword': $('#search').val(),
+                        'category': $('#category').val()
+                    },
+                    success: function(data) {
+                        $('#product').html(data);
+                    }
+                });
+            }
 
             var flag = 0;
-
             $.ajax({
                 type: "GET",
                 url: "<?= base_url('Product_pelanggan/get_product') ?>",
@@ -105,9 +139,7 @@
                     flag += 20;
                 }
             });
-
             $(window).scroll(function() {
-
                 var position = $(window).scrollTop();
                 var bottom = $(document).height() - $(window).height();
                 if (position == bottom) {
@@ -124,19 +156,6 @@
                         }
                     });
                 }
-            });
-            $('#search').on('keyup', function() {
-                var key = $(this).val();
-                $.ajax({
-                    type: "GET",
-                    url: "<?= base_url('Product_pelanggan/search_product') ?>",
-                    data: {
-                        'key': key
-                    },
-                    success: function(data) {
-                        $('#product').html(data);
-                    }
-                });
             });
         });
     </script>
