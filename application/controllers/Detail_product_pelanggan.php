@@ -29,11 +29,11 @@ class Detail_product_pelanggan extends CI_Controller
 		$harga = $this->input->post('harga');
 		$tot_h = $harga * $jumlah;
 		$tanggal = date('Y-m-d');
-		$personalisasi = $this->input->post('personalisasi');
+		$personalisasi = implode(',', $this->input->post('personalisasi'));
 		$coating = $this->input->post('coating');
-		$finishing = $this->input->post('finishing');
+		$finishing = implode(',', $this->input->post('finishing'));
 		$function = $this->input->post('function');
-		$packaging = $this->input->post('packaging');
+		$packaging = implode(',', $this->input->post('packaging'));
 		$status = $this->input->post('status');
 		$material = $this->input->post('material');
 		$finish = $this->input->post('finish');
@@ -117,9 +117,16 @@ class Detail_product_pelanggan extends CI_Controller
 		}
 	}
 
-	function correction()
+	function perbaikan()
 	{
-		$harga = $this->db->query("SELECT * FROM tbl_product WHERE product_id=" . $this->input->post('product_id'))->row_array()['product_harga'];
+		$product_id = $this->input->post('product_id');
+		$transaksi_id = $this->input->post('transaksi_id');
+
+		$harga = $this->db
+			->where('product_id', $product_id)
+			->get('tbl_product')
+			->row_array()['product_harga'];
+
 		$data = array(
 			'transaksi_jumlah' 				=> $this->input->post('jumlah'),
 			'transaksi_keterangan' 			=> $this->input->post('keterangan'),
@@ -132,8 +139,8 @@ class Detail_product_pelanggan extends CI_Controller
 			'transaksi_paket' 				=> $this->input->post('status')
 		);
 
-		$this->db->where('transaksi_id', $this->input->post('transaksi_id'));
+		$this->db->where('transaksi_id', $transaksi_id);
 		$this->db->update('tbl_transaksi', $data);
-		redirect(base_url('Order_pelanggan/detail/' . $this->input->post('transaksi_id')));
+		redirect(base_url('Order_pelanggan/detail/' . $transaksi_id));
 	}
 }

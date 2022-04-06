@@ -418,7 +418,7 @@
             </div>
             <div class="modal-body">
                 <div id="alert_hapus"></div>
-                <h3>Apakah anda yakin?</h3>
+                <h3>Apakah anda yakin ingin menghapus admin ini?</h3>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>

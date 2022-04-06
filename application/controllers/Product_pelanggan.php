@@ -13,6 +13,7 @@ class Product_pelanggan extends CI_Controller
 	function index()
 	{
 		$x['title'] = "Produk";
+		$x['list_category'] = $this->M_category->get_category();
 		$this->load->view('pelanggan/template/V_header', $x);
 		$this->load->view('pelanggan/V_product');
 		$this->load->view('pelanggan/template/V_footer');
@@ -44,10 +45,15 @@ class Product_pelanggan extends CI_Controller
 	}
 	function search_product()
 	{
-		$key = $this->input->get('key');
-		$row = $this->db->query("SELECT * FROM tbl_product WHERE product_nama LIKE '%$key%' ")->result_array();
+		$keyword = $this->input->get('keyword') ?? '';
+		$category = $this->input->get('category');
 
-		foreach ($row as $p) {
+		$row = $this->db;
+		if ($category != '0') $row->like('product_category', $category);
+		$row->like('product_nama', $keyword);
+		$row = $row->get('tbl_product')->result_array();
+
+		foreach ($row as $p) :
 			?>
 			<div class="col-lg-3 col-md-4 col-sm-6">
 				<a href="<?= base_url('Detail_product_pelanggan?id=' . $p['product_id']); ?>">
@@ -61,6 +67,6 @@ class Product_pelanggan extends CI_Controller
 				</a>
 			</div>
 <?php
-		}
+		endforeach;
 	}
 }

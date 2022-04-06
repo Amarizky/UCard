@@ -57,11 +57,7 @@ class Product extends CI_Controller
 		$id = $this->input->post('id');
 		$get = $this->db->get_where('tbl_product', ['product_id' => $id])->row_array();
 		$listCategory = explode(',', $get['product_category']);
-		$getCategory = $this->db->where_in('category_kode', $listCategory)->select('category_nama')->get('tbl_product_category')->result_array();
-		$category = "";
-		foreach ($getCategory as $key => $value) {
-			$category .= $value['category_nama'] . ', ';
-		}
+		$category = $this->M_category->kode_to_text($listCategory);
 ?>
 		<div class="modal-body">
 			<b>Kode</b>
@@ -75,7 +71,7 @@ class Product extends CI_Controller
 			<b>Keunggulan</b>
 			<p><?= $get['product_keunggulan']; ?></p>
 			<b>Keterangan</b>
-			<p><?= $get['product_keterangan']; ?></p>
+			<p><?= empty($get['product_keterangan']) ? '-' : $get['product_keterangan']; ?></p>
 			<b>Harga</b>
 			<p><?= 'Rp' . number_format($get['product_harga'], 2, ',', '.'); ?></p>
 		</div>
@@ -85,7 +81,7 @@ class Product extends CI_Controller
 	{
 		$kode = $this->input->post('kode');
 		$nama = $this->input->post('nama');
-		$category = $this->input->post('category');
+		$category = $this->M_category->text_to_kode($this->input->post('category'), '|');
 		$deskripsi = $this->input->post('deskripsi');
 		$keunggulan = $this->input->post('keunggulan');
 		$keterangan = $this->input->post('keterangan');
@@ -108,7 +104,7 @@ class Product extends CI_Controller
 		$id = $this->input->post('id');
 		$kode = $this->input->post('kode');
 		$nama = $this->input->post('nama');
-		$category = $this->input->post('category');
+		$category = $this->M_category->text_to_kode($this->input->post('category'), '|');
 		$deskripsi = $this->input->post('deskripsi');
 		$keunggulan = $this->input->post('keunggulan');
 		$keterangan = $this->input->post('keterangan');

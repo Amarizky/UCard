@@ -89,6 +89,7 @@ class CI_Controller
 		log_message('info', 'Controller Class Initialized');
 
 		$this->load->model('M_admin');
+		$this->load->model('M_category');
 	}
 
 	// --------------------------------------------------------------------

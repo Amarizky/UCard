@@ -10,7 +10,7 @@
                     <table style="width: 100%;">
                         <tr>
                             <td style="text-align: left;">
-                                <h3 class="mb-0" id="judul">Status</h3>
+                                <h3 class="mb-0" id="judul">Bank</h3>
                             </td>
                             <td style="text-align: right;"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambah"><i class="fa fa-plus"></i></button></td>
                         </tr>
@@ -142,18 +142,18 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h6 class="modal-title" id="modal-title-default">Hapus status</h6>
+                <h6 class="modal-title" id="modal-title-default">Hapus Rekening Bank</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div id="alert_hapus"></div>
-                <h3>Apakah anda yakin?</h3>
+                <h3>Apakah anda yakin menghapus rekening ini?</h3>
             </div>
 
             <div class="modal-footer">
-                <button type="submit" class="btn btn-danger btn_hapus">hapus</button>
+                <button type="submit" class="btn btn-danger btn_hapus">Hapus</button>
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
 

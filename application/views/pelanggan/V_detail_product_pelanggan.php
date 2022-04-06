@@ -90,13 +90,13 @@
                             <p><?= $p['product_keterangan'] ?></p>
                         </div>
                         <br>
-                        <form method="post" onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Silahkan baca dan setujui syarat & ketentuan yang berlaku terlebih dahulu'); return false; }" action="<?= base_url('Detail_product_pelanggan/order') ?>">
+                        <form id="formPesan" method="post" onsubmit="if(document.getElementById('agree').checked) { return true; } else { alert('Silahkan baca dan setujui syarat & ketentuan yang berlaku terlebih dahulu'); return false; }" action="<?= base_url('Detail_product_pelanggan/order') ?>">
                             <input type="hidden" value="<?= $p['product_id'] ?>" name="id_product">
                             <input type="hidden" value="<?= $_SESSION['pelanggan_nohp'] ?>" name="nohp">
                             <div class="form-group">
                                 <b>Jumlah Pesanan</b>
                                 <br><br>
-                                <input type="number" placeholder="jumlah" name="jumlah" class="form-control" required>
+                                <input type="number" placeholder="Masukkan banyaknya pesanan" name="jumlah" class="form-control" required>
                                 <input type="hidden" value="<?= $p['product_harga'] ?>" name="harga">
                             </div>
                             <div class="grid-container">
@@ -181,9 +181,9 @@
                                 <div class="grid-item">
                                     <b>Ambil/Kirim</b>
                                     <br><br>
-                                    <input type="radio" id="kirim" placeholder="status" name="status" value="1">
+                                    <input type="radio" id="kirim" placeholder="status" name="status" value="1" required>
                                     <label for="kirim">Kirim Produk</label><br>
-                                    <input type="radio" id="ambil" placeholder="status" name="status" value="2">
+                                    <input type="radio" id="ambil" placeholder="status" name="status" value="2" required>
                                     <label for="ambil">Ambil Sendiri</label>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                             <input type="checkbox" name="checkbox" value="check" id="agree"></a>
                             <label for="agree">Saya telah membaca & menyetujui <a style="color:blue;" data-toggle="modal" data-target="#sak">Syarat & Ketentuan</a></label>
                             <br>
-                            <button type="submit" class="btn btn-info">Order</button>
+                            <button id="formPesanSubmit" type="submit" class="btn btn-info">Order</button>
                         </form>
                     </div>
                 </div>
@@ -375,3 +375,16 @@
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    $('#formPesanSubmit').click(function(e) {
+        if (!$("input[name='personalisasi[]'][type=checkbox]:checked").length ||
+            !$("input[name='finishing[]'][type=checkbox]:checked").length ||
+            !$("input[name='packaging[]'][type=checkbox]:checked").length) {
+
+            alert('Silahkan lengkapi form terlebih dahulu');
+            return false;
+        }
+    })
+</script>
