@@ -1161,14 +1161,14 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <!-- <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JLembarAwal" id="JLembarAwal" placeholder="Awal" value="<?= $JLembarAwal['transaksi_spkkartu_jumlahlembarawal']; ?>"> / <input type="number" style="width: 7em" name="JLembarAkhir" id="JLembarAkhir" placeholder="Akhir" value="<?= $JLembarAkhir['transaksi_spkkartu_jumlahlembarakhir']; ?>">
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JLembarAwal" id="JLembarAwal" placeholder="Awal" value="<?= $JLembarAwal['transaksi_spkkartu_jumlahlembarawal']; ?>"> / <input type="number" style="width: 7em" name="JLembarAkhir" id="JLembarAkhir" placeholder="Akhir" value="<?= $JLembarAkhir['transaksi_spkkartu_jumlahlembarakhir']; ?>">
                                     <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" style="width: 7em" name="JOverlayAwal" id="JOverlayAwal" placeholder="Awal" value="<?= $JOverlayAwal['transaksi_spkkartu_jumlahoverlayawal']; ?>"> / <input type="number" style="width: 7em" name="JOverlayAkhir" id="JOverlayAkhir" placeholder="Akhir" value="<?= $JOverlayAkhir['transaksi_spkkartu_jumlahoverlayakhir']; ?>">
                                     <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JChipAwal" id="JChipAwal" placeholder="Awal" value="<?= $JChipAwal['transaksi_spkkartu_jumlahchipawal']; ?>"> / <input type="number" style="width: 7em" name="JChipAkhir" id="JChipAkhir" placeholder="Akhir" value="<?= $JChipAkhir['transaksi_spkkartu_jumlahchipakhir']; ?>">
                                     <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" style="width: 7em" name="JMagneticAwal" id="JMagneticAwal" placeholder="Awal" value="<?= $JMagneticAwal['transaksi_spkkartu_jumlahmagneticawal']; ?>"> / <input type="number" style="width: 7em" name="JMagneticAkhir" id="JMagneticAkhir" placeholder="Akhir" value="<?= $JMagneticAkhir['transaksi_spkkartu_jumlahmagneticakhir']; ?>">
                                     <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusak" id="JKartuRusak" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
                                     <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusak" id="JLembarRusak" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
                                     <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
-                                </p>-->
+                                </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
                                         <tr style="height: 18px;">
@@ -1390,13 +1390,13 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JLembarAwal" id="JLembarAwal" placeholder="Awal" value="<?= $JLembarAwal['transaksi_spkkartu_jumlahlembarawal']; ?>"> / <input type="number" style="width: 7em" name="JLembarAkhir" id="JLembarAkhir" placeholder="Akhir" value="<?= $JLembarAkhir['transaksi_spkkartu_jumlahlembarakhir']; ?>">
-                                    <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" style="width: 7em" name="JOverlayAwal" id="JOverlayAwal" placeholder="Awal" value="<?= $JOverlayAwal['transaksi_spkkartu_jumlahoverlayawal']; ?>"> / <input type="number" style="width: 7em" name="JOverlayAkhir" id="JOverlayAkhir" placeholder="Akhir" value="<?= $JOverlayAkhir['transaksi_spkkartu_jumlahoverlayakhir']; ?>">
-                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JChipAwal" id="JChipAwal" placeholder="Awal" value="<?= $JChipAwal['transaksi_spkkartu_jumlahchipawal']; ?>"> / <input type="number" style="width: 7em" name="JChipAkhir" id="JChipAkhir" placeholder="Akhir" value="<?= $JChipAkhir['transaksi_spkkartu_jumlahchipakhir']; ?>">
-                                    <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" style="width: 7em" name="JMagneticAwal" id="JMagneticAwal" placeholder="Awal" value="<?= $JMagneticAwal['transaksi_spkkartu_jumlahmagneticawal']; ?>"> / <input type="number" style="width: 7em" name="JMagneticAkhir" id="JMagneticAkhir" placeholder="Akhir" value="<?= $JMagneticAkhir['transaksi_spkkartu_jumlahmagneticakhir']; ?>">
-                                    <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusak" id="JKartuRusak" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
-                                    <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusak" id="JLembarRusak" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
-                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JLembarAwalp" id="JLembarAwalp" placeholder="Awal" value="<?= $JLembarAwal['transaksi_spkkartu_jumlahlembarawal']; ?>"> / <input type="number" style="width: 7em" name="JLembarAkhirp" id="JLembarAkhirp" placeholder="Akhir" value="<?= $JLembarAkhir['transaksi_spkkartu_jumlahlembarakhir']; ?>">
+                                    <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" style="width: 7em" name="JOverlayAwalp" id="JOverlayAwalp" placeholder="Awal" value="<?= $JOverlayAwal['transaksi_spkkartu_jumlahoverlayawal']; ?>"> / <input type="number" style="width: 7em" name="JOverlayAkhirp" id="JOverlayAkhirp" placeholder="Akhir" value="<?= $JOverlayAkhir['transaksi_spkkartu_jumlahoverlayakhir']; ?>">
+                                    <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JChipAwalp" id="JChipAwalp" placeholder="Awal" value="<?= $JChipAwal['transaksi_spkkartu_jumlahchipawal']; ?>"> / <input type="number" style="width: 7em" name="JChipAkhirp" id="JChipAkhirp" placeholder="Akhir" value="<?= $JChipAkhir['transaksi_spkkartu_jumlahchipakhir']; ?>">
+                                    <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" style="width: 7em" name="JMagneticAwalp" id="JMagneticAwalp" placeholder="Awal" value="<?= $JMagneticAwal['transaksi_spkkartu_jumlahmagneticawal']; ?>"> / <input type="number" style="width: 7em" name="JMagneticAkhirp" id="JMagneticAkhirp" placeholder="Akhir" value="<?= $JMagneticAkhir['transaksi_spkkartu_jumlahmagneticakhir']; ?>">
+                                    <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusakp" id="JKartuRusakp" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
+                                    <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusakp" id="JLembarRusakp" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
+                                    <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
@@ -1888,17 +1888,17 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
     $('#savespkprdksi').click(function(e) {
         e.preventDefault();
         var id = $('#id').val();
-        var JLembarAwal = $('#JLembarAwal').val();
-        var JLembarAkhir = $('#JLembarAkhir').val();
-        var JOverlayAwal = $('#JOverlayAwal').val();
-        var JOverlayAkhir = $('#JOverlayAkhir').val();
-        var JChipAwal = $('#JChipAwal').val();
-        var JChipAkhir = $('#JChipAkhir').val();
-        var JMagneticAwal = $('#JMagneticAwal').val();
-        var JMagneticAkhir = $('#JMagneticAkhir').val();
-        var JKartuRusak = $('#JKartuRusak').val();
-        var JLembarRusak = $('#JLembarRusak').val();
-        var spkOperator = $('#spkOperator').val();
+        var JLembarAwal = $('#JLembarAwalp').val();
+        var JLembarAkhir = $('#JLembarAkhirp').val();
+        var JOverlayAwal = $('#JOverlayAwalp').val();
+        var JOverlayAkhir = $('#JOverlayAkhirp').val();
+        var JChipAwal = $('#JChipAwalp').val();
+        var JChipAkhir = $('#JChipAkhirp').val();
+        var JMagneticAwal = $('#JMagneticAwalp').val();
+        var JMagneticAkhir = $('#JMagneticAkhirp').val();
+        var JKartuRusak = $('#JKartuRusakp').val();
+        var JLembarRusak = $('#JLembarRusakp').val();
+        var spkOperator = $('#spkOperatorp').val();
         var tanggalJamFix = $('#tanggalJamFix').val();
         var kodeFix = $('#kodeFix').val();
         var Speeling = $('#Speeling').val();
