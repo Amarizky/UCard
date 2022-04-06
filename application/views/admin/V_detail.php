@@ -1770,9 +1770,11 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 <script>
     $(document).ready(function() {
         var baseUrl = window.location.href;
-        var elId = baseUrl.substring(baseUrl.lastIndexOf('#'));
-        if (elId !== null) $(elId).modal('show');
-
+        var hash = baseUrl.lastIndexOf('#');
+        if (hash != -1) {
+            var elId = baseUrl.substring(hash);
+            if (elId !== null) $(elId).modal('show');
+        }
     })
 
     $('#savespksales').click(function(e) {
