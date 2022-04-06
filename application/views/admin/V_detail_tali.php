@@ -1,26 +1,7 @@
 <input type="hidden" value="<?= $this->uri->segment(3) ?>" id="id">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/select2/dist/css/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/quill/dist/quill.core.css') ?>">
-<?php
-$JLembarAA = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JOverlayAA = $this->db->query("SELECT transaksi_spkkartu_jumlahoverlayawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JChipAA = $this->db->query("SELECT transaksi_spkkartu_jumlahchipawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JLembarRusak = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarrusak FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JKartuRusak = $this->db->query("SELECT transaksi_spkkartu_jumlahkarturusak FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JMagneticAA = $this->db->query("SELECT transaksi_spkkartu_jumlahmagneticawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JTaliAA = $this->db->query("SELECT transaksi_spk_jumlahtaliawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JTaliStopperAA = $this->db->query("SELECT transaksi_spk_jumlahtalistopperawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JKlemAA = $this->db->query("SELECT transaksi_spk_jumlahklemawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JKaitAA = $this->db->query("SELECT transaksi_spk_jumlahkaitawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-$JStopperAA = $this->db->query("SELECT transaksi_spk_jumlahstopperawalakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
 
-?>
 <style>
     .wrapper {
         display: inline-flex;
@@ -979,11 +960,11 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                 <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit2"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_spk_jumlahtaliawalakhir'] ?>
-                                    <br />Jumlah Tali Stopper Awal/Akhir : <?= $o['transaksi_spk_jumlahtalistopperawalakhir'] ?>
-                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_jumlahklemawalakhir'] ?>
-                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <?= $o['transaksi_spk_jumlahkaitawalakhir'] ?>
-                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spk_jumlahstopperawalakhir'] ?>
+                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_spk_jumlahtaliawal'] ?> / <?= $o['transaksi_spk_jumlahtaliakhir'] ?>
+                                    <br />Jumlah Tali Stopper Awal/Akhir : <?= $o['transaksi_spk_jumlahtalistopperawal'] ?> / <?= $o['transaksi_spk_jumlahtalistopperakhir'] ?>
+                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_jumlahklemawal'] ?> / <?= $o['transaksi_spk_jumlahklemakhir'] ?>
+                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <?= $o['transaksi_spk_jumlahkaitawal'] ?> / <?= $o['transaksi_spk_jumlahkaitakhir'] ?>
+                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spk_jumlahstopperawal'] ?> / <?= $o['transaksi_spk_jumlahstopperakhir'] ?>
                                     <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
@@ -1054,6 +1035,24 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
             </div>
         </div>
     </div>
+    <?php
+    $tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JTaliAwal = $this->db->query("SELECT transaksi_spk_jumlahtaliawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JTaliAkhir = $this->db->query("SELECT transaksi_spk_jumlahtaliakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JTaliStopperAwal = $this->db->query("SELECT transaksi_spk_jumlahtalistopperawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JTaliStopperAkhir = $this->db->query("SELECT transaksi_spk_jumlahtalistopperakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JKlemAwal = $this->db->query("SELECT transaksi_spk_jumlahklemawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JKlemAkhir = $this->db->query("SELECT transaksi_spk_jumlahklemakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JKaitAwal = $this->db->query("SELECT transaksi_spk_jumlahkaitawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JKaitAkhir = $this->db->query("SELECT transaksi_spk_jumlahkaitakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JStopperAwal = $this->db->query("SELECT transaksi_spk_jumlahstopperawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $JStopperAkhir = $this->db->query("SELECT transaksi_spk_jumlahstopperakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    ?>
     <div class="modal fade" id="status_printedit2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1069,12 +1068,12 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <input type="number" name="JTaliAwal" id="JTaliAwal" placeholder="Masukkan Jumlah Tali Awal" value="<?= $JTaliAwal['transaksi_spk_jumlahtaliawalr']; ?>"> / <input type="number" name="JTaliAkhir" id="JTaliAkhir" placeholder="Masukkan Jumlah Tali Awal" value="<?= $JTaliAkhir['transaksi_spk_jumlahtaliakhir']; ?>">
-                                    <br />Jumlah Tali Stopper Awal/Akhir : <input type="number" name="JTaliStopperAA" id="JTaliStopperAA" placeholder="Masukkan Jumlah Tali Stopper Awal/Akhir" value="<?= $JTaliStopperAA['transaksi_spk_jumlahtalistopperawalakhir']; ?>">
-                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JKlemAA" id="JKlemAA" placeholder="Masukkan Jumlah Klem Awal/Akhir" value="<?= $JKlemAA['transaksi_spk_jumlahklemawalakhir']; ?>">
-                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <input type="number" name="JKaitAA" id="JKaitAA" placeholder="Masukkan Jumlah Kait Awal/Akhir" value="<?= $JKaitAA['transaksi_spk_jumlahkaitawalakhir']; ?>">
-                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <input type="number" name="JStopperAA" id="JStopperAA" placeholder="Masukkan Jumlah Stopper Awal/Akhir" value="<?= $JStopperAA['transaksi_spk_jumlahstopperawalakhir']; ?>">
-                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JTaliAwal" id="JTaliAwal" placeholder="Awal" value="<?= $JTaliAwal['transaksi_spk_jumlahtaliawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliAkhir" id="JTaliAkhir" placeholder="Akhir" value="<?= $JTaliAkhir['transaksi_spk_jumlahtaliakhir']; ?>">
+                                    <br />Jumlah Tali Stopper Awal/Akhir : <input type="number" style="width: 7em" name="JTaliStopperAwal" id="JTaliStopperAwal" placeholder="Awal" value="<?= $JTaliStopperAwal['transaksi_spk_jumlahtalistopperawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliStopperAkhir" id="JTaliStopperAkhir" placeholder="Akhir" value="<?= $JTaliStopperAkhir['transaksi_spk_jumlahtalistopperakhir']; ?>">
+                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JKlemAwal" id="JKlemAwal" placeholder="Awal" value="<?= $JKlemAwal['transaksi_spk_jumlahklemawal']; ?>"> / <input type="number" style="width: 7em" name="JKlemAkhir" id="JKlemAkhir" placeholder="Akhir" value="<?= $JKlemAkhir['transaksi_spk_jumlahklemakhir']; ?>">
+                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <input type="number" style="width: 7em" name="JKaitAwal" id="JKaitAwal" placeholder="Awal" value="<?= $JKaitAwal['transaksi_spk_jumlahkaitawal']; ?>"> / <input type="number" style="width: 7em" name="JKaitAkhir" id="JKaitAkhir" placeholder="Akhir" value="<?= $JKaitAkhir['transaksi_spk_jumlahkaitakhir']; ?>">
+                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <input type="number" style="width: 7em" name="JStopperAwal" id="JStopperAwal" placeholder="Awal" value="<?= $JStopperAwal['transaksi_spk_jumlahstopperawal']; ?>"> / <input type="number" style="width: 7em" name="JStopperAkhir" id="JStopperAkhir" placeholder="Akhir" value="<?= $JStopperAkhir['transaksi_spk_jumlahstopperakhir']; ?>">
+                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" style="width: 7em" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
@@ -1160,11 +1159,11 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                                 <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit3"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_spk_jumlahtaliawalakhir'] ?>
-                                    <br />Jumlah Tali Stopper Awal/Akhir : <?= $o['transaksi_spk_jumlahtalistopperawalakhir'] ?>
-                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_jumlahklemawalakhir'] ?>
-                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <?= $o['transaksi_spk_jumlahkaitawalakhir'] ?>
-                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spk_jumlahstopperawalakhir'] ?>
+                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_spk_jumlahtaliawal'] ?> / <?= $o['transaksi_spk_jumlahtaliakhir'] ?>
+                                    <br />Jumlah Tali Stopper Awal/Akhir : <?= $o['transaksi_spk_jumlahtalistopperawal'] ?> / <?= $o['transaksi_spk_jumlahtalistopperakhir'] ?>
+                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_jumlahklemawal'] ?> / <?= $o['transaksi_spk_jumlahklemakhir'] ?>
+                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <?= $o['transaksi_spk_jumlahkaitawal'] ?> / <?= $o['transaksi_spk_jumlahkaitakhir'] ?>
+                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spk_jumlahstopperawal'] ?> / <?= $o['transaksi_spk_jumlahstopperakhir'] ?>
                                     <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
@@ -1248,12 +1247,12 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <input type="number" name="JTaliAA" id="JTaliAA" placeholder="Masukkan Jumlah Tali Awal/Akhir" value="<?= $JTaliAA['transaksi_spk_jumlahtaliawalakhir']; ?>">
-                                    <br />Jumlah Tali Stopper Awal/Akhir : <input type="number" name="JTaliStopperAA" id="JTaliStopperAA" placeholder="Masukkan Jumlah Tali Stopper Awal/Akhir" value="<?= $JTaliStopperAA['transaksi_spk_jumlahtalistopperawalakhir']; ?>">
-                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JKlemAA" id="JKlemAA" placeholder="Masukkan Jumlah Klem Awal/Akhir" value="<?= $JKlemAA['transaksi_spk_jumlahklemawalakhir']; ?>">
-                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <input type="number" name="JKaitAA" id="JKaitAA" placeholder="Masukkan Jumlah Kait Awal/Akhir" value="<?= $JKaitAA['transaksi_spk_jumlahkaitawalakhir']; ?>">
-                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <input type="number" name="JStopperAA" id="JStopperAA" placeholder="Masukkan Jumlah Stopper Awal/Akhir" value="<?= $JStopperAA['transaksi_spk_jumlahstopperawalakhir']; ?>">
-                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JTaliAwalp" id="JTaliAwalp" placeholder="Awal" value="<?= $JTaliAwal['transaksi_spk_jumlahtaliawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliAkhirp" id="JTaliAkhirp" placeholder="Akhir" value="<?= $JTaliAkhir['transaksi_spk_jumlahtaliakhir']; ?>">
+                                    <br />Jumlah Tali Stopper Awal/Akhir : <input type="number" style="width: 7em" name="JTaliStopperAwalp" id="JTaliStopperAwalp" placeholder="Awal" value="<?= $JTaliStopperAwal['transaksi_spk_jumlahtalistopperawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliStopperAkhirp" id="JTaliStopperAkhirp" placeholder="Akhir" value="<?= $JTaliStopperAkhir['transaksi_spk_jumlahtalistopperakhir']; ?>">
+                                    <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JKlemAwalp" id="JKlemAwalp" placeholder="Awal" value="<?= $JKlemAwal['transaksi_spk_jumlahklemawal']; ?>"> / <input type="number" style="width: 7em" name="JKlemAkhirp" id="JKlemAkhirp" placeholder="Akhir" value="<?= $JKlemAkhir['transaksi_spk_jumlahklemakhir']; ?>">
+                                    <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <input type="number" style="width: 7em" name="JKaitAwalp" id="JKaitAwalp" placeholder="Awal" value="<?= $JKaitAwal['transaksi_spk_jumlahkaitawal']; ?>"> / <input type="number" style="width: 7em" name="JKaitAkhirp" id="JKaitAkhirp" placeholder="Akhir" value="<?= $JKaitAkhir['transaksi_spk_jumlahkaitakhir']; ?>">
+                                    <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <input type="number" style="width: 7em" name="JStopperAwalp" id="JStopperAwalp" placeholder="Awal" value="<?= $JStopperAwal['transaksi_spk_jumlahstopperawal']; ?>"> / <input type="number" style="width: 7em" name="JStopperAkhirp" id="JStopperAkhirp" placeholder="Akhir" value="<?= $JStopperAkhir['transaksi_spk_jumlahstopperakhir']; ?>">
+                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
                                 </p>
                                 <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                     <tbody>
@@ -1633,36 +1632,44 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
     $('#savespkapv').click(function(e) {
         e.preventDefault();
         var id = $('#id').val();
-        var spkOperator = $('#spkOperator').val();
+        var spkOperator = $('#spkOperatorp').val();
         var tanggalJamFix = $('#tanggalJamFix').val();
         var kodeFix = $('#kodeFix').val();
         var Speeling = $('#Speeling').val();
         var deadline = $('#deadline').val();
         var noPenyelesaian = $('#noPenyelesaian').val();
-        var JTaliAA = $('#JTaliAA').val();
-        var JTaliStopperAA = $('#JTaliStopperAA').val();
-        var JKlemAA = $('#JKlemAA').val();
-        var JKaitAA = $('#JKaitAA').val();
-        var JStopperAA = $('#JStopperAA').val();
+        var JTaliAwal = $('#JTaliAwal').val();
+        var JTaliAkhir = $('#JTaliAkhir').val();
+        var JTaliStopperAwal = $('#JTaliStopperAwal').val();
+        var JTaliStopperAkhir = $('#JTaliStopperAkhir').val();
+        var JKlemAwal = $('#JKlemAwal').val();
+        var JKlemAkhir = $('#JKlemAkhir').val();
+        var JKaitAwal = $('#JKaitAwal').val();
+        var JKaitAkhir = $('#JKaitAkhir').val();
+        var JStopperAwal = $('#JStopperAwal').val();
+        var JStopperAkhir = $('#JStopperAkhir').val();
 
         $.ajax({
             type: 'POST',
             url: "<?= base_url('Order/savespkapv') ?>",
             data: {
                 id: id,
-                JKartuRusak: JKartuRusak,
-                JLembarRusak: JLembarRusak,
                 spkOperator: spkOperator,
                 tanggalJamFix: tanggalJamFix,
                 kodeFix: kodeFix,
                 Speeling: Speeling,
                 deadline: deadline,
                 noPenyelesaian: noPenyelesaian,
-                JTaliAA: JTaliAA,
-                JTaliStopperAA: JTaliStopperAA,
-                JKlemAA: JKlemAA,
-                JKaitAA: JKaitAA,
-                JStopperAA: JStopperAA
+                JTaliAwal: JTaliAwal,
+                JTaliAkhir: JTaliAkhir,
+                JTaliStopperAwal: JTaliStopperAwal,
+                JTaliStopperAkhir: JTaliStopperAkhir,
+                JKlemAwal: JKlemAwal,
+                JKlemAkhir: JKlemAkhir,
+                JKaitAwal: JKaitAwal,
+                JKaitAkhir: JKaitAkhir,
+                JStopperAwal: JStopperAwal,
+                JStopperAkhir: JStopperAkhir
 
             },
             success: function(data) {
@@ -1675,46 +1682,44 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
     $('#savespkprdksi').click(function(e) {
         e.preventDefault();
         var id = $('#id').val();
-        var JLembarAA = $('#JLembarAA').val();
-        var JOverlayAA = $('#JOverlayAA').val();
-        var JChipAA = $('#JChipAA').val();
-        var JMagneticAA = $('#JMagneticAA').val();
-        var JKartuRusak = $('#JKartuRusak').val();
-        var JLembarRusak = $('#JLembarRusak').val();
-        var spkOperator = $('#spkOperator').val();
+        var spkOperator = $('#spkOperatorp').val();
         var tanggalJamFix = $('#tanggalJamFix').val();
         var kodeFix = $('#kodeFix').val();
         var Speeling = $('#Speeling').val();
         var deadline = $('#deadline').val();
         var noPenyelesaian = $('#noPenyelesaian').val();
-        var JTaliAA = $('#JTaliAA').val();
-        var JTaliStopperAA = $('#JTaliStopperAA').val();
-        var JKlemAA = $('#JKlemAA').val();
-        var JKaitAA = $('#JKaitAA').val();
-        var JStopperAA = $('#JStopperAA').val();
+        var JTaliAwal = $('#JTaliAwalp').val();
+        var JTaliAkhir = $('#JTaliAkhirp').val();
+        var JTaliStopperAwal = $('#JTaliStopperAwalp').val();
+        var JTaliStopperAkhir = $('#JTaliStopperAkhirp').val();
+        var JKlemAwal = $('#JKlemAwalp').val();
+        var JKlemAkhir = $('#JKlemAkhirp').val();
+        var JKaitAwal = $('#JKaitAwalp').val();
+        var JKaitAkhir = $('#JKaitAkhirp').val();
+        var JStopperAwal = $('#JStopperAwalp').val();
+        var JStopperAkhir = $('#JStopperAkhirp').val();
 
         $.ajax({
             type: 'POST',
             url: "<?= base_url('Order/savespkprdksi') ?>",
             data: {
                 id: id,
-                JLembarAA: JLembarAA,
-                JOverlayAA: JOverlayAA,
-                JChipAA: JChipAA,
-                JMagneticAA: JMagneticAA,
-                JKartuRusak: JKartuRusak,
-                JLembarRusak: JLembarRusak,
                 spkOperator: spkOperator,
                 tanggalJamFix: tanggalJamFix,
                 kodeFix: kodeFix,
                 Speeling: Speeling,
                 deadline: deadline,
                 noPenyelesaian: noPenyelesaian,
-                JTaliAA: JTaliAA,
-                JTaliStopperAA: JTaliStopperAA,
-                JKlemAA: JKlemAA,
-                JKaitAA: JKaitAA,
-                JStopperAA: JStopperAA
+                JTaliAwal: JTaliAwal,
+                JTaliAkhir: JTaliAkhir,
+                JTaliStopperAwal: JTaliStopperAwal,
+                JTaliStopperAkhir: JTaliStopperAkhir,
+                JKlemAwal: JKlemAwal,
+                JKlemAkhir: JKlemAkhir,
+                JKaitAwal: JKaitAwal,
+                JKaitAkhir: JKaitAkhir,
+                JStopperAwal: JStopperAwal,
+                JStopperAkhir: JStopperAkhir
 
             },
             success: function(data) {
