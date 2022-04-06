@@ -1803,6 +1803,13 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
     }
 </script>
 <script>
+    $(document).ready(function() {
+        var baseUrl = window.location.href;
+        var elId = baseUrl.substring(baseUrl.lastIndexOf('#'));
+        if (elId !== null) $(elId).modal('show');
+
+    })
+
     $('#savespksales').click(function(e) {
         e.preventDefault();
 
@@ -1818,6 +1825,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                 assesoris: assesoris
             },
             success: function(data) {
+                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print1') ?>';
                 location.reload();
             }
         });
@@ -1859,6 +1867,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                 noPenyelesaian: noPenyelesaian
             },
             success: function(data) {
+                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print4') ?>';
                 location.reload();
             }
         });
@@ -1899,6 +1908,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
                 noPenyelesaian: noPenyelesaian
             },
             success: function(data) {
+                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print5') ?>';
                 location.reload();
             }
         });
