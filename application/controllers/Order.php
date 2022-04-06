@@ -1095,30 +1095,32 @@ HTML
     function savespkprdksi()
     {
         $id = $this->input->post('id');
-        $JLembarAwal = $this->input->post('JLembarAwalp');
-        $JLembarAkhir = $this->input->post('JLembarAkhirp');
-        $JOverlayAwal = $this->input->post('JOverlayAwalp');
-        $JOverlayAkhir = $this->input->post('JOverlayAkhirp');
-        $JChipAwal = $this->input->post('JChipAwalp');
-        $JChipAkhir = $this->input->post('JChipAkhirp');
-        $JMagneticAwal = $this->input->post('JMagneticAwalp');
-        $JMagneticAkhir = $this->input->post('JMagneticAkhirp');
-        $JTaliAwal = $this->input->post('JTaliAwalp');
-        $JTaliAkhir = $this->input->post('JTaliAkhirp');
-        $JTaliStopperAwal = $this->input->post('JTaliStopperAwalp');
-        $JTaliStopperAkhir = $this->input->post('JTaliStopperAkhirp');
-        $JKlemAwal = $this->input->post('JKlemAwalp');
-        $JKlemAkhir = $this->input->post('JKlemAkhirp');
-        $JKaitAwal = $this->input->post('JKaitAwalp');
-        $JKaitAkhir = $this->input->post('JKaitAkhirp');
-        $JStopperAwal = $this->input->post('JStopperAwalp');
-        $JStopperAkhir = $this->input->post('JStopperAkhirp');
-        $spkOperator = $this->input->post('spkOperatorp');
+        $JLembarAwal = $this->input->post('JLembarAwal');
+        $JLembarAkhir = $this->input->post('JLembarAkhir');
+        $JOverlayAwal = $this->input->post('JOverlayAwal');
+        $JOverlayAkhir = $this->input->post('JOverlayAkhir');
+        $JChipAwal = $this->input->post('JChipAwal');
+        $JChipAkhir = $this->input->post('JChipAkhir');
+        $JMagneticAwal = $this->input->post('JMagneticAwal');
+        $JMagneticAkhir = $this->input->post('JMagneticAkhir');
+        $JTaliAwal = $this->input->post('JTaliAwal');
+        $JTaliAkhir = $this->input->post('JTaliAkhir');
+        $JTaliStopperAwal = $this->input->post('JTaliStopperAwal');
+        $JTaliStopperAkhir = $this->input->post('JTaliStopperAkhir');
+        $JKlemAwal = $this->input->post('JKlemAwal');
+        $JKlemAkhir = $this->input->post('JKlemAkhir');
+        $JKaitAwal = $this->input->post('JKaitAwal');
+        $JKaitAkhir = $this->input->post('JKaitAkhir');
+        $JStopperAwal = $this->input->post('JStopperAwal');
+        $JStopperAkhir = $this->input->post('JStopperAkhir');
+        $spkOperator = $this->input->post('spkOperator');
         $tanggalJamFix = $this->input->post('tanggalJamFix');
         $kodeFix = $this->input->post('kodeFix');
         $Speeling = $this->input->post('Speeling');
         $deadline = $this->input->post('deadline');
         $noPenyelesaian = $this->input->post('noPenyelesaian');
+        $JKartuRusak = $this->input->post('JKartuRusak');
+        $JLembarRusak = $this->input->post('JLembarRusak');
 
         $data = array(
             'transaksi_spkkartu_jumlahlembarawal'                      => $JLembarAwal,
@@ -1144,7 +1146,9 @@ HTML
             'transaksi_spk_kodefix'                                    => $kodeFix,
             'transaksi_spk_speeling'                                   => $Speeling,
             'transaksi_spk_deadline'                                   => $deadline,
-            'transaksi_no_penyelesaian'                                => $noPenyelesaian
+            'transaksi_no_penyelesaian'                                => $noPenyelesaian,
+            'transaksi_spkkartu_jumlahlembarrusak'                     => $JLembarRusak,
+            'transaksi_spkkartu_jumlahkarturusak'                      => $JKartuRusak
         );
         $this->db->where('transaksi_id', $id);
         $this->db->update('tbl_transaksi', $data);
