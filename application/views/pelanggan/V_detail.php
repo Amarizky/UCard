@@ -137,9 +137,9 @@
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
                                             <?php if ($st['transaksi_status'] == '4') : ?>
-                                                <b>Sudah Lewat Tanggal</b>
+                                                <b>Sudah lewat tanggal</b>
                                             <?php else : ?>
-                                                <strong>Kirim sebelum</strong>
+                                                <strong>Kirim sebelum:</strong>
                                                 <b><?= date('d/m/Y H:m', $st['transaksi_tanggal_hangus']) ?></b>
                                             <?php endif; ?>
                                         <?php endif; ?>
@@ -419,171 +419,104 @@
                 </div>
             </div>
             <div id="status3" class="tabcontent">
-                <?php
-                $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                $total_bayar = $this->db->query("SELECT*, (transaksi_harga+transaksi_ongkir) as transaksi_total FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                ?>
                 <div class="card">
                     <div class="card-header bg-transparent">
                         <h3 class="mb-0">Pembayaran</h3>
                     </div>
-                    <div class="wrapper">
-                        <?php if ($o['transaksi_paket'] == '1') : ?>
-                            <input class="p" type="radio" value="1" name="paket" id="option-1" checked>
-                        <?php else : ?>
-                            <input class="p" type="radio" value="1" name="paket" id="option-1">
-                        <?php endif; ?>
-                        <?php if ($o['transaksi_paket'] == '2') : ?>
-                            <input class="p" type="radio" value="2" name="paket" id="option-2" checked>
-                        <?php else : ?>
-                            <input class="p" type="radio" value="2" name="paket" id="option-2">
-                        <?php endif; ?>
-                        <label for="option-1" class="option option-1">
-                            <div class="dot"></div>
-                            <span>Kirim Produk</span>
-                        </label>
-                        <label for="option-2" class="option option-2">
-                            <div class="dot"></div>
-                            <span>Ambil Sendiri</span>
-                        </label>
-                    </div>
                     <div class="card-body">
                         <p>Silahkan melakukan transfer ke rekening di bawah sesuai harga yang telah disepakati.</p>
-
-                        <h3>Silahkan pilih salah satu</h3>
-                        <input type="radio" name="opsibayar" id="opsibayarlunas" required>
-                        <label for="opsibayarlunas">Lunas</label>
-                        <br>
-                        <input type="radio" name="opsibayar" id="opsibayardp" required>
-                        <label for="opsibayardp">DP</label>
-
-                        <br>
-                        <br>
+                        <hr>
+                        <b>Pilih metode pengiriman pesanan Anda</b>
+                        <div class="wrapper">
+                            <input class="p" type="radio" value="1" name="paket" id="option-1" <?= $o['transaksi_paket'] == '1' ? 'checked' : ''; ?>>
+                            <input class="p" type="radio" value="2" name="paket" id="option-2" <?= $o['transaksi_paket'] == '2' ? 'checked' : ''; ?>>
+                            <label for="option-1" class="option option-1">
+                                <div class="dot"></div>
+                                <span>Kirim Produk</span>
+                            </label>
+                            <label for="option-2" class="option option-2">
+                                <div class="dot"></div>
+                                <span>Ambil Sendiri</span>
+                            </label>
+                        </div>
+                        <hr>
+                        <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
                         <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
-                            <h3>Harga Belum Ditentukan</h3>
+                            <h3>Harga belum ditentukan. Harap tunggu sampai Admin menentukan harga yang perlu Anda bayar.</h3>
                         <?php else : ?>
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td style="width: 30%;">
-                                        <h3>Harga barang:</h3>
-                                    </td>
-                                    <td>
-                                        Rp <?= number_format($o['transaksi_harga'], 2, ',', '.') ?>
-                                    </td>
-                                </tr>
-                                <?php if ($o['transaksi_paket'] == '1') : ?>
-                                    <tr>
-                                        <td>
-                                            <h3>Ongkos kirim:</h3>
-                                        </td>
-                                        <td>
-                                            Rp <?= number_format($ongkir['transaksi_ongkir'], 2, ',', '.') ?>
-                                        </td>
-                                    </tr>
-                                <?php endif; ?>
-                                <tr>
-                                    <td>
-                                        <h3>Total:</h3>
-                                    </td>
-                                    <td>
-                                        Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <h3>Harus dibayar:</h3>
-                                    </td>
-                                    <td id="totalbayar">
-                                        Rp <?= number_format($total_bayar['transaksi_total'], 2, ',', '.') ?>
-                                    </td>
-                                </tr>
-                            </table>
-                        <?php endif ?>
-                        <br>
-                        <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
-                            <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="id">
-                            <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
-                            <?php foreach ($bank as $b) : ?>
-                                <div class="panel-group" id="accordion">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h4 class="panel-title">
-                                                <table>
-                                                    <tr>
-                                                        <td>
-                                                            <?php if ($b['bank_id'] == $o['transaksi_bank']) : ?>
-                                                                <input checked="" required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
-                                                            <?php else : ?>
-                                                                <input required="" class="r<?= $b['bank_id'] ?>" data-toggle="collapse" data-parent="#accordion" value="<?= $b['bank_id'] ?>" href="#collapse<?= $b['bank_id'] ?>" style="float: left;" type="radio" name="bank">
-                                                            <?php endif ?>
-                                                        </td>
-                                                        <td>
-                                                            <?php if ($b['bank_nama'] === 'TUNAI') : ?>
-                                                                <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;">
-                                                                    TUNAI
-                                                                </a>
-                                                            <?php else : ?>
-                                                                <a class="t<?= $b['bank_id'] ?>" type="button" style="width: 100%;" data-toggle="collapse" data-parent="#accordion" href="#collapse<?= $b['bank_id'] ?>">
-                                                                    &nbsp;<img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
-                                                                </a>
-                                                            <?php endif; ?>
-                                                            <script>
-                                                                var checked = $('.r<?= $b['bank_id'] ?>').attr('checked');
-                                                                $('#t<?= $b['bank_id'] ?>').click(function() {
-                                                                    if (typeof checked !== typeof undefined && checked !== false) {
-                                                                        $('.r<?= $b['bank_id'] ?>').attr('checked', '');
-                                                                    } else {
-                                                                        $('.r<?= $b['bank_id'] ?>').removeAttr('checked');
-                                                                    }
-                                                                });
-                                                            </script>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </h4>
-                                        </div>
-                                        <?php if ($b['bank_nama'] !== 'TUNAI') : ?>
-                                            <div id="collapse<?= $b['bank_id'] ?>" class="panel-collapse collapse in">
-                                                <div class="panel-body">
-                                                    <table class="table">
-                                                        <tr>
-                                                            <th>Atas Nama</th>
-                                                            <th>No Rekening</th>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><?= $b['bank_atas_nama'] ?></td>
-                                                            <td><?= $b['bank_no_rek'] ?></td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
-                            <?php endforeach ?>
-                            <br>
-                            <?php if (!empty($o['transaksi_bukti'])) : ?>
-                                <b><?= $o['transaksi_atas_nama'] ?></b>
-                                <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
+                            <b>Harga</b>
+                            <p>Rp<?= number_format($o['transaksi_harga'], 2, ',', '.') ?></p>
+                            <?php if ($o['transaksi_paket'] == '1') : ?>
+                                <b>Ongkir</b>
+                                <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
                             <?php endif ?>
+                            <b>Total perlu dibayar jika lunas</b>
+                            <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
+                            <b>Total perlu dibayar jika DP/uang muka</b>
+                            <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                        <?php endif ?>
+                        <hr>
+                        <?php if (!empty($o['transaksi_bukti'])) : ?>
+                            <b><?= $o['transaksi_atas_nama'] ?></b>
+                            <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
+                            <hr>
+                        <?php endif ?>
+                        <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
+                            <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="transaksi_id">
+                            <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
+                            <b>1. Pilih rekening transfer</b>
+                            <table class="table table-bordered" id="pilih_bank">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Logo</th>
+                                        <th>Atas Nama</th>
+                                        <th>Nomor Rekening</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($bank as $b) : ?>
+                                        <?php if ($b['bank_nama'] === 'TUNAI') : ?>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <input type="radio" name="bank" id="bank<?= $b['bank_id']; ?>" value="<?= $b['bank_id']; ?>">
+                                                </td>
+                                                <td colspan="3"><b>TUNAI</b></td>
+                                            </tr>
+                                        <?php else : ?>
+                                            <tr>
+                                                <td class="text-center">
+                                                    <input type="radio" name="bank" id="bank<?= $b['bank_id']; ?>" value="<?= $b['bank_id']; ?>">
+                                                </td>
+                                                <td>
+                                                    <img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
+                                                </td>
+                                                <td><?= $b['bank_atas_nama']; ?></td>
+                                                <td><?= $b['bank_no_rek']; ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                            <br>
                             <?php if ($o['transaksi_terima'] !== '1') : ?>
                                 <input type="hidden" value="<?= $this->uri->segment(3) ?>" name="id_transaksi">
-
                                 <div class="form-group">
-                                    <p class="mb-1">Atas Nama</p>
+                                    <label for="atas_nama" class="mb-1"><b>2. Atas nama</b></label>
                                     <input id="atas_nama" placeholder="Misal: Reza Fabriza Lesmana" type="text" name="atas_nama" class="form-control" required>
                                 </div>
                                 <div class="form-group">
-                                    <p class="mb-1">Jumlah yang ditransfer</p>
+                                    <label for="transfer" class="mb-1"><b>3. Jumlah yang ditransfer</b></label>
                                     <input id="transfer" placeholder="Misal: 500000" type="number" name="transfer" class="form-control" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="file" required="" name="bukti" class="form-control">
+                                    <label for="file"><b>4. Bukti transfer</b></label>
+                                    <input id="file" type="file" name="bukti" class="form-control" required>
                                 </div>
                                 <br>
                                 <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
+                            <?php endif; ?>
                         </form>
-                    <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -950,6 +883,13 @@
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
 <script>
+    $(document).ready(function() {
+        $('#pilih_bank tbody').find('tr').on('click', function(e) {
+            var inp = $(this).find('input:first')[0];
+            inp.checked = true;
+        });
+    });
+
     function pilihGambar() {
         if (confirm('Anda yakin ingin memilih varian ini?')) {
             $('#formApproval').submit();
@@ -1096,14 +1036,6 @@ $statusRefresh = $this->db->query("SELECT max(transaksi_status_id) st, max(trans
 ?>
 <script>
     $(document).ready(function() {
-        $('#opsibayarlunas').click(function() {
-            $('#totalbayar').html('Rp  ' +
-                '<?= number_format($total_bayar["transaksi_total"], 2, ',', '.'); ?>');
-        });
-        $('#opsibayardp').click(function() {
-            $('#totalbayar').html('Rp  ' + '<?= number_format($total_bayar["transaksi_total"] * 0.5, 2, ',', '.'); ?>');
-        });
-
         setInterval(function() {
             var id = $('#id').val();
             var status = '<?= $statusRefresh['st']; ?>';

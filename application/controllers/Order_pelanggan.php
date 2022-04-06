@@ -139,11 +139,10 @@ class Order_pelanggan extends CI_Controller
     }
     function upload_bukti()
     {
-        $id = $this->input->post('id');
+        $id = $this->input->post('transaksi_id');
         $bank = $this->input->post('bank');
         $atas_nama = $this->input->post('atas_nama');
         $bukti_lama = $this->input->post('bukti_lama');
-        $id_transaksi = $this->input->post('id_transaksi');
         $bukti = $_FILES['bukti']['name'];
         if (empty($bukti)) {
             $f = $bukti_lama;
@@ -159,12 +158,12 @@ class Order_pelanggan extends CI_Controller
             }
             $f = $this->upload->data('file_name');
         }
-        $c = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_status_id = '3' AND transaksi_order_id = '$id_transaksi' ")->num_rows();
+        $c = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_status_id = '3' AND transaksi_order_id = '$id' ")->num_rows();
         if ($c['transaksi_keterangan'] == NULL) {
-            $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = 2 WHERE transaksi_status_id = '3' AND transaksi_order_id = '$id_transaksi' ");
+            $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = 2 WHERE transaksi_status_id = '3' AND transaksi_order_id = '$id' ");
         }
         $this->db->query("UPDATE tbl_transaksi SET transaksi_bank = '$bank', transaksi_atas_nama = '$atas_nama', transaksi_bukti = '$f' WHERE transaksi_id = '$id' ");
-        redirect('Order_pelanggan/detail/' . $id_transaksi);
+        redirect('Order_pelanggan/detail/' . $id);
     }
     function upload_approval()
     {

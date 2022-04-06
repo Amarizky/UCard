@@ -174,9 +174,9 @@
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
                                             <?php if ($st['transaksi_status'] == '4') : ?>
-                                                <b>Sudah Lewat Tanggal</b>
+                                                <b>Sudah lewat tanggal</b>
                                             <?php else : ?>
-                                                <strong>Batas Kirim</strong>
+                                                <strong>Batas kirim: </strong>
                                                 <b><?= date('d/m/Y H:m', $st['transaksi_tanggal_hangus']) ?></b>
                                             <?php endif; ?>
                                         <?php endif; ?>
@@ -391,7 +391,7 @@
                         <h3 class="mb-0">Kirim Design</h3>
                     </div>
                     <div class="card-body">
-                        <p>File dan/atau link akan muncul jika pelanggan sudah mengunggahnya</p>
+                        <p>File dan/atau URL akan muncul jika pelanggan sudah mengunggahnya</p>
                         <hr>
                         <?php
                         $id = $this->uri->segment(3);
@@ -424,7 +424,7 @@
                                     <?php $i = 1; ?>
                                     <?php if (count($upload) < 1) : ?>
                                         <tr>
-                                            <td colspan="4">Pelanggan belum mengirimkan file desain</td>
+                                            <td colspan="4" class="text-center">Pelanggan belum mengirimkan file desain</td>
                                         </tr>
                                     <?php else : ?>
                                         <?php foreach ($upload as $u) : ?>
@@ -440,9 +440,13 @@
                             </table>
                         </div>
                         <hr>
-                        <h3>Link File</h3>
+                        <h3>URL File</h3>
                         <div class="col p-0">
-                            <input type="text" class="form-control" name="link" value="<?= !empty($link['transaksi_link_desain']) && !is_null($link['transaksi_link_desain']) ? $link['transaksi_link_desain'] : 'Pelanggan belum mengirimkan link file'; ?>">
+                            <?php if (!empty($link['transaksi_link_desain']) && !is_null($link['transaksi_link_desain'])) : ?>
+                                <input type="text" class="form-control" name="link" value="<?= $link['transaksi_link_desain']; ?>">
+                            <?php else : ?>
+                                <input type="text" class="form-control" name="link" value="Pelanggan belum mengirimkan link file" readonly>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -471,18 +475,32 @@
                     <div class="card-body">
                         <p>Silahkan ubah harga dan/atau ongkir jika diperlukan. Bukti transfer akan muncul setelah pelanggan mengunggah file bukti transfer.</p>
                         <hr>
+                        <b>Metode pengiriman yang dipilih pelanggan</b>
+                        <p><?= $o['transaksi_paket'] == '1' ? 'Kirim Paket' : 'Ambil Sendiri'; ?></p>
+                        <hr>
+                        <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
                         <b>Harga</b>
                         <p>Rp<?= number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
-                        <b>Ongkir</b>
-                        <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.'); ?></p>
+                        <?php if ($o['transaksi_paket'] == '1') : ?>
+                            <b>Ongkir</b>
+                            <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
+                        <?php endif ?>
                         <b>Total perlu dibayar (Lunas)</b>
-                        <p>Rp<?= number_format($o['transaksi_harga'] + $o['transaksi_ongkir'], 2, ',', '.'); ?></p>
-                        <b>Total perlu dibayar (DP)</b>
-                        <p>Rp<?= number_format(($o['transaksi_harga'] + $o['transaksi_ongkir']) * 0.5, 2, ',', '.'); ?></p>
+                        <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
+                        <b>Total perlu dibayar jika DP/uang muka</b>
+                        <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
                         <hr>
                         <b>Bukti Transfer</b>
                         <?php if (!empty($o['transaksi_bukti'])) : ?>
-                            <a type="button" class="modal_lihat" data-toggle="modal" data-target="#bukti"><img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>"></a>
+                            <?php $bank = $this->db->where('bank_id', $o['transaksi_bank'])->get('tbl_bank')->row_array()['bank_nama']; ?>
+                            <br>
+                            <b>Atas Nama</b>
+                            <p><?= $o['transaksi_atas_nama']; ?></p>
+                            <b>Bank</b>
+                            <p><?= $bank; ?></p>
+                            <a type="button" class="modal_lihat w-100" data-toggle="modal" data-target="#bukti">
+                                <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
+                            </a>
                         <?php else : ?>
                             <p>Pelanggan belum mengunggah bukti transfer</p>
                         <?php endif ?>
@@ -618,16 +636,8 @@
                     <div id="terima_p" class="card-body">
                         <?php if ($o['transaksi_terima'] == NULL) : ?>
                             <div class="wrapper">
-                                <?php if ($o['transaksi_paket'] == '1') : ?>
-                                    <input class="p" type="radio" value="1" name="paket" id="option-1" checked>
-                                <?php else : ?>
-                                    <input class="p" type="radio" value="1" name="paket" id="option-1">
-                                <?php endif; ?>
-                                <?php if ($o['transaksi_paket'] == '2') : ?>
-                                    <input class="p" type="radio" value="2" name="paket" id="option-2" checked>
-                                <?php else : ?>
-                                    <input class="p" type="radio" value="2" name="paket" id="option-2">
-                                <?php endif; ?>
+                                <input class="p" type="radio" value="1" name="paket" id="option-1" <?= $o['transaksi_paket'] == '1' ? 'checked' : ''; ?>>
+                                <input class="p" type="radio" value="2" name="paket" id="option-2" <?= $o['transaksi_paket'] == '2' ? 'checked' : ''; ?>>
                                 <label for="option-1" class="option option-1">
                                     <div class="dot"></div>
                                     <span>Kirim Produk</span>
