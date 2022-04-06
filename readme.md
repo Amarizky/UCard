@@ -1,3 +1,11 @@
+# product_tipe
+
+| id | status |
+| -- | ------ |
+| 0 | Kartu |
+| 1 | Aksesoris |
+| 2 | Tali |
+
 # transaksi_status_id
 
 | id | status |
