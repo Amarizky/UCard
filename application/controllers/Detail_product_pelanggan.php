@@ -26,7 +26,7 @@ class Detail_product_pelanggan extends CI_Controller
 		$keterangan = $this->input->post('keterangan');
 		$product_id = $this->input->post('product_id');
 		$nohp = $this->input->post('nohp');
-		$harga = $this->input->post('harga');
+		$harga = $this->db->select('product_harga')->where('product_id', $product_id)->get('tbl_product')->row_array()['product_harga'];
 		$total_harga = $harga * $jumlah;
 		$tanggal = time();
 		$personalisasi = $this->input->post('personalisasi') ? implode(',', $this->input->post('personalisasi')) : null;

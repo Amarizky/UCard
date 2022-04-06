@@ -46,10 +46,8 @@
 <script>
     $("body").addClass((window.innerWidth <= 1200 ? "g-sidenav-hidden" : "g-sidenav-pinned"))
     $(document).ready(function() {
-        $(window).resize(function() {
-            notif();
-            var refInterval = window.setInterval('notif()', 12000);
-        });
+        notif();
+        var refInterval = window.setInterval('notif()', 12000);
     });
 
     function notif() {

@@ -33,10 +33,6 @@
         font-size: 15px;
     }
 
-    .grid-item-nopadding {
-        padding: 0 0 20px 0 !important;
-    }
-
     .item1 {
         width: 100%;
         grid-column: 2;
@@ -104,13 +100,12 @@
                                 <b>Jumlah Pesanan</b>
                                 <br><br>
                                 <input type="number" placeholder="Masukkan banyaknya pesanan" name="jumlah" class="form-control" required>
-                                <input type="hidden" value="<?= $p['product_harga'] ?>" name="harga">
                             </div>
                             <?php if ($p['product_tipe'] == '0') : ?>
                                 <!-- Kartu -->
                                 <div class="grid-container">
                                     <input type="hidden" id="tipe" name="tipe" value="<?= $p['product_tipe']; ?>">
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Personalisasi</b>
                                         <br><br>
                                         <div class="form-group">
@@ -126,7 +121,7 @@
                                             <label for="persona5">Data + Foto</label>
                                         </div>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Coating</b>
                                         <br><br>
                                         <input id="coating1" type="radio" placeholder="coating" name="coating" value="1" required>
@@ -138,7 +133,7 @@
                                         <input id="coating4" type="radio" placeholder="coating" name="coating" value="4" required>
                                         <label for="coating4">UV</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Finishing</b>
                                         <br><br>
                                         <input id="finish1" type="checkbox" placeholder="finishing" name="finishing[]" value="1">
@@ -164,7 +159,7 @@
                                         <input id="finish11" type="checkbox" placeholder="finishing" name="finishing[]" value="11">
                                         <label for="finish11">Swipe</label><br>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Function</b>
                                         <br><br>
                                         <input id="function1" type="radio" placeholder="function" name="function" value="1" required>
@@ -176,7 +171,7 @@
                                         <input id="function4" type="radio" placeholder="function" name="function" value="4" required>
                                         <label for="function4">Tap RFID</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Packaging</b>
                                         <br><br>
                                         <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1">
@@ -196,7 +191,7 @@
                                         <input id="packaging8" type="checkbox" placeholder="packaging" name="packaging[]" value="8">
                                         <label for="packaging8">Large Maxi UCARD</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Ambil/Kirim</b>
                                         <br><br>
                                         <input id="kirim" type="radio" placeholder="status" name="status" value="1" required>
@@ -209,7 +204,7 @@
                                 <!-- Aksesoris -->
                                 <div class="grid-container">
                                     <input type="hidden" id="tipe" name="tipe" value="<?= $p['product_tipe']; ?>">
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Yoyo</b>
                                         <br><br>
                                         <input id="yoyo1" type="radio" placeholder="yoyo" name="yoyo" value="1" required>
@@ -230,7 +225,7 @@
                                         <input id="casing4" type="radio" placeholder="casing" name="casing" value="4" required>
                                         <label for="casing4">Casing ID Card Kulit</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Warna</b>
                                         <br><br>
                                         <input id="warna1" type="radio" placeholder="warna" name="warna" value="1" required>
@@ -260,7 +255,7 @@
                                         <input id="warna13" type="radio" placeholder="warna" name="warna" value="13" required>
                                         <label for="warna13">Custom (isi di keterangan)</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Varian Casing Karet</b>
                                         <br><br>
                                         <input id="ck1" type="radio" placeholder="ck" name="ck" value="1" required>
@@ -272,13 +267,13 @@
                                         <input id="ck4" type="radio" placeholder="ck" name="ck" value="4" required>
                                         <label for="ck4">Casing karet single landscape</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Logo Resin</b>
                                         <br><br>
                                         <input id="lr" type="checkbox" placeholder="lr" name="lr" value="1">
                                         <label for="lr">Logo resin</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Penjepit Buaya</b>
                                         <br><br>
                                         <input id="pb1" type="radio" placeholder="pb" name="pb" value="1">
@@ -286,7 +281,7 @@
                                         <input id="pb2" type="radio" placeholder="pb" name="pb" value="2">
                                         <label for="pb2">Penjepit Buaya Plastik</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Ambil/Kirim</b>
                                         <br><br>
                                         <input id="kirim" type="radio" placeholder="status" name="status" value="1" required>
@@ -299,7 +294,7 @@
                                 <!-- Tali -->
                                 <div class="grid-container">
                                     <input type="hidden" id="tipe" name="tipe" value="<?= $p['product_tipe']; ?>">
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Material</b>
                                         <br><br>
                                         <input id="material1" type="radio" placeholder="material" name="material" value="1" required>
@@ -315,7 +310,7 @@
                                         <input id="material6" type="radio" placeholder="material" name="material" value="6" required>
                                         <label for="material6">Tissue 2,5CM</label>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Finishing</b>
                                         <br><br>
                                         <input id="finishing1" type="radio" placeholder="finish" name="finish" value="1" required>
@@ -331,7 +326,7 @@
                                         <input id="finishing6" type="radio" placeholder="finish" name="finish" value="6" required>
                                         <label for="finishing6">Stopper Tas</label><br>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Jenis Produksi</b>
                                         <br><br>
                                         <input id="jp1" type="radio" placeholder="jp" name="jp" value="1" required>
@@ -339,7 +334,7 @@
                                         <input id="jp2" type="radio" placeholder="jp" name="jp" value="2" required>
                                         <label for="jp2">Printing</label><br>
                                     </div>
-                                    <div class="grid-item grid-item-nopadding">
+                                    <div class="grid-item p-0 pb-3">
                                         <b>Ambil/Kirim</b>
                                         <br><br>
                                         <input id="kirim" type="radio" placeholder="status" name="status" value="1" required>
@@ -500,6 +495,10 @@
 <script>
     $(document).ready(function() {
         $('form').submit(function() {
+            if ($('input[name="jumlah"]').val() < 1) {
+                alert('Masukkan jumlah pesanan');
+                return false;
+            }
             if ($('#tipe').val() == '0' && (!$("input[name='personalisasi[]'][type=checkbox]:checked").length ||
                     !$("input[name='finishing[]'][type=checkbox]:checked").length ||
                     !$("input[name='packaging[]'][type=checkbox]:checked").length)) {
