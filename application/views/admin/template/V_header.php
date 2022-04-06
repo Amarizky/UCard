@@ -174,32 +174,32 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                 </a>
                             </li>
                         <?php endif; ?>
-                        <?php if ($perms['admin_perm_data']) : ?>
+                        <?php if ($perms['admin_perm_laporan']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 == 'Data' ? 'active' : ''; ?>" href="#navbar-data" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-data">
+                                <a class="nav-link <?= $seg1 == 'Laporan' ? 'active' : ''; ?>" href="#navbar-laporan" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-data">
                                     <i class="ni ni-single-copy-04 text-info"></i>
-                                    <span class="nav-link-text">Data</span>
+                                    <span class="nav-link-text">Laporan</span>
                                 </a>
-                                <div class="collapse <?= $seg1 == 'Data' ? 'show' : ''; ?>" id="navbar-data">
+                                <div class="collapse <?= $seg1 == 'Laporan' ? 'show' : ''; ?>" id="navbar-laporan">
                                     <ul class="nav nav-sm flex-column">
-                                        <?php if ($perms['admin_perm_datapelanggan']) : ?>
+                                        <?php if ($perms['admin_perm_laporanpelanggan']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Data/pelanggan') ?>" class="nav-link <?= $seg2 == 'pelanggan' ? 'active' : ''; ?>">
-                                                    <i class="ni ni-single-copy-04 text-info"></i>Data Pelanggan
+                                                <a href="<?= base_url('Laporan/pelanggan') ?>" class="nav-link <?= $seg2 == 'pelanggan' ? 'active' : ''; ?>">
+                                                    <i class="ni ni-single-copy-04 text-info"></i>Pelanggan
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        <?php if ($perms['admin_perm_dataproduk']) : ?>
+                                        <?php if ($perms['admin_perm_laporanproduk']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Data/produk') ?>" class="nav-link <?= $seg2 == 'produk' ? 'active' : ''; ?>">
-                                                    <i class="ni ni-single-copy-04 text-info"></i>Data Produk
+                                                <a href="<?= base_url('Laporan/produk') ?>" class="nav-link <?= $seg2 == 'produk' ? 'active' : ''; ?>">
+                                                    <i class="ni ni-single-copy-04 text-info"></i>Produk
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        <?php if ($perms['admin_perm_datapenjualan']) : ?>
+                                        <?php if ($perms['admin_perm_laporanpenjualan']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Data/penjualan') ?>" class="nav-link <?= $seg2 == 'penjualan' ? 'active' : ''; ?>">
-                                                    <i class="ni ni-single-copy-04 text-info"></i>Data Penjualan
+                                                <a href="<?= base_url('Laporan/penjualan') ?>" class="nav-link <?= $seg2 == 'penjualan' ? 'active' : ''; ?>">
+                                                    <i class="ni ni-single-copy-04 text-info"></i>Penjualan
                                                 </a>
                                             </li>
                                         <?php endif; ?>
