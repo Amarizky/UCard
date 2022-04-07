@@ -56,7 +56,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>No Hp</th>
+                                <th>No HP</th>
                                 <th>Nama</th>
                                 <th>Tanggal</th>
                                 <th>Jumlah</th>
@@ -72,7 +72,8 @@
                                     <td><?= $n++ ?></td>
                                     <td><?= $o['transaksi_nohp'] ?></td>
                                     <td><?= $o['pelanggan_nama'] ?></td>
-                                    <td><?= $o['transaksi_tanggal'] ?></td>
+                                    <?php $dt = new DateTime("@$o[transaksi_tanggal]"); ?>
+                                    <td><?= $dt->format('d-m-Y H-i'); ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
                                     <td>
                                         <?php
