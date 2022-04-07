@@ -14,7 +14,7 @@ class Order extends CI_Controller
     function index()
     {
         $x['title'] = "Daftar Order";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND ( s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2') AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' " . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission() . ' GROUP BY t.transaksi_id')->result_array();
+        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND ( s.transaksi_status IS NULL OR s.transaksi_status = '0' OR s.transaksi_status = '2') AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' AND " . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission() . " GROUP BY t.transaksi_id ORDER BY t.transaksi_id DESC")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -23,7 +23,21 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderverifikasi')) redirect('Dashboard');
         $x['title'] = "Verifikasi";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
+            ->from('tbl_transaksi t')
+            ->join('tbl_status_transaksi s', 't.transaksi_id = s.transaksi_order_id')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp = p.pelanggan_nohp')
+            ->where('t.transaksi_terima', null)
+            ->where('s.transaksi_status_id', '1')
+            ->where("(s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL)")
+            ->where('t.transaksi_deleted', '0')
+            ->where('s.transaksi_deleted', '0')
+            ->group_by('t.transaksi_id')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -32,7 +46,21 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderkirimdesign')) redirect('Dashboard');
         $x['title'] = "Kirim Design";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
+            ->from('tbl_transaksi t')
+            ->join('tbl_status_transaksi s', 't.transaksi_id = s.transaksi_order_id')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp = p.pelanggan_nohp')
+            ->where('t.transaksi_terima', null)
+            ->where('s.transaksi_status_id', '2')
+            ->where("( s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL ) ")
+            ->where('t.transaksi_deleted', '0')
+            ->where('s.transaksi_deleted', '0')
+            ->group_by('t.transaksi_id')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '2' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -41,7 +69,21 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderpembayaran')) redirect('Dashboard');
         $x['title'] = "Pembayaran";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
+            ->from('tbl_transaksi t')
+            ->join('tbl_status_transaksi s', 't.transaksi_id = s.transaksi_order_id')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp = p.pelanggan_nohp')
+            ->where('t.transaksi_terima', null)
+            ->where('s.transaksi_status_id', '3')
+            ->where("(s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL)")
+            ->where('t.transaksi_deleted', '0')
+            ->where('s.transaksi_deleted', '0')
+            ->group_by('t.transaksi_id')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '3' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -50,7 +92,21 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderapproval')) redirect('Dashboard');
         $x['title'] = "Approval";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
+            ->from('tbl_transaksi t')
+            ->join('tbl_status_transaksi s', 't.transaksi_id = s.transaksi_order_id')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp = p.pelanggan_nohp')
+            ->where('t.transaksi_terima', null)
+            ->where('s.transaksi_status_id', '4')
+            ->where("(s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL)")
+            ->where('t.transaksi_deleted', '0')
+            ->where('s.transaksi_deleted', '0')
+            ->group_by('t.transaksi_id')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '4' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -59,7 +115,21 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('ordercetakproduk')) redirect('Dashboard');
         $x['title'] = "Cetak Produk";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
+            ->from('tbl_transaksi t')
+            ->join('tbl_status_transaksi s', 't.transaksi_id = s.transaksi_order_id')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp = p.pelanggan_nohp')
+            ->where('t.transaksi_terima', null)
+            ->where('s.transaksi_status_id', '5')
+            ->where("(s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL)")
+            ->where('t.transaksi_deleted', '0')
+            ->where('s.transaksi_deleted', '0')
+            ->group_by('t.transaksi_id')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '5' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -68,7 +138,21 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderkirimambil')) redirect('Dashboard');
         $x['title'] = "Ambil / Kirim";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
+            ->from('tbl_transaksi t')
+            ->join('tbl_status_transaksi s', 't.transaksi_id = s.transaksi_order_id')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp = p.pelanggan_nohp')
+            ->where('t.transaksi_terima', null)
+            ->where('s.transaksi_status_id', '6')
+            ->where("(s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL)")
+            ->where('t.transaksi_deleted', '0')
+            ->where('s.transaksi_deleted', '0')
+            ->group_by('t.transaksi_id')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '6' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) AND t.transaksi_deleted = '0' AND s.transaksi_deleted = '0' GROUP BY t.transaksi_id ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
@@ -77,7 +161,14 @@ class Order extends CI_Controller
     {
         if (!$this->M_admin->check_permission('orderhistory')) redirect('Dashboard');
         $x['title'] = "Order History";
-        $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp ")->result_array();
+        $x['order'] = $this->db
+            ->select('t.*, p.pelanggan_nama')
+            ->from('tbl_transaksi t')
+            ->join('tbl_pelanggan p', 't.transaksi_nohp=p.pelanggan_nohp')
+            ->order_by('t.transaksi_id', 'DESC')
+            ->get()
+            ->result_array();
+        // $x['order'] = $this->db->query("SELECT t.*,p.pelanggan_nama FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp ")->result_array();
         $this->load->view('admin/template/V_header', $x);
         $this->load->view('admin/V_order_history', $x);
         $this->load->view('admin/template/V_footer');

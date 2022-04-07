@@ -73,7 +73,7 @@
                                     <td><?= $o['transaksi_nohp'] ?></td>
                                     <td><?= $o['pelanggan_nama'] ?></td>
                                     <?php $dt = new DateTime("@$o[transaksi_tanggal]"); ?>
-                                    <td><?= $dt->format('d-m-Y H-i'); ?></td>
+                                    <td><?= $dt->format('d-m-Y H:i'); ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
                                     <td>
                                         <?php

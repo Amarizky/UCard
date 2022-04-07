@@ -44,6 +44,6 @@ class M_admin extends CI_Model
         if ($adm['cetakproduk']) $allowed[] = '5';
         if ($adm['kirimambil']) $allowed[] = '6';
 
-        return ' AND (s.transaksi_status_id=' . implode(' OR s.transaksi_status_id=', $allowed) . ")";
+        return '(s.transaksi_status_id=' . implode(' OR s.transaksi_status_id=', $allowed) . ")";
     }
 }
