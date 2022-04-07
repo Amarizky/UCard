@@ -338,7 +338,7 @@ class Order extends CI_Controller
     {
         $x['title'] = "Detail";
         $id = $this->uri->segment(3);
-        $o = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_id = '$id' " . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission())->row_array();
+        $o = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_id = '$id' and" . $this->M_admin->tambahanQueryOrderYangFungsinyaBuatCekPermission())->row_array();
         if (!$o) {
             redirect('Order');
         } else {
