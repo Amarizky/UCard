@@ -382,7 +382,9 @@
                             <h3>Design Anda</h3>
                             <br>
                             <?php foreach ($design as $d) : ?>
-                                <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat"><img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt=""></a>
+                                <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat">
+                                    <img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt="">
+                                </a>
                                 <hr>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -403,23 +405,22 @@
                                                 <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
                                             </tr>
                                         <?php endforeach; ?>
-                                    <?php endif; ?>
                                     </tbody>
                                 </table>
                             </div>
-                            <hr>
-                            <h3>URL File</h3>
-                            <div class="col p-0">
-                                <?php if (!empty($link['transaksi_link_desain']) && !is_null($link['transaksi_link_desain'])) : ?>
-                                    <input type="text" class="form-control" name="link" value="<?= $link['transaksi_link_desain']; ?>">
-                                <?php else : ?>
-                                    <input type="text" class="form-control" name="link" value="Pelanggan belum mengirimkan link file" readonly>
-                                <?php endif; ?>
-                            </div>
+                        <?php endif; ?>
+                        <hr>
+                        <h3>URL File</h3>
+                        <div class="col p-0">
+                            <?php if (!empty($link['transaksi_link_desain']) && !is_null($link['transaksi_link_desain'])) : ?>
+                                <input type="text" class="form-control" name="link" value="<?= $link['transaksi_link_desain']; ?>">
+                            <?php else : ?>
+                                <input type="text" class="form-control" name="link" value="Pelanggan belum mengirimkan link file" readonly>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
-            <?php $ongkir = $this->db->query("SELECT transaksi_ongkir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array(); ?>
             <div id="status3" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
