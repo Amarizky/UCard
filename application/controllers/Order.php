@@ -1027,6 +1027,8 @@ HTML
     {
         $id = $this->input->post('id');
         $assesoris = $this->input->post('assesoris');
+        $keteranganspk = $this->input->post('keteranganspk');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_keterangan_accesoris = '$keteranganspk' WHERE transaksi_id = '$id';");
         $this->db->query("UPDATE tbl_transaksi SET transaksi_spkkartu_assesoris = '$assesoris' WHERE transaksi_id = '$id';");
     }
     function savespkapv()

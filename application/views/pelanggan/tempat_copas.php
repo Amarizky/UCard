@@ -204,20 +204,20 @@
     <div class="grid-item">
         <b>Varian Casing Karet</b>
         <br><br>
-        <input type="radio" id="ck1" placeholder="ck" name="ck" value="1">
-        <label for="ck1">Kirim Produk</label><br>
-        <input type="radio" id="ck2" placeholder="ck" name="ck" value="2">
-        <label for="ck2">Ambil Sendiri</label><br>
-        <input type="radio" id="ck3" placeholder="ck" name="ck" value="3">
-        <label for="ck3">Kirim Produk</label><br>
-        <input type="radio" id="ck4" placeholder="ck" name="ck" value="4">
-        <label for="ck4">Ambil Sendiri</label>
+        <input id="ck1" type="radio" placeholder="ck" name="ck" value="1" required>
+        <label for="ck1">Casing karet 1 sisi</label><br>
+        <input id="ck2" type="radio" placeholder="ck" name="ck" value="2" required>
+        <label for="ck2">Casing karet 2 sisi</label><br>
+        <input id="ck3" type="radio" placeholder="ck" name="ck" value="3" required>
+        <label for="ck3">Casing karet double landscape</label><br>
+        <input id="ck4" type="radio" placeholder="ck" name="ck" value="4" required>
+        <label for="ck4">Casing karet single landscape</label>
     </div>
     <div class="grid-item">
         <b>Logo Resin</b>
         <br><br>
-        <input type="radio" id="lr" placeholder="lr" name="lr" value="1">
-        <label for="lr">Kirim Produk</label>
+        <input id="lr" type="checkbox" placeholder="lr" name="lr" value="1">
+        <label for="lr">Logo resin</label>
     </div>
     <div class="grid-item">
         <b>Penjepit Buaya</b>
@@ -245,4 +245,42 @@
 <br>
 <button type="submit" class="btn btn-info">Order</button>
 </form>
+</div>
+
+<div class="grid-container">
+    <div class="grid-item">
+        <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+        <b>Yoyo</b>
+        <p>&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></p>
+    </div>
+    <div class="grid-item">
+        <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+        <b>Warna</b>
+        <p>&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></p>
+    </div>
+    <div class="grid-item">
+        <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+        <b>Casing</b>
+        <p>&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></p>
+    </div>
+    <div class="grid-item">
+        <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+        <b>Casing Karet</b>
+        <p>&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></p>
+    </div>
+    <div class="grid-item">
+        <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
+        <b>Logo Resin</b>
+        <p>&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></p>
+    </div>
+    <div class="grid-item">
+        <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+        <b>Penjepit Buaya</b>
+        <p>&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></p>
+    </div>
+    <div class="grid-item">
+        <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+        <b>Ambil/Kirim</b>
+        <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
+    </div>
 </div>
