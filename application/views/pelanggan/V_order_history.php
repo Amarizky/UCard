@@ -63,14 +63,11 @@
                         </thead>
                         <tbody>
                             <?php foreach ($order as $o) : ?>
-                                <?php if ($o['transaksi_terima'] == '1') : ?>
-                                    <tr>
-                                    <?php elseif ($o['transaksi_terima'] == '0') : ?>
-                                    <tr style="background-color:#f7d7d7;">
-                                    <?php endif; ?>
+                                <?php $dt = new DateTime("@$o[transaksi_tanggal]"); ?>
+                                <tr style="<?= $o['transaksi_terima'] == '0' ? "background-color: #f7d7d7;" : ''; ?>">
                                     <td><img style="width:60px;" src="<?= base_url('image/' . $o['product_image']) ?>" alt=""></td>
                                     <td><?= $o['product_nama'] ?></td>
-                                    <td><?= $o['transaksi_tanggal'] ?></td>
+                                    <td><?= $dt->format('d-m-Y H:i'); ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
                                     <td>
                                         <?php
@@ -87,8 +84,8 @@
                                         <button id="<?= $o['transaksi_id'] ?>" type="button" class="btn btn-info btn-sm update_status" data-toggle="modal" data-target="#update"><i class="fa fa-pen"></i></button>
                                         <a href="<?= base_url('Order_pelanggan/detail/' . $o['transaksi_id']) ?>" class="btn btn-primary btn-sm"><i class="fa fa-box"></i></a>
                                     </td>
-                                    </tr>
-                                <?php endforeach ?>
+                                </tr>
+                            <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>

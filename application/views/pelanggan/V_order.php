@@ -57,17 +57,16 @@
                                 <th>Nama</th>
                                 <th>Tanggal</th>
                                 <th>Jumlah</th>
-                                <th>
-
-                                </th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($order as $o) : ?>
+                                <?php $dt = new DateTime("@$o[transaksi_tanggal]"); ?>
                                 <tr>
                                     <td><img style="width:60px;" src="<?= base_url('image/' . $o['product_image']) ?>" alt=""></td>
                                     <td><?= $o['product_nama'] ?></td>
-                                    <td><?= $o['transaksi_tanggal'] ?></td>
+                                    <td><?= $dt->format('d-m-Y H:i'); ?></td>
                                     <td><?= $o['transaksi_jumlah'] ?></td>
                                     <td>
                                         <button id="<?= $o['transaksi_id'] ?>" type="button" class="btn btn-info btn-sm update_status" data-toggle="modal" data-target="#update"><i class="fa fa-pen"></i></button>

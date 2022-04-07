@@ -24,7 +24,7 @@ class Order_pelanggan extends CI_Controller
     {
         $x['title'] = "Order";
         $nohp = $_SESSION['pelanggan_nohp'];
-        $x['order'] = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_product AS p ON t.transaksi_product_id = p.product_id WHERE transaksi_terima IS NULL AND transaksi_nohp = '$nohp'")->result_array();
+        $x['order'] = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_product AS p ON t.transaksi_product_id = p.product_id WHERE transaksi_terima IS NULL AND transaksi_nohp = '$nohp' ORDER BY t.transaksi_id DESC")->result_array();
         $this->load->view('pelanggan/template/V_header', $x);
         $this->load->view('pelanggan/V_order', $x);
         $this->load->view('pelanggan/template/V_footer');
@@ -33,7 +33,7 @@ class Order_pelanggan extends CI_Controller
     {
         $x['title'] = "Order History";
         $nohp = $_SESSION['pelanggan_nohp'];
-        $x['order'] = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_product AS p ON t.transaksi_product_id = p.product_id WHERE transaksi_nohp = '$nohp'")->result_array();
+        $x['order'] = $this->db->query("SELECT * FROM tbl_transaksi AS t JOIN tbl_product AS p ON t.transaksi_product_id = p.product_id WHERE transaksi_nohp = '$nohp' ORDER BY t.transaksi_id DESC")->result_array();
         $this->load->view('pelanggan/template/V_header', $x);
         $this->load->view('pelanggan/V_order_history', $x);
         $this->load->view('pelanggan/template/V_footer');

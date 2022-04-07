@@ -230,13 +230,13 @@
                                             <?php switch ($s['status_urut']) {
                                                 case "1":
                                             ?>
-                                                    <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_print1"><i class="fa fa-print"> SPK Sales</i></button>
+                                                    <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_sales"><i class="fa fa-print"> SPK Sales</i></button>
                                                 <?php
                                                     break;
                                                 case "4":
                                                 ?>
-                                                    <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_print4"><i class="fa fa-print"></i> SPK Approval</button>
-                                                    <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_print5"><i class="fa fa-print"></i> SPK Produksi</button>
+                                                    <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_approval"><i class="fa fa-print"></i> SPK Approval</button>
+                                                    <button id-status="<?= $s['status_urut'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_produksi"><i class="fa fa-print"></i> SPK Produksi</button>
                                             <?php
                                                     break;
                                             }
@@ -311,44 +311,135 @@
                             <b>Total harga</b>
                             <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
                             <b>Keterangan</b>
-                            <p><?= $o['transaksi_keterangan'] ?></p>
-                            <div class="grid-container">
-                                <div class="grid-item">
-                                    <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                    <b>Yoyo</b>
-                                    <p>&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></p>
+                            <p><?= $o['transaksi_keterangan'] ?? 'Tidak ada keterangan'; ?></p>
+                            <b>Kustomisasi</b>
+                            <?php if ($p['product_tipe'] == '0') : ?>
+                                <!-- Kartu -->
+                                <div class="grid-container">
+                                    <div class="grid-item">
+                                        <?php
+                                        $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                        $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                        $statusPersonalisasi = "";
+                                        foreach ($personalisasi as $pe) {
+                                            $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$pe];
+                                        }
+                                        ?>
+                                        <b>Personalisasi</b>
+                                        <p><?= $statusPersonalisasi; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                        <b>Coating</b>
+                                        <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php
+                                        $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                        $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                        $statusFinishing = "";
+                                        foreach ($finishing as $f) {
+                                            $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                        }
+                                        ?>
+                                        <b>Finishing</b>
+                                        <p><?= $statusFinishing; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                        <b>Function</b>
+                                        <p><?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php
+                                        $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                        $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                        $statusPackaging = "";
+                                        foreach ($packaging as $pa) {
+                                            $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$pa];
+                                        }
+                                        ?>
+                                        <b>Packaging</b>
+                                        <p><?= $statusPackaging; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                        <b>Ambil/Kirim</b>
+                                        <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
+                                    </div>
                                 </div>
-                                <div class="grid-item">
-                                    <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                    <b>Warna</b>
-                                    <p>&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></p>
+                            <?php elseif ($p['product_tipe'] == '1') : ?>
+                                <!-- Aksesoris -->
+                                <div class="grid-container">
+                                    <div class="grid-item p-0 pb-3">
+                                        <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                        <b>Yoyo</b>
+                                        <p>&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                        <b>Warna</b>
+                                        <p>&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                        <b>Casing</b>
+                                        <p>&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                        <b>Casing Karet</b>
+                                        <p>&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <?php $LogoResin = ['Tidak memakai logo', 'Logo Resin']; ?>
+                                        <b>Logo Resin</b>
+                                        <p>&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                        <b>Penjepit Buaya</b>
+                                        <p>&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item p-0">
+                                        <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                        <b>Ambil/Kirim</b>
+                                        <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
+                                    </div>
                                 </div>
-                                <div class="grid-item">
-                                    <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                    <b>Casing</b>
-                                    <p>&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></p>
+                            <?php elseif ($p['product_tipe'] == '2') : ?>
+                                <!-- Tali -->
+                                <div class="grid-container">
+                                    <div class="grid-item">
+                                        <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                        <b>Material</b>
+                                        <p>&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php
+                                        $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                        $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                        $statusFinishing = "";
+                                        foreach ($finishing as $f) {
+                                            $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                        }
+                                        ?>
+                                        <b>Finishing</b>
+                                        <p>&nbsp;<?= $statusFinishing; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                        <b>Jenis Produksi</b>
+                                        <p>&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></p>
+                                    </div>
+                                    <div class="grid-item">
+                                        <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                        <b>Ambil/Kirim</b>
+                                        <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
+                                    </div>
                                 </div>
-                                <div class="grid-item">
-                                    <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                    <b>Casing Karet</b>
-                                    <p>&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></p>
-                                </div>
-                                <div class="grid-item">
-                                    <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                    <b>Logo Resin</b>
-                                    <p>&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></p>
-                                </div>
-                                <div class="grid-item">
-                                    <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                    <b>Penjepit Buaya</b>
-                                    <p>&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></p>
-                                </div>
-                                <div class="grid-item">
-                                    <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                    <b>Ambil/Kirim</b>
-                                    <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
-                                </div>
-                            </div>
+                            <?php endif; ?>
+                            <hr>
                             <h1>Customer</h1>
                             <b>Nama</b>
                             <p><?= $o['pelanggan_nama'] ?></p>
@@ -383,9 +474,6 @@
                         $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                        if (!$design && !$upload && (empty($link['transaksi_link_desain'] || !$link))) {
-                            echo '<h3>Pelanggan belum mengirim gambar desain ataupun link</h3>';
-                        }
                         if ($design) : ?>
                             <h3>Design Anda</h3>
                             <br>
@@ -395,6 +483,8 @@
                                 </a>
                                 <hr>
                             <?php endforeach; ?>
+                        <?php else : ?>
+                            <b>Pelanggan belum mengirim gambar desain</b>
                         <?php endif; ?>
                         <?php if ($upload) : ?>
                             <h3>Uploaded File & Design</h3>
@@ -568,14 +658,14 @@
                                 $produksi = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_';")->result_array();
                                 $produksicount = 51;
                                 ?>
-                                <?php foreach ($produksi as $p) : ?>
+                                <?php foreach ($produksi as $pr) : ?>
                                     <div class="timeline-block mt-1 mb-0">
                                         <span style="background-color: <?= ($statusproduksi == $produksicount) ? "blue" : ($statusproduksi > $produksicount ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
                                             <i class="fa fa-image"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $p['status_status']; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $p['status_keterangan']; ?></p>
+                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status']; ?></b></p>
+                                            <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
                                             <!-- <div class="mt-3">
                                                     <span class="badge badge-pill badge-success">Diterima</span>
                                                     <p class="text-sm mt-2">
@@ -717,9 +807,10 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 <?php
 $assesoris = $this->db->query("SELECT transaksi_spkkartu_assesoris FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
 $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+$dt = new DateTime("@$o[transaksi_tanggal]");
 ?>
 <div>
-    <div class="modal fade" id="status_print1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="spk_sales" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -732,74 +823,207 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
                     <div id="printThis">
                         <div class="modal-body">
                             <div class="lcfont">
-                                <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit1"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
                                             Sales</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $o['transaksi_tanggal'] ?></p>
-                                <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
-                                    <tbody>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Kode Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Jenis Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Quantity</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                            <td style="width: 50%; height: 18px;">Yoyo</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                            <td style="width: 50%; height: 18px;">Warna</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                            <td style="width: 50%; height: 18px;">Casing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                            <td style="width: 50%; height: 18px;">CasingKaret</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                            <td style="width: 50%; height: 18px;">Logo Resin</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                            <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                            <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style="text-align: left;"><br> Keterangan : <br><?= $keteranganspk['transaksi_keterangan_accesoris'] ?></p>
-                                <p style="text-align: left;">&nbsp;</p>
+                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $dt->format('d-m-Y H:i'); ?></p>
+                                <?php if ($p['product_tipe'] == '0') : ?>
+                                    <!-- Kartu -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                                $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                                $statusPersonalisasi = "";
+                                                foreach ($personalisasi as $pe) {
+                                                    $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$pe];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                                <td style="width: 50%; height: 18px;">Coating</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                                $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <td style="width: 50%; height: 18px;">Function</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                                $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                                $statusPackaging = "";
+                                                foreach ($packaging as $pa) {
+                                                    $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$pa];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Packaging</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;"><br> Aksesoris : <?= $o['transaksi_spkkartu_assesoris'] ?></p>
+                                    <p style="text-align: left;">&nbsp;</p>
+                                <?php elseif ($p['product_tipe'] == '1') : ?>
+                                    <!-- Aksesoris -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                                <td style="width: 50%; height: 18px;">Yoyo</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                                <td style="width: 50%; height: 18px;">Warna</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                                <td style="width: 50%; height: 18px;">Casing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                                <td style="width: 50%; height: 18px;">CasingKaret</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $LogoResin = ['Tidak memakai logo', 'Logo Resin']; ?>
+                                                <td style="width: 50%; height: 18px;">Logo Resin</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                                <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;"><br> Keterangan : <br><?= $keteranganspk['transaksi_keterangan_accesoris'] ?></p>
+                                    <p style="text-align: left;">&nbsp;</p>
+                                <?php elseif ($p['product_tipe'] == '2') : ?>
+                                    <!-- Tali -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Tali</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                                <td style="width: 50%; height: 18px;">Material</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                                $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                                <td style="width: 50%; height: 18px;">Jenis Produksi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;"><br> Aksesoris : <?= $o['transaksi_spkkartu_assesoris'] ?></p>
+                                    <p style="text-align: left;">&nbsp;</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </page>
                 <div class="modal-footer">
+                    <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit1">Edit</button>
                     <button class="btn btn-primary" id="printSpk">Print</button>
                 </div>
                 <div id="alert_status"></div>
@@ -823,66 +1047,199 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK
                                             Sales</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $o['transaksi_tanggal'] ?></p>
-                                <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
-                                    <tbody>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Kode Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Jenis Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Quantity</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                            <td style="width: 50%; height: 18px;">Yoyo</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                            <td style="width: 50%; height: 18px;">Warna</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                            <td style="width: 50%; height: 18px;">Casing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                            <td style="width: 50%; height: 18px;">CasingKaret</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                            <td style="width: 50%; height: 18px;">Logo Resin</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                            <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                            <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style="text-align: left;"><br> Keterangan : <br><textarea name="keteranganspk" id="keteranganspk" placeholder="Masukan Keterangan Pemesanan Accesoris" rows="7"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?></textarea>
-                                <p style="text-align: left;">&nbsp;</p>
+                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Tanggal :&nbsp;<?= $dt->format('d-m-Y H:i'); ?></p>
+                                <?php if ($p['product_tipe'] == '0') : ?>
+                                    <!-- Kartu -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                                $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                                $statusPersonalisasi = "";
+                                                foreach ($personalisasi as $pe) {
+                                                    $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$pe];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                                <td style="width: 50%; height: 18px;">Coating</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                                $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <td style="width: 50%; height: 18px;">Function</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                                $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                                $statusPackaging = "";
+                                                foreach ($packaging as $pa) {
+                                                    $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$pa];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Packaging</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;"><br> Aksesoris : <input type="text" name="assesoris" id="assesoris" placeholder="Masukkan keterangan" value="<?= $assesoris['transaksi_spkkartu_assesoris']; ?>"></p>
+                                    <p style="text-align: left;">&nbsp;</p>
+                                <?php elseif ($p['product_tipe'] == '1') : ?>
+                                    <!-- Aksesoris -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                                <td style="width: 50%; height: 18px;">Yoyo</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                                <td style="width: 50%; height: 18px;">Warna</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                                <td style="width: 50%; height: 18px;">Casing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                                <td style="width: 50%; height: 18px;">CasingKaret</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $LogoResin = ['Tidak memakai logo', 'Logo Resin']; ?>
+                                                <td style="width: 50%; height: 18px;">Logo Resin</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                                <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;"><br> Keterangan : <br><textarea name="keteranganspk" id="keteranganspk" placeholder="Masukan keterangan" rows="7"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?></textarea>
+                                    <p style="text-align: left;">&nbsp;</p>
+                                <?php elseif ($p['product_tipe'] == '2') : ?>
+                                    <!-- Tali -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Tali</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                                <td style="width: 50%; height: 18px;">Material</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                                $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                                <td style="width: 50%; height: 18px;">Jenis Produksi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;"><br> Assesoris : <input type="text" name="assesoris" id="assesoris" placeholder="Masukkan keterangan" value="<?= $assesoris['transaksi_spkkartu_assesoris']; ?>"></p>
+                                    <p style="text-align: left;">&nbsp;</p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -895,7 +1252,7 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
             </div>
         </div>
     </div>
-    <div class="modal fade" id="status_print4" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="spk_approval" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -908,80 +1265,234 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
                     <div id="printThis3">
                         <div class="modal-body">
                             <div class="lcfont">
-                                <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit2"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
-                                </p>
-                                <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
-                                    <tbody>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Kode Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Jenis Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Quantity</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                            <td style="width: 50%; height: 18px;">Yoyo</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                            <td style="width: 50%; height: 18px;">Warna</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                            <td style="width: 50%; height: 18px;">Casing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                            <td style="width: 50%; height: 18px;">CasingKaret</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                            <td style="width: 50%; height: 18px;">Logo Resin</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                            <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                            <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style="text-align: left;">
-                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?>
-                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?>
-                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?>
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
-                                </p>
-                                <p style="text-align: left;">&nbsp;</p>
+                                <?php if ($p['product_tipe'] == '0') : ?>
+                                    <!-- Kartu -->
+                                    <p style="text-align: left;">
+                                        Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?>
+                                        <br />Quantity: <?= $o['transaksi_jumlah'] ?>
+                                        <br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <?= $o['transaksi_spkkartu_jumlahlembarawal'] ?? '0' ?> / <?= $o['transaksi_spkkartu_jumlahlembarakhir'] ?? '0' ?>
+                                        <br />Jumlah Overlay Awal/Akhir &nbsp; : <?= $o['transaksi_spkkartu_jumlahoverlayawal'] ?? '0' ?> / <?= $o['transaksi_spkkartu_jumlahoverlayakhir'] ?? '0' ?>
+                                        <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahchipawal'] ?? '0' ?> / <?= $o['transaksi_spkkartu_jumlahchipakhir'] ?? '0' ?>
+                                        <br />Jumlah Magnetic Awal/Akhir &nbsp;: <?= $o['transaksi_spkkartu_jumlahmagneticawal'] ?? '0' ?> / <?= $o['transaksi_spkkartu_jumlahmagneticakhir'] ?? '0' ?>
+                                        <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spkkartu_jumlahkarturusak'] ?? '0' ?>
+                                        <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahlembarrusak'] ?? '0' ?>
+                                        <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?? 'Belum diatur'; ?>
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                                $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                                $statusPersonalisasi = "";
+                                                foreach ($personalisasi as $pe) {
+                                                    $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$pe];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                                <td style="width: 50%; height: 18px;">Coating</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                                $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <td style="width: 50%; height: 18px;">Function</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                                $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                                $statusPackaging = "";
+                                                foreach ($packaging as $pa) {
+                                                    $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$pa];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Packaging</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
+                                <?php elseif ($p['product_tipe'] == '1') : ?>
+                                    <!-- Aksesoris -->
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $dt->format('d-m-Y H:i'); ?>
+                                            <br>Operator: <?= $o['transaksi_spk_operator'] ?>
+                                        </p>
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                                <td style="width: 50%; height: 18px;">Yoyo</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                                <td style="width: 50%; height: 18px;">Warna</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                                <td style="width: 50%; height: 18px;">Casing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                                <td style="width: 50%; height: 18px;">CasingKaret</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $LogoResin = ['Tidak memakai logo', 'Logo Resin']; ?>
+                                                <td style="width: 50%; height: 18px;">Logo Resin</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                                <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br>Tanggal/Jam Fix : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                    <br>Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                    <br>Speeling&nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                    <br>Deadline&nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
+                                <?php elseif ($p['product_tipe'] == '2') : ?>
+                                    <!-- Tali -->
+                                    <pre style="text-align: left;">Nama&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <?= $o['transaksi_jumlah'] ?><br />Tanggal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_spk_jumlahtaliawal'] ?? '0'; ?> / <?= $o['transaksi_spk_jumlahtaliakhir'] ?? '0'; ?>
+                                        <br />Jumlah Tali Stopper Awal/Akhir : <?= $o['transaksi_spk_jumlahtalistopperawal'] ?? '0'; ?> / <?= $o['transaksi_spk_jumlahtalistopperakhir'] ?? '0'; ?>
+                                        <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_jumlahklemawal'] ?? '0'; ?> / <?= $o['transaksi_spk_jumlahklemakhir'] ?? '0'; ?>
+                                        <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <?= $o['transaksi_spk_jumlahkaitawal'] ?? '0'; ?> / <?= $o['transaksi_spk_jumlahkaitakhir'] ?? '0'; ?>
+                                        <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spk_jumlahstopperawal'] ?? '0'; ?> / <?= $o['transaksi_spk_jumlahstopperakhir'] ?? '0'; ?>
+                                        <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?? 'Belum diatur'; ?>
+                                    </pre>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Tali</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                                <td style="width: 50%; height: 18px;">Material</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                                $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                                <td style="width: 50%; height: 18px;">Jenis Produksi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                 </page>
                 <div class="modal-footer">
+                    <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit2">Edit</button>
                     <button class="btn btn-primary" id="printSpk1">Print</button>
                 </div>
                 <div id="alert_status"></div>
@@ -989,14 +1500,7 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
             </div>
         </div>
     </div>
-    <?php
-    $tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-    $kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-    $Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-    $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-    $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-    $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-    ?>
+
     <div class="modal fade" id="status_printedit2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
@@ -1011,73 +1515,268 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
                         <div class="modal-body">
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Approval</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" style="width: 7em" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
-                                </p>
-                                <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
-                                    <tbody>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Kode Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Jenis Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Quantity</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                            <td style="width: 50%; height: 18px;">Yoyo</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                            <td style="width: 50%; height: 18px;">Warna</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                            <td style="width: 50%; height: 18px;">Casing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                            <td style="width: 50%; height: 18px;">CasingKaret</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                            <td style="width: 50%; height: 18px;">Logo Resin</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                            <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                            <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style="text-align: left;">
+                                <?php if ($p['product_tipe'] == '0') : ?>
+                                    <!-- Kartu -->
+                                    <?php
+                                    $JLembarAwal = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JLembarAkhir = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JOverlayAwal = $this->db->query("SELECT transaksi_spkkartu_jumlahoverlayawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JOverlayAkhir = $this->db->query("SELECT transaksi_spkkartu_jumlahoverlayakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JChipAwal = $this->db->query("SELECT transaksi_spkkartu_jumlahchipawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JChipAkhir = $this->db->query("SELECT transaksi_spkkartu_jumlahchipakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JLembarRusak = $this->db->query("SELECT transaksi_spkkartu_jumlahlembarrusak FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JKartuRusak = $this->db->query("SELECT transaksi_spkkartu_jumlahkarturusak FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JMagneticAwal = $this->db->query("SELECT transaksi_spkkartu_jumlahmagneticawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JMagneticAkhir = $this->db->query("SELECT transaksi_spkkartu_jumlahmagneticakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    ?>
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JLembarAwal" id="JLembarAwal" placeholder="Awal" value="<?= $JLembarAwal['transaksi_spkkartu_jumlahlembarawal']; ?>"> / <input type="number" style="width: 7em" name="JLembarAkhir" id="JLembarAkhir" placeholder="Akhir" value="<?= $JLembarAkhir['transaksi_spkkartu_jumlahlembarakhir']; ?>">
+                                        <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" style="width: 7em" name="JOverlayAwal" id="JOverlayAwal" placeholder="Awal" value="<?= $JOverlayAwal['transaksi_spkkartu_jumlahoverlayawal']; ?>"> / <input type="number" style="width: 7em" name="JOverlayAkhir" id="JOverlayAkhir" placeholder="Akhir" value="<?= $JOverlayAkhir['transaksi_spkkartu_jumlahoverlayakhir']; ?>">
+                                        <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JChipAwal" id="JChipAwal" placeholder="Awal" value="<?= $JChipAwal['transaksi_spkkartu_jumlahchipawal']; ?>"> / <input type="number" style="width: 7em" name="JChipAkhir" id="JChipAkhir" placeholder="Akhir" value="<?= $JChipAkhir['transaksi_spkkartu_jumlahchipakhir']; ?>">
+                                        <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" style="width: 7em" name="JMagneticAwal" id="JMagneticAwal" placeholder="Awal" value="<?= $JMagneticAwal['transaksi_spkkartu_jumlahmagneticawal']; ?>"> / <input type="number" style="width: 7em" name="JMagneticAkhir" id="JMagneticAkhir" placeholder="Akhir" value="<?= $JMagneticAkhir['transaksi_spkkartu_jumlahmagneticakhir']; ?>">
+                                        <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusak" id="JKartuRusak" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
+                                        <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusak" id="JLembarRusak" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
+                                        <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                                $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                                $statusPersonalisasi = "";
+                                                foreach ($personalisasi as $pe) {
+                                                    $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$pe];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                                <td style="width: 50%; height: 18px;">Coating</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                                $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <td style="width: 50%; height: 18px;">Function</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                                $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                                $statusPackaging = "";
+                                                foreach ($packaging as $pa) {
+                                                    $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$pa];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Packaging</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                     <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
                                     <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
                                     <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
                                     <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
-                                </p>
-                                <p style="text-align: left;">&nbsp;</p>
+                                <?php elseif ($p['product_tipe'] == '1') : ?>
+                                    <!-- Aksesoris -->
+                                    <?php
+                                    $tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    ?>
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $dt->format('d-m-Y H:i'); ?>
+                                        <br>Operator: <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                                <td style="width: 50%; height: 18px;">Yoyo</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                                <td style="width: 50%; height: 18px;">Warna</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                                <td style="width: 50%; height: 18px;">Casing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                                <td style="width: 50%; height: 18px;">CasingKaret</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $LogoResin = ['Tidak memakai logo', 'Logo Resin']; ?>
+                                                <td style="width: 50%; height: 18px;">Logo Resin</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                                <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br />Tanggal/Jam Fix : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
+                                <?php elseif ($p['product_tipe'] == '2') : ?>
+                                    <!-- Tali -->
+                                    <?php
+                                    $tanggalJamFix = $this->db->query("SELECT transaksi_spk_tanggaljamfix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $kodeFix = $this->db->query("SELECT transaksi_spk_kodefix FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $Speeling = $this->db->query("SELECT transaksi_spk_speeling FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JTaliAwal = $this->db->query("SELECT transaksi_spk_jumlahtaliawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JTaliAkhir = $this->db->query("SELECT transaksi_spk_jumlahtaliakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JTaliStopperAwal = $this->db->query("SELECT transaksi_spk_jumlahtalistopperawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JTaliStopperAkhir = $this->db->query("SELECT transaksi_spk_jumlahtalistopperakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JKlemAwal = $this->db->query("SELECT transaksi_spk_jumlahklemawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JKlemAkhir = $this->db->query("SELECT transaksi_spk_jumlahklemakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JKaitAwal = $this->db->query("SELECT transaksi_spk_jumlahkaitawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JKaitAkhir = $this->db->query("SELECT transaksi_spk_jumlahkaitakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JStopperAwal = $this->db->query("SELECT transaksi_spk_jumlahstopperawal FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $JStopperAkhir = $this->db->query("SELECT transaksi_spk_jumlahstopperakhir FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    ?>
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JTaliAwal" id="JTaliAwal" placeholder="Awal" value="<?= $JTaliAwal['transaksi_spk_jumlahtaliawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliAkhir" id="JTaliAkhir" placeholder="Akhir" value="<?= $JTaliAkhir['transaksi_spk_jumlahtaliakhir']; ?>">
+                                        <br />Jumlah Tali Stopper Awal/Akhir : <input type="number" style="width: 7em" name="JTaliStopperAwal" id="JTaliStopperAwal" placeholder="Awal" value="<?= $JTaliStopperAwal['transaksi_spk_jumlahtalistopperawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliStopperAkhir" id="JTaliStopperAkhir" placeholder="Akhir" value="<?= $JTaliStopperAkhir['transaksi_spk_jumlahtalistopperakhir']; ?>">
+                                        <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JKlemAwal" id="JKlemAwal" placeholder="Awal" value="<?= $JKlemAwal['transaksi_spk_jumlahklemawal']; ?>"> / <input type="number" style="width: 7em" name="JKlemAkhir" id="JKlemAkhir" placeholder="Akhir" value="<?= $JKlemAkhir['transaksi_spk_jumlahklemakhir']; ?>">
+                                        <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <input type="number" style="width: 7em" name="JKaitAwal" id="JKaitAwal" placeholder="Awal" value="<?= $JKaitAwal['transaksi_spk_jumlahkaitawal']; ?>"> / <input type="number" style="width: 7em" name="JKaitAkhir" id="JKaitAkhir" placeholder="Akhir" value="<?= $JKaitAkhir['transaksi_spk_jumlahkaitakhir']; ?>">
+                                        <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <input type="number" style="width: 7em" name="JStopperAwal" id="JStopperAwal" placeholder="Awal" value="<?= $JStopperAwal['transaksi_spk_jumlahstopperawal']; ?>"> / <input type="number" style="width: 7em" name="JStopperAkhir" id="JStopperAkhir" placeholder="Akhir" value="<?= $JStopperAkhir['transaksi_spk_jumlahstopperakhir']; ?>">
+                                        <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" style="width: 7em" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Tali</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                                <td style="width: 50%; height: 18px;">Material</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                                $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                                <td style="width: 50%; height: 18px;">Jenis Produksi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                    <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                    <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -1090,7 +1789,7 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
             </div>
         </div>
     </div>
-    <div class="modal fade" id="status_print5" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="spk_produksi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1103,76 +1802,227 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
                     <div id="printThis4">
                         <div class="modal-body">
                             <div class="lcfont">
-                                <button style="float: right;" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_printedit3"><i class="fa fa-edit"></i></button><br>
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
-                                </p>
-                                <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
-                                    <tbody>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Kode Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Jenis Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Quantity</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                            <td style="width: 50%; height: 18px;">Yoyo</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                            <td style="width: 50%; height: 18px;">Warna</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                            <td style="width: 50%; height: 18px;">Casing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                            <td style="width: 50%; height: 18px;">CasingKaret</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                            <td style="width: 50%; height: 18px;">Logo Resin</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                            <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                            <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
-                                </p>
-                                <p style="text-align: left;">&nbsp;</p>
+                                <?php if ($p['product_tipe'] == '0') : ?>
+                                    <!-- Kartu -->
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <?= $o['transaksi_spkkartu_jumlahlembarawal'] ?> / <?= $o['transaksi_spkkartu_jumlahlembarakhir'] ?>
+                                        <br />Jumlah Overlay Awal/Akhir &nbsp; : <?= $o['transaksi_spkkartu_jumlahoverlayawal'] ?> / <?= $o['transaksi_spkkartu_jumlahoverlayakhir'] ?>
+                                        <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahchipawal'] ?> / <?= $o['transaksi_spkkartu_jumlahchipakhir'] ?>
+                                        <br />Jumlah Magnetic Awal/Akhir &nbsp;: <?= $o['transaksi_spkkartu_jumlahmagneticawal'] ?> / <?= $o['transaksi_spkkartu_jumlahmagneticakhir'] ?>
+                                        <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spkkartu_jumlahkarturusak'] ?>
+                                        <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahlembarrusak'] ?>
+                                        <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                                $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                                $statusPersonalisasi = "";
+                                                foreach ($personalisasi as $pe) {
+                                                    $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$pe];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                                <td style="width: 50%; height: 18px;">Coating</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                                $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <td style="width: 50%; height: 18px;">Function</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                                $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                                $statusPackaging = "";
+                                                foreach ($packaging as $pa) {
+                                                    $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$pa];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Packaging</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                    </p>
+                                <?php elseif ($p['product_tipe'] == '1') : ?>
+                                    <!-- Aksesoris -->
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                                <td style="width: 50%; height: 18px;">Yoyo</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                                <td style="width: 50%; height: 18px;">Warna</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                                <td style="width: 50%; height: 18px;">Casing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                                <td style="width: 50%; height: 18px;">CasingKaret</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
+                                                <td style="width: 50%; height: 18px;">Logo Resin</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                                <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                    </p>
+                                <?php elseif ($p['product_tipe'] == '2') : ?>
+                                    <!-- Tali -->
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_spk_jumlahtaliawal'] ?> / <?= $o['transaksi_spk_jumlahtaliakhir'] ?>
+                                        <br />Jumlah Tali Stopper Awal/Akhir : <?= $o['transaksi_spk_jumlahtalistopperawal'] ?> / <?= $o['transaksi_spk_jumlahtalistopperakhir'] ?>
+                                        <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_jumlahklemawal'] ?> / <?= $o['transaksi_spk_jumlahklemakhir'] ?>
+                                        <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <?= $o['transaksi_spk_jumlahkaitawal'] ?> / <?= $o['transaksi_spk_jumlahkaitakhir'] ?>
+                                        <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spk_jumlahstopperawal'] ?> / <?= $o['transaksi_spk_jumlahstopperakhir'] ?>
+                                        <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Tali</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                                <td style="width: 50%; height: 18px;">Material</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                                $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $f) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$f];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                                <td style="width: 50%; height: 18px;">Jenis Produksi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                    </p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit3">Edit</button><br>
                         <button class="btn btn-primary" id="printSpk2">Print</button>
                     </div>
                     <div id="alert_status"></div>
@@ -1196,70 +2046,221 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
                         <div class="modal-body">
                             <div class="lcfont">
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
-                                <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
-                                    <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
-                                </p>
-                                <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
-                                    <tbody>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Kode Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Jenis Produk</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px;">Quantity</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
-                                            <td style="width: 50%; height: 18px;">Yoyo</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
-                                            <td style="width: 50%; height: 18px;">Warna</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
-                                            <td style="width: 50%; height: 18px;">Casing</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
-                                            <td style="width: 50%; height: 18px;">CasingKaret</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
-                                            <td style="width: 50%; height: 18px;">Logo Resin</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
-                                            <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
-                                        </tr>
-                                        <tr style="height: 18px;">
-                                            <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
-                                            <td style="width: 50%; height: 18px;">Status</td>
-                                            <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
-                                    <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
-                                </p>
-                                <p style="text-align: left;">&nbsp;</p>
+                                <?php if ($p['product_tipe'] == '0') : ?>
+                                    <!-- Kartu -->
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JLembarAwalp" id="JLembarAwalp" placeholder="Awal" value="<?= $JLembarAwal['transaksi_spkkartu_jumlahlembarawal']; ?>"> / <input type="number" style="width: 7em" name="JLembarAkhirp" id="JLembarAkhirp" placeholder="Akhir" value="<?= $JLembarAkhir['transaksi_spkkartu_jumlahlembarakhir']; ?>">
+                                        <br />Jumlah Overlay Awal/Akhir &nbsp; : <input type="number" style="width: 7em" name="JOverlayAwalp" id="JOverlayAwalp" placeholder="Awal" value="<?= $JOverlayAwal['transaksi_spkkartu_jumlahoverlayawal']; ?>"> / <input type="number" style="width: 7em" name="JOverlayAkhirp" id="JOverlayAkhirp" placeholder="Akhir" value="<?= $JOverlayAkhir['transaksi_spkkartu_jumlahoverlayakhir']; ?>">
+                                        <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JChipAwalp" id="JChipAwalp" placeholder="Awal" value="<?= $JChipAwal['transaksi_spkkartu_jumlahchipawal']; ?>"> / <input type="number" style="width: 7em" name="JChipAkhirp" id="JChipAkhirp" placeholder="Akhir" value="<?= $JChipAkhir['transaksi_spkkartu_jumlahchipakhir']; ?>">
+                                        <br />Jumlah Magnetic Awal/Akhir &nbsp;: <input type="number" style="width: 7em" name="JMagneticAwalp" id="JMagneticAwalp" placeholder="Awal" value="<?= $JMagneticAwal['transaksi_spkkartu_jumlahmagneticawal']; ?>"> / <input type="number" style="width: 7em" name="JMagneticAkhirp" id="JMagneticAkhirp" placeholder="Akhir" value="<?= $JMagneticAkhir['transaksi_spkkartu_jumlahmagneticakhir']; ?>">
+                                        <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusakp" id="JKartuRusakp" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
+                                        <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusakp" id="JLembarRusakp" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
+                                        <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Kartu</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPersonalisasi = ['Tidak diketahui', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
+                                                $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
+                                                $statusPersonalisasi = "";
+                                                foreach ($personalisasi as $p) {
+                                                    $statusPersonalisasi .= (!empty($statusPersonalisasi) ? ', ' : '') . $namaPersonalisasi[$p];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Personalisasi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPersonalisasi; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaCoating = ['Tidak diketahui', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
+                                                <td style="width: 50%; height: 18px;">Coating</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
+                                                $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $p) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$p];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaFunction = ['Tidak diketahui', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <td style="width: 50%; height: 18px;">Function</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaPackaging = ['Tidak diketahui', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
+                                                $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
+                                                $statusPackaging = "";
+                                                foreach ($packaging as $p) {
+                                                    $statusPackaging .= (!empty($statusPackaging) ? ', ' : '') . $namaPackaging[$p];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Packaging</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusPackaging; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                    </p>
+                                <?php elseif ($p['product_tipe'] == '1') : ?>
+                                    <!-- Aksesoris -->
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $yoyo = ['Tidak diketahui', 'Yoyo Putar', 'Yoyo Standar', 'Yoyo Transparan']; ?>
+                                                <td style="width: 50%; height: 18px;">Yoyo</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $yoyo[$o['transaksi_yoyo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $warna = ['Tidak diketahui', 'Hitam', 'Putih', 'Hijau', 'Biru', 'Merah', 'Kuning', 'Orange', 'Silver', 'Coklat', 'Hitam Transparan', 'Putih Transparan', 'Biru Transparan', 'Custom']; ?>
+                                                <td style="width: 50%; height: 18px;">Warna</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $warna[$o['transaksi_warna'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $Casing = ['Tidak diketahui', 'Casing ID Card Acrylic', 'Casing ID Card Solid', 'Casing ID Card Karet', 'Casing ID Card Kulit']; ?>
+                                                <td style="width: 50%; height: 18px;">Casing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $Casing[$o['transaksi_casing'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $CasingKaret = ['Tidak diketahui', 'Casing karet 1 sisi', 'Casing karet 2 sisi', 'Casing karet double landscape', 'Casing karet single landscape']; ?>
+                                                <td style="width: 50%; height: 18px;">CasingKaret</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $CasingKaret[$o['transaksi_ck'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $LogoResin = ['Tidak Memakai Logo', 'Logo Resin']; ?>
+                                                <td style="width: 50%; height: 18px;">Logo Resin</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $LogoResin[$o['transaksi_logo'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $penjepitBuaya = ['Tidak diketahui', 'Penjepit Buaya Besi', 'Penjepit Buaya Plastik']; ?>
+                                                <td style="width: 50%; height: 18px;">Penjepit Buaya</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $penjepitBuaya[$o['transaksi_pb'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                    </p>
+                                <?php elseif ($p['product_tipe'] == '2') : ?>
+                                    <!-- Tali -->
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                        <br />Jumlah Tali Awal/Akhir &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;: <input type="number" style="width: 7em" name="JTaliAwalp" id="JTaliAwalp" placeholder="Awal" value="<?= $JTaliAwal['transaksi_spk_jumlahtaliawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliAkhirp" id="JTaliAkhirp" placeholder="Akhir" value="<?= $JTaliAkhir['transaksi_spk_jumlahtaliakhir']; ?>">
+                                        <br />Jumlah Tali Stopper Awal/Akhir : <input type="number" style="width: 7em" name="JTaliStopperAwalp" id="JTaliStopperAwalp" placeholder="Awal" value="<?= $JTaliStopperAwal['transaksi_spk_jumlahtalistopperawal']; ?>"> / <input type="number" style="width: 7em" name="JTaliStopperAkhirp" id="JTaliStopperAkhirp" placeholder="Akhir" value="<?= $JTaliStopperAkhir['transaksi_spk_jumlahtalistopperakhir']; ?>">
+                                        <br />Jumlah Klem Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" style="width: 7em" name="JKlemAwalp" id="JKlemAwalp" placeholder="Awal" value="<?= $JKlemAwal['transaksi_spk_jumlahklemawal']; ?>"> / <input type="number" style="width: 7em" name="JKlemAkhirp" id="JKlemAkhirp" placeholder="Akhir" value="<?= $JKlemAkhir['transaksi_spk_jumlahklemakhir']; ?>">
+                                        <br />Jumlah Kait Awal/Akhir &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;: <input type="number" style="width: 7em" name="JKaitAwalp" id="JKaitAwalp" placeholder="Awal" value="<?= $JKaitAwal['transaksi_spk_jumlahkaitawal']; ?>"> / <input type="number" style="width: 7em" name="JKaitAkhirp" id="JKaitAkhirp" placeholder="Akhir" value="<?= $JKaitAkhir['transaksi_spk_jumlahkaitakhir']; ?>">
+                                        <br />Jumlah Stopper Awal/Akhir &nbsp; &nbsp;&nbsp; : <input type="number" style="width: 7em" name="JStopperAwalp" id="JStopperAwalp" placeholder="Awal" value="<?= $JStopperAwal['transaksi_spk_jumlahstopperawal']; ?>"> / <input type="number" style="width: 7em" name="JStopperAkhirp" id="JStopperAkhirp" placeholder="Akhir" value="<?= $JStopperAkhir['transaksi_spk_jumlahstopperakhir']; ?>">
+                                        <br />Operator &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                    </p>
+                                    <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
+                                        <tbody>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 100%; text-align: center; height: 18px;" colspan="2"><strong>General</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Kode Produk</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_product_id'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Jenis Tali</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $y['product_nama'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px;">Quantity</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $o['transaksi_jumlah'] ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <td style="width: 50%; height: 18px; text-align: center;" colspan="2"><strong>Keterangan</strong></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaMaterial = ['Tidak diketahui', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM']; ?>
+                                                <td style="width: 50%; height: 18px;">Material</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php
+                                                $namaFinishing = ['Tidak diketahui', 'Kait Oval', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas'];
+                                                $finishing = explode(',', $o['transaksi_finish'] ?? 0);
+                                                $statusFinishing = "";
+                                                foreach ($finishing as $p) {
+                                                    $statusFinishing .= (!empty($statusFinishing) ? ', ' : '') . $namaFinishing[$p];
+                                                }
+                                                ?>
+                                                <td style="width: 50%; height: 18px;">Finishing</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $jenisProduksi = ['Tidak diketahui', 'Sablon', 'Printing']; ?>
+                                                <td style="width: 50%; height: 18px;">Jenis Produksi</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></td>
+                                            </tr>
+                                            <tr style="height: 18px;">
+                                                <?php $namaPaket = ['Tidak diketahui', 'Kirim Produk', 'Ambil Sendiri']; ?>
+                                                <td style="width: 50%; height: 18px;">Status</td>
+                                                <td style="width: 50%; height: 18px;">&nbsp;<?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                    </p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -1272,7 +2273,7 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
             </div>
         </div>
     </div>
-    <div id="printThis2">
+    <div id="printThis2" style="display: none;">
         <?php
         date_default_timezone_set('Asia/Jakarta');
         echo 'Dicetak Pada ' . date('d-m-Y H:i:s');
@@ -1564,22 +2565,16 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
 
     $('#savespksales').click(function(e) {
         e.preventDefault();
-
-
-        var id = $('#id').val();
-        var assesoris = $('#assesoris').val();
-        var keteranganspk = $('#keteranganspk').val();
-
         $.ajax({
             type: 'POST',
             url: "<?= base_url('Order/savespksales') ?>",
             data: {
-                id: id,
-                assesoris: assesoris,
-                keteranganspk: keteranganspk
+                id: $('#id').val(),
+                assesoris: $('#assesoris').val(),
+                keteranganspk: $('#keteranganspk').val(),
             },
             success: function(data) {
-                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print1') ?>';
+                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#spk_sales') ?>';
                 location.reload();
             }
         });
@@ -1588,28 +2583,38 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
 
     $('#savespkapv').click(function(e) {
         e.preventDefault();
-        var id = $('#id').val();
-        var spkOperator = $('#spkOperatorp').val();
-        var tanggalJamFix = $('#tanggalJamFix').val();
-        var kodeFix = $('#kodeFix').val();
-        var Speeling = $('#Speeling').val();
-        var deadline = $('#deadline').val();
-        var noPenyelesaian = $('#noPenyelesaian').val();
-
 
         $.ajax({
             type: 'POST',
             url: "<?= base_url('Order/savespkapv') ?>",
             data: {
-                id: id,
-                spkOperator: spkOperator,
-                tanggalJamFix: tanggalJamFix,
-                kodeFix: kodeFix,
-                Speeling: Speeling,
-                deadline: deadline,
-                noPenyelesaian: noPenyelesaian
-
-
+                id: $('#id').val(),
+                JLembarAwal: $('#JLembarAwal').val(),
+                JLembarAkhir: $('#JLembarAkhir').val(),
+                JOverlayAwal: $('#JOverlayAwal').val(),
+                JOverlayAkhir: $('#JOverlayAkhir').val(),
+                JChipAwal: $('#JChipAwal').val(),
+                JChipAkhir: $('#JChipAkhir').val(),
+                JMagneticAwal: $('#JMagneticAwal').val(),
+                JMagneticAkhir: $('#JMagneticAkhir').val(),
+                JKartuRusak: $('#JKartuRusak').val(),
+                JLembarRusak: $('#JLembarRusak').val(),
+                spkOperator: $('#spkOperator').val(),
+                tanggalJamFix: $('#tanggalJamFix').val(),
+                kodeFix: $('#kodeFix').val(),
+                Speeling: $('#Speeling').val(),
+                deadline: $('#deadline').val(),
+                noPenyelesaian: $('#noPenyelesaian').val(),
+                JTaliAwal: $('#JTaliAwal').val(),
+                JTaliAkhir: $('#JTaliAkhir').val(),
+                JTaliStopperAwal: $('#JTaliStopperAwal').val(),
+                JTaliStopperAkhir: $('#JTaliStopperAkhir').val(),
+                JKlemAwal: $('#JKlemAwal').val(),
+                JKlemAkhir: $('#JKlemAkhir').val(),
+                JKaitAwal: $('#JKaitAwal').val(),
+                JKaitAkhir: $('#JKaitAkhir').val(),
+                JStopperAwal: $('#JStopperAwal').val(),
+                JStopperAkhir: $('#JStopperAkhir').val(),
             },
             success: function(data) {
                 window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print4') ?>';
@@ -1620,31 +2625,40 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
 
     $('#savespkprdksi').click(function(e) {
         e.preventDefault();
-        var id = $('#id').val();
-        var spkOperator = $('#spkOperatorp').val();
-        var tanggalJamFix = $('#tanggalJamFix').val();
-        var kodeFix = $('#kodeFix').val();
-        var Speeling = $('#Speeling').val();
-        var deadline = $('#deadline').val();
-        var noPenyelesaian = $('#noPenyelesaian').val();
-
-
         $.ajax({
             type: 'POST',
             url: "<?= base_url('Order/savespkprdksi') ?>",
             data: {
-                id: id,
-                spkOperator: spkOperator,
-                tanggalJamFix: tanggalJamFix,
-                kodeFix: kodeFix,
-                Speeling: Speeling,
-                deadline: deadline,
-                noPenyelesaian: noPenyelesaian
-
-
+                id: $('#id').val(),
+                JLembarAwal: $('#JLembarAwalp').val(),
+                JLembarAkhir: $('#JLembarAkhirp').val(),
+                JOverlayAwal: $('#JOverlayAwalp').val(),
+                JOverlayAkhir: $('#JOverlayAkhirp').val(),
+                JChipAwal: $('#JChipAwalp').val(),
+                JChipAkhir: $('#JChipAkhirp').val(),
+                JMagneticAwal: $('#JMagneticAwalp').val(),
+                JMagneticAkhir: $('#JMagneticAkhirp').val(),
+                JKartuRusak: $('#JKartuRusakp').val(),
+                JLembarRusak: $('#JLembarRusakp').val(),
+                spkOperator: $('#spkOperatorp').val(),
+                tanggalJamFix: $('#tanggalJamFix').val(),
+                kodeFix: $('#kodeFix').val(),
+                Speeling: $('#Speeling').val(),
+                deadline: $('#deadline').val(),
+                noPenyelesaian: $('#noPenyelesaian').val(),
+                JTaliAwal: $('#JTaliAwalp').val(),
+                JTaliAkhir: $('#JTaliAkhirp').val(),
+                JTaliStopperAwal: $('#JTaliStopperAwalp').val(),
+                JTaliStopperAkhir: $('#JTaliStopperAkhirp').val(),
+                JKlemAwal: $('#JKlemAwalp').val(),
+                JKlemAkhir: $('#JKlemAkhirp').val(),
+                JKaitAwal: $('#JKaitAwalp').val(),
+                JKaitAkhir: $('#JKaitAkhirp').val(),
+                JStopperAwal: $('#JStopperAwalp').val(),
+                JStopperAkhir: $('#JStopperAkhirp').val(),
             },
             success: function(data) {
-                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print5') ?>';
+                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#spk_produksi') ?>';
                 location.reload();
             }
         });
@@ -1653,69 +2667,23 @@ $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tb
 <script>
     document.getElementById("printSpk").onclick = function() {
         printElement(document.getElementById("printThis"));
-        printElement(document.getElementById("printThis2"), true, "<hr />");
+        $('#printThis2').show();
+        printElement(document.getElementById("printThis2"), true, "<hr>");
+        $('#printThis2').hide();
         window.print();
     }
-
-    function printElement(elem, append, delimiter) {
-        var domClone = elem.cloneNode(true);
-
-        var $printSection = document.getElementById("printSection");
-
-        if (!$printSection) {
-            var $printSection = document.createElement("div");
-            $printSection.id = "printSection";
-            document.body.appendChild($printSection);
-        }
-
-        if (append !== true) {
-            $printSection.innerHTML = "";
-        } else if (append === true) {
-            if (typeof(delimiter) === "string") {
-                $printSection.innerHTML += delimiter;
-            } else if (typeof(delimiter) === "object") {
-                $printSection.appendChlid(delimiter);
-            }
-        }
-
-        $printSection.appendChild(domClone);
-    }
-</script>
-<script>
     document.getElementById("printSpk1").onclick = function() {
         printElement(document.getElementById("printThis3"));
+        $('#printThis2').show();
         printElement(document.getElementById("printThis2"), true, "<hr />");
+        $('#printThis2').hide();
         window.print();
     }
-
-    function printElement(elem, append, delimiter) {
-        var domClone = elem.cloneNode(true);
-
-        var $printSection = document.getElementById("printSection");
-
-        if (!$printSection) {
-            var $printSection = document.createElement("div");
-            $printSection.id = "printSection";
-            document.body.appendChild($printSection);
-        }
-
-        if (append !== true) {
-            $printSection.innerHTML = "";
-        } else if (append === true) {
-            if (typeof(delimiter) === "string") {
-                $printSection.innerHTML += delimiter;
-            } else if (typeof(delimiter) === "object") {
-                $printSection.appendChlid(delimiter);
-            }
-        }
-
-        $printSection.appendChild(domClone);
-    }
-</script>
-<script>
     document.getElementById("printSpk2").onclick = function() {
         printElement(document.getElementById("printThis4"));
+        $('#printThis2').show();
         printElement(document.getElementById("printThis2"), true, "<hr />");
+        $('#printThis2').hide();
         window.print();
     }
 
