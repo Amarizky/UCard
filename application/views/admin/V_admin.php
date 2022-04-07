@@ -179,9 +179,9 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td colspan="2">Data</td>
+                                    <td colspan="2">Laporan</td>
                                     <td class="add_perm_check">
-                                        <input class="add_perm_data" type="checkbox" value="1" name="add_perm_data" id="add_perm_data">
+                                        <input class="add_perm_laporan" type="checkbox" value="1" name="add_perm_laporan" id="add_perm_laporan">
                                     </td>
                                 </tr>
 
@@ -190,9 +190,9 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td>Data Pelanggan</td>
+                                    <td>Pelanggan</td>
                                     <td class="add_perm_check">
-                                        <input class="add_perm_datas" type="checkbox" value="1" name="add_perm_datapelanggan" id="add_perm_datapelanggan">
+                                        <input class="add_perm_laporans" type="checkbox" value="1" name="add_perm_laporanpelanggan" id="add_perm_laporanpelanggan">
                                     </td>
                                 </tr>
                                 <tr>
@@ -200,9 +200,9 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td>Data Produk</td>
+                                    <td>Produk</td>
                                     <td class="add_perm_check">
-                                        <input class="add_perm_datas" type="checkbox" value="1" name="add_perm_dataproduk" id="add_perm_dataproduk">
+                                        <input class="add_perm_laporans" type="checkbox" value="1" name="add_perm_laporanproduk" id="add_perm_laporanproduk">
                                     </td>
                                 </tr>
                                 <tr>
@@ -210,9 +210,9 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td>Data Penjualan</td>
+                                    <td>Penjualan</td>
                                     <td class="add_perm_check">
-                                        <input class="add_perm_datas" type="checkbox" value="1" name="add_perm_datapenjualan" id="add_perm_datapenjualan">
+                                        <input class="add_perm_laporans" type="checkbox" value="1" name="add_perm_laporanpenjualan" id="add_perm_laporanpenjualan">
                                     </td>
                                 </tr>
 
@@ -371,10 +371,10 @@
             if ($(inp).hasClass("add_perm_orders"))
                 if ($(".add_perm_orders:checked").length) $(".add_perm_order").prop("checked", true);
                 else $(".add_perm_order").prop("checked", false);
-            if ($(inp).hasClass("add_perm_data")) $(".add_perm_datas").prop("checked", $(".add_perm_data").prop("checked"));
-            if ($(inp).hasClass("add_perm_datas"))
-                if ($(".add_perm_datas:checked").length) $(".add_perm_data").prop("checked", true);
-                else $(".add_perm_data").prop("checked", false);
+            if ($(inp).hasClass("add_perm_laporan")) $(".add_perm_laporans").prop("checked", $(".add_perm_laporan").prop("checked"));
+            if ($(inp).hasClass("add_perm_laporans"))
+                if ($(".add_perm_laporans:checked").length) $(".add_perm_laporan").prop("checked", true);
+                else $(".add_perm_laporan").prop("checked", false);
             if ($(inp).hasClass("add_perm_template")) $(".add_perm_templates").prop("checked", $(".add_perm_template").prop("checked"));
             if ($(inp).hasClass("add_perm_templates"))
                 if ($(".add_perm_templates:checked").length) $(".add_perm_template").prop("checked", true);
