@@ -70,10 +70,10 @@ class Administrator extends CI_Controller
                                     $(".perm_orderdaftarorder").prop("checked", false);
                                 }
                             }
-                            if ($(inp).hasClass("perm_data")) $(".perm_datas").prop("checked", $(".perm_data").prop("checked"));
-                            if ($(inp).hasClass("perm_datas"))
-                                if ($(".perm_datas:checked").length) $(".perm_data").prop("checked", true);
-                                else $(".perm_data").prop("checked", false);
+                            if ($(inp).hasClass("perm_laporan")) $(".perm_laporans").prop("checked", $(".perm_laporan").prop("checked"));
+                            if ($(inp).hasClass("perm_laporans"))
+                                if ($(".perm_laporans:checked").length) $(".perm_laporan").prop("checked", true);
+                                else $(".perm_laporan").prop("checked", false);
                             if ($(inp).hasClass("perm_template")) $(".perm_templates").prop("checked", $(".perm_template").prop("checked"));
                             if ($(inp).hasClass("perm_templates"))
                                 if ($(".perm_templates:checked").length) $(".perm_template").prop("checked", true);
@@ -193,9 +193,9 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="ni ni-single-copy-04 text-info"></i>
                             </td>
-                            <td colspan="2">Data</td>
+                            <td colspan="2">Laporan</td>
                             <td class="perm_check">
-                                <input class="perm_data" type="checkbox" value="1" name="perm_data" id="perm_data" <?= $a['admin_perm_data'] == 1 ? 'checked' : ''; ?>>
+                                <input class="perm_laporan" type="checkbox" value="1" name="perm_laporan" id="perm_laporan" <?= $a['admin_perm_laporan'] == 1 ? 'checked' : ''; ?>>
                             </td>
                         </tr>
 
@@ -204,9 +204,9 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="ni ni-single-copy-04 text-info"></i>
                             </td>
-                            <td>Data Pelanggan</td>
+                            <td>Pelanggan</td>
                             <td class="perm_check">
-                                <input class="perm_datas" type="checkbox" value="1" name="perm_datapelanggan" id="perm_datapelanggan" <?= $a['admin_perm_datapelanggan'] == 1 ? 'checked' : ''; ?>>
+                                <input class="perm_laporans" type="checkbox" value="1" name="perm_laporanpelanggan" id="perm_laporanpelanggan" <?= $a['admin_perm_laporanpelanggan'] == 1 ? 'checked' : ''; ?>>
                             </td>
                         </tr>
                         <tr>
@@ -214,9 +214,9 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="ni ni-single-copy-04 text-info"></i>
                             </td>
-                            <td>Data Produk</td>
+                            <td>Produk</td>
                             <td class="perm_check">
-                                <input class="perm_datas" type="checkbox" value="1" name="perm_dataproduk" id="perm_dataproduk" <?= $a['admin_perm_dataproduk'] == 1 ? 'checked' : ''; ?>>
+                                <input class="perm_laporans" type="checkbox" value="1" name="perm_laporanproduk" id="perm_laporanproduk" <?= $a['admin_perm_laporanproduk'] == 1 ? 'checked' : ''; ?>>
                             </td>
                         </tr>
                         <tr>
@@ -224,9 +224,9 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="ni ni-single-copy-04 text-info"></i>
                             </td>
-                            <td>Data Penjualan</td>
+                            <td>Penjualan</td>
                             <td class="perm_check">
-                                <input class="perm_datas" type="checkbox" value="1" name="perm_datapenjualan" id="perm_datapenjualan" <?= $a['admin_perm_datapenjualan'] == 1 ? 'checked' : ''; ?>>
+                                <input class="perm_laporans" type="checkbox" value="1" name="perm_laporanpenjualan" id="perm_laporanpenjualan" <?= $a['admin_perm_laporanpenjualan'] == 1 ? 'checked' : ''; ?>>
                             </td>
                         </tr>
 
@@ -387,10 +387,10 @@ class Administrator extends CI_Controller
             'admin_perm_ordercetakproduk'   => $this->input->post('add_perm_ordercetakproduk')   ?? "0",
             'admin_perm_orderkirimambil'    => $this->input->post('add_perm_orderkirimambil')    ?? "0",
             'admin_perm_orderhistory'       => $this->input->post('add_perm_orderhistory')       ?? "0",
-            'admin_perm_data'               => $this->input->post('add_perm_data')               ?? "0",
-            'admin_perm_datapelanggan'      => $this->input->post('add_perm_datapelanggan')      ?? "0",
-            'admin_perm_dataproduk'         => $this->input->post('add_perm_dataproduk')         ?? "0",
-            'admin_perm_datapenjualan'      => $this->input->post('add_perm_datapenjualan')      ?? "0",
+            'admin_perm_laporan'               => $this->input->post('add_perm_laporan')               ?? "0",
+            'admin_perm_laporanpelanggan'      => $this->input->post('add_perm_laporanpelanggan')      ?? "0",
+            'admin_perm_laporanproduk'         => $this->input->post('add_perm_laporanproduk')         ?? "0",
+            'admin_perm_laporanpenjualan'      => $this->input->post('add_perm_laporanpenjualan')      ?? "0",
             'admin_perm_category'           => $this->input->post('add_perm_category')           ?? "0",
             'admin_perm_produk'             => $this->input->post('add_perm_produk')             ?? "0",
             'admin_perm_template'           => $this->input->post('add_perm_template')           ?? "0",
@@ -431,10 +431,10 @@ class Administrator extends CI_Controller
             'admin_perm_ordercetakproduk'   => $this->input->post('perm_ordercetakproduk')   ?? "0",
             'admin_perm_orderkirimambil'    => $this->input->post('perm_orderkirimambil')    ?? "0",
             'admin_perm_orderhistory'       => $this->input->post('perm_orderhistory')       ?? "0",
-            'admin_perm_data'               => $this->input->post('perm_data')               ?? "0",
-            'admin_perm_datapelanggan'      => $this->input->post('perm_datapelanggan')      ?? "0",
-            'admin_perm_dataproduk'         => $this->input->post('perm_dataproduk')         ?? "0",
-            'admin_perm_datapenjualan'      => $this->input->post('perm_datapenjualan')      ?? "0",
+            'admin_perm_laporan'               => $this->input->post('perm_laporan')               ?? "0",
+            'admin_perm_laporanpelanggan'      => $this->input->post('perm_laporanpelanggan')      ?? "0",
+            'admin_perm_laporanproduk'         => $this->input->post('perm_laporanproduk')         ?? "0",
+            'admin_perm_laporanpenjualan'      => $this->input->post('perm_laporanpenjualan')      ?? "0",
             'admin_perm_category'           => $this->input->post('perm_category')           ?? "0",
             'admin_perm_produk'             => $this->input->post('perm_produk')             ?? "0",
             'admin_perm_template'           => $this->input->post('perm_template')           ?? "0",
