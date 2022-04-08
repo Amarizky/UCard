@@ -309,22 +309,36 @@
                                         <label for="material5">Tissue 2CM</label><br>
                                         <input id="material6" type="radio" placeholder="material" name="material" value="6" required>
                                         <label for="material6">Tissue 2,5CM</label>
+                                        <input id="material7" type="radio" placeholder="material" name="material" value="7" required>
+                                        <label for="material7">Tali gelang 1,5cm printing</label><br>
+                                        <input id="material8" type="radio" placeholder="material" name="material" value="8" required>
+                                        <label for="material8">Tali gelang 2cm printing</label>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
                                         <b>Finishing</b>
                                         <br><br>
-                                        <input id="finishing1" type="radio" placeholder="finish" name="finish" value="1" required>
+                                        <input id="finishing1" type="checkbox" placeholder="finish" name="finish[]" value="1">
                                         <label for="finishing1">Kait Oval</label><br>
-                                        <input id="finishing2" type="radio" placeholder="finish" name="finish" value="2" required>
+                                        <input id="finishing11" type="checkbox" placeholder="finish" name="finish[]" value="2">
+                                        <label for="finishing11">Kait Tebal</label><br>
+                                        <input id="finishing2" type="checkbox" placeholder="finish" name="finish[]" value="3">
                                         <label for="finishing2">Kait HP</label><br>
-                                        <input id="finishing3" type="radio" placeholder="finish" name="finish" value="3" required>
+                                        <input id="finishing3" type="checkbox" placeholder="finish" name="finish[]" value="4">
                                         <label for="finishing3">Kait Standar</label><br>
-                                        <input id="finishing4" type="radio" placeholder="finish" name="finish" value="4" required>
+                                        <input id="finishing4" type="checkbox" placeholder="finish" name="finish[]" value="5">
                                         <label for="finishing4">Tambah Warna Sablon</label><br>
-                                        <input id="finishing5" type="radio" placeholder="finish" name="finish" value="5" required>
+                                        <input id="finishing5" type="checkbox" placeholder="finish" name="finish[]" value="6">
                                         <label for="finishing5">Double Stopper</label><br>
-                                        <input id="finishing6" type="radio" placeholder="finish" name="finish" value="6" required>
+                                        <input id="finishing6" type="checkbox" placeholder="finish" name="finish[]" value="7">
                                         <label for="finishing6">Stopper Tas</label><br>
+                                        <input id="finishing7" type="checkbox" placeholder="finish" name="finish[]" value="8">
+                                        <label for="finishing7">Stopper Rotate</label><br>
+                                        <input id="finishing8" type="checkbox" placeholder="finish" name="finish[]" value="9">
+                                        <label for="finishing8">Jahit</label><br>
+                                        <input id="finishing9" type="checkbox" placeholder="finish" name="finish[]" value="10">
+                                        <label for="finishing9">Tali Karung</label><br>
+                                        <input id="finishing10" type="checkbox" placeholder="finish" name="finish[]" value="11">
+                                        <label for="finishing10">Ring Vape</label><br>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
                                         <b>Jenis Produksi</b>

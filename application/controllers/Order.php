@@ -1120,22 +1120,37 @@ HTML
                                 <label for="material5">Tissue 2CM</label><br>
                                 <input id="material6" type="radio" placeholder="material" name="material" value="6" <?= $o['transaksi_material'] == '6' ? 'checked' : ''; ?> required>
                                 <label for="material6">Tissue 2,5CM</label>
+                                <input id="material7" type="radio" placeholder="material" name="material" value="7" <?= $o['transaksi_material'] == '7' ? 'checked' : ''; ?>required>
+                                <label for="material7">Tali gelang 1,5cm printing</label><br>
+                                <input id="material8" type="radio" placeholder="material" name="material" value="8" <?= $o['transaksi_material'] == '8' ? 'checked' : ''; ?>required>
+                                <label for="material8">Tali gelang 2cm printing</label>
                             </div>
                             <div class="grid-item p-0 pb-3">
+                                <?php $finish = explode(',', $o['transaksi_finish']); ?>
                                 <b>Finishing</b>
                                 <br><br>
-                                <input id="finishing1" type="radio" placeholder="finish" name="finish" value="1" <?= $o['transaksi_finish'] == '1' ? 'checked' : ''; ?> required>
+                                <input id="finishing1" type="checkbox" placeholder="finish" name="finish[]" value="1" <?= in_array('1', $finish) ? 'checked' : ''; ?>>
                                 <label for="finishing1">Kait Oval</label><br>
-                                <input id="finishing2" type="radio" placeholder="finish" name="finish" value="2" <?= $o['transaksi_finish'] == '2' ? 'checked' : ''; ?> required>
+                                <input id="finishing11" type="checkbox" placeholder="finish" name="finish[]" value="2" <?= in_array('2', $finish) ? 'checked' : ''; ?>>
+                                <label for="finishing11">Kait Tebal</label><br>
+                                <input id="finishing2" type="checkbox" placeholder="finish" name="finish[]" value="3" <?= in_array('3', $finish) ? 'checked' : ''; ?>>
                                 <label for="finishing2">Kait HP</label><br>
-                                <input id="finishing3" type="radio" placeholder="finish" name="finish" value="3" <?= $o['transaksi_finish'] == '3' ? 'checked' : ''; ?> required>
+                                <input id="finishing3" type="checkbox" placeholder="finish" name="finish[]" value="4" <?= in_array('4', $finish) ? 'checked' : ''; ?>>
                                 <label for="finishing3">Kait Standar</label><br>
-                                <input id="finishing4" type="radio" placeholder="finish" name="finish" value="4" <?= $o['transaksi_finish'] == '4' ? 'checked' : ''; ?> required>
+                                <input id="finishing4" type="checkbox" placeholder="finish" name="finish[]" value="5" <?= in_array('5', $finish) ? 'checked' : ''; ?>>
                                 <label for="finishing4">Tambah Warna Sablon</label><br>
-                                <input id="finishing5" type="radio" placeholder="finish" name="finish" value="5" <?= $o['transaksi_finish'] == '5' ? 'checked' : ''; ?> required>
+                                <input id="finishing5" type="checkbox" placeholder="finish" name="finish[]" value="6" <?= in_array('6', $finish) ? 'checked' : ''; ?>>
                                 <label for="finishing5">Double Stopper</label><br>
-                                <input id="finishing6" type="radio" placeholder="finish" name="finish" value="6" <?= $o['transaksi_finish'] == '6' ? 'checked' : ''; ?> required>
+                                <input id="finishing6" type="checkbox" placeholder="finish" name="finish[]" value="7" <?= in_array('7', $finish) ? 'checked' : ''; ?>>
                                 <label for="finishing6">Stopper Tas</label><br>
+                                <input id="finishing7" type="checkbox" placeholder="finish" name="finish[]" value="8" <?= in_array('8', $finish) ? 'checked' : ''; ?>>
+                                <label for="finishing7">Stopper Rotate</label><br>
+                                <input id="finishing8" type="checkbox" placeholder="finish" name="finish[]" value="9" <?= in_array('9', $finish) ? 'checked' : ''; ?>>
+                                <label for="finishing8">Jahit</label><br>
+                                <input id="finishing9" type="checkbox" placeholder="finish" name="finish[]" value="10" <?= in_array('10', $finish) ? 'checked' : ''; ?>>
+                                <label for="finishing9">Tali Karung</label><br>
+                                <input id="finishing10" type="checkbox" placeholder="finish" name="finish[]" value="11" <?= in_array('11', $finish) ? 'checked' : ''; ?>>
+                                <label for="finishing10">Ring Vape</label><br>
                             </div>
                             <div class="grid-item p-0 pb-3">
                                 <b>Jenis Produksi</b>

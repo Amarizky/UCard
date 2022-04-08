@@ -36,7 +36,7 @@ class Detail_product_pelanggan extends CI_Controller
 		$function = $this->input->post('function') ?? null;
 		$status = $this->input->post('status') ?? null;
 		$material = $this->input->post('material') ?? null;
-		$finish = $this->input->post('finish') ?? null;
+		$finish = $this->input->post('finish') ? implode(',', $this->input->post('finish')) : null;
 		$jp = $this->input->post('jp') ?? null;
 		$yoyo = $this->input->post('yoyo') ?? null;
 		$warna = $this->input->post('warna') ?? null;
