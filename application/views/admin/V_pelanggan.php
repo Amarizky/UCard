@@ -230,7 +230,7 @@
         var tgl_lahir = $('#tgl_lahir').val();
         var bln_lahir = $('#bln_lahir').val();
         var thn_lahir = $('#thn_lahir').val();
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         if (no_hp !== '' && nama !== '' && email !== '' && alamat !== '' && telephone !== '' && kecamatan !== '' && kabupaten !== '' && kodepost !== '' && tgl_lahir !== '' && bln_lahir !== '' && thn_lahir !== '') {
             $.ajax({
                 type: "POST",
@@ -268,7 +268,7 @@
         $('.btn_hapus').attr('id', id);
     });
     $(document).on('click', '.btn_hapus', function() {
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         var id = $(this).attr('id');
         $.ajax({
             type: "POST",

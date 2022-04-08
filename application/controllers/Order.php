@@ -1250,7 +1250,7 @@ HTML
         $id = $this->input->post('transaksi_id');
         $resi = $this->input->post('resi');
         $this->db->query("UPDATE tbl_transaksi SET transaksi_resi = '$resi' WHERE transaksi_id = '$id';");
-        redirect('Order/detail/' . $id);
+        redirect(base_url('Order/detail/' . $id));
     }
     function savespksales()
     {
@@ -1259,6 +1259,7 @@ HTML
         $keteranganspk = $this->input->post('keteranganspk');
         $this->db->query("UPDATE tbl_transaksi SET transaksi_keterangan_accesoris = '$keteranganspk' WHERE transaksi_id = '$id';");
         $this->db->query("UPDATE tbl_transaksi SET transaksi_spkkartu_assesoris = '$assesoris' WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id . '#spk_sales'));
     }
     function savespkapv()
     {

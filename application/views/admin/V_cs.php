@@ -162,7 +162,7 @@
         $('.btn_hapus').attr('id', id);
     });
     $(document).on('click', '.btn_hapus', function() {
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         var id = $(this).attr('id');
         $.ajax({
             type: "POST",

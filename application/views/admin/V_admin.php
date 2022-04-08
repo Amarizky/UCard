@@ -458,7 +458,7 @@
             $('.btn_hapus').attr('id', id);
         });
         $('.btn_hapus').click(function() {
-            var url = document.URL;
+            var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
             var id = $(this).attr('id');
             $.ajax({
                 type: "POST",

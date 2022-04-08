@@ -189,7 +189,7 @@
         var nama = $('#design_nama').val();
         var category = $('#design_category').val();
         var id = $(this).attr('id');
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
 
         if (nama !== '' && category !== '') {
             $.ajax({
@@ -215,7 +215,7 @@
         $('.btn_hapus').attr('id', id);
     });
     $(document).on('click', '.btn_hapus', function() {
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         var id = $(this).attr('id');
         $.ajax({
             type: "POST",

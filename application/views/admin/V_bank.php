@@ -170,7 +170,7 @@
         $('.btn_hapus').attr('name', icon);
     });
     $(document).on('click', '.btn_hapus', function() {
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         var id = $(this).attr('id');
         var icon = $(this).attr('name');
         $.ajax({

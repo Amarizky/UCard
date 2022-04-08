@@ -119,7 +119,7 @@
     $(document).on('click', '#update_button', function() {
         var id = $(this).attr('name');
         var status = $('#status').val();
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         $.ajax({
             type: "POST",
             url: "<?= base_url('Order_pelanggan/update_order') ?>",
@@ -137,7 +137,7 @@
     });
     $(document).on('click', '.btl_trans', function() {
         var id = $(this).attr('id');
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         $.ajax({
             type: "POST",
             url: "<?= base_url('Order_pelanggan/batal_trans') ?>",

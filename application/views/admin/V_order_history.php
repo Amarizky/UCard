@@ -163,7 +163,7 @@
         var id = $(this).attr('name');
         var harga = $('#harga').val();
         var status = $('#status').val();
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         if (status != '') {
             $.ajax({
                 type: "POST",
@@ -188,7 +188,7 @@
         $('.btn_hapus').attr('id', id);
     });
     $(document).on('click', '.btn_hapus', function() {
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         var id = $(this).attr('id');
         $.ajax({
             type: "POST",
@@ -206,7 +206,7 @@
     });
     $(document).on('click', '.btl_trans', function() {
         var id = $(this).attr('id');
-        var url = document.URL;
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         $.ajax({
             type: "POST",
             url: "<?= base_url('Order/batal_trans') ?>",
