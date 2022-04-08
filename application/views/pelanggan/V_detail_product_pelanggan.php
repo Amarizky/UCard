@@ -90,7 +90,7 @@
                             <b>Keunggulan</b>
                             <p><?= $p['product_keunggulan'] ?? '-'; ?></p>
                             <b>Keterangan Produk</b>
-                            <p><?= $p['product_keterangan'] ?? '-'; ?></p>
+                            <p><?= !empty($p['product_keterangan']) && !is_null($p['product_keterangan']) ? $p['product_keterangan'] : 'Tidak ada keterangan'; ?></p>
                         </div>
                         <br>
                         <form id="formPesan" method="post" action="<?= base_url('Detail_product_pelanggan/order') ?>">
@@ -255,16 +255,16 @@
                                         <input id="warna13" type="radio" placeholder="warna" name="warna" value="13" required>
                                         <label for="warna13">Custom (isi di keterangan)</label>
                                     </div>
-                                    <div class="grid-item p-0 pb-3">
+                                    <div id="varian_karet" class="grid-item p-0 pb-3" style="display: none;">
                                         <b>Varian Casing Karet</b>
                                         <br><br>
-                                        <input id="ck1" type="radio" placeholder="ck" name="ck" value="1" required>
+                                        <input id="ck1" type="radio" placeholder="ck" name="ck" value="1">
                                         <label for="ck1">Casing karet 1 sisi</label><br>
-                                        <input id="ck2" type="radio" placeholder="ck" name="ck" value="2" required>
+                                        <input id="ck2" type="radio" placeholder="ck" name="ck" value="2">
                                         <label for="ck2">Casing karet 2 sisi</label><br>
-                                        <input id="ck3" type="radio" placeholder="ck" name="ck" value="3" required>
+                                        <input id="ck3" type="radio" placeholder="ck" name="ck" value="3">
                                         <label for="ck3">Casing karet double landscape</label><br>
-                                        <input id="ck4" type="radio" placeholder="ck" name="ck" value="4" required>
+                                        <input id="ck4" type="radio" placeholder="ck" name="ck" value="4">
                                         <label for="ck4">Casing karet single landscape</label>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
@@ -494,6 +494,13 @@
 
 <script>
     $(document).ready(function() {
+        $('input[name="casing"]').click(function() {
+            if ($('#casing3').is(':checked')) {
+                $('#varian_karet').show();
+            } else {
+                $('#varian_karet').hide();
+            }
+        });
         $('form').submit(function() {
             if ($('input[name="jumlah"]').val() < 1) {
                 alert('Masukkan jumlah pesanan');
@@ -503,6 +510,10 @@
                     !$("input[name='finishing[]'][type=checkbox]:checked").length ||
                     !$("input[name='packaging[]'][type=checkbox]:checked").length)) {
 
+                alert('Silahkan lengkapi form terlebih dahulu');
+                return false;
+            }
+            if ($('#casing3').is(':checked') && $('input[name="ck"]:checked').length < 1) {
                 alert('Silahkan lengkapi form terlebih dahulu');
                 return false;
             }

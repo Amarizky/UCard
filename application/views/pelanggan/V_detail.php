@@ -277,7 +277,7 @@
                             <b>Keunggulan</b>
                             <p><?= $p['product_keunggulan']; ?></p>
                             <b>Keterangan Produk</b>
-                            <p><?= $p['product_keterangan'] ?? 'Tidak ada keterangan'; ?></p>
+                            <p><?= !empty($p['product_keterangan']) && !is_null($p['product_keterangan']) ? $p['product_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Harga satuan</b>
                             <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
                             <b>Jumlah dipesan</b>
@@ -285,7 +285,7 @@
                             <b>Total dipesan</b>
                             <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
                             <b>Keterangan Pesanan</b>
-                            <p><?= $o['transaksi_keterangan']; ?></p>
+                            <p><?= !empty($o['transaksi_keterangan']) && !is_null($o['transaksi_keterangan']) ? $o['transaksi_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
                             <?php if ($p['product_tipe'] == '0') : ?>
                                 <!-- Kartu -->
