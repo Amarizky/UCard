@@ -515,7 +515,7 @@
                             <?php if (!empty($link['transaksi_link_desain']) && !is_null($link['transaksi_link_desain'])) : ?>
                                 <input type="text" class="form-control" name="link" value="<?= $link['transaksi_link_desain']; ?>">
                             <?php else : ?>
-                                <input type="text" class="form-control" name="link" value="Pelanggan belum mengirimkan link file" readonly>
+                                <p>Pelanggan belum mengirimkan link file</p>
                             <?php endif; ?>
                         </div>
                     </div>
