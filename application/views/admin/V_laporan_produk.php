@@ -9,7 +9,7 @@
                 <div class="card-header bstatus-0">
                     <div class="row">
                         <div class="col">
-                            <h3>Data Produk</h3>
+                            <h3>Laporan Produk</h3>
                         </div>
                         <div class="col text-right">
                             <div class="text-left ml-auto" style="width: 140px;">

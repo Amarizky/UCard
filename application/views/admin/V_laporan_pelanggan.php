@@ -10,7 +10,7 @@
                     <table style="width: 100%;">
                         <tr>
                             <td style="text-align: left;">
-                                <h3 class="mb-0" id="judul">Data Pelanggan</h3>
+                                <h3 class="mb-0" id="judul">Laporan Pelanggan</h3>
                             </td>
                         </tr>
                     </table>

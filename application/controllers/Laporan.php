@@ -33,7 +33,7 @@ class Laporan extends CI_Controller
             ->select('p.product_nama, p.product_harga, p.product_kode, SUM(t.transaksi_jumlah) terjual, SUM(t.transaksi_harga) total')
             ->from('tbl_transaksi t')
             ->join('tbl_product p', 't.transaksi_product_id = p.product_id')
-            ->where('t.transaksi_tanggal >= NOW() - INTERVAL 30 DAY')
+            ->where('t.transaksi_tanggal >= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 1 MONTH))')
             ->group_by('t.transaksi_product_id')
             ->get()
             ->result_array();
