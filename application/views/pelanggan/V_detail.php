@@ -248,7 +248,16 @@
                                     <h3 class="mb-0">Produk</h3>
                                 </div>
                             </div>
-                            <?php if (($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) && $id_status == '1') : ?>
+                            <?php
+                            $st = $this->db
+                                ->select('transaksi_status_id')
+                                ->where('transaksi_order_id', $id_transaksi)
+                                ->order_by('transaksi_id', 'DESC')
+                                ->limit(1)
+                                ->get('tbl_status_transaksi')
+                                ->row_array();
+                            ?>
+                            <?php if (($o['transaksi_terima'] == '0' || $o['transaksi_terima'] == null) && $st['transaksi_status_id'] == '1') : ?>
                                 <div class="col">
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#perbaikan">

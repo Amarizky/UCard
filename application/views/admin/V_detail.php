@@ -475,8 +475,7 @@
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         if ($design) : ?>
-                            <h3>Design Anda</h3>
-                            <br>
+                            <h3>Gambar Desain</h3>
                             <?php foreach ($design as $d) : ?>
                                 <a title="<?= $d['design_id'] ?>" id="modal_lihat" type="button" class="modal_lihat" data-toggle="modal" data-target="#lihat">
                                     <img style="width:100%;" src="<?= base_url('design_user/' . $d['design_image']) ?>" alt="">
@@ -484,7 +483,8 @@
                                 <hr>
                             <?php endforeach; ?>
                         <?php else : ?>
-                            <b>Pelanggan belum mengirim gambar desain</b>
+                            <h3>Gambar Desain</h3>
+                            <p>Pelanggan belum mengirim gambar desain</p>
                         <?php endif; ?>
                         <?php if ($upload) : ?>
                             <h3>Uploaded File & Design</h3>
@@ -522,7 +522,23 @@
             <div id="status3" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Pembayaran</h3>
+                        <div class="row">
+                            <div class="col">
+                                <h3 class="mb-0">Pembayaran</h3>
+                            </div>
+                            <div class="col">
+                                <?php $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' ORDER BY transaksi_id DESC LIMIT 1 ")->row_array(); ?>
+                                <?php if ($st['transaksi_status_id'] == '3') : ?>
+                                    <div class="col">
+                                        <div class="text-right">
+                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ubah_harga">
+                                                Ubah Harga <i class="fa fa-pen"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <p>Silahkan ubah harga dan/atau ongkir jika diperlukan. Bukti transfer akan muncul setelah pelanggan mengunggah file bukti transfer.</p>
@@ -537,7 +553,7 @@
                             <b>Ongkir</b>
                             <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
                         <?php endif ?>
-                        <b>Total perlu dibayar (Lunas)</b>
+                        <b>Total perlu dibayar jika lunas</b>
                         <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
                         <b>Total perlu dibayar jika DP/uang muka</b>
                         <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
@@ -554,7 +570,7 @@
                                 <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
                             </a>
                         <?php else : ?>
-                            <h2>Belum ada bukti transfer</h2>
+                            <p>Pelanggan belum mengunggah bukti transfer</p>
                         <?php endif ?>
                     </div>
                 </div>
@@ -762,6 +778,32 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ubah_harga" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <form method="post" action="<?= base_url('Order/update_harga'); ?>" class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Ubah Harga</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                <div class="form-group">
+                    <label for="harga"><b>Harga</b></label>
+                    <input class="form-control" id="harga" type="number" name="harga" value="<?= $o['transaksi_harga']; ?>">
+                    <br>
+                    <label for="ongkir"><b>Ongkir</b></label>
+                    <input class="form-control" id="ongkir" type="number" name="ongkir" value="<?= $o['transaksi_ongkir'] ?? '0'; ?>">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -2347,30 +2389,6 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
 <script>
-    $('#harga').css('display', 'none');
-    $('#update_harga').css('display', 'none');
-    $('#tombol_update').click(function() {
-        $('#harga').css('display', 'block');
-        $('#view_harga').css('display', 'none');
-        $('#tombol_update').css('display', 'none');
-        $('#update_harga').css('display', 'block');
-    });
-    $('#update_harga').click(function() {
-        var id = $('#id').val();
-        var harga = $('#harga').val();
-        $('#alert').attr('class', '');
-        $.ajax({
-            url: "<?= base_url('Order/update_order') ?>",
-            type: "POST",
-            data: {
-                id: id,
-                harga: harga
-            },
-            success: function(data) {
-                $('#alert').attr('class', 'fa fa-check fa-2x');
-            }
-        });
-    });
     $('.status').click(function() {
         var id = $('#id').val();
         var id_status = $(this).attr('id-status');
