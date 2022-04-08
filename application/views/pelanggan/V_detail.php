@@ -270,21 +270,23 @@
                     </div>
                     <div class="card-body">
                         <div class="container-fluid" style="padding: 0 !important;">
-                            <b>Nama</b>
-                            <p><?= $p['product_nama'] ?></p>
+                            <b>Nama Produk</b>
+                            <p><?= $p['product_nama']; ?></p>
                             <b>Deskripsi</b>
-                            <p><?= $p['product_deskripsi'] ?></p>
+                            <p><?= $p['product_deskripsi']; ?></p>
                             <b>Keunggulan</b>
-                            <p><?= $p['product_keunggulan'] ?></p>
-                            <b>Keterangan</b>
-                            <p><?= $p['product_keterangan'] ?></p>
-                            <b>Harga per item</b>
+                            <p><?= $p['product_keunggulan']; ?></p>
+                            <b>Keterangan Produk</b>
+                            <p><?= $p['product_keterangan'] ?? 'Tidak ada keterangan'; ?></p>
+                            <b>Harga satuan</b>
                             <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
                             <b>Jumlah dipesan</b>
-                            <p><?= $o['transaksi_jumlah'] ?></p>
+                            <p><?= $o['transaksi_jumlah']; ?></p>
                             <b>Total dipesan</b>
                             <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
-                            <p><?= $o['transaksi_keterangan'] ?></p>
+                            <b>Keterangan Pesanan</b>
+                            <p><?= $o['transaksi_keterangan']; ?></p>
+                            <b>Kustomisasi</b>
                             <?php if ($p['product_tipe'] == '0') : ?>
                                 <!-- Kartu -->
                                 <div class="grid-container">

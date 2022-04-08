@@ -303,14 +303,14 @@
                         <div class="container-fluid" style="padding: 0 !important;">
                             <h1>Produk</h1>
                             <b>Nama Produk</b>
-                            <p><?= $p['product_nama'] ?></p>
-                            <b>Harga per item</b>
+                            <p><?= $p['product_nama']; ?></p>
+                            <b>Harga satuan</b>
                             <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
                             <b>Jumlah dipesan</b>
-                            <p><?= $o['transaksi_jumlah'] ?></p>
+                            <p><?= $o['transaksi_jumlah']; ?></p>
                             <b>Total harga</b>
                             <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
-                            <b>Keterangan</b>
+                            <b>Keterangan Pesanan</b>
                             <p><?= $o['transaksi_keterangan'] ?? 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
                             <?php if ($p['product_tipe'] == '0') : ?>
@@ -486,27 +486,32 @@
                             <h3>Gambar Desain</h3>
                             <p>Pelanggan belum mengirim gambar desain</p>
                         <?php endif; ?>
-                        <?php if ($upload) : ?>
-                            <h3>Uploaded File & Design</h3>
-                            <br>
-                            <div class="table-responsive">
-                                <table class="table table-flush" id="datatable-basic">
-                                    <thead>
-                                        <tr>
-                                            <td colspan="4" class="text-center">Pelanggan belum mengirimkan file desain</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                        <h3>File Desain</h3>
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="datatable-basic">
+                                <thead>
+                                    <tr>
+                                        <td>Nama File</td>
+                                        <td>Unduh</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($upload) : ?>
                                         <?php foreach ($upload as $u) : ?>
                                             <tr>
                                                 <td><?php echo  $u['design_image']; ?></td>
-                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Download</a></td>
+                                                <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Unduh</a></td>
                                             </tr>
                                         <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php endif; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2" class="text-center">Pelanggan belum mengirimkan file desain</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                         <hr>
                         <h3>URL File</h3>
                         <div class="col p-0">
