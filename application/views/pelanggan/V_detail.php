@@ -536,8 +536,10 @@
                             <?php endif ?>
                             <b>Total perlu dibayar jika lunas</b>
                             <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
-                            <b>Total perlu dibayar jika DP/uang muka</b>
-                            <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                            <?php if ($total >= 1000000) : ?>
+                                <b>Total perlu dibayar jika DP/uang muka</b>
+                                <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                            <?php endif; ?>
                         <?php endif ?>
                         <hr>
                         <?php if (!empty($o['transaksi_bukti'])) : ?>

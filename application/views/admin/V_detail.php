@@ -482,9 +482,6 @@
                                 </a>
                                 <hr>
                             <?php endforeach; ?>
-                        <?php else : ?>
-                            <h3>Gambar Desain</h3>
-                            <p>Pelanggan belum mengirim gambar desain</p>
                         <?php endif; ?>
                         <h3>File Desain</h3>
                         <br>
@@ -500,13 +497,13 @@
                                     <?php if ($upload) : ?>
                                         <?php foreach ($upload as $u) : ?>
                                             <tr>
-                                                <td><?php echo  $u['design_image']; ?></td>
+                                                <td><?php echo $u['design_image']; ?></td>
                                                 <td><a href="<?= base_url('design_user/' . $u['design_image']) ?>" download>Unduh</a></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     <?php else : ?>
                                         <tr>
-                                            <td colspan="2" class="text-center">Pelanggan belum mengirimkan file desain</td>
+                                            <td colspan="2">Pelanggan belum mengirimkan file desain</td>
                                         </tr>
                                     <?php endif; ?>
                                 </tbody>
@@ -560,8 +557,10 @@
                         <?php endif ?>
                         <b>Total perlu dibayar jika lunas</b>
                         <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
-                        <b>Total perlu dibayar jika DP/uang muka</b>
-                        <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                        <?php if ($total >= 1000000) : ?>
+                            <b>Total perlu dibayar jika DP/uang muka</b>
+                            <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                        <?php endif; ?>
                         <hr>
                         <b>Bukti Transfer</b>
                         <?php if (!empty($o['transaksi_bukti'])) : ?>
