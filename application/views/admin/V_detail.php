@@ -746,10 +746,20 @@
                                     </table>
                                     <br>
                                     <?php
-                                    $resi = $this->db->query("SELECT transaksi_resi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $resi = $this->db->query("SELECT transaksi_resi, transaksi_ekspedisi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                                     ?>
                                     <?php if ($o['transaksi_paket'] == '1') : ?>
-                                        <h3>Nomor Resi</h3>
+                                        <b>Jasa Ekspedisi</b>
+                                        <form action="<?= base_url('Order/update_ekspedisi'); ?>" method="post" class="form-group row">
+                                            <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
+                                            <div class="col-sm-8 pr-1">
+                                                <input type="text" class="form-control" name="ekspedisi" placeholder="Masukkan nama jasa ekspedisi" value="<?= $resi['transaksi_ekspedisi']; ?>">
+                                            </div>
+                                            <div class="col-sm-4 pl-1">
+                                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Update</button>
+                                            </div>
+                                        </form>
+                                        <b>Nomor Resi</b>
                                         <form action="<?= base_url('Order/update_resi'); ?>" method="post" class="form-group row">
                                             <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
                                             <div class="col-sm-8 pr-1">

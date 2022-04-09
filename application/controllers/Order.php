@@ -1267,6 +1267,13 @@ HTML
         $this->db->query("UPDATE tbl_transaksi SET transaksi_resi = '$resi' WHERE transaksi_id = '$id';");
         redirect(base_url('Order/detail/' . $id));
     }
+    function update_ekspedisi()
+    {
+        $id = $this->input->post('transaksi_id');
+        $ekspedisi = $this->input->post('ekspedisi');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_ekspedisi = '$ekspedisi' WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
+    }
     function savespksales()
     {
         $id = $this->input->post('id');

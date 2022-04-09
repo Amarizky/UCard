@@ -534,7 +534,7 @@
                                 <b>Ongkir</b>
                                 <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
                             <?php endif ?>
-                            <b>Total perlu dibayar jika lunas</b>
+                            <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
                             <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
                             <?php if ($total >= 1000000) : ?>
                                 <b>Total perlu dibayar jika DP/uang muka</b>
@@ -716,16 +716,22 @@
                     </div>
 
                     <div id="terima_p" class="card-body">
-
+                        <p>Harap tunggu sampai Admin mengirim produk Anda dan memasukkan resi</p>
                         <?php if ($o['transaksi_terima'] == NULL) : ?>
-
                             <?php
-                            $resi = $this->db->query("SELECT transaksi_resi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                            $resi = $this->db
+                                ->select('transaksi_resi, transaksi_ekspedisi')
+                                ->where('transaksi_id', $id)
+                                ->get('tbl_transaksi')
+                                ->row_array();
                             ?>
-
                             <?php if ($o['transaksi_paket'] == '1') : ?>
                                 <div class="wrapper">
                                     <div class="form-group row w-100">
+                                        <label for="ekspedisi" class="col-sm-4 col-form-label">Jasa Ekspedisi:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="ekspedisi" value="<?= (is_null($resi['transaksi_ekspedisi']) || empty($resi['transaksi_ekspedisi']) ? 'Belum ada ekspedisi' : $resi['transaksi_ekspedisi']); ?>">
+                                        </div>
                                         <label for="noresi" class="col-sm-4 col-form-label">Nomor Resi:</label>
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control-plaintext" id="noresi" value="<?= (is_null($resi['transaksi_resi']) || empty($resi['transaksi_resi']) ? 'Belum ada resi' : $resi['transaksi_resi']); ?>">
