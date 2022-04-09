@@ -763,19 +763,21 @@ HTML
 
             $this->db->insert('tbl_status_transaksi', $data);
 
-            $updatePersonalisasiDkk = [
-                'transaksi_personalisasi' => $personalisasi,
-                'transaksi_coating'       => $coating,
-                'transaksi_finishing'     => $finishing,
-                'transaksi_function'      => $function,
-                'transaksi_packaging'     => $packaging,
-                'transaksi_paket'         => $status
-            ];
+            if ($id_status < 6) {
+                $updatePersonalisasiDkk = [
+                    'transaksi_personalisasi' => $personalisasi,
+                    'transaksi_coating'       => $coating,
+                    'transaksi_finishing'     => $finishing,
+                    'transaksi_function'      => $function,
+                    'transaksi_packaging'     => $packaging,
+                    'transaksi_paket'         => $status
+                ];
 
-            $this->db
-                ->set($updatePersonalisasiDkk)
-                ->where('transaksi_id', $id)
-                ->update('tbl_transaksi');
+                $this->db
+                    ->set($updatePersonalisasiDkk)
+                    ->where('transaksi_id', $id)
+                    ->update('tbl_transaksi');
+            }
         } else {
             $k = 'DITOLAK';
             $tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
