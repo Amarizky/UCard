@@ -44,6 +44,10 @@ class Detail_product_pelanggan extends CI_Controller
 		$ck = $this->input->post('ck') ?? null;
 		$lr = $this->input->post('lr') ?? null;
 		$pb = $this->input->post('pb') ?? null;
+		$bank = $this->input->post('bank') ?? null;
+		$printsisi = $this->input->post('printsisi') ?? null;
+		$varian = $this->input->post('varian') ?? null;
+
 
 		$data = [
 			'transaksi_nohp' 				=> $nohp,
@@ -66,6 +70,9 @@ class Detail_product_pelanggan extends CI_Controller
 			'transaksi_ck' 					=> $ck,
 			'transaksi_logo' 				=> $lr,
 			'transaksi_pb' 					=> $pb,
+			'transaksi_spk_bank' 			=> $bank,
+			'transaksi_spk_print' 			=> $printsisi,
+			'transaksi_spk_varian' 			=> $varian,
 			'transaksi_paket' 				=> $status,
 			'transaksi_new' 				=> 1
 		];
