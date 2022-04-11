@@ -30,6 +30,12 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
 
     <!-- Argon CSS -->
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/argon.css?v=1.1.0') ?>" type="text/css">
+    <style>
+        .required:after {
+            color: red;
+            content: '*';
+        }
+    </style>
     <script src="<?= base_url('assets/admin/vendor/jquery/dist/jquery.min.js') ?>"></script>
 </head>
 
@@ -71,11 +77,11 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                         <?php endif; ?>
                         <?php if ($perms['admin_perm_order']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
+                                <a class="nav-link <?= $seg1 == 'Order' && $seg2 != 'history' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
                                     <i class="ni ni-cart text-green"></i>
                                     <span class="nav-link-text">Order <span class="badge badge-pill badge-danger to"><?= $jml_daftar; ?></span></span>
                                 </a>
-                                <div class="collapse <?= $seg1 == 'Order' && $seg1 . '/' . $seg2 != 'Order' ? 'show' : ''; ?>" id="navbar-order">
+                                <div class="collapse <?= $seg1 == 'Order' && $seg2 != 'history' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">
                                         <?php if ($perms['admin_perm_order']) : ?>
                                             <li class="nav-item">
@@ -205,6 +211,14 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                         <?php endif; ?>
                                     </ul>
                                 </div>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($perms['admin_perm_kupon']) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link <?= $seg1 . '/' . $seg2 == 'kupon' ? 'active' : ''; ?>" href="<?= base_url('kupon') ?>">
+                                    <i class="fa fa-gift text-green"></i>
+                                    <span class="nav-link-text">Kupon</span>
+                                </a>
                             </li>
                         <?php endif; ?>
                         <?php if ($perms['admin_perm_category']) : ?>
