@@ -1169,6 +1169,168 @@ HTML
                                 <label for="ambil">Ambil Sendiri</label>
                             </div>
                         </div>
+                    <?php elseif ($p['product_tipe'] == '3') : ?>
+                        <!-- E-Money -->
+                        <div class="grid-container">
+                            <div class="grid-item p-0 pb-3">
+                                <b>Bank</b>
+                                <br><br>
+                                <input id="bank1" type="radio" placeholder="bank" name="bank" value="1" <?= $o['transaksi_spk_bank'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="bank1">Bank BCA (Flazz)</label><br>
+                                <input id="bank2" type="radio" placeholder="bank" name="bank" value="2" <?= $o['transaksi_spk_bank'] == '2' ? 'checked' : ''; ?> required>
+                                <label for="bank2">Bank Mandiri (E-Toll)</label><br>
+                                <input id="bank3" type="radio" placeholder="bank" name="bank" value="3" <?= $o['transaksi_spk_bank'] == '3' ? 'checked' : ''; ?> required>
+                                <label for="bank3">Bank BRI (Brizzi)</label><br>
+                                <input id="bank4" type="radio" placeholder="bank" name="bank" value="4" <?= $o['transaksi_spk_bank'] == '4' ? 'checked' : ''; ?> required>
+                                <label for="bank4">Bank BNI (Tapcash)</label><br>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <b>Print</b>
+                                <br><br>
+                                <input id="printsisi1" type="radio" placeholder="print" name="printsisi" value="1" <?= $o['transaksi_spk_print'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="printsisi1">Satu sisi</label><br>
+                                <input id="printsisi2" type="radio" placeholder="print" name="printsisi" value="2" <?= $o['transaksi_spk_print'] == '2' ? 'checked' : ''; ?> required>
+                                <label for="printsisi2">Dua Sisi</label>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
+                                <b>Personalisasi</b>
+                                <br><br>
+                                <div class="form-group">
+                                    <input id="persona1" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="1" <?= in_array('1', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona1">Blanko</label><br>
+                                    <input id="persona2" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="2" <?= in_array('2', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona2">Nomerator</label><br>
+                                    <input id="persona3" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="3" <?= in_array('3', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona3">Barcode</label><br>
+                                    <input id="persona4" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="4" <?= in_array('4', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona4">Data</label><br>
+                                    <input id="persona5" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="5" <?= in_array('5', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona5">Data + Foto</label>
+                                </div>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
+                                <b>Packaging</b>
+                                <br><br>
+                                <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging1">Plastik 1 on 1</label><br>
+                                <input id="packaging4" type="checkbox" placeholder="packaging" name="packaging[]" value="2" <?= in_array('2', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging4">Box Putih</label><br>
+                                <input id="packaging5" type="checkbox" placeholder="packaging" name="packaging[]" value="3" <?= in_array('3', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging5">Small UCARD</label><br>
+                                <input id="packaging6" type="checkbox" placeholder="packaging" name="packaging[]" value="4" <?= in_array('4', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging6">Small Maxi UCARD</label><br>
+                                <input id="packaging7" type="checkbox" placeholder="packaging" name="packaging[]" value="5" <?= in_array('5', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging7">Large UCARD</label><br>
+                                <input id="packaging8" type="checkbox" placeholder="packaging" name="packaging[]" value="6" <?= in_array('6', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging8">Large Maxi UCARD</label>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <b>Coating</b>
+                                <br><br>
+                                <input id="coating1" type="radio" placeholder="coating" name="coating" value="1" <?= $o['transaksi_coating'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="coating1">UV</label>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
+                                <b>Finishing</b>
+                                <br><br>
+                                <input id="finishing1" type="checkbox" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
+                                <label for="finishing1">Tidak Ada</label><br>
+                                <input id="finishing2" type="checkbox" placeholder="finishing" name="finishing[]" value="2" <?= in_array('2', $finishing) ? 'checked' : ''; ?>>
+                                <label for="finishing2">Urutkan</label><br>
+                                <input id="finishing3" type="checkbox" placeholder="finishing" name="finishing[]" value="3" <?= in_array('3', $finishing) ? 'checked' : ''; ?>>
+                                <label for="finishing3">Pakai NO</label><br>
+                                <input id="finishing4" type="checkbox" placeholder="finishing" name="finishing[]" value="4" <?= in_array('4', $finishing) ? 'checked' : ''; ?>>
+                                <label for="finishing4">Tanpa NO</label><br>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <b>Ambil/Kirim</b>
+                                <br><br>
+                                <input id="kirim" type="radio" placeholder="status" name="status" value="1" <?= $o['transaksi_paket'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="kirim">Kirim Produk</label><br>
+                                <input id="ambil" type="radio" placeholder="status" name="status" value="2" <?= $o['transaksi_paket'] == '2' ? 'checked' : ''; ?> required>
+                                <label for="ambil">Ambil Sendiri</label>
+                            </div>
+                        </div>
+                    <?php elseif ($p['product_tipe'] == '4') : ?>
+                        <!-- Tali -->
+                        <div class="grid-container">
+                            <div class="grid-item p-0 pb-3">
+                                <b>Varian</b>
+                                <br><br>
+                                <input id="varian1" type="radio" placeholder="varian" name="varian" value="1" <?= $o['transaksi_spk_varian'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="varian1">USB Flashdisk Card 8 GB</label><br>
+                                <input id="varian2" type="radio" placeholder="varian" name="varian" value="2" <?= $o['transaksi_spk_varian'] == '2' ? 'checked' : ''; ?> required>
+                                <label for="varian2">USB Flashdisk Card 16 GB</label><br>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <b>Print</b>
+                                <br><br>
+                                <input id="printsisi1" type="radio" placeholder="print" name="printsisi" value="1" <?= $o['transaksi_spk_print'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="printsisi1">Satu sisi</label><br>
+                                <input id="printsisi2" type="radio" placeholder="print" name="printsisi" value="2" <?= $o['transaksi_spk_print'] == '2' ? 'checked' : ''; ?> required>
+                                <label for="printsisi2">Dua Sisi</label>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
+                                <b>Personalisasi</b>
+                                <br><br>
+                                <div class="form-group">
+                                    <input id="persona1" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="1" <?= in_array('1', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona1">Blanko</label><br>
+                                    <input id="persona2" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="2" <?= in_array('2', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona2">Nomerator</label><br>
+                                    <input id="persona3" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="3" <?= in_array('3', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona3">Barcode</label><br>
+                                    <input id="persona4" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="4" <?= in_array('4', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona4">Data</label><br>
+                                    <input id="persona5" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="5" <?= in_array('5', $personalisasi) ? 'checked' : ''; ?>>
+                                    <label for="persona5">Data + Foto</label>
+                                </div>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
+                                <b>Packaging</b>
+                                <br><br>
+                                <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging1">Plastik 1 on 1</label><br>
+                                <input id="packaging4" type="checkbox" placeholder="packaging" name="packaging[]" value="2" <?= in_array('2', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging4">Box Putih</label><br>
+                                <input id="packaging5" type="checkbox" placeholder="packaging" name="packaging[]" value="3" <?= in_array('3', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging5">Small UCARD</label><br>
+                                <input id="packaging6" type="checkbox" placeholder="packaging" name="packaging[]" value="4" <?= in_array('4', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging6">Small Maxi UCARD</label><br>
+                                <input id="packaging7" type="checkbox" placeholder="packaging" name="packaging[]" value="5" <?= in_array('5', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging7">Large UCARD</label><br>
+                                <input id="packaging8" type="checkbox" placeholder="packaging" name="packaging[]" value="6" <?= in_array('6', $packaging) ? 'checked' : ''; ?>>
+                                <label for="packaging8">Large Maxi UCARD</label>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <b>Coating</b>
+                                <br><br>
+                                <input id="coating1" type="radio" placeholder="coating" name="coating" value="1" <?= $o['transaksi_coating'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="coating1">UV</label>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
+                                <b>Finishing</b>
+                                <br><br>
+                                <input id="finishing1" type="checkbox" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
+                                <label for="finishing1">Tidak Ada</label><br>
+                                <input id="finishing2" type="checkbox" placeholder="finishing" name="finishing[]" value="2" <?= in_array('2', $finishing) ? 'checked' : ''; ?>>
+                                <label for="finishing2">Urutkan</label><br>
+                            </div>
+                            <div class="grid-item p-0 pb-3">
+                                <b>Ambil/Kirim</b>
+                                <br><br>
+                                <input id="kirim" type="radio" placeholder="status" name="status" value="1" <?= $o['transaksi_paket'] == '1' ? 'checked' : ''; ?> required>
+                                <label for="kirim">Kirim Produk</label><br>
+                                <input id="ambil" type="radio" placeholder="status" name="status" value="2" <?= $o['transaksi_paket'] == '2' ? 'checked' : ''; ?> required>
+                                <label for="ambil">Ambil Sendiri</label>
+                            </div>
+                        </div>
                     <?php endif; ?>
                     <label for="keterangan"><b>Keterangan</b></label>
                     <textarea id="keterangan" class="form-control" cols="30" rows="5"><?= $s['transaksi_keterangan']; ?></textarea>

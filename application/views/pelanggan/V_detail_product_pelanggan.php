@@ -308,7 +308,7 @@
                                         <input id="material5" type="radio" placeholder="material" name="material" value="5" required>
                                         <label for="material5">Tissue 2CM</label><br>
                                         <input id="material6" type="radio" placeholder="material" name="material" value="6" required>
-                                        <label for="material6">Tissue 2,5CM</label>
+                                        <label for="material6">Tissue 2,5CM</label><br>
                                         <input id="material7" type="radio" placeholder="material" name="material" value="7" required>
                                         <label for="material7">Tali gelang 1,5cm printing</label><br>
                                         <input id="material8" type="radio" placeholder="material" name="material" value="8" required>
@@ -338,7 +338,7 @@
                                         <input id="finishing9" type="checkbox" placeholder="finish" name="finish[]" value="10">
                                         <label for="finishing9">Tali Karung</label><br>
                                         <input id="finishing10" type="checkbox" placeholder="finish" name="finish[]" value="11">
-                                        <label for="finishing10">Ring Vape</label><br>
+                                        <label for="finishing10">Ring Vape</label>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
                                         <b>Jenis Produksi</b>
@@ -346,7 +346,163 @@
                                         <input id="jp1" type="radio" placeholder="jp" name="jp" value="1" required>
                                         <label for="jp1">Sablon</label><br>
                                         <input id="jp2" type="radio" placeholder="jp" name="jp" value="2" required>
-                                        <label for="jp2">Printing</label><br>
+                                        <label for="jp2">Printing</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Ambil/Kirim</b>
+                                        <br><br>
+                                        <input id="kirim" type="radio" placeholder="status" name="status" value="1" required>
+                                        <label for="kirim">Kirim Produk</label><br>
+                                        <input id="ambil" type="radio" placeholder="status" name="status" value="2" required>
+                                        <label for="ambil">Ambil Sendiri</label>
+                                    </div>
+                                </div>
+                            <?php elseif ($p['product_tipe'] == '3') : ?>
+                                <input type="hidden" id="tipe" name="tipe" value="<?= $p['product_tipe']; ?>">
+                                <div class="grid-container">
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Bank</b>
+                                        <br><br>
+                                        <input id="bank1" type="radio" placeholder="bank" name="bank" value="1" required>
+                                        <label for="bank1">Bank BCA (Flazz)</label><br>
+                                        <input id="bank2" type="radio" placeholder="bank" name="bank" value="2" required>
+                                        <label for="bank2">Bank Mandiri (E-Toll)</label><br>
+                                        <input id="bank3" type="radio" placeholder="bank" name="bank" value="3" required>
+                                        <label for="bank3">Bank BRI (Brizzi)</label><br>
+                                        <input id="bank4" type="radio" placeholder="bank" name="bank" value="4" required>
+                                        <label for="bank4">Bank BNI (Tapcash)</label><br>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Print</b>
+                                        <br><br>
+                                        <input id="printsisi1" type="radio" placeholder="print berapa sisi" name="printsisi" value="1" required>
+                                        <label for="printsisi1">Satu sisi</label><br>
+                                        <input id="printsisi2" type="radio" placeholder="print berapa sisi" name="printsisi" value="2" required>
+                                        <label for="printsisi2">Dua Sisi</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Personalisasi</b>
+                                        <br><br>
+                                        <div class="form-group">
+                                            <input id="persona1" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="1">
+                                            <label for="persona1">Blanko</label><br>
+                                            <input id="persona2" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="2">
+                                            <label for="persona2">Nomerator</label><br>
+                                            <input id="persona3" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="3">
+                                            <label for="persona3">Barcode</label><br>
+                                            <input id="persona4" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="4">
+                                            <label for="persona4">Data</label><br>
+                                            <input id="persona5" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="5">
+                                            <label for="persona5">Data + Foto</label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Packaging</b>
+                                        <br><br>
+                                        <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1">
+                                        <label for="packaging1">Plastik 1 on 1</label><br>
+                                        <input id="packaging4" type="checkbox" placeholder="packaging" name="packaging[]" value="2">
+                                        <label for="packaging4">Box Putih</label><br>
+                                        <input id="packaging5" type="checkbox" placeholder="packaging" name="packaging[]" value="3">
+                                        <label for="packaging5">Small UCARD</label><br>
+                                        <input id="packaging6" type="checkbox" placeholder="packaging" name="packaging[]" value="4">
+                                        <label for="packaging6">Small Maxi UCARD</label><br>
+                                        <input id="packaging7" type="checkbox" placeholder="packaging" name="packaging[]" value="5">
+                                        <label for="packaging7">Large UCARD</label><br>
+                                        <input id="packaging8" type="checkbox" placeholder="packaging" name="packaging[]" value="6">
+                                        <label for="packaging8">Large Maxi UCARD</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Coating</b>
+                                        <br><br>
+                                        <input id="coating1" type="radio" placeholder="coating" name="coating" value="1" required>
+                                        <label for="coating1">UV</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Finishing</b>
+                                        <br><br>
+                                        <input id="finishing1" type="checkbox" placeholder="finishing" name="finishing[]" value="1">
+                                        <label for="finishing1">Tidak Ada</label><br>
+                                        <input id="finishing2" type="checkbox" placeholder="finishing" name="finishing[]" value="2">
+                                        <label for="finishing2">Urutkan</label><br>
+                                        <input id="finishing3" type="checkbox" placeholder="finishing" name="finishing[]" value="3">
+                                        <label for="finishing3">Pakai NO</label><br>
+                                        <input id="finishing4" type="checkbox" placeholder="finishing" name="finishing[]" value="4">
+                                        <label for="finishing4">Tanpa NO</label><br>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Ambil/Kirim</b>
+                                        <br><br>
+                                        <input id="kirim" type="radio" placeholder="status" name="status" value="1" required>
+                                        <label for="kirim">Kirim Produk</label><br>
+                                        <input id="ambil" type="radio" placeholder="status" name="status" value="2" required>
+                                        <label for="ambil">Ambil Sendiri</label>
+                                    </div>
+                                </div>
+                            <?php elseif ($p['product_tipe'] == '4') : ?>
+                                <input type="hidden" id="tipe" name="tipe" value="<?= $p['product_tipe']; ?>">
+                                <div class="grid-container">
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Varian</b>
+                                        <br><br>
+                                        <input id="varian1" type="radio" placeholder="varian" name="varian" value="1" required>
+                                        <label for="varian1">USB Flashdisk Card 8 GB</label><br>
+                                        <input id="varian2" type="radio" placeholder="varian" name="varian" value="2" required>
+                                        <label for="varian2">USB Flashdisk Card 16 GB</label><br>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Print</b>
+                                        <br><br>
+                                        <input id="printsisi1" type="radio" placeholder="print berapa sisi" name="printsisi" value="1" required>
+                                        <label for="printsisi1">Satu sisi</label><br>
+                                        <input id="printsisi2" type="radio" placeholder="print berapa sisi" name="printsisi" value="2" required>
+                                        <label for="printsisi2">Dua Sisi</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Personalisasi</b>
+                                        <br><br>
+                                        <div class="form-group">
+                                            <input id="persona1" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="1">
+                                            <label for="persona1">Blanko</label><br>
+                                            <input id="persona2" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="2">
+                                            <label for="persona2">Nomerator</label><br>
+                                            <input id="persona3" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="3">
+                                            <label for="persona3">Barcode</label><br>
+                                            <input id="persona4" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="4">
+                                            <label for="persona4">Data</label><br>
+                                            <input id="persona5" type="checkbox" placeholder="personalisasi" name="personalisasi[]" value="5">
+                                            <label for="persona5">Data + Foto</label>
+                                        </div>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Packaging</b>
+                                        <br><br>
+                                        <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1">
+                                        <label for="packaging1">Plastik 1 on 1</label><br>
+                                        <input id="packaging4" type="checkbox" placeholder="packaging" name="packaging[]" value="2">
+                                        <label for="packaging4">Box Putih</label><br>
+                                        <input id="packaging5" type="checkbox" placeholder="packaging" name="packaging[]" value="3">
+                                        <label for="packaging5">Small UCARD</label><br>
+                                        <input id="packaging6" type="checkbox" placeholder="packaging" name="packaging[]" value="4">
+                                        <label for="packaging6">Small Maxi UCARD</label><br>
+                                        <input id="packaging7" type="checkbox" placeholder="packaging" name="packaging[]" value="5">
+                                        <label for="packaging7">Large UCARD</label><br>
+                                        <input id="packaging8" type="checkbox" placeholder="packaging" name="packaging[]" value="6">
+                                        <label for="packaging8">Large Maxi UCARD</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Coating</b>
+                                        <br><br>
+                                        <input id="coating1" type="radio" placeholder="coating" name="coating" value="1" required>
+                                        <label for="coating1">UV</label>
+                                    </div>
+                                    <div class="grid-item p-0 pb-3">
+                                        <b>Finishing</b>
+                                        <br><br>
+                                        <input id="finishing1" type="checkbox" placeholder="finishing" name="finishing[]" value="1">
+                                        <label for="finishing1">Tidak Ada</label><br>
+                                        <input id="finishing2" type="checkbox" placeholder="finishing" name="finishing[]" value="2">
+                                        <label for="finishing2">Urutkan</label><br>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
                                         <b>Ambil/Kirim</b>
