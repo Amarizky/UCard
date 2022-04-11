@@ -57,14 +57,20 @@ class Password extends CI_Controller
                 'pelanggan_resetcode_expire' => date('Y-m-d H:i:s')
             ])->where('pelanggan_id', $pelanggan['pelanggan_id'])->update('tbl_pelanggan');
 
+            $p_email = $pelanggan["pelanggan_email"];
+            $p_nama = $pelanggan["pelanggan_nama"];
+            $gambar = base_url('assets/img/logo-kartuidcard-white.png');
+            $link = base_url("Password?email=" . $p_email . "&resetcode=" . $resetCode);
+
             $this->load->library('email');
 
             $this->email->clear();
             $this->email->to($pelanggan['pelanggan_email']);
-            $this->email->from('amarizky02@gmail.com');
+            $this->email->from('noreply@ucard.id');
             $this->email->subject('UCard Surabaya - Setel Ulang Kata Sandi');
             $this->email->set_mailtype('html');
-            $this->email->message('
+            $this->email->message(
+                <<<HTML
 <!DOCTYPE html>
 <html lang="en">
 
@@ -82,18 +88,18 @@ class Password extends CI_Controller
     <div class="text-center">
         <div class="container">
             <div class="m-auto p-10 text-center">
-                <img src="https://amarizky.com/assets/img/logo-kartuidcard-white.png" alt="">
+                <img src="$gambar" alt="">
             </div>
             <div class="m-10 body">
-                <h2 class="text-center">Halo, ' . $pelanggan["pelanggan_nama"] . '!</h2>
+                <h2 class="text-center">Halo, $p_nama!</h2>
                 <br>
                 <p>Kami menerima permintaan setel ulang kata sandi pada akun Anda. Silahkan masukan kode berikut ke dalam form.</p>
                 <div class="m-auto w-100">
-                    <p class="code"><strong>' . $resetCode . '</strong></p>
+                    <p class="code"><strong>$resetCode</strong></p>
                 </div>
                 <p>Anda juga bisa menyetel ulang kata sandi Anda dengan menekan tombol di bawah ini.</p>
                 <div class="text-center">
-                    <a href="https://amarizky.com/Password?email=' . $pelanggan["pelanggan_email"] . '&resetcode=' . $resetCode . '">
+                    <a href="$link">
                         <button class="btn">Reset Password</button>
                     </a>
                 </div>
@@ -105,7 +111,8 @@ class Password extends CI_Controller
 </body>
 
 </html>
-            ');
+HTML
+            );
             $this->email->send();
 
             echo 'success';

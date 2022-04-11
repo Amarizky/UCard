@@ -482,7 +482,7 @@ class Order extends CI_Controller
 
                     $this->email->clear();
                     $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('amarizky02@gmail.com');
+                    $this->email->from('noreply@ucard.id');
                     $this->email->subject('UCard Surabaya - Pesananmu sudah diverifikasi!');
                     $this->email->set_mailtype('html');
                     $this->email->message(
@@ -533,7 +533,7 @@ HTML
 
                     $this->email->clear();
                     $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('amarizky02@gmail.com');
+                    $this->email->from('noreply@ucard.id');
                     $this->email->subject('UCard Surabaya - Desainmu sudah diverifikasi!');
                     $this->email->set_mailtype('html');
                     $this->email->message(
@@ -584,7 +584,7 @@ HTML
 
                     $this->email->clear();
                     $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('amarizky02@gmail.com');
+                    $this->email->from('noreply@ucard.id');
                     $this->email->subject('UCard Surabaya - Pembayaranmu sudah diverifikasi!');
                     $this->email->set_mailtype('html');
                     $this->email->message(
@@ -637,7 +637,7 @@ HTML
 
                     $this->email->clear();
                     $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('amarizky02@gmail.com');
+                    $this->email->from('noreply@ucard.id');
                     $this->email->subject('UCard Surabaya - Pilih Desain Cetakanmu');
                     $this->email->set_mailtype('html');
                     $this->email->message(
@@ -704,7 +704,7 @@ HTML
 
                     $this->email->clear();
                     $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('amarizky02@gmail.com');
+                    $this->email->from('noreply@ucard.id');
                     $this->email->subject('UCard Surabaya - Pesananmu sudah selesai dicetak!');
                     $this->email->set_mailtype('html');
                     $this->email->message(
@@ -764,17 +764,15 @@ HTML
             $this->db->insert('tbl_status_transaksi', $data);
 
             if ($id_status < 6) {
-                $updatePersonalisasiDkk = [
-                    'transaksi_personalisasi' => $personalisasi,
-                    'transaksi_coating'       => $coating,
-                    'transaksi_finishing'     => $finishing,
-                    'transaksi_function'      => $function,
-                    'transaksi_packaging'     => $packaging,
-                    'transaksi_paket'         => $status
-                ];
-
                 $this->db
-                    ->set($updatePersonalisasiDkk)
+                    ->set([
+                        'transaksi_personalisasi' => $personalisasi,
+                        'transaksi_coating'       => $coating,
+                        'transaksi_finishing'     => $finishing,
+                        'transaksi_function'      => $function,
+                        'transaksi_packaging'     => $packaging,
+                        'transaksi_paket'         => $status
+                    ])
                     ->where('transaksi_id', $id)
                     ->update('tbl_transaksi');
             }
@@ -786,7 +784,7 @@ HTML
             $this->load->library('email');
             $this->email->clear();
             $this->email->to($pelanggan['pelanggan_email']);
-            $this->email->from('amarizky02@gmail.com');
+            $this->email->from('noreply@ucard.id');
             $this->email->subject('UCard Surabaya - Pesananmu ditolak!');
             $this->email->set_mailtype('html');
             $this->email->message(
