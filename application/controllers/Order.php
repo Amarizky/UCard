@@ -249,7 +249,7 @@ class Order extends CI_Controller
                         <?php if (empty($e['transaksi_harga'])) : ?>
                             <p>Harga belum ditentukan</p>
                         <?php else : ?>
-                            <p><?= 'Rp' . number_format($e['transaksi_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($e['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                         <?php endif; ?>
                         <br>
                         <b>Keterangan</b>
@@ -1377,7 +1377,7 @@ HTML
                 //     <tr>
                 //     <td>Harga<td>
                 //     <td> : <td>
-                //     <td>Rp. '.number_format($e['transaksi_harga']).'<td>
+                //     <td>Rp. '.number_format($e['transaksi_harga'] ?? 0).'<td>
                 //     </tr>
                 //     </table
                 //     <br>

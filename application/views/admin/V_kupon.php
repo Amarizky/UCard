@@ -38,8 +38,8 @@
                                     <td><?= $k['kupon_nama']; ?></td>
                                     <td><?= $k['kupon_deskripsi']; ?></td>
                                     <td><?= $k['kupon_kode']; ?></td>
-                                    <td>Rp<?= number_format($k['kupon_min'], 2, ',', '.'); ?></td>
-                                    <td><?= $k['kupon_persentase'] ? $k['kupon_persentase'] . '%' : 'Rp' . number_format($k['kupon_fixed'], 2, ',', '.'); ?></td>
+                                    <td>Rp<?= number_format($k['kupon_min'] ?? 0, 2, ',', '.'); ?></td>
+                                    <td><?= $k['kupon_persentase'] ? $k['kupon_persentase'] . '%' : 'Rp' . number_format($k['kupon_fixed'] ?? 0, 2, ',', '.'); ?></td>
                                     <td>
                                         <button data-id="<?= $k['kupon_id']; ?>" type="button" class="btn btn-info btn-sm edit" data-toggle="modal" data-target="#edit"><i class="fa fa-pen"></i></button>
                                         <button data-id="<?= $k['kupon_id']; ?>" type="button" class="btn btn-danger btn-sm hapus" data-toggle="modal" data-target="#hapus"><i class="fa fa-times"></i></button>

@@ -44,9 +44,9 @@
                                     <td><?= $n++ ?></td>
                                     <td><?= $d['product_kode'] ?></td>
                                     <td><?= $d['product_nama'] ?></td>
-                                    <td>Rp<?= number_format($d['product_harga'], 2, ',', '.'); ?></td>
+                                    <td>Rp<?= number_format($d['product_harga'] ?? 0, 2, ',', '.'); ?></td>
                                     <td><?= $d['terjual'] ?></td>
-                                    <td>Rp<?= number_format($d['total'], 2, ',', '.'); ?></td>
+                                    <td>Rp<?= number_format($d['total'] ?? 0, 2, ',', '.'); ?></td>
                                 </tr>
                             <?php
                             endforeach;
@@ -74,9 +74,9 @@
                                     <td><?= $n++ ?></td>
                                     <td><?= $d['product_kode'] ?></td>
                                     <td><?= $d['product_nama'] ?></td>
-                                    <td>Rp<?= number_format($d['product_harga'], 2, ',', '.'); ?></td>
+                                    <td>Rp<?= number_format($d['product_harga'] ?? 0, 2, ',', '.'); ?></td>
                                     <td><?= $d['terjual'] ?></td>
-                                    <td>Rp<?= number_format($d['total'], 2, ',', '.'); ?></td>
+                                    <td>Rp<?= number_format($d['total'] ?? 0, 2, ',', '.'); ?></td>
                                 </tr>
                             <?php
                             endforeach;

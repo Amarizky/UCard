@@ -82,7 +82,7 @@
                             <b>Nama</b>
                             <p><?= $p['product_nama'] ?></p>
                             <b>Harga Satuan</b>
-                            <p>Rp<?= number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                            <p>Rp<?= number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Kategori</b>
                             <p><?= $this->M_category->kode_to_text($p['product_category']); ?></p>
                             <b>Deskripsi</b>
