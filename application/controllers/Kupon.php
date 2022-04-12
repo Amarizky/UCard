@@ -5,15 +5,16 @@ class kupon extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        if (!isset($this->session->admin_nama)) {
-            redirect('Admin');
-        }
         $this->load->model('M_kupon');
-        if (!$this->M_admin->check_permission('kupon')) redirect('Dashboard');
     }
 
     function index()
     {
+        if (!isset($this->session->admin_nama)) {
+            redirect('Admin');
+        }
+        if (!$this->M_admin->check_permission('kupon')) redirect('Dashboard');
+
         $x['title'] = "Kupon";
         $x['kupon'] = $this->db->get('tbl_kupon')->result_array();
         $this->load->view('admin/template/V_header', $x);
@@ -23,6 +24,11 @@ class kupon extends CI_Controller
 
     function tambah_kupon()
     {
+        if (!isset($this->session->admin_nama)) {
+            redirect('Admin');
+        }
+        if (!$this->M_admin->check_permission('kupon')) redirect('Dashboard');
+
         $data = [
             'kupon_nama' => $this->input->post('nama'),
             'kupon_deskripsi' => $this->input->post('deskripsi'),
@@ -38,6 +44,11 @@ class kupon extends CI_Controller
 
     function edit_kupon()
     {
+        if (!isset($this->session->admin_nama)) {
+            redirect('Admin');
+        }
+        if (!$this->M_admin->check_permission('kupon')) redirect('Dashboard');
+
         $data = [
             'kupon_nama' => $this->input->post('nama'),
             'kupon_deskripsi' => $this->input->post('deskripsi'),
@@ -53,6 +64,11 @@ class kupon extends CI_Controller
 
     function get_edit()
     {
+        if (!isset($this->session->admin_nama)) {
+            redirect('Admin');
+        }
+        if (!$this->M_admin->check_permission('kupon')) redirect('Dashboard');
+
         $kupon_id = $this->input->post('kupon_id');
         $k = $this->M_kupon->get_kupon($kupon_id);
 ?>
@@ -93,5 +109,35 @@ class kupon extends CI_Controller
             </div>
         </form>
 <?php
+    }
+
+    function cek_kupon()
+    {
+        $transaksi_id = $this->input->post('transaksi_id');
+        $kode = strtoupper($this->input->post('kupon'));
+
+        $kupon = $this->M_kupon->get_kupon($kode);
+        $t = $this->db->where('transaksi_id', $transaksi_id)->get('tbl_transaksi')->row_array();
+        $subtotal = $t['transaksi_harga'];
+
+        if (!$kode || !count($kupon ?? [])) return print_r(json_encode(['alert' => false, 'cont' => false]));
+        if ($t['transaksi_harga'] < $kupon['kupon_min']) return print_r(json_encode(['alert' => true, 'cont' => false, 'msg' => 'Subtotal tidak memenuhi syarat minimal']));
+
+        $diskon = $kupon['kupon_fixed'] ? $kupon['kupon_fixed'] : $kupon['kupon_persentase'] / 100 * $subtotal;
+
+        $data = [
+            'alert'     => false,
+            'cont'      => true,
+            'diskon'    => 'Rp' . number_format($diskon ?? 0, 2, ',', '.'),
+            'subtotal'  => 'Rp' . number_format($subtotal ?? 0, 2, ',', '.'),
+            'total'     => 'Rp' . number_format($subtotal - $diskon + $t['transaksi_ongkir'] ?? 0, 2, ',', '.'),
+        ];
+
+        $this->db
+            ->set('transaksi_kupon_id', $kupon['kupon_id'])
+            ->where('transaksi_id', $transaksi_id)
+            ->update('tbl_transaksi');
+
+        print_r(json_encode($data));
     }
 }

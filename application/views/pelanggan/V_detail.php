@@ -643,17 +643,30 @@
                         </div>
                         <hr>
                         <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
+                        <?php $k = @$this->db->where('kupon_id', $o['transaksi_kupon_id'])->get('tbl_kupon')->row_array(); ?>
+                        <?php $diskon = @$k['kupon_fixed'] ? $k['kupon_fixed'] : $o['transaksi_harga'] * @$k['kupon_persentase'] / 100; ?>
                         <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
                             <h3>Harga belum ditentukan. Harap tunggu sampai Admin menentukan harga yang perlu Anda bayar.</h3>
                         <?php else : ?>
-                            <b>Harga</b>
-                            <p>Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.') ?></p>
+                            <b>Kupon</b>
+                            <p>Punya kupon? Masukkan di sini!</p>
+                            <div class="form-group">
+                                <input class="form-control" style="text-transform: uppercase;" type="text" id="kupon" placeholder="Masukkan kupon di sini" value="<?= @$k['kupon_kode']; ?>">
+                                <br>
+                                <button class="btn btn-primary w-100" id="btn-kupon">Cek</button>
+                            </div>
+                            <hr id="part-bayar">
+                            <b>Subtotal</b>
+                            <p id="subtotal">Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.') ?></p>
+                            <b>Diskon</b>
+                            <p id="diskon">Rp<?= number_format($diskon ?? 0, 2, ',', '.') ?></p>
                             <?php if ($o['transaksi_paket'] == '1') : ?>
                                 <b>Ongkir</b>
                                 <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                             <?php endif ?>
                             <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
-                            <p>Rp<?= number_format($total ?? 0, 2, ',', '.') ?></p>
+                            <p id="total">Rp<?= number_format($o['transaksi_kupon_id'] ? $total - $diskon : $total ?? 0, 2, ',', '.') ?></p>
+                            <input type="hidden" id="total_perlu_dibayar" value="<?= $total; ?>">
                             <?php if ($total >= 1000000) : ?>
                                 <b>Total perlu dibayar jika DP/uang muka</b>
                                 <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
@@ -717,7 +730,6 @@
                                     <label for="file"><b>4. Bukti transfer</b></label>
                                     <input id="file" type="file" name="bukti" class="form-control" required>
                                 </div>
-                                <br>
                                 <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
                             <?php endif; ?>
                         </form>
@@ -1263,6 +1275,48 @@
             inp.checked = true;
         });
     });
+
+    var kupon = $('#kupon');
+    var total_perlu_dibayar = parseInt($('#total_perlu_dibayar').val());
+    $('#btn-kupon').click(function() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Kupon/cek_kupon'); ?>',
+            data: {
+                transaksi_id: <?= $this->uri->segment(3); ?>,
+                kupon: kupon.val(),
+            },
+            success: function(data) {
+                data = JSON.parse(data);
+                console.log(data);
+                if (data.alert) alert(data.msg);
+                if (!data.cont) return successOrNoKupon(false);
+                successOrNoKupon(data);
+            }
+        })
+    });
+    $('#kupon').focus(function() {
+        $(this).removeClass('bg-success text-white');
+    })
+
+    function successOrNoKupon(data) {
+        if (data) {
+            kupon.addClass('bg-success text-white');
+            $('#subtotal').text(data.subtotal);
+            $('#diskon').text(data.diskon);
+            $('#total').text(data.total);
+            document.getElementById('part-bayar').scrollIntoView({
+                block: 'start',
+                behavior: 'smooth'
+            });
+        } else {
+            kupon.addClass('bg-pink');
+            setTimeout(function() {
+                kupon.removeClass('bg-pink');
+                kupon.focus();
+            }, 600);
+        }
+    }
 
     function pilihGambar() {
         if (confirm('Anda yakin ingin memilih varian ini?')) {
