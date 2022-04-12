@@ -305,11 +305,11 @@
                             <b>Nama Produk</b>
                             <p><?= $p['product_nama']; ?></p>
                             <b>Harga satuan</b>
-                            <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Jumlah dipesan</b>
                             <p><?= $o['transaksi_jumlah']; ?></p>
                             <b>Total harga</b>
-                            <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Keterangan Pesanan</b>
                             <p><?= $o['transaksi_keterangan'] ?? 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
@@ -668,16 +668,16 @@
                         <hr>
                         <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
                         <b>Harga</b>
-                        <p>Rp<?= number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                        <p>Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                         <?php if ($o['transaksi_paket'] == '1') : ?>
                             <b>Ongkir</b>
-                            <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
+                            <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                         <?php endif ?>
                         <b>Total perlu dibayar jika lunas</b>
-                        <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
+                        <p>Rp<?= number_format($total ?? 0, 2, ',', '.') ?></p>
                         <?php if ($total >= 1000000) : ?>
                             <b>Total perlu dibayar jika DP/uang muka</b>
-                            <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                            <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                         <?php endif; ?>
                         <hr>
                         <b>Bukti Transfer</b>
