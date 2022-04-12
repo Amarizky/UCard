@@ -1567,4 +1567,29 @@ HTML
         $this->db->where('transaksi_id', $id);
         $this->db->update('tbl_transaksi', $data);
     }
+    function upload_foto_resi()
+    {
+        $id = $this->input->post('id');
+        $transaksi_id = $this->input->post('transaksi_id');
+        $foto_resi = $_FILES['foto_resi']['name'];
+        $config['upload_path']          = './foto_resi/';
+        $config['allowed_types']        = 'jpg|jpeg|png';
+        $config['max_size']             = 0;
+        $config['remove_spaces']        = FALSE;
+        $config['encrypt_name'] = TRUE;
+        $this->load->library('upload', $config);
+        if ($this->upload->do_upload('foto_resi')) {
+            $this->upload->data();
+        }
+
+        $a = $this->upload->data('file_name');
+
+        $data = [
+            'transaksi_foto_resi' => $a
+        ];
+
+        $this->db->where('transaksi_id', $transaksi_id);
+        $this->db->update('tbl_transaksi', $data);
+        redirect('Order/detail/' . $transaksi_id);
+    }
 }
