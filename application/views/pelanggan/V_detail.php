@@ -279,11 +279,11 @@
                             <b>Keterangan Produk</b>
                             <p><?= !empty($p['product_keterangan']) && !is_null($p['product_keterangan']) ? $p['product_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Harga satuan</b>
-                            <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Jumlah dipesan</b>
                             <p><?= $o['transaksi_jumlah']; ?></p>
                             <b>Total dipesan</b>
-                            <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Keterangan Pesanan</b>
                             <p><?= !empty($o['transaksi_keterangan']) && !is_null($o['transaksi_keterangan']) ? $o['transaksi_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
@@ -643,20 +643,34 @@
                         </div>
                         <hr>
                         <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
+                        <?php $k = @$this->db->where('kupon_id', $o['transaksi_kupon_id'])->get('tbl_kupon')->row_array(); ?>
+                        <?php $diskon = @$k['kupon_fixed'] ? $k['kupon_fixed'] : $o['transaksi_harga'] * @$k['kupon_persentase'] / 100; ?>
                         <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
                             <h3>Harga belum ditentukan. Harap tunggu sampai Admin menentukan harga yang perlu Anda bayar.</h3>
                         <?php else : ?>
-                            <b>Harga</b>
-                            <p>Rp<?= number_format($o['transaksi_harga'], 2, ',', '.') ?></p>
+                            <h3>Kupon</h3>
+                            <p>Punya kupon? Masukkan di sini!</p>
+                            <div class="form-group">
+                                <input class="form-control" style="text-transform: uppercase;" type="text" id="kupon" placeholder="Masukkan kupon di sini" value="<?= @$k['kupon_kode']; ?>">
+                                <br>
+                                <button class="btn btn-primary w-100" id="btn-kupon">Cek</button>
+                            </div>
+                            <hr id="part-bayar">
+                            <h3>Perhitungan Harga</h3>
+                            <b>Subtotal</b>
+                            <p id="subtotal">Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.') ?></p>
+                            <b>Diskon</b>
+                            <p id="diskon">Rp<?= number_format($diskon ?? 0, 2, ',', '.') ?></p>
                             <?php if ($o['transaksi_paket'] == '1') : ?>
                                 <b>Ongkir</b>
-                                <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
+                                <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                             <?php endif ?>
                             <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
-                            <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
+                            <p id="total">Rp<?= number_format($o['transaksi_kupon_id'] ? $total - $diskon : $total ?? 0, 2, ',', '.') ?></p>
+                            <input type="hidden" id="total_perlu_dibayar" value="<?= $total; ?>">
                             <?php if ($total >= 1000000) : ?>
                                 <b>Total perlu dibayar jika DP/uang muka</b>
-                                <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                                <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                             <?php endif; ?>
                         <?php endif ?>
                         <hr>
@@ -668,6 +682,7 @@
                         <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
                             <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="transaksi_id">
                             <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
+                            <h3>Pembayaran</h3>
                             <b>1. Pilih rekening transfer</b>
                             <table class="table table-bordered" id="pilih_bank">
                                 <thead>
@@ -682,21 +697,21 @@
                                     <?php foreach ($bank as $b) : ?>
                                         <?php if ($b['bank_nama'] === 'TUNAI') : ?>
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-center p-2">
                                                     <input type="radio" name="bank" id="bank<?= $b['bank_id']; ?>" value="<?= $b['bank_id']; ?>">
                                                 </td>
-                                                <td colspan="3"><b>TUNAI</b></td>
+                                                <td class="p-2" colspan="3"><b>TUNAI</b></td>
                                             </tr>
                                         <?php else : ?>
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-center p-2">
                                                     <input type="radio" name="bank" id="bank<?= $b['bank_id']; ?>" value="<?= $b['bank_id']; ?>">
                                                 </td>
-                                                <td>
+                                                <td class="p-2">
                                                     <img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
                                                 </td>
-                                                <td><?= $b['bank_atas_nama']; ?></td>
-                                                <td><?= $b['bank_no_rek']; ?></td>
+                                                <td class="p-2"><?= $b['bank_atas_nama']; ?></td>
+                                                <td class="p-2"><?= $b['bank_no_rek']; ?></td>
                                             </tr>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
@@ -717,7 +732,6 @@
                                     <label for="file"><b>4. Bukti transfer</b></label>
                                     <input id="file" type="file" name="bukti" class="form-control" required>
                                 </div>
-                                <br>
                                 <button type="submit" style="width: 100%;" class="btn btn-primary">Kirim</button>
                             <?php endif; ?>
                         </form>
@@ -1292,6 +1306,64 @@
             inp.checked = true;
         });
     });
+
+    var kupon = $('#kupon');
+    var total_perlu_dibayar = parseInt($('#total_perlu_dibayar').val());
+    $('#btn-kupon').click(function() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Kupon/cek_kupon'); ?>',
+            data: {
+                transaksi_id: <?= $this->uri->segment(3); ?>,
+                kupon: kupon.val(),
+            },
+            success: function(data) {
+                data = JSON.parse(data);
+                console.log(data);
+                if (data.alert) alert(data.msg);
+                if (!data.cont) return successOrNoKupon(false);
+                successOrNoKupon(data);
+            }
+        })
+    });
+
+    kupon.focus(function() {
+        $(this).removeClass('bg-success text-white');
+    })
+
+    function successOrNoKupon(data) {
+        if (data) {
+            var subtotal = $('#subtotal');
+            var diskon = $('#diskon');
+            var total = $('#total');
+
+            kupon.addClass('bg-success text-white');
+            subtotal.text(data.subtotal);
+            diskon.text(data.diskon);
+            total.text(data.total);
+
+            document.getElementById('part-bayar').scrollIntoView({
+                block: 'start',
+                behavior: 'smooth'
+            });
+
+            subtotal.addClass('text-danger');
+            diskon.addClass('text-danger');
+            total.addClass('text-danger');
+
+            setTimeout(function() {
+                subtotal.removeClass('text-danger');
+                diskon.removeClass('text-danger');
+                total.removeClass('text-danger');
+            }, 1000);
+        } else {
+            kupon.addClass('bg-pink');
+            setTimeout(function() {
+                kupon.removeClass('bg-pink');
+                kupon.focus();
+            }, 600);
+        }
+    }
 
     function pilihGambar() {
         if (confirm('Anda yakin ingin memilih varian ini?')) {

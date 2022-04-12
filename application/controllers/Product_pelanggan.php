@@ -34,7 +34,7 @@ class Product_pelanggan extends CI_Controller
 							<img class="card-img-top" src="<?= base_url('image/' . $p['product_image']); ?>">
 							<div class="card-body">
 								<h5 class="card-title"><?= $p['product_nama']; ?></h5>
-								<p class="card-text"><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+								<p class="card-text"><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
 							</div>
 						</div>
 					</a>
@@ -61,7 +61,7 @@ class Product_pelanggan extends CI_Controller
 						<img src="<?= base_url('image/' . $p['product_image']); ?>" alt="" class="card-img-top">
 						<div class="card-body">
 							<h5 class="card-title"><?= $p['product_nama']; ?></h5>
-							<div class="card-text"><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></div>
+							<div class="card-text"><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></div>
 						</div>
 					</div>
 				</a>

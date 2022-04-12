@@ -305,11 +305,11 @@
                             <b>Nama Produk</b>
                             <p><?= $p['product_nama']; ?></p>
                             <b>Harga satuan</b>
-                            <p><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Jumlah dipesan</b>
                             <p><?= $o['transaksi_jumlah']; ?></p>
                             <b>Total harga</b>
-                            <p><?= 'Rp' . number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                            <p><?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                             <b>Keterangan Pesanan</b>
                             <p><?= $o['transaksi_keterangan'] ?? 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
@@ -660,27 +660,32 @@
                             </div>
                         </div>
                     </div>
+                    <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
+                    <?php $k = @$this->db->where('kupon_id', $o['transaksi_kupon_id'])->get('tbl_kupon')->row_array(); ?>
+                    <?php $diskon = @$k['kupon_fixed'] ? $k['kupon_fixed'] : $o['transaksi_harga'] * @$k['kupon_persentase'] / 100; ?>
                     <div class="card-body">
                         <p>Silahkan ubah harga dan/atau ongkir jika diperlukan. Bukti transfer akan muncul setelah pelanggan mengunggah file bukti transfer.</p>
                         <hr>
                         <b>Metode pengiriman yang dipilih pelanggan</b>
                         <p><?= $o['transaksi_paket'] == '1' ? 'Kirim Paket' : 'Ambil Sendiri'; ?></p>
                         <hr>
-                        <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
-                        <b>Harga</b>
-                        <p>Rp<?= number_format($o['transaksi_harga'], 2, ',', '.'); ?></p>
+                        <h3>Perhitungan Harga</h3>
+                        <b>Subtotal</b>
+                        <p>Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
+                        <b>Diskon</b>
+                        <p>Rp<?= number_format($diskon ?? 0, 2, ',', '.') ?></p>
                         <?php if ($o['transaksi_paket'] == '1') : ?>
                             <b>Ongkir</b>
-                            <p>Rp<?= number_format($o['transaksi_ongkir'], 2, ',', '.') ?></p>
+                            <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                         <?php endif ?>
-                        <b>Total perlu dibayar jika lunas</b>
-                        <p>Rp<?= number_format($total, 2, ',', '.') ?></p>
+                        <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
+                        <p>Rp<?= number_format($o['transaksi_kupon_id'] ? $total - $diskon : $total ?? 0, 2, ',', '.') ?></p>
                         <?php if ($total >= 1000000) : ?>
                             <b>Total perlu dibayar jika DP/uang muka</b>
-                            <p>Rp<?= number_format($total * 0.5, 2, ',', '.') ?></p>
+                            <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                         <?php endif; ?>
                         <hr>
-                        <b>Bukti Transfer</b>
+                        <h3>Bukti Transfer</h3>
                         <?php if (!empty($o['transaksi_bukti'])) : ?>
                             <?php $bank = $this->db->where('bank_id', $o['transaksi_bank'])->get('tbl_bank')->row_array()['bank_nama']; ?>
                             <br>

@@ -176,7 +176,7 @@
                     <div class="row">
                         <div class="col">
                             <h5 class="card-title text-uppercase text-muted mb-0">Hasil Bulan Lalu</h5>
-                            <span class="h2 font-weight-bold mb-0"><?= 'Rp' . number_format($p_b_l['p_b_l'], 2, ',', '.'); ?></span>
+                            <span class="h2 font-weight-bold mb-0"><?= 'Rp' . number_format($p_b_l['p_b_l'] ?? 0, 2, ',', '.'); ?></span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
@@ -194,7 +194,7 @@
                     <div class="row">
                         <div class="col">
                             <h5 class="card-title text-uppercase text-muted mb-0">Hasil Bulan Ini</h5>
-                            <span class="h2 font-weight-bold mb-0"><?= 'Rp' . number_format($p_b_i['p_b_i'], 2, ',', '.'); ?></span>
+                            <span class="h2 font-weight-bold mb-0"><?= 'Rp' . number_format($p_b_i['p_b_i'] ?? 0, 2, ',', '.'); ?></span>
                         </div>
                         <div class="col-auto">
                             <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">

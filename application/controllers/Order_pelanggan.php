@@ -87,7 +87,7 @@ class Order_pelanggan extends CI_Controller
                         <b>Jumlah</b>
                         <p><?= $get['transaksi_jumlah']; ?></p>
                         <b>Harga</b>';
-                        <p><?= empty($get['transaksi_harga']) ? 'Harga belum ditentukan' : 'Rp' . number_format($get['transaksi_harga'], 2, ',', '.'); ?></p>
+                        <p><?= empty($get['transaksi_harga']) ? 'Harga belum ditentukan' : 'Rp' . number_format($get['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                         <br>
                         <b>Keterangan</b>
                         <p><?= $get['transaksi_keterangan']; ?></p>

@@ -39,7 +39,7 @@
                                     </td>
                                     <td><?= $p['product_kode'] ?></td>
                                     <td><?= $p['product_nama'] ?></td>
-                                    <td><?= 'Rp' . number_format($p['product_harga'], 2, ',', '.'); ?></td>
+                                    <td><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></td>
                                     <td><button id="<?= $p['product_id'] ?>" type="button" class="btn btn-info btn-sm detail" data-toggle="modal" data-target="#detail"><i class="fa fa-eye"></i></button></td>
                                     <td>
                                         <button id="<?= $p['product_id'] ?>" type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#edit<?= $p['product_id'] ?>"><i class="fa fa-pen"></i></button>

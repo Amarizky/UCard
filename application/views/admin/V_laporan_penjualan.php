@@ -41,7 +41,7 @@
                                     <td><?= $d['product_nama'] ?></td>
                                     <td><?= $d['transaksi_tanggal'] ?></td>
                                     <td><?= $d['transaksi_jumlah'] ?></td>
-                                    <td style="text-align: right;">Rp<?= number_format($d['transaksi_harga'], 2, ',', '.'); ?></td>
+                                    <td style="text-align: right;">Rp<?= number_format($d['transaksi_harga'] ?? 0, 2, ',', '.'); ?></td>
                                 </tr>
                             <?php
                             endforeach;
