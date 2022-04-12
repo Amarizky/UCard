@@ -669,7 +669,7 @@
                         <b>Metode pengiriman yang dipilih pelanggan</b>
                         <p><?= $o['transaksi_paket'] == '1' ? 'Kirim Paket' : 'Ambil Sendiri'; ?></p>
                         <hr>
-                        <?php $total = $o['transaksi_paket'] == '1' ? $o['transaksi_harga'] + $o['transaksi_ongkir'] : $o['transaksi_harga']; ?>
+                        <h3>Perhitungan Harga</h3>
                         <b>Subtotal</b>
                         <p>Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
                         <b>Diskon</b>
@@ -685,7 +685,7 @@
                             <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                         <?php endif; ?>
                         <hr>
-                        <b>Bukti Transfer</b>
+                        <h3>Bukti Transfer</h3>
                         <?php if (!empty($o['transaksi_bukti'])) : ?>
                             <?php $bank = $this->db->where('bank_id', $o['transaksi_bank'])->get('tbl_bank')->row_array()['bank_nama']; ?>
                             <br>

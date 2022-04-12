@@ -648,7 +648,7 @@
                         <?php if ($o['transaksi_harga'] == NULL || $o['transaksi_harga'] == '0') : ?>
                             <h3>Harga belum ditentukan. Harap tunggu sampai Admin menentukan harga yang perlu Anda bayar.</h3>
                         <?php else : ?>
-                            <b>Kupon</b>
+                            <h3>Kupon</h3>
                             <p>Punya kupon? Masukkan di sini!</p>
                             <div class="form-group">
                                 <input class="form-control" style="text-transform: uppercase;" type="text" id="kupon" placeholder="Masukkan kupon di sini" value="<?= @$k['kupon_kode']; ?>">
@@ -656,6 +656,7 @@
                                 <button class="btn btn-primary w-100" id="btn-kupon">Cek</button>
                             </div>
                             <hr id="part-bayar">
+                            <h3>Perhitungan Harga</h3>
                             <b>Subtotal</b>
                             <p id="subtotal">Rp<?= number_format($o['transaksi_harga'] ?? 0, 2, ',', '.') ?></p>
                             <b>Diskon</b>
@@ -681,6 +682,7 @@
                         <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
                             <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="transaksi_id">
                             <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
+                            <h3>Pembayaran</h3>
                             <b>1. Pilih rekening transfer</b>
                             <table class="table table-bordered" id="pilih_bank">
                                 <thead>
@@ -695,21 +697,21 @@
                                     <?php foreach ($bank as $b) : ?>
                                         <?php if ($b['bank_nama'] === 'TUNAI') : ?>
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-center p-2">
                                                     <input type="radio" name="bank" id="bank<?= $b['bank_id']; ?>" value="<?= $b['bank_id']; ?>">
                                                 </td>
-                                                <td colspan="3"><b>TUNAI</b></td>
+                                                <td class="p-2" colspan="3"><b>TUNAI</b></td>
                                             </tr>
                                         <?php else : ?>
                                             <tr>
-                                                <td class="text-center">
+                                                <td class="text-center p-2">
                                                     <input type="radio" name="bank" id="bank<?= $b['bank_id']; ?>" value="<?= $b['bank_id']; ?>">
                                                 </td>
-                                                <td>
+                                                <td class="p-2">
                                                     <img style="width: 60px;" src="<?= base_url('assets/img/bank/' . $b['bank_image']) ?>">
                                                 </td>
-                                                <td><?= $b['bank_atas_nama']; ?></td>
-                                                <td><?= $b['bank_no_rek']; ?></td>
+                                                <td class="p-2"><?= $b['bank_atas_nama']; ?></td>
+                                                <td class="p-2"><?= $b['bank_no_rek']; ?></td>
                                             </tr>
                                         <?php endif; ?>
                                     <?php endforeach; ?>
@@ -1295,20 +1297,36 @@
             }
         })
     });
-    $('#kupon').focus(function() {
+
+    kupon.focus(function() {
         $(this).removeClass('bg-success text-white');
     })
 
     function successOrNoKupon(data) {
         if (data) {
+            var subtotal = $('#subtotal');
+            var diskon = $('#diskon');
+            var total = $('#total');
+
             kupon.addClass('bg-success text-white');
-            $('#subtotal').text(data.subtotal);
-            $('#diskon').text(data.diskon);
-            $('#total').text(data.total);
+            subtotal.text(data.subtotal);
+            diskon.text(data.diskon);
+            total.text(data.total);
+
             document.getElementById('part-bayar').scrollIntoView({
                 block: 'start',
                 behavior: 'smooth'
             });
+
+            subtotal.addClass('text-danger');
+            diskon.addClass('text-danger');
+            total.addClass('text-danger');
+
+            setTimeout(function() {
+                subtotal.removeClass('text-danger');
+                diskon.removeClass('text-danger');
+                total.removeClass('text-danger');
+            }, 1000);
         } else {
             kupon.addClass('bg-pink');
             setTimeout(function() {
