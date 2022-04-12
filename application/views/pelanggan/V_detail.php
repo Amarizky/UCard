@@ -854,15 +854,26 @@
                                         <div class="col-sm-8">
                                             <input type="text" readonly class="form-control-plaintext" id="noresi" value="<?= (is_null($resi['transaksi_resi']) || empty($resi['transaksi_resi']) ? 'Belum ada resi' : $resi['transaksi_resi']); ?>">
                                         </div>
+                                        <label class="col-sm-4 col-form-label">Foto Resi :</label>
+                                        <div class="col-sm-4">
+                                            <?php if (!empty($o['transaksi_foto_resi'])) : ?>
+                                                <button class="btn btn-primary" data-toggle="modal" data-target="#foto_resi"> Lihat Foto
+                                                </button>
+                                            <?php else : ?>
+                                                <p>Admin Belum Mengunggah Foto Resi</p>
+                                            <?php endif ?>
+                                        </div>
                                     </div>
                                 </div>
-                                <?php if (!is_null($resi['transaksi_resi']) && !empty($resi['transaksi_resi'])) : ?>
-                                    <a class="btn btn-success" style="width:100%;" style="text-align: center;" href="https://cekresi.com/?v=wdg&noresi=<?= $resi['transaksi_resi'] ?>">
-                                        Cek Resi
-                                    </a>
-                                <?php endif; ?>
+                                <p></p>
+                                <div>
+                                    <?php if (!is_null($resi['transaksi_resi']) && !empty($resi['transaksi_resi'])) : ?>
+                                        <a class="btn btn-success" style="width:100%;" style="text-align: center;" href="https://cekresi.com/?v=wdg&noresi=<?= $resi['transaksi_resi'] ?>">
+                                            Cek Resi
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
                             <?php endif; ?>
-                            <br>
                             <br>
                             <div id="paket_terima">
                                 <!-- <button style="width:100%;display:none;" class="btn btn-primary terima">Paket sudah diterima</button> -->
@@ -1255,7 +1266,25 @@
 </div>
 <?php endif ?>
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
-
+<div class="modal fade" id="foto_resi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Bukti Pengiriman</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img style="width: 100%;" src="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>">
+            </div>
+            <div class="modal-footer">
+                <a href="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function() {
         $('#pilih_bank tbody').find('tr').on('click', function(e) {

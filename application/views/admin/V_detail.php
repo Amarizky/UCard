@@ -887,6 +887,18 @@
                                                 <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Update</button>
                                             </div>
                                         </form>
+                                        <b>Foto Resi</b>
+                                        <form method="post" action="<?= base_url('Order/upload_foto_resi') ?>" enctype="multipart/form-data">
+                                            <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                                            <?php if ($o['transaksi_foto_resi']) : ?>
+
+                                                <img style="width: 100%;" src="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>">
+
+                                                <br>
+                                            <?php endif; ?>
+                                            <input type="file" id="foto_resi" name="foto_resi" class="form-control" onchange="this.form.submit()" required><br>
+                                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan Sebagai Bukti Resi</button>
+                                        </form>
                                     <?php endif; ?>
                                     <br>
                                     <button style="width:100%;" class="btn btn-primary terima">Paket sudah diterima ?</button>
@@ -3483,6 +3495,25 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
         date_default_timezone_set('Asia/Jakarta');
         echo 'Dicetak Pada ' . date('d-m-Y H:i:s');
         ?>
+    </div>
+</div>
+<div class="modal fade" id="foto_resi" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Bukti Pengiriman</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img style="width: 100%;" src="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>">
+            </div>
+            <div class="modal-footer">
+                <a href="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>" class="btn btn-primary"><i class="fa fa-download"></i> Download</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="modal fade" id="bukti" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
