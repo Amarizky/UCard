@@ -265,7 +265,7 @@ HTML;
     }
 
     return [
-        'subject' => $subject,
-        'message' => $message,
+        $subject,
+        $message,
     ];
 }
