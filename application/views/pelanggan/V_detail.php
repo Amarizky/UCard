@@ -746,7 +746,7 @@
                         <h3 class="mb-0">Approval</h3>
                     </div>
                     <div class="card-body">
-                        <?php if (!isset($o['transaksi_approval_1']) || !isset($o['transaksi_approval_2']) || !isset($o['transaksi_approval_3'])) : ?>
+                        <?php if (!isset($o['transaksi_approval_1'])) : ?>
                             <div>Harap tunggu sampai Admin mengunggah foto untuk Anda pilih</div>
                         <?php else : ?>
                             <form id="formApproval" method="post" action="<?= base_url('Order_pelanggan/upload_approval_acc') ?>" enctype="multipart/form-data">
@@ -764,22 +764,26 @@
                                     <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>">
                                     <br>
                                 </label>
-                                <br>
-                                <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required onclick="pilihGambar()">
-                                <label for="apv2">Gelap</label>
-                                <br>
-                                <label for="apv2">
-                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
+                                <?php if (!empty($o['transaksi_approval_2'])) : ?>
                                     <br>
-                                </label>
-                                <br>
-                                <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required onclick="pilihGambar()">
-                                <label for="apv3">Terang</label>
-                                <br>
-                                <label for="apv3">
-                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
+                                    <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required onclick="pilihGambar()">
+                                    <label for="apv2">Gelap</label>
                                     <br>
-                                </label>
+                                    <label for="apv2">
+                                        <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
+                                        <br>
+                                    </label>
+                                <?php endif; ?>
+                                <?php if (!empty($o['transaksi_approval_3'])) : ?>
+                                    <br>
+                                    <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required onclick="pilihGambar()">
+                                    <label for="apv3">Terang</label>
+                                    <br>
+                                    <label for="apv3">
+                                        <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
+                                        <br>
+                                    </label>
+                                <?php endif; ?>
                                 <br>
                                 <input type="radio" value="4" name="approval" id="apv4" <?= $o['transaksi_approval_acc'] == '4' ? ' checked' : null; ?> required onclick="pilihGambar()">
                                 <label for="apv4">Revisi</label>

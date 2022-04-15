@@ -708,7 +708,7 @@
                         <h3 class="mb-0">Approval</h3>
                     </div>
                     <div class="card-body">
-                        <div>Silahkan unggah ketiga file agar dapat dipilih oleh pelanggan.</div>
+                        <div>Silahkan unggah minimal 1 file agar dapat dipilih oleh pelanggan.</div>
                         <hr>
                         <div>
                             <?php
