@@ -441,12 +441,6 @@ class Order extends CI_Controller
         $id = $this->input->post('id');
         $this->db->query("DELETE FROM tbl_design_kirim WHERE design_id = '$id' ");
     }
-    function test()
-    {
-        $this->load->helper('email');
-        print_r(json_encode(get_email('1', '4')));
-        die();
-    }
     function status()
     {
         $id_status = $this->input->post('id_status');
