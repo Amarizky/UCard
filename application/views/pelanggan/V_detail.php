@@ -278,12 +278,14 @@
                             <p><?= $p['product_keunggulan']; ?></p>
                             <b>Keterangan Produk</b>
                             <p><?= !empty($p['product_keterangan']) && !is_null($p['product_keterangan']) ? $p['product_keterangan'] : 'Tidak ada keterangan'; ?></p>
-                            <b>Harga satuan</b>
-                            <p><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
+                            <!--<b>Harga satuan</b>
+                            <p><//?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); 
+                                ?></p>-->
                             <b>Jumlah dipesan</b>
                             <p><?= $o['transaksi_jumlah']; ?></p>
-                            <b>Total dipesan</b>
-                            <p><?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
+                            <!--<b>Total dipesan</b>
+                            <p><//?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); 
+                                ?></p>-->
                             <b>Keterangan Pesanan</b>
                             <p><?= !empty($o['transaksi_keterangan']) && !is_null($o['transaksi_keterangan']) ? $o['transaksi_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
