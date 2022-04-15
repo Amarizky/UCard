@@ -441,6 +441,12 @@ class Order extends CI_Controller
         $id = $this->input->post('id');
         $this->db->query("DELETE FROM tbl_design_kirim WHERE design_id = '$id' ");
     }
+    function test()
+    {
+        $this->load->helper('email');
+        print_r(json_encode(get_email('1', '4')));
+        die();
+    }
     function status()
     {
         $id_status = $this->input->post('id_status');
@@ -460,295 +466,37 @@ class Order extends CI_Controller
         $pelanggan = $this->db->query("SELECT p.*, t.* FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
         $transaksi_produksi_status_id = $this->db->query("SELECT max(transaksi_produksi_status_id) as tpsi FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ")->row_array()['tpsi'];
         $s = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$status_urut' ")->row_array();
-
-        $detailProduk = base_url('Order_pelanggan/detail/$id');
-        $logo = base_url('assets/img/logo-kartuidcard-white.png');
+        $tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
 
         if ($keputusan == '1') {
-            $k = 'DITERIMA';
-            $tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
+            // DITERIMA
             $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan' WHERE transaksi_status_id = '$id_status' AND transaksi_order_id = '$id' ");
 
             switch ($id_status) {
                 case "1":
-                    $dataVerif = array(
-                        'transaksi_id'  => $id,
-                        'verif_pesanan' => $user
-                    );
-                    $this->db->insert('tbl_verifikasi', $dataVerif);
-
-                    //kirim email telah terverifikasi
-                    $this->load->library('email');
-
-                    $this->email->clear();
-                    $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('noreply@ucard.id');
-                    $this->email->subject('UCard Surabaya - Pesananmu sudah diverifikasi!');
-                    $this->email->set_mailtype('html');
-                    $this->email->message(
-                        <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCard - Pesananmu sudah diverifikasi</title>
-    <style>
-    body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color:#4caf50;font-size:16px;border-radius:8px;border:0;width:180px;height:40px;cursor:pointer}.container{background-image:linear-gradient(87deg,#5e72e4 0,#825ee4 100%);min-width:480px;max-width:700px;border-radius:8px;height:auto;padding-bottom:10px}.body{padding:20px;background-color:#fff;text-align:start;border-radius:8px}.code{text-align:center;color:#000;font-size:18px}.m-auto{margin:auto}.m-10{margin:10px}.p-10{padding:10px}.text-center{text-align:center}.w-100{width:100%}
-    </style>
-</head>
-
-<body>
-    <div class="text-center">
-        <div class="container">
-            <div class="m-auto p-10 text-center">
-                <img src="{$logo}" alt="">
-            </div>
-            <div class="m-10 body">
-                <h2 class="text-center">Halo, {$pelanggan["pelanggan_nama"]}!</h2>
-                <br>
-                <p>Pesananmu pada tanggal {$pelanggan["transaksi_tanggal"]} sudah diverifikasi oleh {$user} nih! Upload desainmu untuk lanjut ke tahap berikutnya!</p>
-                <p>Tekan tombol di bawah untuk membuka halaman detail produk.</p>
-                <div class="text-center">
-                    <a href="{$detailProduk}">
-                        <button class="btn">Detail Produk</button>
-                    </a>
-                </div>
-            </div>
-            <p style="color: white;">UCard Surabaya<br>Jl. Rungkut Harapan Blk. F No.008, Kali Rungkut, Kec. Rungkut, Kota SBY, Jawa Timur 60293</p>
-        </div>
-    </div>
-</body>
-
-</html>
-HTML
-                    );
-                    $this->email->send();
+                    $this->db->insert('tbl_verifikasi', ['transaksi_id'  => $id, 'verif_pesanan' => $user]);
                     break;
                 case "2":
                     $this->db->set('verif_desain', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
-                    //kirim email desain diterima
-                    $this->load->library('email');
-
-                    $this->email->clear();
-                    $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('noreply@ucard.id');
-                    $this->email->subject('UCard Surabaya - Desainmu sudah diverifikasi!');
-                    $this->email->set_mailtype('html');
-                    $this->email->message(
-                        <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCard - Desainmu sudah diverifikasi</title>
-    <style>
-    body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color:#4caf50;font-size:16px;border-radius:8px;border:0;width:180px;height:40px;cursor:pointer}.container{background-image:linear-gradient(87deg,#5e72e4 0,#825ee4 100%);min-width:480px;max-width:700px;border-radius:8px;height:auto;padding-bottom:10px}.body{padding:20px;background-color:#fff;text-align:start;border-radius:8px}.code{text-align:center;color:#000;font-size:18px}.m-auto{margin:auto}.m-10{margin:10px}.p-10{padding:10px}.text-center{text-align:center}.w-100{width:100%}
-    </style>
-</head>
-
-<body>
-    <div class="text-center">
-        <div class="container">
-            <div class="m-auto p-10 text-center">
-                <img src="{$logo}" alt="">
-            </div>
-            <div class="m-10 body">
-                <h2 class="text-center">Halo, {$pelanggan["pelanggan_nama"]}!</h2>
-                <br>
-                <p>Desainmu pada tanggal {$pelanggan["transaksi_tanggal"]} sudah diverifikasi oleh {$user} nih! Ayo cek sekarang juga untuk melanjutkan ke tahap berikutnya!</p>
-                <p>Tekan tombol di bawah untuk membuka halaman detail produk.</p>
-                <div class="text-center">
-                    <a href="{$detailProduk}">
-                        <button class="btn">Detail Produk</button>
-                    </a>
-                </div>
-            </div>
-            <p style="color: white;">UCard Surabaya<br>Jl. Rungkut Harapan Blk. F No.008, Kali Rungkut, Kec. Rungkut, Kota SBY, Jawa Timur 60293</p>
-        </div>
-    </div>
-</body>
-
-</html>
-HTML
-                    );
-                    $this->email->send();
                     break;
                 case "3":
                     $this->db->set('verif_pembayaran', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
-                    //kirim email pembayaran diterima
-                    $this->load->library('email');
-
-                    $this->email->clear();
-                    $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('noreply@ucard.id');
-                    $this->email->subject('UCard Surabaya - Pembayaranmu sudah diverifikasi!');
-                    $this->email->set_mailtype('html');
-                    $this->email->message(
-                        <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCard - Pembayaranmu sudah diverifikasi</title>
-    <style>
-    body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color:#4caf50;font-size:16px;border-radius:8px;border:0;width:180px;height:40px;cursor:pointer}.container{background-image:linear-gradient(87deg,#5e72e4 0,#825ee4 100%);min-width:480px;max-width:700px;border-radius:8px;height:auto;padding-bottom:10px}.body{padding:20px;background-color:#fff;text-align:start;border-radius:8px}.code{text-align:center;color:#000;font-size:18px}.m-auto{margin:auto}.m-10{margin:10px}.p-10{padding:10px}.text-center{text-align:center}.w-100{width:100%}
-    </style>
-</head>
-
-<body>
-    <div class="text-center">
-        <div class="container">
-            <div class="m-auto p-10 text-center">
-                <img src="{$logo}" alt="">
-            </div>
-            <div class="m-10 body">
-                <h2 class="text-center">Halo, {$pelanggan["pelanggan_nama"]}!</h2>
-                <br>
-                <p>Pembayaranmu pada tanggal {$pelanggan["transaksi_tanggal"]} sudah diverifikasi oleh {$user} nih! Tunggu sampai admin upload foto approval ya!</p>
-                <p>Tekan tombol di bawah untuk membuka halaman detail produk.</p>
-                <div class="text-center">
-                    <a href="{$detailProduk}">
-                        <button class="btn">Detail Produk</button>
-                    </a>
-                </div>
-            </div>
-            <p style="color: white;">UCard Surabaya<br>Jl. Rungkut Harapan Blk. F No.008, Kali Rungkut, Kec. Rungkut, Kota SBY, Jawa Timur 60293</p>
-        </div>
-    </div>
-</body>
-
-</html>
-HTML
-                    );
-                    $this->email->send();
                     break;
                 case "4":
                     $this->db->set('verif_approval', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     $transaksi_produksi_status_id = '51';
-
-                    //kirim email pembayaran diterima
-                    $this->load->library('email');
-
-                    $this->email->clear();
-                    $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('noreply@ucard.id');
-                    $this->email->subject('UCard Surabaya - Pilih Desain Cetakanmu');
-                    $this->email->set_mailtype('html');
-                    $this->email->message(
-                        <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCard - Selesaikan Proses Approval</title>
-    <style>
-    body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color:#4caf50;font-size:16px;border-radius:8px;border:0;width:180px;height:40px;cursor:pointer}.container{background-image:linear-gradient(87deg,#5e72e4 0,#825ee4 100%);min-width:480px;max-width:700px;border-radius:8px;height:auto;padding-bottom:10px}.body{padding:20px;background-color:#fff;text-align:start;border-radius:8px}.code{text-align:center;color:#000;font-size:18px}.m-auto{margin:auto}.m-10{margin:10px}.p-10{padding:10px}.text-center{text-align:center}.w-100{width:100%}
-    </style>
-</head>
-
-<body>
-
-    <div class="text-center">
-        <div class="container">
-            <div class="m-auto p-10 text-center">
-                <img src="{$logo}" alt="">
-            </div>
-            <div class="m-10 body">
-                <h2 class="text-center">Halo, {$pelanggan["pelanggan_nama"]}!</h2>
-                <br>
-                <p>Proses pemilihan desaimu {$pelanggan["transaksi_tanggal"]} sudah diverifikasi oleh {$user} nih! Pilih desainnya sekarang untuk melanjutkan ke proses selanjutnya!</p>
-                <p>Tekan tombol di bawah untuk membuka halaman detail produk.</p>
-                <div class="text-center">
-                    <a href="{$detailProduk}">
-                        <button class="btn">Detail Produk</button>
-                    </a>
-                </div>
-            </div>
-            <p style="color: white;">UCard Surabaya<br>Jl. Rungkut Harapan Blk. F No.008, Kali Rungkut, Kec. Rungkut, Kota SBY, Jawa Timur 60293</p>
-        </div>
-    </div>
-</body>
-
-</html>
-HTML
-                    );
-                    $this->email->send();
                     break;
                 case '51':
-                    $transaksi_produksi_status_id = '52';
-                    break;
                 case '52':
-                    $transaksi_produksi_status_id = '53';
-                    break;
                 case '53':
-                    $transaksi_produksi_status_id = '54';
-                    break;
                 case '54':
-                    $transaksi_produksi_status_id = '55';
+                    $transaksi_produksi_status_id = $id_status + 1;
                     break;
                 case '55':
                     $this->db->set('verif_cetak', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     $this->db->set('transaksi_status', '1')->where(['transaksi_status_id' => '5', 'transaksi_order_id' => $id])->update('tbl_status_transaksi');
                     $status_urut = '6';
-
-                    //produk selesai dicetak
-                    $this->load->library('email');
-
-                    $this->email->clear();
-                    $this->email->to($pelanggan['pelanggan_email']);
-                    $this->email->from('noreply@ucard.id');
-                    $this->email->subject('UCard Surabaya - Pesananmu sudah selesai dicetak!');
-                    $this->email->set_mailtype('html');
-                    $this->email->message(
-                        <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCARD - Pesananmu sudah selesai dicetak</title>
-    <style>
-        body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color:#4caf50;font-size:16px;border-radius:8px;border:0;width:180px;height:40px;cursor:pointer}.container{background-image:linear-gradient(87deg,#5e72e4 0,#825ee4 100%);min-width:480px;max-width:700px;border-radius:8px;height:auto;padding-bottom:10px}.body{padding:20px;background-color:#fff;text-align:start;border-radius:8px}.code{text-align:center;color:#000;font-size:18px}.m-auto{margin:auto}.m-10{margin:10px}.p-10{padding:10px}.text-center{text-align:center}.w-100{width:100%}
-    </style>
-</head>
-
-<body>
-    <div class="text-center">
-        <div class="container">
-            <div class="m-auto p-10 text-center">
-                <img src="{$logo}" alt="">
-            </div>
-            <div class="m-10 body">
-                <h2 class="text-center">Halo, {$pelanggan["pelanggan_nama"]}!</h2>
-                <br>
-                <p>Pesananmu pada tanggal {$pelanggan["transaksi_tanggal"]} sudah selesai dicetak nih! Ayo cek sekarang juga!</p>
-                <p>Tekan tombol di bawah untuk membuka halaman detail produk.</p>
-                <div class="text-center">
-                    <a href="{$detailProduk}">
-                        <button class="btn">Detail Produk</button>
-                    </a>
-                </div>
-            </div>
-            <p style="color: white;">UCard Surabaya<br>Jl. Rungkut Harapan Blk. F No.008, Kali Rungkut, Kec. Rungkut, Kota SBY, Jawa Timur 60293</p>
-        </div>
-    </div>
-</body>
-
-</html>
-HTML
-                    );
-                    $this->email->send();
                     break;
-
                 default:
                     break;
             }
@@ -777,57 +525,21 @@ HTML
                     ->update('tbl_transaksi');
             }
         } else {
-            $k = 'DITOLAK';
-            $tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
+            // DITOLAK
             $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan', transaksi_tanggal = '$tanggal_ini', transaksi_tanggal_hangus = '$tanggal_hangus' WHERE transaksi_status_id = '$id_status' AND transaksi_order_id = '$id' ");
-
-            $this->load->library('email');
-            $this->email->clear();
-            $this->email->to($pelanggan['pelanggan_email']);
-            $this->email->from('noreply@ucard.id');
-            $this->email->subject('UCard Surabaya - Pesananmu ditolak!');
-            $this->email->set_mailtype('html');
-            $this->email->message(
-                <<<HTML
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UCARD - Pesananmu ditolak</title>
-    <style>
-        body{background-color:#f5f5f5;text-align:center}.btn{color:#fff;background-color:#4caf50;font-size:16px;border-radius:8px;border:0;width:180px;height:40px;cursor:pointer}.container{background-image:linear-gradient(87deg,#5e72e4 0,#825ee4 100%);min-width:480px;max-width:700px;border-radius:8px;height:auto;padding-bottom:10px}.body{padding:20px;background-color:#fff;text-align:start;border-radius:8px}.code{text-align:center;color:#000;font-size:18px}.m-auto{margin:auto}.m-10{margin:10px}.p-10{padding:10px}.text-center{text-align:center}.w-100{width:100%}
-    </style>
-</head>
-
-<body>
-    <div class="text-center">
-        <div class="container">
-            <div class="m-auto p-10 text-center">
-                <img src="{$logo}" alt="">
-            </div>
-            <div class="m-10 body">
-                <h2 class="text-center">Halo, {$pelanggan["pelanggan_nama"]}!</h2>
-                <br>
-                <p>Pesananmu pada tanggal {$pelanggan["transaksi_tanggal"]} ditolak! Silahkan perbaiki pesananmu agar proses dapat dilanjutkan.</p>
-                <p>Tekan tombol di bawah untuk membuka halaman detail produk.</p>
-                <div class="text-center">
-                    <a href="{$detailProduk}">
-                        <button class="btn">Detail Produk</button>
-                    </a>
-                </div>
-            </div>
-            <p style="color: white;">UCard Surabaya<br>Jl. Rungkut Harapan Blk. F No.008, Kali Rungkut, Kec. Rungkut, Kota SBY, Jawa Timur 60293</p>
-        </div>
-    </div>
-</body>
-
-</html>
-HTML
-            );
-            $this->email->send();
         }
+
+        // kirim email
+        $this->load->library('email');
+
+        list($subject, $message) = get_email($id, $id_status, $user, $pelanggan["pelanggan_nama"], $pelanggan["transaksi_tanggal"]);
+        $this->email->clear();
+        $this->email->to($pelanggan['pelanggan_email']);
+        $this->email->from('noreply@ucard.id');
+        $this->email->subject($subject);
+        $this->email->set_mailtype('html');
+        $this->email->message($message);
+        $this->email->send();
     }
     function paket()
     {
@@ -1067,7 +779,7 @@ HTML
                                 <input id="warna13" type="radio" placeholder="warna" name="warna" value="13" <?= $o['transaksi_warna'] == '13' ? 'checked' : ''; ?> required>
                                 <label for="warna13">Custom (isi di keterangan)</label>
                             </div>
-                            <div class="grid-item p-0 pb-3">
+                            <div class="grid-item p-0 pb-3" id="varian_karet">
                                 <b>Varian Casing Karet</b>
                                 <br><br>
                                 <input id="ck1" type="radio" placeholder="ck" name="ck" value="1" <?= $o['transaksi_ck'] == '1' ? 'checked' : ''; ?> required>
@@ -1102,6 +814,14 @@ HTML
                                 <label for="ambil">Ambil Sendiri</label>
                             </div>
                         </div>
+                        <script>
+                            if ($('#casing3').is(':checked')) $('#varian_karet').show();
+                            else $('#varian_karet').hide();
+                            $('input[name="casing"]').click(function() {
+                                if ($('#casing3').is(':checked')) $('#varian_karet').show();
+                                else $('#varian_karet').hide();
+                            });
+                        </script>
                     <?php elseif ($p['product_tipe'] == '2') : ?>
                         <!-- Tali -->
                         <div class="grid-container">
@@ -1351,72 +1071,7 @@ HTML
                 $id = $h['transaksi_order_id'];
                 $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = 0 WHERE transaksi_id = '$id' ");
                 $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = 4 WHERE transaksi_id = '$id_s' ");
-                // $e = $this->db->query("SELECT * FROM tbl_transaksi JOIN tbl_pelanggan ON tbl_transaksi.transaksi_nohp = tbl_pelanggan.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
-                //     $mail = '<html lang="en">
-                // <head>
-                // </head>
-                // <body>
-                //     <center>
-                //     <img src="https://amarizky.com/assets/img/logo-kartuidcard-blue.png" alt="">
-                //     <hr>
-                //     <br>
 
-                //     <h1 style="font-weight:bold;">BEMBELIAN GAGAL</h1>
-                //     <br>
-                //     <table>
-                //     <tr>
-                //     <td>Product<td>
-                //     <td> : <td>
-                //     <td>'.$e['product_nama'].'<td>
-                //     </tr>
-                //     <tr>
-                //     <td>Jumlah<td>
-                //     <td> : <td>
-                //     <td>'.$e['transaksi_jumlah'].'<td>
-                //     </tr>
-                //     <tr>
-                //     <td>Harga<td>
-                //     <td> : <td>
-                //     <td>Rp. '.number_format($e['transaksi_harga'] ?? 0).'<td>
-                //     </tr>
-                //     </table
-                //     <br>
-                //     <a href="'.base_url('Order_pelanggan/detail/'.$id.'/'.$e['pelanggan_password']).'" style="background-color: blue;
-                //     border: none;
-                //     color: white;
-                //     border-radius:10px;
-                //     padding: 15px 32px;
-                //     text-align: center;
-                //     text-decoration: none;
-                //     display: inline-block;
-                //     font-size: 16px;
-                //     margin: 4px 2px;
-                //     cursor: pointer;">Lihat Detail</a>
-                //     </center>
-                // </body>
-                // </html>';
-
-                // $config = [
-                //     'protocol' => 'smtp',
-                //     'smtp_host' => 'ssl://mail.appgarden.xyz',
-                //     'smtp_user' => 'hello@appgarden.xyz',
-                //     'smtp_pass' => 'Sari1920',
-                //     'smtp_port' => 465,
-                //     'mailtype' => 'html',
-                //     'charset' => 'utf-8',
-                //     'crlf' => "\r\n",
-                //     'newline' => "\r\n",
-                //     'wordwrap' => TRUE
-                // ];
-
-                // $this->load->library('email', $config);
-
-                // $this->email->from('hello@appgarden.xyz', 'UCARD INDONESIA');
-                // $this->email->to('mhsanugrah@gmail.com');
-                // $this->email->subject('Transaksi|Ucard');
-                // $this->email->message('halo');
-
-                // $this->email->send();
                 echo 'h';
             }
         }
