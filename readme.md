@@ -1,3 +1,6 @@
+# status_id
+
+
 # product_tipe
 | # | Tipe | Kustomisasi | Proses produksi |
 | - | ---- | ----------- | --------------- |
@@ -9,14 +12,77 @@
 
 # transaksi_status_id
 
-| # | status |
-| - | ------ |
-| 1 | Verifikasi |
-| 2 | Kirim Design |
-| 3 | Pembayaran |
-| 4 | Approval |
-| 5 | Cetak Produk |
-| 6 | Ambil/Kirim |
+<table>
+    <thead>
+        <thead>
+            <tr>
+                <td>#</td>
+                <td colspan="2">status</td>
+            </tr>
+        </thead>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td colspan="2">Verifikasi</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td colspan="2">Kirim Design</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td colspan="2">Pembayaran</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td colspan="2">Approval</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td colspan="2">Cetak Produk</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>51</td>
+            <td>Input Identifikasi</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>52</td>
+            <td>Cetak</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>53</td>
+            <td>Press</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>54</td>
+            <td>Plong</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>55</td>
+            <td>Finishing</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>56</td>
+            <td>Quality Control</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>57</td>
+            <td>Siap Kirim</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td colspan="2">Ambil/Kirim</td>
+        </tr>
+    </tbody>
+</table>
 
 # transaksi_paket
 | # | status |
