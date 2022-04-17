@@ -1,6 +1,3 @@
-# status_id
-
-
 # product_tipe
 | # | Tipe | Kustomisasi | Proses produksi |
 | - | ---- | ----------- | --------------- |
