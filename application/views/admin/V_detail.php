@@ -711,7 +711,8 @@
                                                 <?php $pembank = ['Tunai', 'BCA', 'Mandiri', 'BRI']; ?>
                                                 <td><?= $pembank[$pem['pembayaran_bank'] ?? 0]; ?></td>
                                                 <td><?php echo $pem['pembayaran_nominal']; ?></td>
-                                                <td><?php echo $pem['pembayaran_tgl']; ?></td>
+                                                <?php $dt = new DateTime("@$pem[pembayaran_tgl]"); ?>
+                                                <td><?= $dt->format('d-m-Y'); ?></td>
                                                 <td><a href="<?= base_url('bukti_transaksi/' . $pem['pembayaran_file']) ?>" download>Unduh</a></td>
                                             </tr>
                                         <?php endforeach; ?>
