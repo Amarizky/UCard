@@ -667,20 +667,55 @@
                                 <b>Ongkir</b>
                                 <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                             <?php endif ?>
-                            <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
+                            <b>Total dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
                             <p id="total">Rp<?= number_format($o['transaksi_kupon_id'] ? $total - $diskon : $total ?? 0, 2, ',', '.') ?></p>
                             <input type="hidden" id="total_perlu_dibayar" value="<?= $total; ?>">
                             <?php if ($total >= 1000000) : ?>
                                 <b>Total perlu dibayar jika DP/uang muka</b>
                                 <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                             <?php endif; ?>
+
                         <?php endif ?>
                         <hr>
-                        <?php if (!empty($o['transaksi_bukti'])) : ?>
-                            <b><?= $o['transaksi_atas_nama'] ?></b>
-                            <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
-                            <hr>
-                        <?php endif ?>
+                        <?php
+                        $id = $this->uri->segment(3);
+                        $pembayaran = $this->db->query("SELECT * FROM tbl_pembayaran WHERE pembayaran_transaksi_id = '$id' ")->result_array();
+                        ?>
+                        <h3>Bukti Transfer</h3>
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="datatable-basic">
+                                <thead>
+                                    <tr>
+                                        <td>Atas Nama</td>
+                                        <td>Bank</td>
+                                        <td>Jumlah Yang Ditransfer</td>
+                                        <td>Tanggal</td>
+                                        <td>Download</td>
+                                        <td>Hapus</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($pembayaran) : ?>
+                                        <?php foreach ($pembayaran as $pem) : ?>
+                                            <tr>
+                                                <td><?php echo $pem['pembayaran_atas_nama']; ?></td>
+                                                <?php $pembank = ['Tunai', 'BCA', 'Mandiri', 'BRI']; ?>
+                                                <td><?= $pembank[$pem['pembayaran_bank'] ?? 0]; ?></td>
+                                                <td><?php echo $pem['pembayaran_nominal']; ?></td>
+                                                <td><?php echo $pem['pembayaran_tgl']; ?></td>
+                                                <td><a href="<?= base_url('bukti_transaksi/' . $pem['pembayaran_file']) ?>" download>Unduh</a></td>
+                                                <td><a id="<?= $pem['pembayaran_id'] ?>" type="button" class="hapusp" data-toggle="modal" data-target="#hapusp" style="color:red;">Hapus</a></td>
+
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Pelanggan belum mengirimkan Bukti Pembayaran</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                         <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
                             <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="transaksi_id">
                             <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
@@ -1242,6 +1277,45 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="lihatp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Detail Desain</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alert_design"></div>
+                    <div id="data_design"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="hapusp" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-default">Hapus Bukti Pembayaran ini</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alert_hapus"></div>
+                    <h3>Apakah anda yakin?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn_hapusp">Hapus</button>
+                    <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php if ($o['transaksi_terima'] !== '1') : ?>
         <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
             <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
@@ -1440,6 +1514,27 @@
         $.ajax({
             type: "POST",
             url: "<?= base_url('Order_pelanggan/hapus_design_upload') ?>",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $('#alert_hapus').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><span class="alert-icon"><i class="fa fa-check"></i></span><span class="alert-text"><strong>Berhasil!</strong> Data dihapus</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                setTimeout(function() {
+                    window.location.href = url;
+                }, 1000);
+            }
+        });
+    });
+    $(document).on('click', '.hapusp', function() {
+        var id = $(this).attr('id');
+        $('.btn_hapusp').attr('id', id);
+    });
+    $(document).on('click', '.btn_hapusp', function() {
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
+        var id = $(this).attr('id');
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url('Order_pelanggan/hapus_pembayaran') ?>",
             data: {
                 id: id
             },

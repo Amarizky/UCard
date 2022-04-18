@@ -678,27 +678,51 @@
                             <b>Ongkir</b>
                             <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                         <?php endif ?>
-                        <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
+                        <b>Total dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
                         <p>Rp<?= number_format($o['transaksi_kupon_id'] ? $total - $diskon : $total ?? 0, 2, ',', '.') ?></p>
                         <?php if ($total >= 1000000) : ?>
                             <b>Total perlu dibayar jika DP/uang muka</b>
                             <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                         <?php endif; ?>
+
                         <hr>
+                        <?php
+                        $id = $this->uri->segment(3);
+                        $pembayaran = $this->db->query("SELECT * FROM tbl_pembayaran WHERE pembayaran_transaksi_id = '$id' ")->result_array();
+                        ?>
                         <h3>Bukti Transfer</h3>
-                        <?php if (!empty($o['transaksi_bukti'])) : ?>
-                            <?php $bank = $this->db->where('bank_id', $o['transaksi_bank'])->get('tbl_bank')->row_array()['bank_nama']; ?>
-                            <br>
-                            <b>Atas Nama</b>
-                            <p><?= $o['transaksi_atas_nama']; ?></p>
-                            <b>Bank</b>
-                            <p><?= $bank; ?></p>
-                            <a type="button" class="modal_lihat w-100" data-toggle="modal" data-target="#bukti">
-                                <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
-                            </a>
-                        <?php else : ?>
-                            <p>Pelanggan belum mengunggah bukti transfer</p>
-                        <?php endif ?>
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="datatable-basic">
+                                <thead>
+                                    <tr>
+                                        <td>Atas Nama</td>
+                                        <td>Bank</td>
+                                        <td>Jumlah Yang Ditransfer</td>
+                                        <td>Tanggal</td>
+                                        <td>Download</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($pembayaran) : ?>
+                                        <?php foreach ($pembayaran as $pem) : ?>
+                                            <tr>
+                                                <td><?php echo $pem['pembayaran_atas_nama']; ?></td>
+                                                <?php $pembank = ['Tunai', 'BCA', 'Mandiri', 'BRI']; ?>
+                                                <td><?= $pembank[$pem['pembayaran_bank'] ?? 0]; ?></td>
+                                                <td><?php echo $pem['pembayaran_nominal']; ?></td>
+                                                <td><?php echo $pem['pembayaran_tgl']; ?></td>
+                                                <td><a href="<?= base_url('bukti_transaksi/' . $pem['pembayaran_file']) ?>" download>Unduh</a></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Pelanggan belum mengirimkan Bukti Pembayaran</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
             </div>
