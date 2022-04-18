@@ -812,17 +812,35 @@
                             <br>
                             <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
                                 <?php
-                                $produksi = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_';")->result_array();
-                                $produksicount = 51;
+                                $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
+                                $produksi = $this->db;
+                                switch ($tipe) {
+                                    case '0':
+                                        $produksi = $produksi->where_in('status_id', ['52', '53', '54', '56', '57']);
+                                        break;
+                                    case '1':
+                                    case '4':
+                                        $produksi = $produksi->where_in('status_id', ['52', '56', '57']);
+                                        break;
+                                    case '2':
+                                        $produksi = $produksi->where_in('status_id', ['52', '55', '56', '57']);
+                                        break;
+                                    case '3':
+                                        $produksi = $produksi->where_in('status_id', ['51', '52', '56', '57']);
+                                        break;
+                                }
+
+                                $produksi = $this->db->get('tbl_status')->result_array();
+                                $produksicount = current($produksi);
                                 ?>
-                                <?php foreach ($produksi as $p) : ?>
+                                <?php foreach ($produksi as $pr) : ?>
                                     <div class="timeline-block mt-1 mb-0">
-                                        <span style="background-color: <?= ($statusproduksi == $produksicount) ? "blue" : ($statusproduksi > $produksicount ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
+                                        <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
                                             <i class="fa fa-image"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $p['status_status']; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $p['status_keterangan']; ?></p>
+                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status']; ?></b></p>
+                                            <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
                                             <!-- <div class="mt-3">
                                                     <span class="badge badge-pill badge-success">Diterima</span>
                                                     <p class="text-sm mt-2">
@@ -830,12 +848,10 @@
                                                 </div> -->
                                         </div>
                                     </div>
-                                    <?php $produksicount++ ?>
+                                    <?php $produksicount = next($produksi) ?>
                                 <?php endforeach; ?>
-
                             </div>
                         <?php endif; ?>
-
                     </div>
                 </div>
             </div>
@@ -874,7 +890,7 @@
                                                 <button class="btn btn-primary" data-toggle="modal" data-target="#foto_resi"> Lihat Foto
                                                 </button>
                                             <?php else : ?>
-                                                <p>Admin Belum Mengunggah Foto Resi</p>
+                                                <input type="text" readonly class="form-control-plaintext" id="noresi" value="Belum ada foto resi">
                                             <?php endif ?>
                                         </div>
                                     </div>

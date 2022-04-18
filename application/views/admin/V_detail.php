@@ -796,12 +796,30 @@
                             <br>
                             <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
                                 <?php
-                                $produksi = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_';")->result_array();
-                                $produksicount = 51;
+                                $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
+                                $produksi = $this->db;
+                                switch ($tipe) {
+                                    case '0':
+                                        $produksi = $produksi->where_in('status_id', ['52', '53', '54', '56', '57']);
+                                        break;
+                                    case '1':
+                                    case '4':
+                                        $produksi = $produksi->where_in('status_id', ['52', '56', '57']);
+                                        break;
+                                    case '2':
+                                        $produksi = $produksi->where_in('status_id', ['52', '55', '56', '57']);
+                                        break;
+                                    case '3':
+                                        $produksi = $produksi->where_in('status_id', ['51', '52', '56', '57']);
+                                        break;
+                                }
+
+                                $produksi = $this->db->get('tbl_status')->result_array();
+                                $produksicount = current($produksi);
                                 ?>
                                 <?php foreach ($produksi as $pr) : ?>
                                     <div class="timeline-block mt-1 mb-0">
-                                        <span style="background-color: <?= ($statusproduksi == $produksicount) ? "blue" : ($statusproduksi > $produksicount ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
+                                        <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
                                             <i class="fa fa-image"></i>
                                         </span>
                                         <div class="timeline-content">
@@ -814,7 +832,7 @@
                                                 </div> -->
                                         </div>
                                     </div>
-                                    <?php $produksicount++ ?>
+                                    <?php $produksicount = next($produksi) ?>
                                 <?php endforeach; ?>
                             </div>
                         <?php endif; ?>
@@ -879,7 +897,7 @@
                                                 <input type="text" class="form-control" name="ekspedisi" placeholder="Masukkan nama jasa ekspedisi" value="<?= $resi['transaksi_ekspedisi']; ?>">
                                             </div>
                                             <div class="col-sm-4 pl-1">
-                                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Update</button>
+                                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Tetapkan</button>
                                             </div>
                                         </form>
                                         <b>Nomor Resi</b>
@@ -889,23 +907,24 @@
                                                 <input type="text" class="form-control" name="resi" placeholder="Masukkan nomor resi" value="<?= $resi['transaksi_resi']; ?>">
                                             </div>
                                             <div class="col-sm-4 pl-1">
-                                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Update</button>
+                                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updateResi">Tetapkan</button>
                                             </div>
                                         </form>
                                         <b>Foto Resi</b>
-                                        <form method="post" action="<?= base_url('Order/upload_foto_resi') ?>" enctype="multipart/form-data">
+                                        <form method="post" action="<?= base_url('Order/upload_foto_resi') ?>" enctype="multipart/form-data" class="form-group row">
                                             <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
                                             <?php if ($o['transaksi_foto_resi']) : ?>
-
                                                 <img style="width: 100%;" src="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>">
-
                                                 <br>
                                             <?php endif; ?>
-                                            <input type="file" id="foto_resi" name="foto_resi" class="form-control" onchange="this.form.submit()" required><br>
-                                            <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan Sebagai Bukti Resi</button>
+                                            <div class="col-sm-8 pr-1">
+                                                <input type="file" id="foto_resi" name="foto_resi" class="form-control" onchange="this.form.submit()" required><br>
+                                            </div>
+                                            <div class="col-sm-4 pl-1">
+                                                <button type="submit" style="width: 100%;" class="btn btn-primary">Tetapkan</button>
+                                            </div>
                                         </form>
                                     <?php endif; ?>
-                                    <br>
                                     <button style="width:100%;" class="btn btn-primary terima">Paket sudah diterima ?</button>
                                 <?php
                                 endif;

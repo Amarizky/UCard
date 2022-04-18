@@ -443,24 +443,19 @@ class Order extends CI_Controller
     }
     function status()
     {
-        $id_status = $this->input->post('id_status');
-        $status_urut = (50 < $id_status && $id_status <= 55 ? '5' : $this->input->post('id_status') + 1);
         $id = $this->input->post('id');
+        $id_status = $this->input->post('id_status');
+        $status_urut = (50 < $id_status && $id_status <= 57 ? '5' : $this->input->post('id_status') + 1);
         $keputusan = $this->input->post('keputusan');
         $keterangan = $this->input->post('keterangan');
-        $personalisasi = $this->input->post('personalisasi');
-        $coating = $this->input->post('coating');
-        $finishing = $this->input->post('finishing');
-        $function = $this->input->post('function');
-        $packaging = $this->input->post('packaging');
-        $status = $this->input->post('status');
         $user = $this->input->post('user');
         $tanggal_ini = time();
 
         $pelanggan = $this->db->query("SELECT p.*, t.* FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
+        $tipe = $this->db->select('product_tipe')->where('product_id', $pelanggan['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
         $transaksi_produksi_status_id = $this->db->query("SELECT max(transaksi_produksi_status_id) as tpsi FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ")->row_array()['tpsi'];
-        $s = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$status_urut' ")->row_array();
-        $tanggal_hangus = $tanggal_ini + (86400 * $s['status_jangka_waktu']);
+        $jangka_waktu = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$status_urut' ")->row_array()['status_jangka_waktu'];
+        $tanggal_hangus = $tanggal_ini + (86400 * $jangka_waktu);
 
         if ($keputusan == '1') {
             // DITERIMA
@@ -478,15 +473,48 @@ class Order extends CI_Controller
                     break;
                 case "4":
                     $this->db->set('verif_approval', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
-                    $transaksi_produksi_status_id = '51';
+
+                    switch ($tipe) {
+                        case '0':
+                        case '1':
+                        case '2':
+                        case '4':
+                            $transaksi_produksi_status_id = '52';
+                            break;
+                        case '3':
+                            $transaksi_produksi_status_id = '51';
+                            break;
+                    }
                     break;
                 case '51':
-                case '52':
-                case '53':
-                case '54':
-                    $transaksi_produksi_status_id = $id_status + 1;
+                    $transaksi_produksi_status_id = '52';
                     break;
+                case '52':
+                    switch ($tipe) {
+                        case '0':
+                            $transaksi_produksi_status_id = '53';
+                            break;
+                        case '2':
+                            $transaksi_produksi_status_id = '55';
+                            break;
+                        case '1':
+                        case '3':
+                        case '4':
+                            $transaksi_produksi_status_id = '56';
+                            break;
+                    }
+                    break;
+                case '53':
+                    $transaksi_produksi_status_id = '54';
+                    break;
+                case '54':
                 case '55':
+                    $transaksi_produksi_status_id = '56';
+                    break;
+                case '56':
+                    $transaksi_produksi_status_id = '57';
+                    break;
+                case '57':
                     $this->db->set('verif_cetak', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     $this->db->set('transaksi_status', '1')->where(['transaksi_status_id' => '5', 'transaksi_order_id' => $id])->update('tbl_status_transaksi');
                     $status_urut = '6';
@@ -506,6 +534,25 @@ class Order extends CI_Controller
             $this->db->insert('tbl_status_transaksi', $data);
 
             if ($id_status < 6) {
+                $personalisasi = $this->input->post('personalisasi') ?? null;
+                $finishing = $this->input->post('finishing') ?? null;
+                $packaging = $this->input->post('packaging') ?? null;
+                $coating = $this->input->post('coating') ?? null;
+                $function = $this->input->post('function') ?? null;
+                $material = $this->input->post('material') ?? null;
+                $finish = $this->input->post('finish') ?? null;
+                $jp = $this->input->post('jp') ?? null;
+                $yoyo = $this->input->post('yoyo') ?? null;
+                $warna = $this->input->post('warna') ?? null;
+                $casing = $this->input->post('casing') ?? null;
+                $ck = $this->input->post('ck') ?? null;
+                $lr = $this->input->post('lr') ?? null;
+                $pb = $this->input->post('pb') ?? null;
+                $bank = $this->input->post('bank') ?? null;
+                $printsisi = $this->input->post('printsisi') ?? null;
+                $varian = $this->input->post('varian') ?? null;
+                $status = $this->input->post('status') ?? null;
+
                 $this->db
                     ->set([
                         'transaksi_personalisasi' => $personalisasi,
@@ -513,7 +560,7 @@ class Order extends CI_Controller
                         'transaksi_finishing'     => $finishing,
                         'transaksi_function'      => $function,
                         'transaksi_packaging'     => $packaging,
-                        'transaksi_paket'         => $status
+                        'transaksi_paket'         => $status,
                     ])
                     ->where('transaksi_id', $id)
                     ->update('tbl_transaksi');
@@ -525,6 +572,7 @@ class Order extends CI_Controller
 
         // kirim email
         $this->load->library('email');
+        $this->load->helper('email');
 
         list($subject, $message) = get_email($id, $id_status, $user, $pelanggan["pelanggan_nama"], $pelanggan["transaksi_tanggal"]);
         $this->email->clear();
@@ -533,7 +581,7 @@ class Order extends CI_Controller
         $this->email->subject($subject);
         $this->email->set_mailtype('html');
         $this->email->message($message);
-        $this->email->send();
+        // $this->email->send();
     }
     function paket()
     {
@@ -581,17 +629,44 @@ class Order extends CI_Controller
         $id_status = $this->input->post('id_status');
 
         if ($id_status > 50) {
-            $s = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_produksi_status_id = '$id_status' AND transaksi_order_id = '$id' ")->row_array();
-            $status = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_' OR status_id = '6';")->result_array();
-            $curr = $status[array_search($id_status, array_column($status, 'status_id'))];
-            $next = $status[array_search(($id_status != '55' ? $id_status + 1 : '6'), array_column($status, 'status_id'))];
+            $o = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id = '$id' ")->row_array();
+            $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
+            $status = $this->db->from('tbl_status');
+            switch ($tipe) {
+                case '0':
+                    $status = $status
+                        ->where_in('status_id', ['52', '53', '54', '56', '57', '6'])
+                        ->order_by('FIELD(status_id, 52, 53, 54, 56, 57, 6)');
+                    break;
+                case '1':
+                case '4':
+                    $status = $status
+                        ->where_in('status_id', ['52', '56', '57', '6'])
+                        ->order_by('FIELD(status_id, 52, 56, 57, 6)');
+                    break;
+                case '2':
+                    $status = $status
+                        ->where_in('status_id', ['52', '55', '56', '57', '6'])
+                        ->order_by('FIELD(status_id, 52, 55, 56, 57, 6)');
+                    break;
+                case '3':
+                    $status = $status
+                        ->where_in('status_id', ['51', '52', '56', '57', '6'])
+                        ->order_by('FIELD(status_id, 51, 52, 56, 57, 6)');
+                    break;
+            }
+
+            $status = $status->get()->result_array();
+            $index = array_search($id_status, array_column($status, 'status_id'));
+            $curr = $status[$index];
+            $next = $status[$curr !== end($status) ? $index + 1 : count($status) - 1];
         ?>
             <div class="modal-body pt-0">
                 <input type="hidden" value="<?= $id_status; ?>" id="id_status">
                 <div class="form-group">
                     <input id="keputusan" type="hidden" value="1">
                     <p>Status saat ini: <b><?= $curr['status_status']; ?></b><br>Status selanjutnya: <b><?= $next['status_status']; ?></b><br><br>
-                    <p class="mb-0">Apakah Anda yakin ingin melanjutkan proses produksi ke tahap selanjutnya?</p>
+                    <p class="mb-0">Apakah Anda yakin ingin melanjutkannya ke tahap selanjutnya?</p>
                 </div>
                 <div class="modal-footer p-1 pt-0">
                     <button style="width:100%;" id="update-status" class="btn btn-primary">Ya</button>
@@ -621,7 +696,7 @@ class Order extends CI_Controller
                         <!-- Kartu -->
                         <div class="grid-container">
                             <div class="grid-item">
-                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
+                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? ''); ?>
                                 <b>Personalisasi</b>
                                 <br><br>
                                 <div class="form-group">
@@ -650,7 +725,7 @@ class Order extends CI_Controller
                                 <label for="coating3">UV</label>
                             </div>
                             <div class="grid-item">
-                                <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
+                                <?php $finishing = explode(',', $o['transaksi_finishing'] ?? ''); ?>
                                 <b>Finishing</b>
                                 <br><br>
                                 <input type="checkbox" id="finish1" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
@@ -689,7 +764,7 @@ class Order extends CI_Controller
                                 <label for="function4">Tap RFID</label>
                             </div>
                             <div class="grid-item">
-                                <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
+                                <?php $packaging = explode(',', $o['transaksi_packaging'] ?? ''); ?>
                                 <b>Packaging</b>
                                 <br><br>
                                 <input type="checkbox" id="packaging1" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
@@ -840,7 +915,7 @@ class Order extends CI_Controller
                                 <label for="material8">Tali gelang 2cm printing</label>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $finish = explode(',', $o['transaksi_finish']); ?>
+                                <?php $finish = explode(',', $o['transaksi_finish'] ?? ''); ?>
                                 <b>Finishing</b>
                                 <br><br>
                                 <input id="finishing1" type="checkbox" placeholder="finish" name="finish[]" value="1" <?= in_array('1', $finish) ? 'checked' : ''; ?>>
@@ -907,7 +982,7 @@ class Order extends CI_Controller
                                 <label for="printsisi2">Dua Sisi</label>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
+                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? ''); ?>
                                 <b>Personalisasi</b>
                                 <br><br>
                                 <div class="form-group">
@@ -924,7 +999,7 @@ class Order extends CI_Controller
                                 </div>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
+                                <?php $packaging = explode(',', $o['transaksi_packaging'] ?? ''); ?>
                                 <b>Packaging</b>
                                 <br><br>
                                 <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
@@ -947,7 +1022,7 @@ class Order extends CI_Controller
                                 <label for="coating1">UV</label>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
+                                <?php $finishing = explode(',', $o['transaksi_finishing'] ?? ''); ?>
                                 <b>Finishing</b>
                                 <br><br>
                                 <input id="finishing1" type="checkbox" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
@@ -988,7 +1063,7 @@ class Order extends CI_Controller
                                 <label for="printsisi2">Dua Sisi</label>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi']); ?>
+                                <?php $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? ''); ?>
                                 <b>Personalisasi</b>
                                 <br><br>
                                 <div class="form-group">
@@ -1005,7 +1080,7 @@ class Order extends CI_Controller
                                 </div>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $packaging = explode(',', $o['transaksi_packaging']); ?>
+                                <?php $packaging = explode(',', $o['transaksi_packaging'] ?? ''); ?>
                                 <b>Packaging</b>
                                 <br><br>
                                 <input id="packaging1" type="checkbox" placeholder="packaging" name="packaging[]" value="1" <?= in_array('1', $packaging) ? 'checked' : ''; ?>>
@@ -1028,7 +1103,7 @@ class Order extends CI_Controller
                                 <label for="coating1">UV</label>
                             </div>
                             <div class="grid-item p-0 pb-3">
-                                <?php $finishing = explode(',', $o['transaksi_finishing']); ?>
+                                <?php $finishing = explode(',', $o['transaksi_finishing'] ?? ''); ?>
                                 <b>Finishing</b>
                                 <br><br>
                                 <input id="finishing1" type="checkbox" placeholder="finishing" name="finishing[]" value="1" <?= in_array('1', $finishing) ? 'checked' : ''; ?>>
