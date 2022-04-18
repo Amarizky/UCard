@@ -215,7 +215,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                         <?php endif; ?>
                         <?php if ($perms['admin_perm_kupon']) : ?>
                             <li class="nav-item">
-                                <a class="nav-link <?= $seg1 . '/' . $seg2 == 'kupon' ? 'active' : ''; ?>" href="<?= base_url('kupon') ?>">
+                                <a class="nav-link <?= $seg1 == 'kupon' ? 'active' : ''; ?>" href="<?= base_url('kupon') ?>">
                                     <i class="fa fa-gift text-green"></i>
                                     <span class="nav-link-text">Kupon</span>
                                 </a>
@@ -375,7 +375,6 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                 <div class="media align-items-center">
                                     <div class="media-body ml-2">
                                         <span class="mb-0 text-sm  font-weight-bold"><?= $_SESSION['admin_nama'] ?></span>
-                                        <input type="hidden" id="loggeduser" value="<?= $_SESSION['admin_nama'] ?>">
                                     </div>
                                 </div>
                             </a>
