@@ -29,6 +29,7 @@ class Order_pelanggan extends CI_Controller
         $this->load->view('pelanggan/V_order', $x);
         $this->load->view('pelanggan/template/V_footer');
     }
+
     function history()
     {
         $x['title'] = "Order History";
@@ -142,7 +143,9 @@ class Order_pelanggan extends CI_Controller
         $id = $this->input->post('transaksi_id');
         $bank = $this->input->post('bank');
         $atas_nama = $this->input->post('atas_nama');
+        $nominal = $this->input->post('transfer');
         $bukti_lama = $this->input->post('bukti_lama');
+        $date = time();
         $bukti = $_FILES['bukti']['name'];
         if (empty($bukti)) {
             $f = $bukti_lama;
@@ -162,7 +165,7 @@ class Order_pelanggan extends CI_Controller
         if ($c['transaksi_keterangan'] == NULL) {
             $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = 2 WHERE transaksi_status_id = '3' AND transaksi_order_id = '$id' ");
         }
-        $this->db->query("UPDATE tbl_transaksi SET transaksi_bank = '$bank', transaksi_atas_nama = '$atas_nama', transaksi_bukti = '$f' WHERE transaksi_id = '$id' ");
+        $this->db->query("INSERT INTO tbl_pembayaran VALUES (NULL,'$id','$f','$bank','$nominal','$atas_nama','$date') ");
         redirect('Order_pelanggan/detail/' . $id);
     }
     function upload_approval()
@@ -313,6 +316,11 @@ class Order_pelanggan extends CI_Controller
         $id = $this->input->post('id');
         $this->db->query("DELETE FROM tbl_design_kirim WHERE design_id = '$id' ");
     }
+    function hapus_pembayaran()
+    {
+        $id = $this->input->post('id');
+        $this->db->query("DELETE FROM tbl_pembayaran WHERE pembayaran_id = '$id' ");
+    }
     function update()
     {
         $id = $this->input->post('id');
@@ -335,7 +343,8 @@ class Order_pelanggan extends CI_Controller
     {
         $id = $this->input->post('id');
         $val = $this->input->post('val');
-        $user = $this->input->post('user');
+        $user = $_SESSION['pelanggan_nama'];
+
         $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = '$val' WHERE transaksi_id = '$id' ");
         $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$val', transaksi_keterangan = 'Sudah Diterima' WHERE transaksi_status_id = '6' AND transaksi_order_id = '$id' ");
         $o = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id = '$id' ")->row_array();

@@ -278,19 +278,21 @@
                             <p><?= $p['product_keunggulan']; ?></p>
                             <b>Keterangan Produk</b>
                             <p><?= !empty($p['product_keterangan']) && !is_null($p['product_keterangan']) ? $p['product_keterangan'] : 'Tidak ada keterangan'; ?></p>
-                            <b>Harga satuan</b>
-                            <p><?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); ?></p>
+                            <!--<b>Harga satuan</b>
+                            <p><//?= 'Rp' . number_format($p['product_harga'] ?? 0, 2, ',', '.'); 
+                                ?></p>-->
                             <b>Jumlah dipesan</b>
                             <p><?= $o['transaksi_jumlah']; ?></p>
-                            <b>Total dipesan</b>
-                            <p><?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
+                            <!--<b>Total dipesan</b>
+                            <p><//?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); 
+                                ?></p>-->
                             <b>Keterangan Pesanan</b>
                             <p><?= !empty($o['transaksi_keterangan']) && !is_null($o['transaksi_keterangan']) ? $o['transaksi_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
                             <?php if ($p['product_tipe'] == '0') : ?>
                                 <!-- Kartu -->
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPersonalisasi = ['Tidak dipilih', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                         $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -302,12 +304,12 @@
                                         <b>Personalisasi</b>
                                         <p><?= $statusPersonalisasi; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaCoating = ['Tidak dipilih', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                         <b>Coating</b>
                                         <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
                                         $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -319,12 +321,12 @@
                                         <b>Finishing</b>
                                         <p><?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                         <b>Function</b>
                                         <p><?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPackaging = ['Tidak dipilih', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                         $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -336,7 +338,7 @@
                                         <b>Packaging</b>
                                         <p><?= $statusPackaging; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -384,12 +386,12 @@
                             <?php elseif ($p['product_tipe'] == '2') : ?>
                                 <!-- Tali -->
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaMaterial = ['Tidak dipilih', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM', 'Tali gelang 1,5cm printing', 'Tali gelang 2cm printing']; ?>
                                         <b>Material</b>
                                         <p><?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Kait Oval', 'Kait Tebal', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas', 'Stopper Rotate', 'Jahit', 'Tali Karung', 'Ring Vape'];
                                         $finishing = explode(',', $o['transaksi_finish'] ?? 0);
@@ -401,12 +403,12 @@
                                         <b>Finishing</b>
                                         <p><?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $jenisProduksi = ['Tidak dipilih', 'Sablon', 'Printing']; ?>
                                         <b>Jenis Produksi</b>
                                         <p><?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -414,17 +416,17 @@
                                 </div>
                             <?php elseif ($p['product_tipe'] == '3') : ?>
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaBank = ['Tidak dipilih', 'Bank BCA (Flazz)', 'Bank Mandiri (E-Toll)', 'Bank BRI (Brizzi)', 'Bank BNI (Tapcash)']; ?>
                                         <b>Bank</b>
                                         <p>&nbsp;<?= $namaBank[$o['transaksi_spk_bank'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $Print = ['Tidak dipilih', '1 Sisi', '2 Sisi']; ?>
                                         <b>Print</b>
                                         <p>&nbsp;<?= $Print[$o['transaksi_spk_print'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPersonalisasi = ['Tidak dipilih', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                         $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -436,7 +438,7 @@
                                         <b>Personalisasi</b>
                                         <p><?= $statusPersonalisasi; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPackaging = ['Tidak dipilih', 'Plastik 1 on 1', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                         $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -448,12 +450,12 @@
                                         <b>Packaging</b>
                                         <p><?= $statusPackaging; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaCoating = ['Tidak dipilih', 'UV']; ?>
                                         <b>Coating</b>
                                         <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Tidak Ada', 'Urutkan', 'Pakai NO', 'Tanpa NO'];
                                         $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -465,7 +467,7 @@
                                         <b>Finishing</b>
                                         <p>&nbsp;<?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -473,17 +475,17 @@
                                 </div>
                             <?php elseif ($p['product_tipe'] == '4') : ?>
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaVarian = ['Tidak dipilih', 'USB Flashdisk Card 8 GB', 'USB Flashdisk Card 16 GB']; ?>
                                         <b>Varian</b>
                                         <p>&nbsp;<?= $namaVarian[$o['transaksi_spk_varian'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $Print = ['Tidak dipilih', '1 Sisi', '2 Sisi']; ?>
                                         <b>Print</b>
                                         <p>&nbsp;<?= $Print[$o['transaksi_spk_print'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPersonalisasi = ['Tidak dipilih', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                         $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -495,7 +497,7 @@
                                         <b>Personalisasi</b>
                                         <p><?= $statusPersonalisasi; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPackaging = ['Tidak dipilih', 'Plastik 1 on 1', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                         $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -507,12 +509,12 @@
                                         <b>Packaging</b>
                                         <p><?= $statusPackaging; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaCoating = ['Tidak dipilih', 'UV']; ?>
                                         <b>Coating</b>
                                         <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Tidak Ada', 'Urutkan'];
                                         $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -524,7 +526,7 @@
                                         <b>Finishing</b>
                                         <p>&nbsp;<?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -665,20 +667,56 @@
                                 <b>Ongkir</b>
                                 <p>Rp<?= number_format($o['transaksi_ongkir'] ?? 0, 2, ',', '.') ?></p>
                             <?php endif ?>
-                            <b>Total perlu dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
+                            <b>Total dibayar <?= $total >= 1000000 ? 'jika lunas' : ''; ?></b>
                             <p id="total">Rp<?= number_format($o['transaksi_kupon_id'] ? $total - $diskon : $total ?? 0, 2, ',', '.') ?></p>
                             <input type="hidden" id="total_perlu_dibayar" value="<?= $total; ?>">
                             <?php if ($total >= 1000000) : ?>
                                 <b>Total perlu dibayar jika DP/uang muka</b>
                                 <p>Rp<?= number_format($total * 0.5 ?? 0, 2, ',', '.') ?></p>
                             <?php endif; ?>
+
                         <?php endif ?>
                         <hr>
-                        <?php if (!empty($o['transaksi_bukti'])) : ?>
-                            <b><?= $o['transaksi_atas_nama'] ?></b>
-                            <img style="width: 100%;" src="<?= base_url('bukti_transaksi/' . $o['transaksi_bukti']) ?>">
-                            <hr>
-                        <?php endif ?>
+                        <?php
+                        $id = $this->uri->segment(3);
+                        $pembayaran = $this->db->query("SELECT * FROM tbl_pembayaran WHERE pembayaran_transaksi_id = '$id' ")->result_array();
+                        ?>
+                        <h3>Bukti Transfer</h3>
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="datatable-basic">
+                                <thead>
+                                    <tr>
+                                        <td>Atas Nama</td>
+                                        <td>Bank</td>
+                                        <td>Jumlah Yang Ditransfer</td>
+                                        <td>Tanggal</td>
+                                        <td>Download</td>
+                                        <td>Hapus</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($pembayaran) : ?>
+                                        <?php foreach ($pembayaran as $pem) : ?>
+                                            <tr>
+                                                <td><?php echo $pem['pembayaran_atas_nama']; ?></td>
+                                                <?php $pembank = ['Tunai', 'BCA', 'Mandiri', 'BRI']; ?>
+                                                <td><?= $pembank[$pem['pembayaran_bank'] ?? 0]; ?></td>
+                                                <td><?php echo $pem['pembayaran_nominal']; ?></td>
+                                                <?php $dt = new DateTime("@$pem[pembayaran_tgl]"); ?>
+                                                <td><?= $dt->format('d-m-Y'); ?></td>
+                                                <td><a href="<?= base_url('bukti_transaksi/' . $pem['pembayaran_file']) ?>" download>Unduh</a></td>
+                                                <td><a id="<?= $pem['pembayaran_id'] ?>" type="button" class="hapusp" data-toggle="modal" data-target="#hapusp" style="color:red;">Hapus</a></td>
+
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Pelanggan belum mengirimkan Bukti Pembayaran</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                         <form method="post" action="<?= base_url('Order_pelanggan/upload_bukti') ?>" enctype="multipart/form-data">
                             <input type="hidden" value="<?= $o['transaksi_id'] ?>" name="transaksi_id">
                             <input type="hidden" value="<?= $o['transaksi_bukti'] ?>" name="bukti_lama">
@@ -744,7 +782,7 @@
                         <h3 class="mb-0">Approval</h3>
                     </div>
                     <div class="card-body">
-                        <?php if (!isset($o['transaksi_approval_1']) || !isset($o['transaksi_approval_2']) || !isset($o['transaksi_approval_3'])) : ?>
+                        <?php if (!isset($o['transaksi_approval_1'])) : ?>
                             <div>Harap tunggu sampai Admin mengunggah foto untuk Anda pilih</div>
                         <?php else : ?>
                             <form id="formApproval" method="post" action="<?= base_url('Order_pelanggan/upload_approval_acc') ?>" enctype="multipart/form-data">
@@ -762,22 +800,26 @@
                                     <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_1']) ?>">
                                     <br>
                                 </label>
-                                <br>
-                                <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required onclick="pilihGambar()">
-                                <label for="apv2">Gelap</label>
-                                <br>
-                                <label for="apv2">
-                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
+                                <?php if (!empty($o['transaksi_approval_2'])) : ?>
                                     <br>
-                                </label>
-                                <br>
-                                <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required onclick="pilihGambar()">
-                                <label for="apv3">Terang</label>
-                                <br>
-                                <label for="apv3">
-                                    <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
+                                    <input type="radio" value="2" name="approval" id="apv2" <?= $o['transaksi_approval_acc'] == '2' ? ' checked' : null; ?> required onclick="pilihGambar()">
+                                    <label for="apv2">Gelap</label>
                                     <br>
-                                </label>
+                                    <label for="apv2">
+                                        <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_2']) ?>">
+                                        <br>
+                                    </label>
+                                <?php endif; ?>
+                                <?php if (!empty($o['transaksi_approval_3'])) : ?>
+                                    <br>
+                                    <input type="radio" value="3" name="approval" id="apv3" <?= $o['transaksi_approval_acc'] == '3' ? ' checked' : null; ?> required onclick="pilihGambar()">
+                                    <label for="apv3">Terang</label>
+                                    <br>
+                                    <label for="apv3">
+                                        <img class="w-100 border border-dark" src="<?= base_url('design_approval/' . $o['transaksi_approval_3']) ?>">
+                                        <br>
+                                    </label>
+                                <?php endif; ?>
                                 <br>
                                 <input type="radio" value="4" name="approval" id="apv4" <?= $o['transaksi_approval_acc'] == '4' ? ' checked' : null; ?> required onclick="pilihGambar()">
                                 <label for="apv4">Revisi</label>
@@ -812,17 +854,35 @@
                             <br>
                             <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
                                 <?php
-                                $produksi = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '5_';")->result_array();
-                                $produksicount = 51;
+                                $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
+                                $produksi = $this->db;
+                                switch ($tipe) {
+                                    case '0':
+                                        $produksi = $produksi->where_in('status_id', ['52', '53', '54', '56', '57']);
+                                        break;
+                                    case '1':
+                                    case '4':
+                                        $produksi = $produksi->where_in('status_id', ['52', '56', '57']);
+                                        break;
+                                    case '2':
+                                        $produksi = $produksi->where_in('status_id', ['52', '55', '56', '57']);
+                                        break;
+                                    case '3':
+                                        $produksi = $produksi->where_in('status_id', ['51', '52', '56', '57']);
+                                        break;
+                                }
+
+                                $produksi = $this->db->get('tbl_status')->result_array();
+                                $produksicount = current($produksi);
                                 ?>
-                                <?php foreach ($produksi as $p) : ?>
+                                <?php foreach ($produksi as $pr) : ?>
                                     <div class="timeline-block mt-1 mb-0">
-                                        <span style="background-color: <?= ($statusproduksi == $produksicount) ? "blue" : ($statusproduksi > $produksicount ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
+                                        <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
                                             <i class="fa fa-image"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $p['status_status']; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $p['status_keterangan']; ?></p>
+                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status']; ?></b></p>
+                                            <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
                                             <!-- <div class="mt-3">
                                                     <span class="badge badge-pill badge-success">Diterima</span>
                                                     <p class="text-sm mt-2">
@@ -830,12 +890,10 @@
                                                 </div> -->
                                         </div>
                                     </div>
-                                    <?php $produksicount++ ?>
+                                    <?php $produksicount = next($produksi) ?>
                                 <?php endforeach; ?>
-
                             </div>
                         <?php endif; ?>
-
                     </div>
                 </div>
             </div>
@@ -874,7 +932,7 @@
                                                 <button class="btn btn-primary" data-toggle="modal" data-target="#foto_resi"> Lihat Foto
                                                 </button>
                                             <?php else : ?>
-                                                <p>Admin Belum Mengunggah Foto Resi</p>
+                                                <input type="text" readonly class="form-control-plaintext" id="noresi" value="Belum ada foto resi">
                                             <?php endif ?>
                                         </div>
                                     </div>
@@ -1236,6 +1294,45 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="lihatp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Detail Desain</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alert_design"></div>
+                    <div id="data_design"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="hapusp" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-default">Hapus Bukti Pembayaran ini</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="alert_hapus"></div>
+                    <h3>Apakah anda yakin?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn_hapusp">Hapus</button>
+                    <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <?php if ($o['transaksi_terima'] !== '1') : ?>
         <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
             <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
@@ -1445,6 +1542,27 @@
             }
         });
     });
+    $(document).on('click', '.hapusp', function() {
+        var id = $(this).attr('id');
+        $('.btn_hapusp').attr('id', id);
+    });
+    $(document).on('click', '.btn_hapusp', function() {
+        var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
+        var id = $(this).attr('id');
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url('Order_pelanggan/hapus_pembayaran') ?>",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                $('#alert_hapus').html('<div class="alert alert-success alert-dismissible fade show" role="alert"><span class="alert-icon"><i class="fa fa-check"></i></span><span class="alert-text"><strong>Berhasil!</strong> Data dihapus</span><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                setTimeout(function() {
+                    window.location.href = url;
+                }, 1000);
+            }
+        });
+    });
 </script>
 
 <script>
@@ -1488,14 +1606,12 @@
         if (confirm('Apakah anda yakin paket sudah diterima?')) {
             var val = 1;
             var id = $('#id').val();
-            var user = $('#loggeduser').val();
             $.ajax({
                 type: 'POST',
                 url: "<?= base_url('Order_pelanggan/terima') ?>",
                 data: {
                     val: val,
                     id: id,
-                    user: user
                 },
                 success: function(data) {
                     $('#terima_p').html(data);

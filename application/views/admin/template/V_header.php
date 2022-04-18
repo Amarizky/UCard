@@ -375,7 +375,6 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                 <div class="media align-items-center">
                                     <div class="media-body ml-2">
                                         <span class="mb-0 text-sm  font-weight-bold"><?= $_SESSION['admin_nama'] ?></span>
-                                        <input type="hidden" id="loggeduser" value="<?= $_SESSION['admin_nama'] ?>">
                                     </div>
                                 </div>
                             </a>
