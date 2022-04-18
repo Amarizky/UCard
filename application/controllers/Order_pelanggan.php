@@ -335,7 +335,8 @@ class Order_pelanggan extends CI_Controller
     {
         $id = $this->input->post('id');
         $val = $this->input->post('val');
-        $user = $this->input->post('user');
+        $user = $_SESSION['pelanggan_nama'];
+
         $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = '$val' WHERE transaksi_id = '$id' ");
         $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$val', transaksi_keterangan = 'Sudah Diterima' WHERE transaksi_status_id = '6' AND transaksi_order_id = '$id' ");
         $o = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id = '$id' ")->row_array();
