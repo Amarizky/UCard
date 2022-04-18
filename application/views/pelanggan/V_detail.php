@@ -284,13 +284,13 @@
                             <p><?= $o['transaksi_jumlah']; ?></p>
                             <b>Total dipesan</b>
                             <p><?= 'Rp' . number_format($o['transaksi_harga'] ?? 0, 2, ',', '.'); ?></p>
-                            <b>Keterangan Pesanan</b>
+                            <b>Keterangan pesanan</b>
                             <p><?= !empty($o['transaksi_keterangan']) && !is_null($o['transaksi_keterangan']) ? $o['transaksi_keterangan'] : 'Tidak ada keterangan'; ?></p>
                             <b>Kustomisasi</b>
                             <?php if ($p['product_tipe'] == '0') : ?>
                                 <!-- Kartu -->
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPersonalisasi = ['Tidak dipilih', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                         $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -302,12 +302,12 @@
                                         <b>Personalisasi</b>
                                         <p><?= $statusPersonalisasi; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaCoating = ['Tidak dipilih', 'Glossy', 'Doff', 'Glossy + Doff', 'UV']; ?>
                                         <b>Coating</b>
                                         <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Tidak ada', 'Urutkan', 'Label Gosok', 'Plong Oval', 'Plong Bulat', 'Urutkan', 'Emboss Silver', 'Emboss Gold', 'Panel', 'Hot', 'Swipe'];
                                         $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -319,12 +319,12 @@
                                         <b>Finishing</b>
                                         <p><?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
                                         <b>Function</b>
                                         <p><?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPackaging = ['Tidak dipilih', 'Plastik 1 on 1', 'Plastik Terpisah', 'Box Kartu Nama', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                         $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -336,7 +336,7 @@
                                         <b>Packaging</b>
                                         <p><?= $statusPackaging; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -384,12 +384,12 @@
                             <?php elseif ($p['product_tipe'] == '2') : ?>
                                 <!-- Tali -->
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaMaterial = ['Tidak dipilih', 'Polyester 1,5CM', 'Polyester 2CM', 'Polyester 2,5CM', 'Tissue 1,5CM', 'Tissue 2CM', 'Tissue 2,5CM', 'Tali gelang 1,5cm printing', 'Tali gelang 2cm printing']; ?>
                                         <b>Material</b>
                                         <p><?= $namaMaterial[$o['transaksi_material'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Kait Oval', 'Kait Tebal', 'Kait HP', 'Kait Standar', 'Tambah Warna Sablon', 'Double Stopper', 'Stopper Tas', 'Stopper Rotate', 'Jahit', 'Tali Karung', 'Ring Vape'];
                                         $finishing = explode(',', $o['transaksi_finish'] ?? 0);
@@ -401,12 +401,12 @@
                                         <b>Finishing</b>
                                         <p><?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $jenisProduksi = ['Tidak dipilih', 'Sablon', 'Printing']; ?>
                                         <b>Jenis Produksi</b>
                                         <p><?= $jenisProduksi[$o['transaksi_jp'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -414,17 +414,17 @@
                                 </div>
                             <?php elseif ($p['product_tipe'] == '3') : ?>
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaBank = ['Tidak dipilih', 'Bank BCA (Flazz)', 'Bank Mandiri (E-Toll)', 'Bank BRI (Brizzi)', 'Bank BNI (Tapcash)']; ?>
                                         <b>Bank</b>
                                         <p>&nbsp;<?= $namaBank[$o['transaksi_spk_bank'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $Print = ['Tidak dipilih', '1 Sisi', '2 Sisi']; ?>
                                         <b>Print</b>
                                         <p>&nbsp;<?= $Print[$o['transaksi_spk_print'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPersonalisasi = ['Tidak dipilih', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                         $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -436,7 +436,7 @@
                                         <b>Personalisasi</b>
                                         <p><?= $statusPersonalisasi; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPackaging = ['Tidak dipilih', 'Plastik 1 on 1', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                         $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -448,12 +448,12 @@
                                         <b>Packaging</b>
                                         <p><?= $statusPackaging; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaCoating = ['Tidak dipilih', 'UV']; ?>
                                         <b>Coating</b>
                                         <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Tidak Ada', 'Urutkan', 'Pakai NO', 'Tanpa NO'];
                                         $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -465,7 +465,7 @@
                                         <b>Finishing</b>
                                         <p>&nbsp;<?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -473,17 +473,17 @@
                                 </div>
                             <?php elseif ($p['product_tipe'] == '4') : ?>
                                 <div class="grid-container">
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaVarian = ['Tidak dipilih', 'USB Flashdisk Card 8 GB', 'USB Flashdisk Card 16 GB']; ?>
                                         <b>Varian</b>
                                         <p>&nbsp;<?= $namaVarian[$o['transaksi_spk_varian'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $Print = ['Tidak dipilih', '1 Sisi', '2 Sisi']; ?>
                                         <b>Print</b>
                                         <p>&nbsp;<?= $Print[$o['transaksi_spk_print'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPersonalisasi = ['Tidak dipilih', 'Blanko', 'Nomerator', 'Barcode', 'Data', 'Data + Foto'];
                                         $personalisasi = explode(',', $o['transaksi_personalisasi'] ?? 0);
@@ -495,7 +495,7 @@
                                         <b>Personalisasi</b>
                                         <p><?= $statusPersonalisasi; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaPackaging = ['Tidak dipilih', 'Plastik 1 on 1', 'Box Putih', 'Small UCARD', 'Small Maxi UCARD', 'Large UCARD', 'Large Maxi UCARD'];
                                         $packaging = explode(',', $o['transaksi_packaging'] ?? 0);
@@ -507,12 +507,12 @@
                                         <b>Packaging</b>
                                         <p><?= $statusPackaging; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaCoating = ['Tidak dipilih', 'UV']; ?>
                                         <b>Coating</b>
                                         <p><?= $namaCoating[$o['transaksi_coating'] ?? 0]; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php
                                         $namaFinishing = ['Tidak dipilih', 'Tidak Ada', 'Urutkan'];
                                         $finishing = explode(',', $o['transaksi_finishing'] ?? 0);
@@ -524,7 +524,7 @@
                                         <b>Finishing</b>
                                         <p>&nbsp;<?= $statusFinishing; ?></p>
                                     </div>
-                                    <div class="grid-item">
+                                    <div class="grid-item p-0 pb-3">
                                         <?php $namaPaket = ['Tidak dipilih', 'Kirim Produk', 'Ambil Sendiri']; ?>
                                         <b>Ambil/Kirim</b>
                                         <p><?= $namaPaket[$o['transaksi_paket'] ?? 0]; ?></p>
@@ -1504,14 +1504,12 @@
         if (confirm('Apakah anda yakin paket sudah diterima?')) {
             var val = 1;
             var id = $('#id').val();
-            var user = $('#loggeduser').val();
             $.ajax({
                 type: 'POST',
                 url: "<?= base_url('Order_pelanggan/terima') ?>",
                 data: {
                     val: val,
                     id: id,
-                    user: user
                 },
                 success: function(data) {
                     $('#terima_p').html(data);

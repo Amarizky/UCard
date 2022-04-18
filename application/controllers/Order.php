@@ -448,7 +448,7 @@ class Order extends CI_Controller
         $status_urut = (50 < $id_status && $id_status <= 57 ? '5' : $this->input->post('id_status') + 1);
         $keputusan = $this->input->post('keputusan');
         $keterangan = $this->input->post('keterangan');
-        $user = $this->input->post('user');
+        $user = $_SESSION['admin_nama'];
         $tanggal_ini = time();
 
         $pelanggan = $this->db->query("SELECT p.*, t.* FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
@@ -532,42 +532,54 @@ class Order extends CI_Controller
             );
 
             $this->db->insert('tbl_status_transaksi', $data);
-
-            if ($id_status < 6) {
-                $personalisasi = $this->input->post('personalisasi') ?? null;
-                $finishing = $this->input->post('finishing') ?? null;
-                $packaging = $this->input->post('packaging') ?? null;
-                $coating = $this->input->post('coating') ?? null;
-                $function = $this->input->post('function') ?? null;
-                $material = $this->input->post('material') ?? null;
-                $finish = $this->input->post('finish') ?? null;
-                $jp = $this->input->post('jp') ?? null;
-                $yoyo = $this->input->post('yoyo') ?? null;
-                $warna = $this->input->post('warna') ?? null;
-                $casing = $this->input->post('casing') ?? null;
-                $ck = $this->input->post('ck') ?? null;
-                $lr = $this->input->post('lr') ?? null;
-                $pb = $this->input->post('pb') ?? null;
-                $bank = $this->input->post('bank') ?? null;
-                $printsisi = $this->input->post('printsisi') ?? null;
-                $varian = $this->input->post('varian') ?? null;
-                $status = $this->input->post('status') ?? null;
-
-                $this->db
-                    ->set([
-                        'transaksi_personalisasi' => $personalisasi,
-                        'transaksi_coating'       => $coating,
-                        'transaksi_finishing'     => $finishing,
-                        'transaksi_function'      => $function,
-                        'transaksi_packaging'     => $packaging,
-                        'transaksi_paket'         => $status,
-                    ])
-                    ->where('transaksi_id', $id)
-                    ->update('tbl_transaksi');
-            }
         } else {
             // DITOLAK
             $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan', transaksi_tanggal = '$tanggal_ini', transaksi_tanggal_hangus = '$tanggal_hangus' WHERE transaksi_status_id = '$id_status' AND transaksi_order_id = '$id' ");
+        }
+
+        if ($id_status < 6) {
+            $personalisasi = $this->input->post('personalisasi') ?? null;
+            $finishing     = $this->input->post('finishing') ?? null;
+            $packaging     = $this->input->post('packaging') ?? null;
+            $coating       = $this->input->post('coating') ?? null;
+            $function      = $this->input->post('function') ?? null;
+            $material      = $this->input->post('material') ?? null;
+            $finish        = $this->input->post('finish') ?? null;
+            $jp            = $this->input->post('jp') ?? null;
+            $yoyo          = $this->input->post('yoyo') ?? null;
+            $warna         = $this->input->post('warna') ?? null;
+            $casing        = $this->input->post('casing') ?? null;
+            $ck            = $this->input->post('ck') ?? null;
+            $lr            = $this->input->post('lr') ?? null;
+            $pb            = $this->input->post('pb') ?? null;
+            $bank          = $this->input->post('bank') ?? null;
+            $printsisi     = $this->input->post('printsisi') ?? null;
+            $varian        = $this->input->post('varian') ?? null;
+            $status        = $this->input->post('status') ?? null;
+
+            $this->db
+                ->set([
+                    'transaksi_personalisasi' => $personalisasi,
+                    'transaksi_finishing'     => $finishing,
+                    'transaksi_packaging'     => $packaging,
+                    'transaksi_coating'       => $coating,
+                    'transaksi_function'      => $function,
+                    'transaksi_material'      => $material,
+                    'transaksi_finish'        => $finish,
+                    'transaksi_jp'            => $jp,
+                    'transaksi_yoyo'          => $yoyo,
+                    'transaksi_warna'         => $warna,
+                    'transaksi_casing'        => $casing,
+                    'transaksi_ck'            => $ck,
+                    'transaksi_logo'          => $lr,
+                    'transaksi_pb'            => $pb,
+                    'transaksi_spk_bank'      => $bank,
+                    'transaksi_spk_print'     => $printsisi,
+                    'transaksi_spk_varian'    => $varian,
+                    'transaksi_paket'         => $status,
+                ])
+                ->where('transaksi_id', $id)
+                ->update('tbl_transaksi');
         }
 
         // kirim email
@@ -593,7 +605,8 @@ class Order extends CI_Controller
     {
         $id = $this->input->post('id');
         $val = $this->input->post('val');
-        $user = $this->input->post('user');
+        $user = $_SESSION['admin_nama'];
+
         $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = '$val' WHERE transaksi_id = '$id' ");
         $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$val', transaksi_keterangan = 'Sudah Diterima' WHERE transaksi_status_id = '6' AND transaksi_order_id = '$id' ");
         $o = $this->db->query("SELECT * FROM tbl_transaksi WHERE transaksi_id = '$id' ")->row_array();

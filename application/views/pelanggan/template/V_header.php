@@ -119,7 +119,6 @@
                                 <div class="media align-items-center">
                                     <div class="media-body ml-2">
                                         <span class="mb-0 text-sm font-weight-bold"><?= $_SESSION['pelanggan_nama'] ?></span>
-                                        <input type="hidden" id="loggeduser" value="<?= $_SESSION['pelanggan_nama'] ?>">
                                     </div>
                                 </div>
                             </a>
