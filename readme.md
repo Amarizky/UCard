@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td>5</td>
-            <td colspan="2">Cetak Produk</td>
+            <td colspan="2">Proses Produksi</td>
         </tr>
         <tr>
             <td></td>

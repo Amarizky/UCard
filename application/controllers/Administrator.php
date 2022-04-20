@@ -164,7 +164,7 @@ class Administrator extends CI_Controller
                             <td class="perm_icon">
                                 <i class="fa fa-print"></i>
                             </td>
-                            <td>CETAK PRODUK</td>
+                            <td>PROSES PRODUKSI</td>
                             <td class="perm_check">
                                 <input class="perm_orders" type="checkbox" value="1" name="perm_ordercetakproduk" id="perm_ordercetakproduk" <?= $a['admin_perm_ordercetakproduk'] == 1 ? 'checked' : ''; ?>>
                             </td>

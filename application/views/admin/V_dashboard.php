@@ -86,11 +86,11 @@
                 <div class="col-xl-4 col-md-6">
                     <div class="card card-stats">
                         <!-- Card body -->
-                        <a href="<?= base_url('Order/cetak_produk') ?>">
+                        <a href="<?= base_url('Order/proses_produksi') ?>">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">CETAK PRODUK</h5>
+                                        <h5 class="card-title text-uppercase text-muted mb-0">PROSES PRODUKSI</h5>
                                         <span class="h2 font-weight-bold mb-0"><?= $jml_cetak ?></span>
                                     </div>
                                     <div class="col-auto">

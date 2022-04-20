@@ -790,7 +790,7 @@
                                 <?php if (empty($o['transaksi_approval_acc'])) : ?>
                                     <div>Silahkan pilih produk yang akan di-approve dan dibuat</div>
                                 <?php else : ?>
-                                    <div>Harap tunggu Admin untuk meneruskan ke proses cetak produk.</div>
+                                    <div>Harap tunggu Admin untuk meneruskan ke proses produksi.</div>
                                 <?php endif; ?>
                                 <br>
                                 <input type="radio" value="1" name="approval" id="apv1" <?= $o['transaksi_approval_acc'] == '1' ? ' checked' : null; ?> required onclick="pilihGambar()">
@@ -834,7 +834,7 @@
             <div id="status5" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Cetak Produk</h3>
+                        <h3 class="mb-0">Proses Produksi</h3>
                     </div>
                     <div class="card-body">
                         <?php

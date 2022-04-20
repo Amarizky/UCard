@@ -150,7 +150,7 @@
                                     <td class="add_perm_icon">
                                         <i class="fa fa-print"></i>
                                     </td>
-                                    <td>CETAK PRODUK</td>
+                                    <td>PROSES PRODUKSI</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_ordercetakproduk" id="add_perm_ordercetakproduk">
                                     </td>

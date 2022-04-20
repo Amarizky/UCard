@@ -145,10 +145,10 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                         <?php endif; ?>
                                         <?php if ($perms['admin_perm_ordercetakproduk']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Order/cetak_produk') ?>" class="nav-link <?= $seg2 == 'cetak_produk' ? 'active' : ''; ?>"><i class="fa fa-print"></i>
+                                                <a href="<?= base_url('Order/proses_produksi') ?>" class="nav-link <?= $seg2 == 'proses_produksi' ? 'active' : ''; ?>"><i class="fa fa-print"></i>
                                                     <table style="width:100%;">
                                                         <tr>
-                                                            <td>CETAK PRODUK</td>
+                                                            <td>PRODUKSI</td>
                                                             <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_cetak ?></span></td>
                                                         </tr>
                                                     </table>

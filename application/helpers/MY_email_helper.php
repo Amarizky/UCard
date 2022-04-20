@@ -174,7 +174,7 @@ HTML;
 HTML;
             break;
         case '5':
-            // Cetak Produk
+            // Proses Produksi
             $subject = 'UCard Surabaya - Pesananmu sudah selesai dicetak!';
             $message = <<<HTML
 <!DOCTYPE html>
