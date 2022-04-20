@@ -1,10 +1,10 @@
 # product_tipe
 | # | Tipe | Kustomisasi | Proses produksi |
 | - | ---- | ----------- | --------------- |
-| 0 | Kartu | Personalisasi, coating, finishing, function, packaging, ambil/kirim | Cetak, press, plong, quality control, siap kirim<br>2, 3, 4, 6, 7 |
+| 0 | Kartu | Personalisasi, coating, finishing, function, packaging, ambil/kirim | Gudang, cetak, press, plong, quality control, siap kirim<br>2, 3, 4, 6, 7 |
 | 1 | Aksesoris | Yoyo, warna, casing, logo resin, penjepit buaya, ambil/kirim | Cetak, quality control, siap kirim<br>2, 6, 7 |
-| 2 | Tali | Material, finishing, jenis produksi, ambil/kirim | Cetak, finishing, quality control, siap kirim<br>2, 5, 6, 7 |
-| 3 | E-money | Bank, print, personalisasi, packaging, coating, finishing, ambil/kirim | E-Input nomor identifikasi, cetak, quality control, siap kirim<br>1, 2, 6, 7 |
+| 2 | Tali | Material, finishing, jenis produksi, ambil/kirim | Gudang, cetak, finishing, quality control, siap kirim<br>2, 5, 6, 7 |
+| 3 | E-money | Bank, print, personalisasi, packaging, coating, finishing, ambil/kirim | Gudang, Input nomor identifikasi, cetak, quality control, siap kirim<br>1, 2, 6, 7 |
 | 4 | Flashdisk | Varian, print, personalisasi, packaging, coating, finishing, ambil/kirim | Cetak, quality control, siap kirim<br>2, 6, 7 |
 
 # transaksi_status_id
@@ -42,38 +42,43 @@
         <tr>
             <td></td>
             <td>51</td>
-            <td>Input Identifikasi</td>
+            <td>Gudang</td>
         </tr>
         <tr>
             <td></td>
             <td>52</td>
-            <td>Cetak</td>
+            <td>Input Identifikasi</td>
         </tr>
         <tr>
             <td></td>
             <td>53</td>
-            <td>Press</td>
+            <td>Cetak</td>
         </tr>
         <tr>
             <td></td>
             <td>54</td>
-            <td>Plong</td>
+            <td>Press</td>
         </tr>
         <tr>
             <td></td>
             <td>55</td>
-            <td>Finishing</td>
+            <td>Plong</td>
         </tr>
         <tr>
             <td></td>
             <td>56</td>
-            <td>Quality Control</td>
+            <td>Finishing</td>
         </tr>
         <tr>
             <td></td>
             <td>57</td>
-            <td>Siap Kirim</td>
+            <td>Quality Control</td>
         </tr>
+		<tr>
+			<td></td>
+			<td>58</td>
+            <td>Siap Kirim</td>
+		</tr>
         <tr>
             <td>6</td>
             <td colspan="2">Ambil/Kirim</td>
