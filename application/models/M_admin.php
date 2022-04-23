@@ -29,7 +29,7 @@ class M_admin extends CI_Model
             'admin_perm_orderkirimdesign kirimdesign',
             'admin_perm_orderpembayaran pembayaran',
             'admin_perm_orderapproval approval',
-            'admin_perm_ordercetakproduk cetakproduk',
+            'admin_perm_orderproduksi cetakproduk',
             'admin_perm_orderkirimambil kirimambil'
         ])
             ->where('admin_id', $this->session->admin_id)

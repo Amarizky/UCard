@@ -123,7 +123,7 @@
 
                         foreach ($status as $s) : ?>
                             <?php
-                            $id_status = $s['status_urut'];
+                            $id_status = $s['status_id'];
                             $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' AND transaksi_status_id = '$id_status' ORDER BY transaksi_id DESC ")->row_array();
                             $verif = $this->db->query("SELECT * FROM tbl_verifikasi WHERE transaksi_id = '$id_transaksi';")->row_array();
                             ?>
@@ -133,7 +133,7 @@
                                         <i class="<?= $s['status_icon'] ?>"></i>
                                     </span>
                                     <div class="timeline-content">
-                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
+                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
                                             <?php if ($st['transaksi_status'] == '4') : ?>
@@ -158,13 +158,13 @@
                                     <div class="timeline-content">
                                         <?php
                                         $max = $this->db->query("SELECT MAX(transaksi_status_id) AS akhir FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi'  ")->row_array();
-                                        if ($s['status_urut'] == $max['akhir']) :
+                                        if ($s['status_id'] == $max['akhir']) :
                                         ?>
-                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verif['verif_kirimambil']) ? " ($verif[verif_kirimambil])" : "") ?></b></a>
+                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verif['verif_kirimambil']) ? " ($verif[verif_kirimambil])" : "") ?></b></a>
                                         <?php else : ?>
                                             <?php
                                             $verifikator = "";
-                                            switch ($s['status_urut']) {
+                                            switch ($s['status_id']) {
                                                 case "1":
                                                     $verifikator = !empty($verif['verif_pesanan']) ? $verif['verif_pesanan'] : "-";
                                                     break;
@@ -178,13 +178,13 @@
                                                     $verifikator = !empty($verif['verif_approval']) ? $verif['verif_approval'] : "-";
                                                     break;
                                                 case "5":
-                                                    $verifikator = !empty($verif['verif_cetak']) ? $verif['verif_cetak'] : "-";
+                                                    $verifikator = !empty($verif['verif_produksi']) ? $verif['verif_produksi'] : "-";
                                                     break;
                                                 default:
                                                     $verifikator = "admin";
                                             }
                                             ?>
-                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifikator) ? " ($verifikator)" : "") ?></b></a>
+                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifikator) ? " ($verifikator)" : "") ?></b></a>
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
@@ -201,7 +201,7 @@
                                         <i class="<?= $s['status_icon'] ?>"></i>
                                     </span>
                                     <div class="timeline-content">
-                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
+                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
                                             <?php if ($st['transaksi_status'] == '4') : ?>

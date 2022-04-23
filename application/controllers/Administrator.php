@@ -116,7 +116,7 @@ class Administrator extends CI_Controller
                             </td>
                             <td>DAFTAR ORDER</td>
                             <td class="perm_check">
-                                <input class="perm_orderdaftarorder" type="checkbox" value="1" name="perm_orderdaftarorder" id="perm_orderdaftarorder" <?= $a["admin_perm_orderverifikasi"] || $a["admin_perm_orderkirimdesign"] || $a["admin_perm_orderpembayaran"] || $a["admin_perm_orderapproval"] || $a["admin_perm_ordercetakproduk"] || $a["admin_perm_orderkirimambil"] ? 'checked' : ''; ?> disabled>
+                                <input class="perm_orderdaftarorder" type="checkbox" value="1" name="perm_orderdaftarorder" id="perm_orderdaftarorder" <?= $a["admin_perm_orderverifikasi"] || $a["admin_perm_orderkirimdesign"] || $a["admin_perm_orderpembayaran"] || $a["admin_perm_orderapproval"] || $a["admin_perm_orderproduksi"] || $a["admin_perm_orderkirimambil"] ? 'checked' : ''; ?> disabled>
                             </td>
                         </tr>
                         <tr>
@@ -166,7 +166,7 @@ class Administrator extends CI_Controller
                             </td>
                             <td>PROSES PRODUKSI</td>
                             <td class="perm_check">
-                                <input class="perm_orders" type="checkbox" value="1" name="perm_ordercetakproduk" id="perm_ordercetakproduk" <?= $a['admin_perm_ordercetakproduk'] == 1 ? 'checked' : ''; ?>>
+                                <input class="perm_orders" type="checkbox" value="1" name="perm_orderproduksi" id="perm_orderproduksi" <?= $a['admin_perm_orderproduksi'] == 1 ? 'checked' : ''; ?>>
                             </td>
                         </tr>
                         <tr>
@@ -384,7 +384,7 @@ class Administrator extends CI_Controller
             'admin_perm_orderkirimdesign'   => $this->input->post('add_perm_orderkirimdesign')   ?? "0",
             'admin_perm_orderpembayaran'    => $this->input->post('add_perm_orderpembayaran')    ?? "0",
             'admin_perm_orderapproval'      => $this->input->post('add_perm_orderapproval')      ?? "0",
-            'admin_perm_ordercetakproduk'   => $this->input->post('add_perm_ordercetakproduk')   ?? "0",
+            'admin_perm_orderproduksi'   => $this->input->post('add_perm_orderproduksi')   ?? "0",
             'admin_perm_orderkirimambil'    => $this->input->post('add_perm_orderkirimambil')    ?? "0",
             'admin_perm_orderhistory'       => $this->input->post('add_perm_orderhistory')       ?? "0",
             'admin_perm_laporan'            => $this->input->post('add_perm_laporan')            ?? "0",
@@ -428,7 +428,7 @@ class Administrator extends CI_Controller
             'admin_perm_orderkirimdesign'   => $this->input->post('perm_orderkirimdesign')   ?? "0",
             'admin_perm_orderpembayaran'    => $this->input->post('perm_orderpembayaran')    ?? "0",
             'admin_perm_orderapproval'      => $this->input->post('perm_orderapproval')      ?? "0",
-            'admin_perm_ordercetakproduk'   => $this->input->post('perm_ordercetakproduk')   ?? "0",
+            'admin_perm_orderproduksi'   => $this->input->post('perm_orderproduksi')   ?? "0",
             'admin_perm_orderkirimambil'    => $this->input->post('perm_orderkirimambil')    ?? "0",
             'admin_perm_orderhistory'       => $this->input->post('perm_orderhistory')       ?? "0",
             'admin_perm_laporan'            => $this->input->post('perm_laporan')            ?? "0",

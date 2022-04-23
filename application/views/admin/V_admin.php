@@ -152,7 +152,7 @@
                                     </td>
                                     <td>PROSES PRODUKSI</td>
                                     <td class="add_perm_check">
-                                        <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_ordercetakproduk" id="add_perm_ordercetakproduk">
+                                        <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderproduksi" id="add_perm_orderproduksi">
                                     </td>
                                 </tr>
                                 <tr>

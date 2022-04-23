@@ -111,10 +111,10 @@ class Order extends CI_Controller
         $this->load->view('admin/V_order', $x);
         $this->load->view('admin/template/V_footer');
     }
-    function cetak_produk()
+    function proses_produksi()
     {
-        if (!$this->M_admin->check_permission('ordercetakproduk')) redirect('Dashboard');
-        $x['title'] = "Cetak Produk";
+        if (!$this->M_admin->check_permission('orderproduksi')) redirect('Dashboard');
+        $x['title'] = "Proses Produksi";
         $x['order'] = $this->db
             ->select('t.*, p.pelanggan_nama, s.transaksi_status_id, s.transaksi_order_id, s.transaksi_status, s.transaksi_keterangan')
             ->from('tbl_transaksi t')
@@ -443,25 +443,25 @@ class Order extends CI_Controller
     }
     function status()
     {
-        $id = $this->input->post('id');
-        $id_status = $this->input->post('id_status');
-        $status_urut = (50 < $id_status && $id_status <= 57 ? '5' : $this->input->post('id_status') + 1);
-        $keputusan = $this->input->post('keputusan');
-        $keterangan = $this->input->post('keterangan');
-        $user = $_SESSION['admin_nama'];
-        $tanggal_ini = time();
+        $id             = $this->input->post('id');
+        $status_id_full = $this->input->post('id_status'); // 1 - 6 dan 51 - 58
+        $status_id      = (50 < $status_id_full && $status_id_full <= 58 ? '5' : $this->input->post('id_status') + 1); // 1 - 6
+        $keputusan      = $this->input->post('keputusan');
+        $keterangan     = $this->input->post('keterangan');
+        $user           = $_SESSION['admin_nama'];
+        $tanggal_ini    = time();
 
-        $pelanggan = $this->db->query("SELECT p.*, t.* FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
-        $tipe = $this->db->select('product_tipe')->where('product_id', $pelanggan['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
-        $transaksi_produksi_status_id = $this->db->query("SELECT max(transaksi_produksi_status_id) as tpsi FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ")->row_array()['tpsi'];
-        $jangka_waktu = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$status_urut' ")->row_array()['status_jangka_waktu'];
-        $tanggal_hangus = $tanggal_ini + (86400 * $jangka_waktu);
+        $pelanggan                      = $this->db->query("SELECT p.*, t.* FROM tbl_transaksi AS t JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_id = '$id' ")->row_array();
+        $tipe                           = $this->db->select('product_tipe')->where('product_id', $pelanggan['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
+        $transaksi_produksi_status_id   = $this->db->query("SELECT max(transaksi_produksi_status_id) as tpsi FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ")->row_array()['tpsi'];
+        $jangka_waktu                   = $this->db->query("SELECT * FROM tbl_status WHERE status_id = '$status_id' ")->row_array()['status_jangka_waktu'];
+        $tanggal_hangus                 = $tanggal_ini + (86400 * $jangka_waktu);
 
         if ($keputusan == '1') {
             // DITERIMA
-            $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan' WHERE transaksi_status_id = '$id_status' AND transaksi_order_id = '$id' ");
+            $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan' WHERE transaksi_status_id = '$status_id_full' AND transaksi_order_id = '$id' ");
 
-            switch ($id_status) {
+            switch ($status_id_full) {
                 case "1":
                     $this->db->insert('tbl_verifikasi', ['transaksi_id'  => $id, 'verif_pesanan' => $user]);
                     break;
@@ -476,55 +476,74 @@ class Order extends CI_Controller
 
                     switch ($tipe) {
                         case '0':
-                        case '1':
                         case '2':
-                        case '4':
-                            $transaksi_produksi_status_id = '52';
-                            break;
                         case '3':
                             $transaksi_produksi_status_id = '51';
+                            break;
+                        case '1':
+                        case '4':
+                            $transaksi_produksi_status_id = '53';
                             break;
                     }
                     break;
                 case '51':
-                    $transaksi_produksi_status_id = '52';
-                    break;
-                case '52':
                     switch ($tipe) {
                         case '0':
+                        case '2':
                             $transaksi_produksi_status_id = '53';
                             break;
-                        case '2':
-                            $transaksi_produksi_status_id = '55';
+                        case '3':
+                            $transaksi_produksi_status_id = '52';
+                            break;
+                    }
+                    $this->db->set('verif_produksi_gudang', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
+                    break;
+                case '52':
+                    $transaksi_produksi_status_id = '53';
+                    $this->db->set('verif_produksi_identifikasi', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
+                    break;
+                case '53':
+                    switch ($tipe) {
+                        case '0':
+                            $transaksi_produksi_status_id = '54';
                             break;
                         case '1':
                         case '3':
                         case '4':
+                            $transaksi_produksi_status_id = '57';
+                            break;
+                        case '2':
                             $transaksi_produksi_status_id = '56';
                             break;
                     }
-                    break;
-                case '53':
-                    $transaksi_produksi_status_id = '54';
+                    $this->db->set('verif_produksi_cetak', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     break;
                 case '54':
+                    $transaksi_produksi_status_id = '55';
+                    $this->db->set('verif_produksi_press', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
+                    break;
                 case '55':
-                    $transaksi_produksi_status_id = '56';
+                    $transaksi_produksi_status_id = '57';
+                    $this->db->set('verif_produksi_plong', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     break;
                 case '56':
                     $transaksi_produksi_status_id = '57';
+                    $this->db->set('verif_produksi_finishing', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     break;
                 case '57':
-                    $this->db->set('verif_cetak', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
+                    $transaksi_produksi_status_id = '58';
+                    $this->db->set('verif_produksi_qualitycontrol', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
+                    break;
+                case '58':
+                    $this->db->set('verif_produksi_siapkirim', $user)->where('transaksi_id', $id)->update('tbl_verifikasi');
                     $this->db->set('transaksi_status', '1')->where(['transaksi_status_id' => '5', 'transaksi_order_id' => $id])->update('tbl_status_transaksi');
-                    $status_urut = '6';
                     break;
                 default:
                     break;
             }
 
             $data = array(
-                'transaksi_status_id'           => $status_urut,
+                'transaksi_status_id'           => $status_id,
                 'transaksi_produksi_status_id'  => $transaksi_produksi_status_id,
                 'transaksi_order_id'            => $id,
                 'transaksi_tanggal'             => $tanggal_ini,
@@ -534,10 +553,18 @@ class Order extends CI_Controller
             $this->db->insert('tbl_status_transaksi', $data);
         } else {
             // DITOLAK
-            $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan', transaksi_tanggal = '$tanggal_ini', transaksi_tanggal_hangus = '$tanggal_hangus' WHERE transaksi_status_id = '$id_status' AND transaksi_order_id = '$id' ");
+            $this->db
+                ->set('transaksi_status', $keputusan)
+                ->set('transaksi_keterangan', $keterangan)
+                ->set('transaksi_tanggal', $tanggal_ini)
+                ->set('transaksi_tanggal_hangus', $tanggal_hangus)
+                ->where('transaksi_status_id', $status_id_full)
+                ->where('transaksi_order_id', $id)
+                ->update('tbl_status_transaksi');
+            // $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = '$keputusan', transaksi_keterangan = '$keterangan', transaksi_tanggal = '$tanggal_ini', transaksi_tanggal_hangus = '$tanggal_hangus' WHERE transaksi_status_id = '$status_id_full' AND transaksi_order_id = '$id' ");
         }
 
-        if ($id_status < 6) {
+        if ($status_id_full < 6) {
             $personalisasi = $this->input->post('personalisasi') ?? null;
             $finishing     = $this->input->post('finishing') ?? null;
             $packaging     = $this->input->post('packaging') ?? null;
@@ -586,7 +613,7 @@ class Order extends CI_Controller
         $this->load->library('email');
         $this->load->helper('email');
 
-        list($subject, $message) = get_email($id, $id_status, $user, $pelanggan["pelanggan_nama"], $pelanggan["transaksi_tanggal"]);
+        list($subject, $message) = get_email($id, $status_id_full, $user, $pelanggan["pelanggan_nama"], $pelanggan["transaksi_tanggal"]);
         $this->email->clear();
         $this->email->to($pelanggan['pelanggan_email']);
         $this->email->from('noreply@ucard.id');
