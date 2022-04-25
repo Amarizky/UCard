@@ -81,7 +81,7 @@
                                             case '1':
                                                 if ($o['transaksi_status'] == '0')
                                                     echo 'Ditolak';
-                                                elseif ($o['transaksi_status'] == '2')
+                                                else
                                                     echo 'Menunggu Konfirmasi';
                                                 break;
                                             case '2':

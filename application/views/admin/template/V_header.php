@@ -79,17 +79,17 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                             <li class="nav-item">
                                 <a class="nav-link <?= $seg1 == 'Order' && $seg2 != 'history' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
                                     <i class="ni ni-cart text-green"></i>
-                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger to"><?= $jml_daftar; ?></span></span>
+                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></span>
                                 </a>
                                 <div class="collapse <?= $seg1 == 'Order' && $seg2 != 'history' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">
                                         <?php if ($perms['admin_perm_order']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order') ?>" class="nav-link <?= $seg1 == 'Order' && $seg2 == '' ? 'active' : ''; ?>"><i class="fa fa-book"></i>
-                                                    <table style="width:100%;">
+                                                    <table class="w-100">
                                                         <tr>
                                                             <td>DAFTAR ORDER</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></td>
+                                                            <td class="text-right"><span id="pill-o" class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -98,10 +98,10 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                         <?php if ($perms['admin_perm_orderverifikasi']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order/verifikasi') ?>" class="nav-link <?= $seg2 == 'verifikasi' ? 'active' : ''; ?>"><i class="fa fa-check"></i>
-                                                    <table style="width:100%;">
+                                                    <table class="w-100">
                                                         <tr>
                                                             <td>VERIFIKASI</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_verif; ?></span></td>
+                                                            <td class="text-right"><span id="pill-v" class="badge badge-pill badge-danger"><?= $jml_verif; ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -110,10 +110,10 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                         <?php if ($perms['admin_perm_orderkirimdesign']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order/kirim_design') ?>" class="nav-link <?= $seg2 == 'kirim_design' ? 'active' : ''; ?>"><i class="fa fa-image"></i>
-                                                    <table style="width:100%;">
+                                                    <table class="w-100">
                                                         <tr>
                                                             <td>KIRIM DESIGN</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_design ?></span></td>
+                                                            <td class="text-right"><span id="pill-d" class="badge badge-pill badge-danger"><?= $jml_design ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -122,10 +122,10 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                         <?php if ($perms['admin_perm_orderpembayaran']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order/pembayaran') ?>" class="nav-link <?= $seg2 == 'pembayaran' ? 'active' : ''; ?>"><i class="fa fa-credit-card"></i>
-                                                    <table style="width:100%;">
+                                                    <table class="w-100">
                                                         <tr>
                                                             <td>PEMBAYARAN</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_pemb ?></span></td>
+                                                            <td class="text-right"><span id="pill-p" class="badge badge-pill badge-danger"><?= $jml_pemb ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -134,22 +134,22 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                         <?php if ($perms['admin_perm_orderapproval']) : ?>
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order/approval') ?>" class="nav-link <?= $seg2 == 'approval' ? 'active' : ''; ?>"><i class="fa fa-check"></i>
-                                                    <table style="width:100%;">
+                                                    <table class="w-100">
                                                         <tr>
                                                             <td>APPROVAL</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_approv ?></span></td>
+                                                            <td class="text-right"><span id="pill-a" class="badge badge-pill badge-danger"><?= $jml_approv ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
                                             </li>
                                         <?php endif; ?>
-                                        <?php if ($perms['admin_perm_ordercetakproduk']) : ?>
+                                        <?php if ($perms['admin_perm_orderproduksi']) : ?>
                                             <li class="nav-item">
-                                                <a href="<?= base_url('Order/cetak_produk') ?>" class="nav-link <?= $seg2 == 'cetak_produk' ? 'active' : ''; ?>"><i class="fa fa-print"></i>
-                                                    <table style="width:100%;">
+                                                <a href="<?= base_url('Order/proses_produksi') ?>" class="nav-link <?= $seg2 == 'proses_produksi' ? 'active' : ''; ?>"><i class="fa fa-print"></i>
+                                                    <table class="w-100">
                                                         <tr>
-                                                            <td>CETAK PRODUK</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_cetak ?></span></td>
+                                                            <td>PRODUKSI</td>
+                                                            <td class="text-right"><span id="pill-c" class="badge badge-pill badge-danger"><?= $jml_cetak ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -159,10 +159,10 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                             <li class="nav-item">
                                                 <a href="<?= base_url('Order/kirim_ambil') ?>" class="nav-link <?= $seg2 == 'kirim_ambil' ? 'active' : ''; ?>">
                                                     <i class="fa fa-truck"></i>
-                                                    <table style="width:100%;">
+                                                    <table class="w-100">
                                                         <tr>
                                                             <td>KIRIM / AMBIL</td>
-                                                            <td style="text-align:right;"><span class="badge badge-pill badge-danger"><?= $jml_kirim ?></span></td>
+                                                            <td class="text-right"><span id="pill-k" class="badge badge-pill badge-danger"><?= $jml_kirim ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -353,20 +353,44 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                             </div>
                         </li>
                     </ul>
+                    <?php $notifCount = $this->db->query("SELECT transaksi_status FROM tbl_status_transaksi WHERE transaksi_status = '2' ")->num_rows(); ?>
                     <ul class="navbar-nav align-items-center ml-auto ml-md-0">
                         <li class="nav-item dropdown">
                             <a id="s-n" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="ni ni-bell-55"></i>
-                                <b class="notif_status">0</b>
+                                <b><?= $notifCount; ?></b>
                             </a>
                             <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right py-0 overflow-hidden">
                                 <!-- Dropdown header -->
                                 <div class="px-3 py-3">
-                                    <h6 class="text-sm text-muted m-0">Ada <b class="text-primary notif_status">0</b> notifikasi</h6>
+                                    <h6 class="text-sm text-muted m-0">Ada <b class="text-primary"><?= $notifCount; ?></b> notifikasi</h6>
                                 </div>
                                 <!-- List group -->
-                                <div style="max-height:500px;overflow-y:auto;" id="list-notif" class="list-group list-group-flush">
-
+                                <div style="max-height:500px;overflow-y:auto;" class="list-group list-group-flush">
+                                    <?php
+                                    $status = $this->db->query("SELECT * FROM tbl_status_transaksi AS st JOIN tbl_status AS s ON st.transaksi_status_id = s.status_id JOIN tbl_transaksi AS t ON t.transaksi_id = st.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_status = '2' ")->result_array();
+                                    foreach ($status as $s) :
+                                    ?>
+                                        <a href="<?= base_url('Order/detail/' . $s['transaksi_id']); ?>" class="list-group-item list-group-item-action">
+                                            <div class="row align-items-center">
+                                                <div class="col-auto">
+                                                    <!-- Avatar -->
+                                                    <i class="<?= $s['status_icon']; ?>"></i>
+                                                </div>
+                                                <div class="col ml--2">
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <h4 class="mb-0 text-sm"><?= $s['pelanggan_nama']; ?></h4>
+                                                        </div>
+                                                        <div class="text-right text-muted">
+                                                            <small><?= $s['status_status']; ?></small>
+                                                        </div>
+                                                    </div>
+                                                    <p class="text-sm mb-0">Menunggu Konfirmasi</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </li>

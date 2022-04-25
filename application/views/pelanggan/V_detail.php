@@ -1,4 +1,13 @@
+<?php
+$stp = $this->db->where('transaksi_order_id', $this->uri->segment(3))->order_by('transaksi_id', 'desc')->limit(1)->get('tbl_status_transaksi')->row_array();
+$stp_status_id = $stp['transaksi_status_id'];
+$stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
+?>
+
 <input type="hidden" value="<?= $this->uri->segment(3) ?>" id="id">
+<input type="hidden" id="status_id" value="<?= $stp_status_id; ?>">
+<input type="hidden" id="prod_status_id" value="<?= $stp_prod_status_id ?? '0'; ?>">
+
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/select2/dist/css/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/quill/dist/quill.core.css') ?>">
 <style>
@@ -123,7 +132,7 @@
 
                         foreach ($status as $s) : ?>
                             <?php
-                            $id_status = $s['status_urut'];
+                            $id_status = $s['status_id'];
                             $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' AND transaksi_status_id = '$id_status' ORDER BY transaksi_id DESC ")->row_array();
                             $verif = $this->db->query("SELECT * FROM tbl_verifikasi WHERE transaksi_id = '$id_transaksi';")->row_array();
                             ?>
@@ -133,7 +142,7 @@
                                         <i class="<?= $s['status_icon'] ?>"></i>
                                     </span>
                                     <div class="timeline-content">
-                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
+                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
                                             <?php if ($st['transaksi_status'] == '4') : ?>
@@ -158,13 +167,13 @@
                                     <div class="timeline-content">
                                         <?php
                                         $max = $this->db->query("SELECT MAX(transaksi_status_id) AS akhir FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi'  ")->row_array();
-                                        if ($s['status_urut'] == $max['akhir']) :
+                                        if ($s['status_id'] == $max['akhir']) :
                                         ?>
-                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verif['verif_kirimambil']) ? " ($verif[verif_kirimambil])" : "") ?></b></a>
+                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verif['verif_kirimambil']) ? " ($verif[verif_kirimambil])" : "") ?></b></a>
                                         <?php else : ?>
                                             <?php
                                             $verifikator = "";
-                                            switch ($s['status_urut']) {
+                                            switch ($s['status_id']) {
                                                 case "1":
                                                     $verifikator = !empty($verif['verif_pesanan']) ? $verif['verif_pesanan'] : "-";
                                                     break;
@@ -178,13 +187,13 @@
                                                     $verifikator = !empty($verif['verif_approval']) ? $verif['verif_approval'] : "-";
                                                     break;
                                                 case "5":
-                                                    $verifikator = !empty($verif['verif_cetak']) ? $verif['verif_cetak'] : "-";
+                                                    $verifikator = !empty($verif['verif_produksi']) ? $verif['verif_produksi'] : "-";
                                                     break;
                                                 default:
                                                     $verifikator = "admin";
                                             }
                                             ?>
-                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifikator) ? " ($verifikator)" : "") ?></b></a>
+                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifikator) ? " ($verifikator)" : "") ?></b></a>
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
@@ -201,7 +210,7 @@
                                         <i class="<?= $s['status_icon'] ?>"></i>
                                     </span>
                                     <div class="timeline-content">
-                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_urut'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
+                                        <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
                                             <?php if ($st['transaksi_status'] == '4') : ?>
@@ -261,7 +270,7 @@
                                 <div class="col">
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#perbaikan">
-                                            Perbaikan <i class="fa fa-pen"></i>
+                                            <i class="fa fa-pen"></i> Perbaikan
                                         </button>
                                     </div>
                                 </div>
@@ -790,7 +799,7 @@
                                 <?php if (empty($o['transaksi_approval_acc'])) : ?>
                                     <div>Silahkan pilih produk yang akan di-approve dan dibuat</div>
                                 <?php else : ?>
-                                    <div>Harap tunggu Admin untuk meneruskan ke proses cetak produk.</div>
+                                    <div>Harap tunggu Admin untuk meneruskan ke proses produksi.</div>
                                 <?php endif; ?>
                                 <br>
                                 <input type="radio" value="1" name="approval" id="apv1" <?= $o['transaksi_approval_acc'] == '1' ? ' checked' : null; ?> required onclick="pilihGambar()">
@@ -834,7 +843,7 @@
             <div id="status5" class="tabcontent">
                 <div class="card">
                     <div class="card-header bg-transparent">
-                        <h3 class="mb-0">Cetak Produk</h3>
+                        <h3 class="mb-0">Proses Produksi</h3>
                     </div>
                     <div class="card-body">
                         <?php
@@ -858,36 +867,62 @@
                                 $produksi = $this->db;
                                 switch ($tipe) {
                                     case '0':
-                                        $produksi = $produksi->where_in('status_id', ['52', '53', '54', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51',       '53', '54', '55',       '57', '58']);
                                         break;
                                     case '1':
                                     case '4':
-                                        $produksi = $produksi->where_in('status_id', ['52', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id',             ['53',                   '57', '58']);
                                         break;
                                     case '2':
-                                        $produksi = $produksi->where_in('status_id', ['52', '55', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51',       '53',             '56', '57', '58']);
                                         break;
                                     case '3':
-                                        $produksi = $produksi->where_in('status_id', ['51', '52', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51', '52', '53',                   '57', '58']);
                                         break;
                                 }
 
                                 $produksi = $this->db->get('tbl_status')->result_array();
                                 $produksicount = current($produksi);
+                                $id = $this->uri->segment(3);
+                                $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
+                                $i = 1;
                                 ?>
                                 <?php foreach ($produksi as $pr) : ?>
+                                    <?php
+                                    if ($pr['status_id'] == '51') {
+                                        $verifier = $verif['verif_produksi_gudang'];
+                                        $logo     = 'fa fa-warehouse';
+                                    } else if ($pr['status_id'] == '52') {
+                                        $verifier = $verif['verif_produksi_identifikasi'];
+                                        $logo     = 'fas fa-fingerprint';
+                                    } else if ($pr['status_id'] == '53') {
+                                        $verifier = $verif['verif_produksi_cetak'];
+                                        $logo     = 'fas fa-print';
+                                    } else if ($pr['status_id'] == '54') {
+                                        $verifier = $verif['verif_produksi_press'];
+                                        $logo     = 'fas fa-compress-arrows-alt';
+                                    } else if ($pr['status_id'] == '55') {
+                                        $verifier = $verif['verif_produksi_plong'];
+                                        $logo     = 'fas fa-cut';
+                                    } else if ($pr['status_id'] == '56') {
+                                        $verifier = $verif['verif_produksi_finishing'];
+                                        $logo     = 'fas fa-spray-can';
+                                    } else if ($pr['status_id'] == '57') {
+                                        $verifier = $verif['verif_produksi_qualitycontrol'];
+                                        $logo     = 'far fa-check-circle';
+                                    } else if ($pr['status_id'] == '58') {
+                                        $verifier = $verif['verif_produksi_siapkirim'];
+                                        $logo     = 'fas fa-box';
+                                    }
+                                    if ($verifier) $verifier = ' (' . $verifier . ')';
+                                    ?>
                                     <div class="timeline-block mt-1 mb-0">
                                         <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
-                                            <i class="fa fa-image"></i>
+                                            <i class="<?= $logo ?? 'fa fa-print'; ?>"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status']; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
-                                            <!-- <div class="mt-3">
-                                                    <span class="badge badge-pill badge-success">Diterima</span>
-                                                    <p class="text-sm mt-2">
-                                                    </p>
-                                                </div> -->
+                                            <p class="my-1"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
+                                            <p class=" text-sm mt-1 mb-0">Proses produksi tahap <?= $i++; ?></p>
                                         </div>
                                     </div>
                                     <?php $produksicount = next($produksi) ?>
@@ -898,13 +933,10 @@
                 </div>
             </div>
             <div id="status6" class="tabcontent">
-
                 <div class="card">
-
                     <div class="card-header bg-transparent">
                         <h3 class="mb-0">Konfirmasi Pesanan</h3>
                     </div>
-
                     <div id="terima_p" class="card-body">
                         <p>Harap tunggu sampai Admin mengirim produk Anda dan memasukkan resi</p>
                         <?php if ($o['transaksi_terima'] == NULL) : ?>
@@ -1213,9 +1245,9 @@
                                     <label for="material5">Tissue 2CM</label><br>
                                     <input id="material6" type="radio" placeholder="material" name="material" value="6" <?= $o['transaksi_material'] == '6' ? 'checked' : ''; ?> required>
                                     <label for="material6">Tissue 2,5CM</label>
-                                    <input id="material7" type="radio" placeholder="material" name="material" value="7" <?= $o['transaksi_material'] == '7' ? 'checked' : ''; ?>required>
+                                    <input id="material7" type="radio" placeholder="material" name="material" value="7" <?= $o['transaksi_material'] == '7' ? 'checked' : ''; ?> required>
                                     <label for="material7">Tali gelang 1,5cm printing</label><br>
-                                    <input id="material8" type="radio" placeholder="material" name="material" value="8" <?= $o['transaksi_material'] == '8' ? 'checked' : ''; ?>required>
+                                    <input id="material8" type="radio" placeholder="material" name="material" value="8" <?= $o['transaksi_material'] == '8' ? 'checked' : ''; ?> required>
                                     <label for="material8">Tali gelang 2cm printing</label>
                                 </div>
                                 <div class="grid-item p-0 pb-3">
@@ -1621,30 +1653,22 @@
         }
     });
 </script>
-<?php
-$statusRefresh = $this->db->query("SELECT max(transaksi_status_id) st, max(transaksi_produksi_status_id) pd FROM tbl_status_transaksi WHERE transaksi_order_id=" . $this->uri->segment(3))->row_array();
-
-?>
 <script>
-    $(document).ready(function() {
-        setInterval(function() {
-            var id = $('#id').val();
-            var status = '<?= $statusRefresh['st']; ?>';
-            var produksi = '<?= $statusRefresh['pd']; ?>';
-            $.ajax({
-                type: 'POST',
-                url: '<?= base_url('Detail_product_pelanggan/checkStatus') ?>',
-                data: {
-                    id: id,
-                    status: status,
-                    produksi: produksi
-                },
-                success: function(data) {
-                    if (data === 'refresh') {
-                        location.reload();
-                    }
-                }
-            });
-        }, 5000);
-    });
+    var status_id = document.getElementById('status_id').value;
+    var prod_status_id = document.getElementById('prod_status_id').value;
+
+    window.setInterval(function() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Order/check_status') ?>',
+            data: {
+                'id': document.getElementById('id').value,
+            },
+            success: function(data) {
+                data = JSON.parse(data);
+                if (status_id != data.sid) location.reload();
+                if (prod_status_id != data.pid) location.reload();
+            }
+        });
+    }, 6000);
 </script>

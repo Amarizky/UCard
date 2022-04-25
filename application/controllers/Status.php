@@ -13,34 +13,10 @@ class Status extends CI_Controller
 	function index()
 	{
 		$x['title'] = "Status";
-		$x['status'] = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '_' ORDER BY status_urut ASC ")->result_array();
+		$x['status'] = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '_'")->result_array();
 		$this->load->view('admin/template/V_header', $x);
 		$this->load->view('admin/V_status', $x);
 		$this->load->view('admin/template/V_footer');
-	}
-	function tambah_status()
-	{
-		$status = $this->input->post('status');
-		$keterangan = $this->input->post('keterangan');
-		$urutan = $this->input->post('urutan');
-		$icon = $this->input->post('icon');
-		$this->db->query("INSERT INTO tbl_status VALUES (NULL,'$status','$keterangan','$urutan','$icon') ");
-		redirect('Status');
-	}
-	function update_status()
-	{
-		$id = $this->input->post('id');
-		$status = $this->input->post('status');
-		$keterangan = $this->input->post('keterangan');
-		$urutan = $this->input->post('urutan');
-		$icon = $this->input->post('icon');
-		$this->db->query("UPDATE tbl_status SET status_status = '$status', status_keterangan = '$keterangan', status_urut = '$urutan', status_icon = '$icon' WHERE status_id = '$id' ");
-		redirect('Status');
-	}
-	function hapus_status()
-	{
-		$id = $this->input->post('id');
-		$this->db->query("DELETE FROM tbl_status WHERE status_id = '$id' ");
 	}
 	function status_jangka()
 	{

@@ -18,8 +18,6 @@
     </div>
 </div>
 
-</div>
-</div>
 <!-- Argon Scripts -->
 <!-- Core -->
 <script src="<?= base_url('assets/admin/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
@@ -44,61 +42,34 @@
 
 </html>
 <script>
-    $("body").addClass((window.innerWidth <= 1200 ? "g-sidenav-hidden" : "g-sidenav-pinned"))
-    $(document).ready(function() {
-        notif();
-        var refInterval = window.setInterval('notif()', 12000);
-    });
+    $("body").addClass((window.innerWidth <= 1200 ? "g-sidenav-hidden" : "g-sidenav-pinned"));
 
-    function notif() {
+    var po = document.getElementById('pill-o');
+    var pv = document.getElementById('pill-v');
+    var pd = document.getElementById('pill-d');
+    var pp = document.getElementById('pill-p');
+    var pa = document.getElementById('pill-a');
+    var pc = document.getElementById('pill-c');
+    var pk = document.getElementById('pill-k');
+    var btnNotif = document.getElementById('notif-pesan-tombol');
+
+    window.setInterval(function() {
         $.ajax({
             type: 'POST',
             url: '<?= base_url('Order/check') ?>',
-            data: {},
             success: function(data) {
-                if (data == 'baru') {
-                    // alert('Ada pesanan baru!');
-                    $('#notif-pesan-tombol').click();
-                }
+                data = JSON.parse(data);
+
+                po.textContent = data.o;
+                pd.textContent = data.d;
+                pp.textContent = data.p;
+                pa.textContent = data.a;
+                pc.textContent = data.c;
+                pk.textContent = data.k;
+
+                if (pv.textContent < data.v) btnNotif.click();
+                else pv.textContent = data.v;
             }
         });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check_status') ?>',
-            data: {},
-            success: function(data) {
-                $('.notif_status').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/new_status') ?>',
-            data: {},
-            success: function(data) {
-                $('#list-notif').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check_tot') ?>',
-            data: {},
-            success: function(data) {
-                $('.to').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check_v') ?>',
-            data: {},
-            success: function(data) {
-                $('.c_v').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/hangus') ?>',
-            data: {},
-            success: function(data) {}
-        });
-    }
+    }, 6000);
 </script>
