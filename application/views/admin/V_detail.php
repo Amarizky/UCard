@@ -168,8 +168,42 @@
                                     </span>
                                     <div class="timeline-content">
                                         <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] ?></b></a>
-                                        <?php $max = $this->db->query("SELECT MAX(status_id) AS akhir FROM tbl_status WHERE status_id LIKE '_';")->row_array(); ?>
-                                        <?php if ($s['status_id'] != $max['akhir'] && $st['transaksi_deleted'] == 0 && $st['transaksi_status'] != '4') : ?>
+                                        <?php
+                                        $max = $this->db->query("SELECT MAX(status_id) AS akhir FROM tbl_status WHERE status_id LIKE '_';")->row_array();
+                                        if ($s['status_id'] == '5') {
+                                            $perms = $this->db->where('admin_id', $this->session->admin_id)->get('tbl_admin')->row_array();
+                                            switch ($statusproduksi) {
+                                                case '51':
+                                                    $showButton = $perms['admin_perm_orderproduksi_gudang'] == '1';
+                                                    break;
+                                                case '52':
+                                                    $showButton = $perms['admin_perm_orderproduksi_identifikasi'] == '1';
+                                                    break;
+                                                case '53':
+                                                    $showButton = $perms['admin_perm_orderproduksi_cetak'] == '1';
+                                                    break;
+                                                case '54':
+                                                    $showButton = $perms['admin_perm_orderproduksi_press'] == '1';
+                                                    break;
+                                                case '55':
+                                                    $showButton = $perms['admin_perm_orderproduksi_plong'] == '1';
+                                                    break;
+                                                case '56':
+                                                    $showButton = $perms['admin_perm_orderproduksi_finishing'] == '1';
+                                                    break;
+                                                case '57':
+                                                    $showButton = $perms['admin_perm_orderproduksi_qualitycontrol'] == '1';
+                                                    break;
+                                                case '58':
+                                                    $showButton = $perms['admin_perm_orderproduksi_siapkirim'] == '1';
+                                                    break;
+                                                default:
+                                                    $showButton = false;
+                                                    break;
+                                            }
+                                        } else $showButton = $s['status_id'] != $max['akhir'] && $st['transaksi_deleted'] == 0 && $st['transaksi_status'] != '4';
+                                        ?>
+                                        <?php if ($showButton) : ?>
                                             <button id-status="<?= $s['status_id'] == '5' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#status_update"><i class="fa fa-pen"></i></button>
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
@@ -214,7 +248,7 @@
                                                     $verifikator = $verif['verif_approval'];
                                                     break;
                                                 case "5":
-                                                    $verifikator = $verif['verif_produksi'];
+                                                    $verifikator = $verif['verif_produksi_siapkirim'];
                                                     break;
                                             }
                                             ?>
@@ -824,36 +858,55 @@
                                 $produksi = $this->db;
                                 switch ($tipe) {
                                     case '0':
-                                        $produksi = $produksi->where_in('status_id', ['52', '53', '54', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51',       '53', '54', '55',       '57', '58']);
                                         break;
                                     case '1':
                                     case '4':
-                                        $produksi = $produksi->where_in('status_id', ['52', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id',             ['53',                   '57', '58']);
                                         break;
                                     case '2':
-                                        $produksi = $produksi->where_in('status_id', ['52', '55', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51',       '53',             '56', '57', '58']);
                                         break;
                                     case '3':
-                                        $produksi = $produksi->where_in('status_id', ['51', '52', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51', '52', '53',                   '57', '58']);
                                         break;
                                 }
 
                                 $produksi = $this->db->get('tbl_status')->result_array();
                                 $produksicount = current($produksi);
+
+                                $id = $this->uri->segment(3);
+                                $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
                                 ?>
                                 <?php foreach ($produksi as $pr) : ?>
+                                    <?php $verifier = ""; ?>
+                                    <?php
+                                    if ($pr['status_id'] == '51') {
+                                        $verifier = $verif['verif_produksi_gudang'];
+                                    } else if ($pr['status_id'] == '52') {
+                                        $verifier = $verif['verif_produksi_idenfitikasi'];
+                                    } else if ($pr['status_id'] == '53') {
+                                        $verifier = $verif['verif_produksi_cetak'];
+                                    } else if ($pr['status_id'] == '54') {
+                                        $verifier = $verif['verif_produksi_press'];
+                                    } else if ($pr['status_id'] == '55') {
+                                        $verifier = $verif['verif_produksi_plong'];
+                                    } else if ($pr['status_id'] == '56') {
+                                        $verifier = $verif['verif_produksi_finishing'];
+                                    } else if ($pr['status_id'] == '57') {
+                                        $verifier = $verif['verif_produksi_qualitycontrol'];
+                                    } else if ($pr['status_id'] == '58') {
+                                        $verifier = $verif['verif_produksi_siapkirim'];
+                                    }
+                                    if ($verifier) $verifier = ' (' . $verifier . ')';
+                                    ?>
                                     <div class="timeline-block mt-1 mb-0">
                                         <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
                                             <i class="fa fa-image"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status']; ?></b></p>
+                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
                                             <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
-                                            <!-- <div class="mt-3">
-                                                    <span class="badge badge-pill badge-success">Diterima</span>
-                                                    <p class="text-sm mt-2">
-                                                    </p>
-                                                </div> -->
                                         </div>
                                     </div>
                                     <?php $produksicount = next($produksi) ?>

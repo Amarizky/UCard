@@ -445,7 +445,7 @@ class Order extends CI_Controller
     {
         $id             = $this->input->post('id');
         $status_id_full = $this->input->post('id_status'); // 1 - 6 dan 51 - 58
-        $status_id      = (50 < $status_id_full && $status_id_full <= 58 ? '5' : $this->input->post('id_status') + 1); // 1 - 6
+        $status_id      = 50 < $status_id_full && $status_id_full < 58 ? '5' : ($status_id_full == 58 ? '6' : $this->input->post('id_status') + 1); // 1 - 6
         $keputusan      = $this->input->post('keputusan');
         $keterangan     = $this->input->post('keterangan');
         $user           = $_SESSION['admin_nama'];
@@ -675,24 +675,24 @@ class Order extends CI_Controller
             switch ($tipe) {
                 case '0':
                     $status = $status
-                        ->where_in('status_id', ['52', '53', '54', '56', '57', '6'])
-                        ->order_by('FIELD(status_id, 52, 53, 54, 56, 57, 6)');
+                        ->where_in('status_id', ['51', '53', '54', '55', '57', '58', '6'])
+                        ->order_by('FIELD(status_id, 51, 53, 54, 55, 57, 58, 6)');
                     break;
                 case '1':
                 case '4':
                     $status = $status
-                        ->where_in('status_id', ['52', '56', '57', '6'])
-                        ->order_by('FIELD(status_id, 52, 56, 57, 6)');
+                        ->where_in('status_id', ['53', '57', '58', '6'])
+                        ->order_by('FIELD(status_id, 53, 57, 58, 6)');
                     break;
                 case '2':
                     $status = $status
-                        ->where_in('status_id', ['52', '55', '56', '57', '6'])
-                        ->order_by('FIELD(status_id, 52, 55, 56, 57, 6)');
+                        ->where_in('status_id', ['51', '53', '56', '57', '58', '6'])
+                        ->order_by('FIELD(status_id, 51, 53, 56, 57, 58, 6)');
                     break;
                 case '3':
                     $status = $status
-                        ->where_in('status_id', ['51', '52', '56', '57', '6'])
-                        ->order_by('FIELD(status_id, 51, 52, 56, 57, 6)');
+                        ->where_in('status_id', ['51', '52', '53', '57', '58', '6'])
+                        ->order_by('FIELD(status_id, 51, 52, 53, 57, 58, 6)');
                     break;
             }
 

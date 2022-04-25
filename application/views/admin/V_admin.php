@@ -90,7 +90,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-shop text-primary"></i>
                                     </td>
-                                    <td colspan="2">Dashboard</td>
+                                    <td colspan="3">Dashboard</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_dashboard" id="add_perm_dashboard" checked disabled>
                                     </td>
@@ -99,7 +99,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-cart text-green"></i>
                                     </td>
-                                    <td colspan="2">Order</td>
+                                    <td colspan="3">Order</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_order" type="checkbox" value="1" name="add_perm_order" id="add_perm_order">
                                     </td>
@@ -108,9 +108,19 @@
                                 <tr>
                                     <td></td>
                                     <td class="add_perm_icon">
+                                        <i class="fa fa-book"></i>
+                                    </td>
+                                    <td colspan="2">DAFTAR ORDER</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orderdaftarorder" type="checkbox" value="1" name="add_perm_orderdaftarorder" id="add_perm_orderdaftarorder" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td class="add_perm_icon">
                                         <i class="fa fa-check"></i>
                                     </td>
-                                    <td>VERIFIKASI</td>
+                                    <td colspan="2">VERIFIKASI</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderverifikasi" id="add_perm_orderverifikasi">
                                     </td>
@@ -120,7 +130,7 @@
                                     <td class="add_perm_icon">
                                         <i class="fa fa-image"></i>
                                     </td>
-                                    <td>KIRIM DESIGN</td>
+                                    <td colspan="2">KIRIM DESIGN</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderkirimdesign" id="add_perm_orderkirimdesign">
                                     </td>
@@ -130,7 +140,7 @@
                                     <td class="add_perm_icon">
                                         <i class="fa fa-credit-card"></i>
                                     </td>
-                                    <td>PEMBAYARAN</td>
+                                    <td colspan="2">PEMBAYARAN</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderpembayaran" id="add_perm_orderpembayaran">
                                     </td>
@@ -140,7 +150,7 @@
                                     <td class="add_perm_icon">
                                         <i class="fa fa-check"></i>
                                     </td>
-                                    <td>APPROVAL</td>
+                                    <td colspan="2">APPROVAL</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderapproval" id="add_perm_orderapproval">
                                     </td>
@@ -150,17 +160,107 @@
                                     <td class="add_perm_icon">
                                         <i class="fa fa-print"></i>
                                     </td>
-                                    <td>PROSES PRODUKSI</td>
+                                    <td colspan="2">PROSES PRODUKSI</td>
                                     <td class="add_perm_check">
-                                        <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderproduksi" id="add_perm_orderproduksi">
+                                        <input class="add_perm_orders add_perm_produksi" type="checkbox" value="1" name="add_perm_orderproduksi" id="add_perm_orderproduksi">
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fa fa-warehouse"></i>
+                                    </td>
+                                    <td>GUDANG</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_gudang" id="add_perm_orderproduksi_gudang">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fas fa-fingerprint"></i>
+                                    </td>
+                                    <td>INPUT IDENTIFIKASI</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_identifikasi" id="add_perm_orderproduksi_identifikasi">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fas fa-print"></i>
+                                    </td>
+                                    <td>CETAK</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_cetak" id="add_perm_orderproduksi_cetak">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fas fa-compress-arrows-alt"></i>
+                                    </td>
+                                    <td>PRESS</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_press" id="add_perm_orderproduksi_press">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fas fa-cut"></i>
+                                    </td>
+                                    <td>PLONG</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_plong" id="add_perm_orderproduksi_plong">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fas fa-spray-can"></i>
+                                    </td>
+                                    <td>FINISHING</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_finishing" id="add_perm_orderproduksi_finishing">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="far fa-check-circle"></i>
+                                    </td>
+                                    <td>QUALITY CONTROL</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_qualitycontrol" id="add_perm_orderproduksi_qualitycontrol">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="add_perm_icon">
+                                        <i class="fa fa-print"></i>
+                                    </td>
+                                    <td>SIAP KIRIM</td>
+                                    <td class="add_perm_check">
+                                        <input class="add_perm_orders add_perm_produksis" type="checkbox" value="1" name="add_perm_orderproduksi_siapkirim" id="add_perm_orderproduksi_siapkirim">
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td></td>
                                     <td class="add_perm_icon">
                                         <i class="fa fa-truck"></i>
                                     </td>
-                                    <td>KIRIM / AMBIL</td>
+                                    <td colspan="2">KIRIM / AMBIL</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_orders" type="checkbox" value="1" name="add_perm_orderkirimambil" id="add_perm_orderkirimambil">
                                     </td>
@@ -170,7 +270,7 @@
                                     <td class="add_perm_icon">
                                         <i class="fa fa-history text-green"></i>
                                     </td>
-                                    <td colspan="2">Order History</td>
+                                    <td colspan="3">Order History</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_orderhistory" id="add_perm_orderhistory">
                                     </td>
@@ -179,7 +279,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td colspan="2">Laporan</td>
+                                    <td colspan="3">Laporan</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_laporan" type="checkbox" value="1" name="add_perm_laporan" id="add_perm_laporan">
                                     </td>
@@ -190,7 +290,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td>Pelanggan</td>
+                                    <td colspan="2">Pelanggan</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_laporans" type="checkbox" value="1" name="add_perm_laporanpelanggan" id="add_perm_laporanpelanggan">
                                     </td>
@@ -200,7 +300,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td>Produk</td>
+                                    <td colspan="2">Produk</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_laporans" type="checkbox" value="1" name="add_perm_laporanproduk" id="add_perm_laporanproduk">
                                     </td>
@@ -210,7 +310,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-copy-04 text-info"></i>
                                     </td>
-                                    <td>Penjualan</td>
+                                    <td colspan="2">Penjualan</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_laporans" type="checkbox" value="1" name="add_perm_laporanpenjualan" id="add_perm_laporanpenjualan">
                                     </td>
@@ -220,7 +320,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-bullet-list-67 text-primary"></i>
                                     </td>
-                                    <td colspan="2">Category</td>
+                                    <td colspan="3">Category</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_category" id="add_perm_category">
                                     </td>
@@ -229,7 +329,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-box-2 text-danger"></i>
                                     </td>
-                                    <td colspan="2">Product</td>
+                                    <td colspan="3">Product</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_produk" id="add_perm_produk">
                                     </td>
@@ -238,7 +338,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-image text-green"></i>
                                     </td>
-                                    <td colspan="2">Template</td>
+                                    <td colspan="3">Template</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_template" type="checkbox" value="1" name="add_perm_template" id="add_perm_template">
                                     </td>
@@ -249,7 +349,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-image text-green"></i>
                                     </td>
-                                    <td>Template Assets</td>
+                                    <td colspan="2">Template Assets</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_templates" type="checkbox" value="1" name="add_perm_templateassets" id="add_perm_templateassets">
                                     </td>
@@ -259,7 +359,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-image text-green"></i>
                                     </td>
-                                    <td>Template Pelanggan</td>
+                                    <td colspan="2">Template Pelanggan</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_templates" type="checkbox" value="1" name="add_perm_templatepelanggan" id="add_perm_templatepelanggan">
                                     </td>
@@ -269,7 +369,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-image text-info"></i>
                                     </td>
-                                    <td colspan="2">Image</td>
+                                    <td colspan="3">Image</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_image" type="checkbox" value="1" name="add_perm_image" id="add_perm_image">
                                     </td>
@@ -280,7 +380,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-image text-info"></i>
                                     </td>
-                                    <td>Image Assets</td>
+                                    <td colspan="2">Image Assets</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_images" type="checkbox" value="1" name="add_perm_imageassets" id="add_perm_imageassets">
                                     </td>
@@ -290,7 +390,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-image text-info"></i>
                                     </td>
-                                    <td>Image Pelanggan</td>
+                                    <td colspan="2">Image Pelanggan</td>
                                     <td class="add_perm_check">
                                         <input class="add_perm_images" type="checkbox" value="1" name="add_perm_imagepelanggan" id="add_perm_imagepelanggan">
                                     </td>
@@ -300,7 +400,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-02 text-info"></i>
                                     </td>
-                                    <td colspan="2">Pelanggan</td>
+                                    <td colspan="3">Pelanggan</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_pelanggan" id="add_perm_pelanggan">
                                     </td>
@@ -309,7 +409,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-circle-08 text-orange"></i>
                                     </td>
-                                    <td colspan="2">Customer Services</td>
+                                    <td colspan="3">Customer Services</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_customerservices" id="add_perm_customerservices">
                                     </td>
@@ -318,7 +418,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-tag text-info"></i>
                                     </td>
-                                    <td colspan="2">Status</td>
+                                    <td colspan="3">Status</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_status" id="add_perm_status">
                                     </td>
@@ -327,7 +427,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-credit-card text-success"></i>
                                     </td>
-                                    <td colspan="2">Bank</td>
+                                    <td colspan="3">Bank</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_bank" id="add_perm_bank">
                                     </td>
@@ -336,7 +436,7 @@
                                     <td class="add_perm_icon">
                                         <i class="ni ni-single-02 text-warning"></i>
                                     </td>
-                                    <td colspan="2">Admin</td>
+                                    <td colspan="3">Admin</td>
                                     <td class="add_perm_check">
                                         <input type="checkbox" value="1" name="add_perm_admin" id="add_perm_admin">
                                     </td>
@@ -365,12 +465,37 @@
 <script>
     $('#tblAddAdminPerm tr').click(function() {
         var inp = $(this).find("input")[0];
-        if (!$(inp).is('#perm_dashboard')) {
+        if (!$(inp).is('#add_perm_dashboard') && !$(inp).is('#add_perm_orderdaftarorder')) {
             inp.checked = !inp.checked;
-            if ($(inp).hasClass("add_perm_order")) $(".add_perm_orders").prop("checked", $(".add_perm_order").prop("checked"));
-            if ($(inp).hasClass("add_perm_orders"))
-                if ($(".add_perm_orders:checked").length) $(".add_perm_order").prop("checked", true);
-                else $(".add_perm_order").prop("checked", false);
+            if ($(inp).hasClass("add_perm_order")) {
+                $(".add_perm_orders").prop("checked", $(".add_perm_order").prop("checked"));
+                $(".add_perm_produksis").prop("checked", $(".add_perm_order").prop("checked"));
+                $(".add_perm_orderdaftarorder").prop("checked", $(".add_perm_order").prop("checked"));
+            }
+            if ($(inp).hasClass("add_perm_orders")) {
+                if ($(inp).hasClass("add_perm_produksi")) $(".add_perm_produksis").prop("checked", $(".add_perm_produksi").prop("checked"));
+                if ($(".add_perm_orders:checked").length) {
+                    $(".add_perm_order").prop("checked", true);
+                    $(".add_perm_orderdaftarorder").prop("checked", true);
+                } else {
+                    $(".add_perm_order").prop("checked", false);
+                    $(".add_perm_orderdaftarorder").prop("checked", false);
+                }
+            }
+            if ($(inp).hasClass("add_perm_produksis")) {
+                if ($(".add_perm_produksis:checked").length) {
+                    $(".add_perm_produksi").prop("checked", true);
+                } else {
+                    $(".add_perm_produksi").prop("checked", false);
+                }
+                if ($(".add_perm_orders:checked").length) {
+                    $(".add_perm_order").prop("checked", true);
+                    $(".add_perm_orderdaftarorder").prop("checked", true);
+                } else {
+                    $(".add_perm_order").prop("checked", false);
+                    $(".add_perm_orderdaftarorder").prop("checked", false);
+                }
+            }
             if ($(inp).hasClass("add_perm_laporan")) $(".add_perm_laporans").prop("checked", $(".add_perm_laporan").prop("checked"));
             if ($(inp).hasClass("add_perm_laporans"))
                 if ($(".add_perm_laporans:checked").length) $(".add_perm_laporan").prop("checked", true);
@@ -386,7 +511,7 @@
         }
     });
     $('#tblAddAdminPerm input').click(function() {
-        this.checked = !this.checked;
+        this.checked = true;
     })
 </script>
 

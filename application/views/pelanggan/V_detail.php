@@ -858,17 +858,17 @@
                                 $produksi = $this->db;
                                 switch ($tipe) {
                                     case '0':
-                                        $produksi = $produksi->where_in('status_id', ['52', '53', '54', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51',       '53', '54', '55',       '57', '58']);
                                         break;
                                     case '1':
                                     case '4':
-                                        $produksi = $produksi->where_in('status_id', ['52', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id',             ['53',                   '57', '58']);
                                         break;
                                     case '2':
-                                        $produksi = $produksi->where_in('status_id', ['52', '55', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51',       '53',             '56', '57', '58']);
                                         break;
                                     case '3':
-                                        $produksi = $produksi->where_in('status_id', ['51', '52', '56', '57']);
+                                        $produksi = $produksi->where_in('status_id', ['51', '52', '53',                   '57', '58']);
                                         break;
                                 }
 
@@ -883,11 +883,6 @@
                                         <div class="timeline-content">
                                             <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status']; ?></b></p>
                                             <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
-                                            <!-- <div class="mt-3">
-                                                    <span class="badge badge-pill badge-success">Diterima</span>
-                                                    <p class="text-sm mt-2">
-                                                    </p>
-                                                </div> -->
                                         </div>
                                     </div>
                                     <?php $produksicount = next($produksi) ?>
@@ -898,13 +893,10 @@
                 </div>
             </div>
             <div id="status6" class="tabcontent">
-
                 <div class="card">
-
                     <div class="card-header bg-transparent">
                         <h3 class="mb-0">Konfirmasi Pesanan</h3>
                     </div>
-
                     <div id="terima_p" class="card-body">
                         <p>Harap tunggu sampai Admin mengirim produk Anda dan memasukkan resi</p>
                         <?php if ($o['transaksi_terima'] == NULL) : ?>
