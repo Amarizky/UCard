@@ -42,5 +42,35 @@
 
 </html>
 <script>
-    $("body").addClass((window.innerWidth <= 1200 ? "g-sidenav-hidden" : "g-sidenav-pinned"))
+    $("body").addClass((window.innerWidth <= 1200 ? "g-sidenav-hidden" : "g-sidenav-pinned"));
+
+    var po = document.getElementById('pill-o');
+    var pv = document.getElementById('pill-v');
+    var pd = document.getElementById('pill-d');
+    var pp = document.getElementById('pill-p');
+    var pa = document.getElementById('pill-a');
+    var pc = document.getElementById('pill-c');
+    var pk = document.getElementById('pill-k');
+    var btnNotif = document.getElementById('notif-pesan-tombol');
+
+    window.setInterval(function() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Order/check') ?>',
+            data: {},
+            success: function(data) {
+                data = JSON.parse(data);
+
+                po.textContent = data.o;
+                pd.textContent = data.d;
+                pp.textContent = data.p;
+                pa.textContent = data.a;
+                pc.textContent = data.c;
+                pk.textContent = data.k;
+
+                if (pv.textContent < data.v) btnNotif.click();
+                else pv.textContent = data.v;
+            }
+        });
+    }, 6000);
 </script>

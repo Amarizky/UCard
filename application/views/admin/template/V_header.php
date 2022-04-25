@@ -79,7 +79,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                             <li class="nav-item">
                                 <a class="nav-link <?= $seg1 == 'Order' && $seg2 != 'history' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
                                     <i class="ni ni-cart text-green"></i>
-                                    <span class="nav-link-text">Order <span id="pill-o" class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></span>
+                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></span>
                                 </a>
                                 <div class="collapse <?= $seg1 == 'Order' && $seg2 != 'history' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">
@@ -89,7 +89,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                                     <table class="w-100">
                                                         <tr>
                                                             <td>DAFTAR ORDER</td>
-                                                            <td class="text-right"><span id="pill-do" class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></td>
+                                                            <td class="text-right"><span id="pill-o" class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
@@ -113,7 +113,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                                                     <table class="w-100">
                                                         <tr>
                                                             <td>KIRIM DESIGN</td>
-                                                            <td class="text-right"><span id="pill-kd" class="badge badge-pill badge-danger"><?= $jml_design ?></span></td>
+                                                            <td class="text-right"><span id="pill-d" class="badge badge-pill badge-danger"><?= $jml_design ?></span></td>
                                                         </tr>
                                                     </table>
                                                 </a>
