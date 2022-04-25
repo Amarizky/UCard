@@ -79,7 +79,7 @@ $jml_kirim = $this->db->query("SELECT count(t.transaksi_id) AS jml_kirim FROM tb
                             <li class="nav-item">
                                 <a class="nav-link <?= $seg1 == 'Order' && $seg2 != 'history' ? 'active' : ''; ?>" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-order">
                                     <i class="ni ni-cart text-green"></i>
-                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger to"><?= $jml_daftar; ?></span></span>
+                                    <span class="nav-link-text">Order <span class="badge badge-pill badge-danger"><?= $jml_daftar; ?></span></span>
                                 </a>
                                 <div class="collapse <?= $seg1 == 'Order' && $seg2 != 'history' ? 'show' : ''; ?>" id="navbar-order">
                                     <ul class="nav nav-sm flex-column">

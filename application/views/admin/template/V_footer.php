@@ -78,27 +78,5 @@
                 $('#list-notif').html(data);
             }
         });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check_tot') ?>',
-            data: {},
-            success: function(data) {
-                $('.to').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check_v') ?>',
-            data: {},
-            success: function(data) {
-                $('.c_v').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/hangus') ?>',
-            data: {},
-            success: function(data) {}
-        });
     }
 </script>

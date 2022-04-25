@@ -662,14 +662,6 @@ class Order extends CI_Controller
             $this->db->query("UPDATE tbl_transaksi SET transaksi_new = '0' WHERE transaksi_id = '$id' ");
         }
     }
-    function check_tot()
-    {
-        echo $this->db->query("SELECT transaksi_id FROM tbl_transaksi WHERE transaksi_terima IS NULL ")->num_rows();
-    }
-    function check_v()
-    {
-        echo $this->db->query("SELECT t.transaksi_id AS kd FROM tbl_transaksi AS t JOIN tbl_status_transaksi AS s ON t.transaksi_id = s.transaksi_order_id WHERE t.transaksi_terima IS NULL AND s.transaksi_status_id = '1' AND (s.transaksi_status = '2' OR s.transaksi_status = '0' OR s.transaksi_status IS NULL) ")->num_rows();
-    }
     function get_status()
     {
         $id = $this->input->post('id');
@@ -1180,20 +1172,6 @@ class Order extends CI_Controller
                 <button style="width:100%;" id="update-status" class="btn btn-primary">Save</button>
             </div>
 <?php
-        }
-    }
-    function hangus()
-    {
-        $hangus = $this->db->query("SELECT * FROM tbl_status_transaksi AS st JOIN tbl_status AS s ON st.transaksi_status_id = s.status_id WHERE transaksi_status IS NULL OR transaksi_status = '0' ")->result_array();
-        foreach ($hangus as $h) {
-            if ((time() > $h['transaksi_tanggal_hangus']) && $h['status_jangka_waktu'] !== NULL) {
-                $id_s = $h['transaksi_id'];
-                $id = $h['transaksi_order_id'];
-                $this->db->query("UPDATE tbl_transaksi SET transaksi_terima = 0 WHERE transaksi_id = '$id' ");
-                $this->db->query("UPDATE tbl_status_transaksi SET transaksi_status = 4 WHERE transaksi_id = '$id_s' ");
-
-                echo 'h';
-            }
         }
     }
 
