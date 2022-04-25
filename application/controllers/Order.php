@@ -173,43 +173,12 @@ class Order extends CI_Controller
         $this->load->view('admin/V_order_history', $x);
         $this->load->view('admin/template/V_footer');
     }
-    function check_status()
-    {
-        echo $this->db->query("SELECT transaksi_status FROM tbl_status_transaksi WHERE transaksi_status = '2' ")->num_rows();
-    }
-    function new_status()
-    {
-        $status = $this->db->query("SELECT * FROM tbl_status_transaksi AS st JOIN tbl_status AS s ON st.transaksi_status_id = s.status_id JOIN tbl_transaksi AS t ON t.transaksi_id = st.transaksi_order_id JOIN tbl_pelanggan AS p ON t.transaksi_nohp = p.pelanggan_nohp WHERE transaksi_status = '2' ")->result_array();
-        foreach ($status as $s) {
-?>
-            <a href="<?= base_url('Order/detail/' . $s['transaksi_id']); ?>" class="list-group-item list-group-item-action">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <!-- Avatar -->
-                        <i class="<?= $s['status_icon']; ?>"></i>
-                    </div>
-                    <div class="col ml--2">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h4 class="mb-0 text-sm"><?= $s['pelanggan_nama']; ?></h4>
-                            </div>
-                            <div class="text-right text-muted">
-                                <small><?= $s['status_status']; ?></small>
-                            </div>
-                        </div>
-                        <p class="text-sm mb-0">Menunggu Konfirmasi</p>
-                    </div>
-                </div>
-            </a>
-        <?php
-        }
-    }
     function get_data()
     {
         $id = $this->input->post('id');
         $status = $this->db->query("SELECT * FROM tbl_status WHERE status_id LIKE '_'")->result_array();
         $e = $this->db->query("SELECT * FROM tbl_transaksi JOIN tbl_pelanggan ON tbl_transaksi.transaksi_nohp = tbl_pelanggan.pelanggan_nohp JOIN tbl_product ON tbl_transaksi.transaksi_product_id = tbl_product.product_id WHERE transaksi_id = '$id' ")->row_array();
-        ?>
+?>
         <div class="modal-body">
             <div id="alert_update"></div>
             <div class="tab">

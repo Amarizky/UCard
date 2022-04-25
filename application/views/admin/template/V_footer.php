@@ -18,8 +18,6 @@
     </div>
 </div>
 
-</div>
-</div>
 <!-- Argon Scripts -->
 <!-- Core -->
 <script src="<?= base_url('assets/admin/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script>
@@ -45,38 +43,4 @@
 </html>
 <script>
     $("body").addClass((window.innerWidth <= 1200 ? "g-sidenav-hidden" : "g-sidenav-pinned"))
-    $(document).ready(function() {
-        notif();
-        var refInterval = window.setInterval('notif()', 12000);
-    });
-
-    function notif() {
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check') ?>',
-            data: {},
-            success: function(data) {
-                if (data == 'baru') {
-                    // alert('Ada pesanan baru!');
-                    $('#notif-pesan-tombol').click();
-                }
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/check_status') ?>',
-            data: {},
-            success: function(data) {
-                $('.notif_status').html(data);
-            }
-        });
-        $.ajax({
-            type: 'POST',
-            url: '<?= base_url('Order/new_status') ?>',
-            data: {},
-            success: function(data) {
-                $('#list-notif').html(data);
-            }
-        });
-    }
 </script>
