@@ -879,30 +879,37 @@
                                 $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
                                 ?>
                                 <?php foreach ($produksi as $pr) : ?>
-                                    <?php $verifier = ""; ?>
                                     <?php
                                     if ($pr['status_id'] == '51') {
                                         $verifier = $verif['verif_produksi_gudang'];
+                                        $logo     = 'fa fa-warehouse';
                                     } else if ($pr['status_id'] == '52') {
                                         $verifier = $verif['verif_produksi_idenfitikasi'];
+                                        $logo     = 'fas fa-fingerprint';
                                     } else if ($pr['status_id'] == '53') {
                                         $verifier = $verif['verif_produksi_cetak'];
+                                        $logo     = 'fas fa-print';
                                     } else if ($pr['status_id'] == '54') {
                                         $verifier = $verif['verif_produksi_press'];
+                                        $logo     = 'fas fa-compress-arrows-alt';
                                     } else if ($pr['status_id'] == '55') {
                                         $verifier = $verif['verif_produksi_plong'];
+                                        $logo     = 'fas fa-cut';
                                     } else if ($pr['status_id'] == '56') {
                                         $verifier = $verif['verif_produksi_finishing'];
+                                        $logo     = 'fas fa-spray-can';
                                     } else if ($pr['status_id'] == '57') {
                                         $verifier = $verif['verif_produksi_qualitycontrol'];
+                                        $logo     = 'far fa-check-circle';
                                     } else if ($pr['status_id'] == '58') {
                                         $verifier = $verif['verif_produksi_siapkirim'];
+                                        $logo     = 'fas fa-box';
                                     }
                                     if ($verifier) $verifier = ' (' . $verifier . ')';
                                     ?>
                                     <div class="timeline-block mt-1 mb-0">
                                         <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
-                                            <i class="fa fa-image"></i>
+                                            <i class="<?= $logo ?? 'fa fa-print'; ?>"></i>
                                         </span>
                                         <div class="timeline-content">
                                             <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
