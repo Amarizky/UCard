@@ -247,7 +247,7 @@
                                     <td></td>
                                     <td></td>
                                     <td class="add_perm_icon">
-                                        <i class="fa fa-print"></i>
+                                        <i class="fas fa-box"></i>
                                     </td>
                                     <td>SIAP KIRIM</td>
                                     <td class="add_perm_check">
