@@ -7,84 +7,8 @@
 | 3 | E-money | Bank, print, personalisasi, packaging, coating, finishing, ambil/kirim | Gudang, Input nomor identifikasi, cetak, quality control, siap kirim<br>1, 2, 3, 7, 8 |
 | 4 | Flashdisk | Varian, print, personalisasi, packaging, coating, finishing, ambil/kirim | Cetak, quality control, siap kirim<br>3, 7, 8 |
 
-# transaksi_status_id
-
-<table>
-    <thead>
-        <thead>
-            <tr>
-                <td>#</td>
-                <td colspan="2">status</td>
-            </tr>
-        </thead>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td colspan="2">Verifikasi</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td colspan="2">Kirim Design</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td colspan="2">Pembayaran</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td colspan="2">Approval</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td colspan="2">Proses Produksi</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>51</td>
-            <td>Gudang</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>52</td>
-            <td>Input Identifikasi</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>53</td>
-            <td>Cetak</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>54</td>
-            <td>Press</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>55</td>
-            <td>Plong</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>56</td>
-            <td>Finishing</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>57</td>
-            <td>Quality Control</td>
-        </tr>
-		<tr>
-			<td></td>
-			<td>58</td>
-            <td>Siap Kirim</td>
-		</tr>
-        <tr>
-            <td>6</td>
-            <td colspan="2">Ambil/Kirim</td>
-        </tr>
-    </tbody>
-</table>
+# status_id
+<table><thead><thead><tr><td>#</td><td colspan="2">status</td><td>permission name</td></tr></thead></thead><tbody><tr><td>1</td><td colspan="2">Verifikasi</td><td>admin_perm_orderverifikasi</td></tr><tr><td>2</td><td colspan="2">Kirim Design</td><td>admin_perm_orderkirimdesign</td></tr><tr><td>3</td><td colspan="2">Pembayaran</td><td>admin_perm_orderpembayaran</td></tr><tr><td>4</td><td colspan="2">Approval</td><td>admin_perm_orderapproval</td></tr><tr><td>5</td><td colspan="2">Cetak Produk</td><td>admin_perm_orderproduksi</td></tr><tr><td></td><td>51</td><td>Gudang</td><td>admin_perm_orderproduksi_gudang</td></tr><tr><td></td><td>52</td><td>Input Identifikasi</td><td>admin_perm_orderproduksi_identifikasi</td></tr><tr><td></td><td>53</td><td>Cetak</td><td>admin_perm_orderproduksi_cetak</td></tr><tr><td></td><td>54</td><td>Press</td><td>admin_perm_orderproduksi_press</td></tr><tr><td></td><td>55</td><td>Plong</td><td>admin_perm_orderproduksi_plong</td></tr><tr><td></td><td>56</td><td>Finishing</td><td>admin_perm_orderproduksi_finishing</td></tr><tr><td></td><td>57</td><td>Quality Control</td><td>admin_perm_orderproduksi_qualitycontrol</td></tr><tr><td></td><td>58</td><td>Siap Kirim</td><td>admin_perm_orderproduksi_siapkirim</td></tr><tr><td>6</td><td colspan="2">Ambil/Kirim</td><td>admin_perm_orderkirimambil</td></tr></tbody></table>
 
 # transaksi_paket
 | # | status |
