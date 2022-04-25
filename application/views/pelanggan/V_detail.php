@@ -261,7 +261,7 @@
                                 <div class="col">
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#perbaikan">
-                                            Perbaikan <i class="fa fa-pen"></i>
+                                            <i class="fa fa-pen"></i> Perbaikan
                                         </button>
                                     </div>
                                 </div>
@@ -876,6 +876,7 @@
                                 $produksicount = current($produksi);
                                 $id = $this->uri->segment(3);
                                 $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
+                                $i = 1;
                                 ?>
                                 <?php foreach ($produksi as $pr) : ?>
                                     <?php
@@ -883,7 +884,7 @@
                                         $verifier = $verif['verif_produksi_gudang'];
                                         $logo     = 'fa fa-warehouse';
                                     } else if ($pr['status_id'] == '52') {
-                                        $verifier = $verif['verif_produksi_idenfitikasi'];
+                                        $verifier = $verif['verif_produksi_identifikasi'];
                                         $logo     = 'fas fa-fingerprint';
                                     } else if ($pr['status_id'] == '53') {
                                         $verifier = $verif['verif_produksi_cetak'];
@@ -911,8 +912,8 @@
                                             <i class="<?= $logo ?? 'fa fa-print'; ?>"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
+                                            <p class="my-1"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
+                                            <p class=" text-sm mt-1 mb-0">Proses produksi tahap <?= $i++; ?></p>
                                         </div>
                                     </div>
                                     <?php $produksicount = next($produksi) ?>
@@ -1235,9 +1236,9 @@
                                     <label for="material5">Tissue 2CM</label><br>
                                     <input id="material6" type="radio" placeholder="material" name="material" value="6" <?= $o['transaksi_material'] == '6' ? 'checked' : ''; ?> required>
                                     <label for="material6">Tissue 2,5CM</label>
-                                    <input id="material7" type="radio" placeholder="material" name="material" value="7" <?= $o['transaksi_material'] == '7' ? 'checked' : ''; ?>required>
+                                    <input id="material7" type="radio" placeholder="material" name="material" value="7" <?= $o['transaksi_material'] == '7' ? 'checked' : ''; ?> required>
                                     <label for="material7">Tali gelang 1,5cm printing</label><br>
-                                    <input id="material8" type="radio" placeholder="material" name="material" value="8" <?= $o['transaksi_material'] == '8' ? 'checked' : ''; ?>required>
+                                    <input id="material8" type="radio" placeholder="material" name="material" value="8" <?= $o['transaksi_material'] == '8' ? 'checked' : ''; ?> required>
                                     <label for="material8">Tali gelang 2cm printing</label>
                                 </div>
                                 <div class="grid-item p-0 pb-3">

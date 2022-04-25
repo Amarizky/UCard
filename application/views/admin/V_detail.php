@@ -1,7 +1,7 @@
 <input type="hidden" value="<?= $this->uri->segment(3) ?>" id="id">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/select2/dist/css/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/quill/dist/quill.core.css') ?>">
-
+<?php $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe']; ?>
 <style>
     .wrapper {
         display: inline-flex;
@@ -837,89 +837,98 @@
                         <h3 class="mb-0">Proses Produksi</h3>
                     </div>
                     <div class="card-body">
-                        <?php
-                        if (@$ctk['transaksi_status'] == '1') :
-                        ?>
-                            <div style="display: flex;justify-content: center;">
-                                <img style="width:50%;margin: auto;" src="<?= base_url('assets/img/gifcheck.gif') ?>" alt="">
+                        <?php if (@$ctk['transaksi_status'] == '1') : ?>
+                            <div class="text-center w-100">
+                                <img class="w-50" src="<?= base_url('assets/img/gifcheck.gif') ?>" alt="">
                             </div>
-                            <br>
-                            <br>
-                            <h2>Produk sudah selesai dicetak!</h2>
+                            <br><br>
+                            <h2>Produk sudah selesai dicetak</h2>
                         <?php else : ?>
-                            <img style="width:100%;" src="<?= base_url('assets/img/print.gif') ?>" alt="">
-                            <br>
-                            <br>
-                            <h2>Sedang membuat produk</h2>
-                            <br>
-                            <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
-                                <?php
-                                $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
-                                $produksi = $this->db;
-                                switch ($tipe) {
-                                    case '0':
-                                        $produksi = $produksi->where_in('status_id', ['51',       '53', '54', '55',       '57', '58']);
-                                        break;
-                                    case '1':
-                                    case '4':
-                                        $produksi = $produksi->where_in('status_id',             ['53',                   '57', '58']);
-                                        break;
-                                    case '2':
-                                        $produksi = $produksi->where_in('status_id', ['51',       '53',             '56', '57', '58']);
-                                        break;
-                                    case '3':
-                                        $produksi = $produksi->where_in('status_id', ['51', '52', '53',                   '57', '58']);
-                                        break;
-                                }
-
-                                $produksi = $this->db->get('tbl_status')->result_array();
-                                $produksicount = current($produksi);
-
-                                $id = $this->uri->segment(3);
-                                $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
-                                ?>
-                                <?php foreach ($produksi as $pr) : ?>
-                                    <?php
-                                    if ($pr['status_id'] == '51') {
-                                        $verifier = $verif['verif_produksi_gudang'];
-                                        $logo     = 'fa fa-warehouse';
-                                    } else if ($pr['status_id'] == '52') {
-                                        $verifier = $verif['verif_produksi_idenfitikasi'];
-                                        $logo     = 'fas fa-fingerprint';
-                                    } else if ($pr['status_id'] == '53') {
-                                        $verifier = $verif['verif_produksi_cetak'];
-                                        $logo     = 'fas fa-print';
-                                    } else if ($pr['status_id'] == '54') {
-                                        $verifier = $verif['verif_produksi_press'];
-                                        $logo     = 'fas fa-compress-arrows-alt';
-                                    } else if ($pr['status_id'] == '55') {
-                                        $verifier = $verif['verif_produksi_plong'];
-                                        $logo     = 'fas fa-cut';
-                                    } else if ($pr['status_id'] == '56') {
-                                        $verifier = $verif['verif_produksi_finishing'];
-                                        $logo     = 'fas fa-spray-can';
-                                    } else if ($pr['status_id'] == '57') {
-                                        $verifier = $verif['verif_produksi_qualitycontrol'];
-                                        $logo     = 'far fa-check-circle';
-                                    } else if ($pr['status_id'] == '58') {
-                                        $verifier = $verif['verif_produksi_siapkirim'];
-                                        $logo     = 'fas fa-box';
-                                    }
-                                    if ($verifier) $verifier = ' (' . $verifier . ')';
-                                    ?>
-                                    <div class="timeline-block mt-1 mb-0">
-                                        <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
-                                            <i class="<?= $logo ?? 'fa fa-print'; ?>"></i>
-                                        </span>
-                                        <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $pr['status_keterangan']; ?></p>
-                                        </div>
-                                    </div>
-                                    <?php $produksicount = next($produksi) ?>
-                                <?php endforeach; ?>
+                            <img class="w-100" src="<?= base_url('assets/img/print.gif') ?>" alt="">
+                            <br><br>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h2>Sedang membuat produk</h2>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#produksi_keterangan">
+                                        <i class="fa fa-pen"></i> Keterangan
+                                    </button>
+                                </div>
                             </div>
                         <?php endif; ?>
+                        <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
+                            <?php
+
+                            $produksi = $this->db;
+                            switch ($tipe) {
+                                case '0':
+                                    $produksi = $produksi->where_in('status_id', ['51',       '53', '54', '55',       '57', '58']);
+                                    break;
+                                case '1':
+                                case '4':
+                                    $produksi = $produksi->where_in('status_id',             ['53',                   '57', '58']);
+                                    break;
+                                case '2':
+                                    $produksi = $produksi->where_in('status_id', ['51',       '53',             '56', '57', '58']);
+                                    break;
+                                case '3':
+                                    $produksi = $produksi->where_in('status_id', ['51', '52', '53',                   '57', '58']);
+                                    break;
+                            }
+                            $produksi = $this->db->get('tbl_status')->result_array();
+                            $produksicount = current($produksi);
+
+                            $id = $this->uri->segment(3);
+                            $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
+                            ?>
+                            <?php foreach ($produksi as $pr) : ?>
+                                <?php
+                                if ($pr['status_id'] == '51') {
+                                    $verifier   = $verif['verif_produksi_gudang'];
+                                    $logo       = 'fa fa-warehouse';
+                                } else if ($pr['status_id'] == '52') {
+                                    $verifier   = $verif['verif_produksi_identifikasi'];
+                                    $logo       = 'fas fa-fingerprint';
+                                } else if ($pr['status_id'] == '53') {
+                                    $verifier   = $verif['verif_produksi_cetak'];
+                                    $logo       = 'fas fa-print';
+                                } else if ($pr['status_id'] == '54') {
+                                    $verifier   = $verif['verif_produksi_press'];
+                                    $logo       = 'fas fa-compress-arrows-alt';
+                                } else if ($pr['status_id'] == '55') {
+                                    $verifier   = $verif['verif_produksi_plong'];
+                                    $logo       = 'fas fa-cut';
+                                } else if ($pr['status_id'] == '56') {
+                                    $verifier   = $verif['verif_produksi_finishing'];
+                                    $logo       = 'fas fa-spray-can';
+                                } else if ($pr['status_id'] == '57') {
+                                    $verifier   = $verif['verif_produksi_qualitycontrol'];
+                                    $logo       = 'far fa-check-circle';
+                                } else if ($pr['status_id'] == '58') {
+                                    $verifier   = $verif['verif_produksi_siapkirim'];
+                                    $logo       = 'fas fa-box';
+                                }
+                                $keterangan = $this->db
+                                    ->where('transaksi_order_id', $id_transaksi)
+                                    ->where('transaksi_produksi_status_id', $pr['status_id'])
+                                    ->get('tbl_status_transaksi')
+                                    ->row_array()['transaksi_keterangan'] ?? 'Tidak ada keterangan';
+
+                                if ($verifier) $verifier = ' (' . $verifier . ')';
+                                ?>
+                                <div class="timeline-block mt-1 mb-0">
+                                    <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
+                                        <i class="<?= $logo ?? 'fa fa-print'; ?>"></i>
+                                    </span>
+                                    <div class="timeline-content">
+                                        <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
+                                        <p class=" text-sm mt-1 mb-0"><?= $keterangan; ?></p>
+                                    </div>
+                                </div>
+                                <?php $produksicount = next($produksi) ?>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -3624,6 +3633,117 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
         </div>
     </div>
 </div>
+
+<?php
+$id_transaksi = $this->uri->segment(3);
+$statusproduksi = $this->db
+    ->select('transaksi_produksi_status_id')
+    ->where('transaksi_status_id', '5')
+    ->where('transaksi_order_id', $id_transaksi)
+    ->order_by('transaksi_id', 'desc')
+    ->limit(1)
+    ->get('tbl_status_transaksi')
+    ->row_array()['transaksi_produksi_status_id'] ?? null;
+
+$ket_51 = $this->db->where('transaksi_produksi_status_id', '51')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_52 = $this->db->where('transaksi_produksi_status_id', '52')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_53 = $this->db->where('transaksi_produksi_status_id', '53')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_54 = $this->db->where('transaksi_produksi_status_id', '54')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_55 = $this->db->where('transaksi_produksi_status_id', '55')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_56 = $this->db->where('transaksi_produksi_status_id', '56')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_57 = $this->db->where('transaksi_produksi_status_id', '57')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_58 = $this->db->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+
+$show_prod_51 = false;
+$show_prod_52 = false;
+$show_prod_53 = false;
+$show_prod_54 = false;
+$show_prod_55 = false;
+$show_prod_56 = false;
+$show_prod_57 = false;
+$show_prod_58 = false;
+
+switch ($tipe) {
+    case '0':
+        $show_prod_51 = true;
+        $show_prod_53 = true;
+        $show_prod_54 = true;
+        $show_prod_55 = true;
+        $show_prod_57 = true;
+        $show_prod_58 = true;
+        break;
+    case '1':
+    case '4':
+        $show_prod_53 = true;
+        $show_prod_57 = true;
+        $show_prod_58 = true;
+        break;
+    case '2':
+        $show_prod_51 = true;
+        $show_prod_53 = true;
+        $show_prod_56 = true;
+        $show_prod_57 = true;
+        $show_prod_58 = true;
+        break;
+    case '3':
+        $show_prod_51 = true;
+        $show_prod_52 = true;
+        $show_prod_53 = true;
+        $show_prod_57 = true;
+        $show_prod_58 = true;
+        break;
+}
+?>
+
+<form action="<?= base_url('Order/edit_keterangan'); ?>" method="post" class="modal fade" id="produksi_keterangan" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Keterangan</h5>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="id" value="<?= $id; ?>">
+                <div class="form-group" <?= $statusproduksi >= '51' && $show_prod_51 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_gudang"><b>Gudang</b></label>
+                    <input class="form-control" type="text" name="keterangan_gudang" id="keterangan_gudang" value="<?= $ket_51; ?>" placeholder="Masukkan keterangan gudang">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '52' && $show_prod_52 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_identifikasi"><b>Input Identifikasi</b></label>
+                    <input class="form-control" type="text" name="keterangan_identifikasi" id="keterangan_identifikasi" value="<?= $ket_52; ?>" placeholder="Masukkan keterangan input identifikasi">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '53' && $show_prod_53 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_cetak"><b>Cetak</b></label>
+                    <input class="form-control" type="text" name="keterangan_cetak" id="keterangan_cetak" value="<?= $ket_53; ?>" placeholder="Masukkan keterangan cetak">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '54' && $show_prod_54 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_press"><b>Press</b></label>
+                    <input class="form-control" type="text" name="keterangan_press" id="keterangan_press" value="<?= $ket_54; ?>" placeholder="Masukkan keterangan press">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '55' && $show_prod_55 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_plong"><b>Plong</b></label>
+                    <input class="form-control" type="text" name="keterangan_plong" id="keterangan_plong" value="<?= $ket_55; ?>" placeholder="Masukkan keterangan plong">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '56' && $show_prod_56 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_finishing"><b>Finishing</b></label>
+                    <input class="form-control" type="text" name="keterangan_finishing" id="keterangan_finishing" value="<?= $ket_56; ?>" placeholder="Masukkan keterangan finishing">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '57' && $show_prod_57 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_qualitycontrol"><b>Quality Control</b></label>
+                    <input class="form-control" type="text" name="keterangan_qualitycontrol" id="keterangan_qualitycontrol" value="<?= $ket_57; ?>" placeholder="Masukkan keterangan quality control">
+                </div>
+                <div class="form-group" <?= $statusproduksi >= '58' && $show_prod_58 ? '' : 'hidden'; ?>>
+                    <label for="keterangan_siapkirim"><b>Siap Kirim</b></label>
+                    <input class="form-control" type="text" name="keterangan_siapkirim" id="keterangan_siapkirim" value="<?= $ket_58; ?>" placeholder="Masukkan keterangan siap kirim">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="button" class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 <div class="modal fade" id="bukti" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -3742,6 +3862,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                         keterangan: $('#keterangan').val(),
                     },
                     success: function(data) {
+                        // alert(data);
                         $('#alert_status').html('<div class="alert alert-success alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"><i class="fa fa-check"></i></span><span class="alert-text"><strong>Berhasil!</strong></span></div>');
                         setTimeout(function() {
                             window.location.href = url;
