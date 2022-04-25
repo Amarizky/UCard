@@ -57,7 +57,6 @@
         $.ajax({
             type: 'POST',
             url: '<?= base_url('Order/check') ?>',
-            data: {},
             success: function(data) {
                 data = JSON.parse(data);
 

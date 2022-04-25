@@ -1,7 +1,17 @@
+<?php
+$stp = $this->db->where('transaksi_order_id', $this->uri->segment(3))->order_by('transaksi_id', 'desc')->limit(1)->get('tbl_status_transaksi')->row_array();
+$stp_status_id = $stp['transaksi_status_id'];
+$stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
+
+$tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
+?>
+
 <input type="hidden" value="<?= $this->uri->segment(3) ?>" id="id">
+<input type="hidden" id="status_id" value="<?= $stp_status_id; ?>">
+<input type="hidden" id="prod_status_id" value="<?= $stp_prod_status_id ?? '0'; ?>">
+
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/select2/dist/css/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/quill/dist/quill.core.css') ?>">
-<?php $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe']; ?>
 <style>
     .wrapper {
         display: inline-flex;
@@ -3810,6 +3820,25 @@ switch ($tipe) {
 
 <script src="<?= base_url('assets/admin/vendor/dropzone/dist/min/dropzone.min.js') ?>"></script>
 
+<script>
+    var status_id = document.getElementById('status_id').value;
+    var prod_status_id = document.getElementById('prod_status_id').value;
+
+    window.setInterval(function() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Order/check_status') ?>',
+            data: {
+                'id': document.getElementById('id').value,
+            },
+            success: function(data) {
+                data = JSON.parse(data);
+                if (status_id != data.sid) location.reload();
+                if (prod_status_id != data.pid) location.reload();
+            }
+        });
+    }, 6000);
+</script>
 <script>
     $('.status').click(function() {
         var id = $('#id').val();

@@ -643,6 +643,17 @@ class Order extends CI_Controller
         ]));
         die();
     }
+    function check_status()
+    {
+        $id = $this->input->post('id');
+
+        $st = $this->db->where('transaksi_order_id', $id)->order_by('transaksi_id', 'desc')->get('tbl_status_transaksi')->row_array();
+        print_r(json_encode([
+            'sid' => $st['transaksi_status_id'],
+            'pid' => $st['transaksi_produksi_status_id'] ?? 0,
+        ]));
+        die();
+    }
     function get_status()
     {
         $id = $this->input->post('id');

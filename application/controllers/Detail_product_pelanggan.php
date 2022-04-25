@@ -101,16 +101,16 @@ class Detail_product_pelanggan extends CI_Controller
 		// $this->db->query("INSERT INTO tbl_status_transaksi VALUES (NULL,1,'$id_transaksi',2,NULL,$tanggal_ini,$tanggal_hangus) ");
 		redirect('Order_pelanggan/detail/' . $id_transaksi);
 	}
-	function checkStatus()
+	function check_status()
 	{
-		$id = $_POST['id'];
-		$status = $_POST['status'];
-		$produksi = $_POST['produksi'];
-		$statusRefresh = $this->db->query("SELECT max(transaksi_status_id) st, max(transaksi_produksi_status_id) pd FROM tbl_status_transaksi WHERE transaksi_order_id=" . $id)->row_array();
+		$id = $this->input->post('id');
 
-		if ($statusRefresh['st'] !== $status || $statusRefresh['pd'] !== $produksi) {
-			echo 'refresh';
-		}
+		$st = $this->db->where('transaksi_order_id', $id)->order_by('transaksi_id', 'desc')->get('tbl_status_transaksi')->row_array();
+		print_r(json_encode([
+			'sid' => $st['transaksi_status_id'],
+			'pid' => $st['transaksi_produksi_status_id'] ?? 0,
+		]));
+		die();
 	}
 
 	function perbaikan()

@@ -1,4 +1,13 @@
+<?php
+$stp = $this->db->where('transaksi_order_id', $this->uri->segment(3))->order_by('transaksi_id', 'desc')->limit(1)->get('tbl_status_transaksi')->row_array();
+$stp_status_id = $stp['transaksi_status_id'];
+$stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
+?>
+
 <input type="hidden" value="<?= $this->uri->segment(3) ?>" id="id">
+<input type="hidden" id="status_id" value="<?= $stp_status_id; ?>">
+<input type="hidden" id="prod_status_id" value="<?= $stp_prod_status_id ?? '0'; ?>">
+
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/select2/dist/css/select2.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('assets/admin/vendor/quill/dist/quill.core.css') ?>">
 <style>
@@ -1644,30 +1653,22 @@
         }
     });
 </script>
-<?php
-$statusRefresh = $this->db->query("SELECT max(transaksi_status_id) st, max(transaksi_produksi_status_id) pd FROM tbl_status_transaksi WHERE transaksi_order_id=" . $this->uri->segment(3))->row_array();
-
-?>
 <script>
-    $(document).ready(function() {
-        setInterval(function() {
-            var id = $('#id').val();
-            var status = '<?= $statusRefresh['st']; ?>';
-            var produksi = '<?= $statusRefresh['pd']; ?>';
-            $.ajax({
-                type: 'POST',
-                url: '<?= base_url('Detail_product_pelanggan/checkStatus') ?>',
-                data: {
-                    id: id,
-                    status: status,
-                    produksi: produksi
-                },
-                success: function(data) {
-                    if (data === 'refresh') {
-                        location.reload();
-                    }
-                }
-            });
-        }, 5000);
-    });
+    var status_id = document.getElementById('status_id').value;
+    var prod_status_id = document.getElementById('prod_status_id').value;
+
+    window.setInterval(function() {
+        $.ajax({
+            type: 'POST',
+            url: '<?= base_url('Order/check_status') ?>',
+            data: {
+                'id': document.getElementById('id').value,
+            },
+            success: function(data) {
+                data = JSON.parse(data);
+                if (status_id != data.sid) location.reload();
+                if (prod_status_id != data.pid) location.reload();
+            }
+        });
+    }, 6000);
 </script>
