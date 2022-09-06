@@ -197,7 +197,8 @@ $stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
-                                            <span class="badge badge-pill badge-success">Diterima</span>
+                                            <?php $dtstd_tanggal = new DateTime("@$st[transaksi_tanggal]"); ?>
+                                            <span class="badge badge-pill badge-success">Diterima pada <?= $dtstd_tanggal->format('d/m/Y H:i'); ?></span>
                                             <p class="text-sm mt-2">
                                                 <?= $st['transaksi_keterangan'] ?>
                                             </p>
@@ -221,7 +222,8 @@ $stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
                                             <?php endif; ?>
                                         <?php endif; ?>
                                         <div class="mt-3">
-                                            <span class="badge badge-pill badge-danger">Ditolak</span>
+                                            <?php $dtstt_tanggal = new DateTime("@$st[transaksi_tanggal]"); ?>
+                                            <span class="badge badge-pill badge-danger">Ditolak pada <?= $dtstt_tanggal->format('d/m/Y H:i'); ?></span>
                                             <p class="text-sm mt-2">
                                                 <?= $st['transaksi_keterangan'] ?>
                                             </p>
