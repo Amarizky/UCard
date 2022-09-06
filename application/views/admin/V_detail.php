@@ -165,13 +165,11 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                         $ctk = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_status_id = '5' AND transaksi_order_id = '$id_transaksi' ORDER BY transaksi_id DESC ")->row_array();
                         $statusproduksi = @$ctk['transaksi_produksi_status_id'];
 
-                        foreach ($status as $s) : ?>
-                            <?php
+                        foreach ($status as $s) :
                             $status_id = $s['status_id'];
                             $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' AND transaksi_status_id = '$status_id' ORDER BY transaksi_id DESC ")->row_array();
                             $verif = $this->db->query("SELECT * FROM tbl_verifikasi WHERE transaksi_id = '$id_transaksi';")->row_array();
-                            ?>
-                            <?php if (!empty($st) && ($st['transaksi_status'] == NULL || $st['transaksi_status'] == '2')) : ?>
+                            if (!empty($st) && ($st['transaksi_status'] == NULL || $st['transaksi_status'] == '2')) : ?>
                                 <div class="timeline-block">
                                     <span style="background-color: blue;color: white;" class="timeline-step badge-success">
                                         <i class="<?= $s['status_icon'] ?>"></i>
@@ -266,26 +264,21 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
-                                            <span class="badge badge-pill badge-success">Diterima</span>
-                                            <br>
-                                            <br>
-                                            <?php switch ($s['status_id']) {
-                                                case "1":
-                                            ?>
-                                                    <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_sales"><i class="fa fa-print"> SPK Sales</i></button>
-                                                <?php
-                                                    break;
-                                                case "4":
-                                                ?>
-                                                    <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_approval"><i class="fa fa-print"></i> SPK Approval</button>
-                                                    <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_produksi"><i class="fa fa-print"></i> SPK Produksi</button>
-                                            <?php
-                                                    break;
-                                            }
-                                            ?>
-                                            <p class="text-sm mt-2">
-                                                <?= $st['transaksi_keterangan'] ?>
-                                            </p>
+                                            <?php $dtstd_tanggal = new DateTime("@$st[transaksi_tanggal]"); ?>
+                                            <span class="badge badge-pill badge-success">Diterima pada <?= $dtstd_tanggal->format('d/m/Y H:i'); ?></span>
+                                            <?php if ($s['status_id'] == "1") : ?>
+                                                <br><br>
+                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_sales"><i class="fa fa-print"> SPK Sales</i></button>
+                                            <?php elseif ($s['status_id'] == "4") : ?>
+                                                <br><br>
+                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_approval"><i class="fa fa-print"></i> SPK Approval</button>
+                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_produksi"><i class="fa fa-print"></i> SPK Produksi</button>
+                                            <?php endif; ?>
+                                            <?php if ($st['transaksi_keterangan']) : ?>
+                                                <p class="text-sm mt-2">
+                                                    <?= $st['transaksi_keterangan'] ?>
+                                                </p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -309,10 +302,11 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                                     <b><?= date('d/m/Y H:m', $st['transaksi_tanggal_hangus']) ?></b>
                                                 <?php endif; ?>
                                             <?php endif; ?><br>
-                                            <span class="badge badge-pill badge-danger">Ditolak</span>
-                                            <p class="text-sm mt-2">
-                                                <?= $st['transaksi_keterangan'] ?>
-                                            </p>
+                                            <?php $dtstt_tanggal = new DateTime("@$st[transaksi_tanggal]"); ?>
+                                            <span class="badge badge-pill badge-danger">Ditolak pada <?= $dtstt_tanggal->format('d/m/Y H:i'); ?></span>
+                                            <?php if ($st['transaksi_keterangan']) : ?>
+                                                <p class="text-sm mt-2"><?= $st['transaksi_keterangan']; ?></p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -706,12 +700,10 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                             <div class="col">
                                 <?php $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' ORDER BY transaksi_id DESC LIMIT 1 ")->row_array(); ?>
                                 <?php if ($st['transaksi_status_id'] == '3') : ?>
-                                    <div class="col">
-                                        <div class="text-right">
-                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ubah_harga">
-                                                Ubah Harga <i class="fa fa-pen"></i>
-                                            </button>
-                                        </div>
+                                    <div class="text-right">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ubah_harga">
+                                            Ubah Harga <i class="fa fa-pen"></i>
+                                        </button>
                                     </div>
                                 <?php endif; ?>
                             </div>
