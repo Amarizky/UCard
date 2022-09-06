@@ -389,7 +389,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         <p><?= $statusFinishing; ?></p>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
-                                        <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                        <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                         <b>Function</b>
                                         <p><?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></p>
                                     </div>
@@ -601,6 +601,20 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                 </div>
                             <?php endif; ?>
                             <hr>
+                            <?php
+                            $id = $this->uri->segment(3);
+                            $kode = $this->db->query("SELECT transaksi_kodeproduk FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                            ?>
+                            <b>Kode Produk</b>
+                            <form action="<?= base_url('Order/update_kodeproduk'); ?>" method="post" class="form-group row">
+                                <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
+                                <div class="col-sm-8 pr-1">
+                                    <input type="text" class="form-control" name="kode" placeholder="Masukkan Kode Produk" value="<?= $kode['transaksi_kodeproduk']; ?>">
+                                </div>
+                                <div class="col-sm-4 pl-1">
+                                    <button type="submit" class="btn btn-primary mb-2 w-100" id="updateKode">Save</button>
+                                </div>
+                            </form>
                             <h1>Customer</h1>
                             <b>Nama</b>
                             <p><?= $o['pelanggan_nama'] ?></p>
@@ -732,7 +746,18 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                         <?php
                         $id = $this->uri->segment(3);
                         $pembayaran = $this->db->query("SELECT * FROM tbl_pembayaran WHERE pembayaran_transaksi_id = '$id' ")->result_array();
+                        $noso = $this->db->query("SELECT transaksi_noso FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         ?>
+                        <b>Nomor SO</b>
+                        <form action="<?= base_url('Order/update_noso'); ?>" method="post" class="form-group row">
+                            <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
+                            <div class="col-sm-8 pr-1">
+                                <input type="text" class="form-control" name="noso" placeholder="Masukkan Nomor So" value="<?= $noso['transaksi_noso']; ?>">
+                            </div>
+                            <div class="col-sm-4 pl-1">
+                                <button type="submit" class="btn btn-primary mb-2 w-100" id="updatenoso">Save</button>
+                            </div>
+                        </form>
                         <h3>Bukti Transfer</h3>
                         <div class="table-responsive">
                             <table class="table table-flush" id="datatable-basic">
@@ -1189,7 +1214,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                             </tr>
                                             <tr style="height: 18px;">
-                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                                 <td style="width: 50%; height: 18px;">Function</td>
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                             </tr>
@@ -1574,7 +1599,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                             </tr>
                                             <tr style="height: 18px;">
-                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                                 <td style="width: 50%; height: 18px;">Function</td>
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                             </tr>
@@ -1905,6 +1930,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                     <!-- Kartu -->
                                     <p style="text-align: left;">
                                         Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?>
+                                        <br />Nomor SO: <?= $o['transaksi_noso'] ?>
                                         <br />Quantity: <?= $o['transaksi_jumlah'] ?>
                                         <br />Tanggal : <?= $o['transaksi_tanggal'] ?>
                                         <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <?= $o['transaksi_spkkartu_jumlahlembarawal'] ?? '0' ?> / <?= $o['transaksi_spkkartu_jumlahlembarakhir'] ?? '0' ?>
@@ -1965,7 +1991,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                             </tr>
                                             <tr style="height: 18px;">
-                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                                 <td style="width: 50%; height: 18px;">Function</td>
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                             </tr>
@@ -2404,7 +2430,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                             </tr>
                                             <tr style="height: 18px;">
-                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                                 <td style="width: 50%; height: 18px;">Function</td>
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                             </tr>
@@ -2690,6 +2716,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                     $deadline = $this->db->query("SELECT transaksi_spk_deadline FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                                     $noPenyelesaian = $this->db->query("SELECT transaksi_no_penyelesaian FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                                     $spkOperator = $this->db->query("SELECT transaksi_spk_operator FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+                                    $spkMaterial = $this->db->query("SELECT transaksi_material FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                                     ?>
                                     <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $dt->format('d-m-Y H:i'); ?>
                                         <br>Operator: <input type="text" name="spkoperator" id="spkOperator" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
@@ -2805,7 +2832,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                 <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>SPK Produksi</strong></span></p>
                                 <?php if ($p['product_tipe'] == '0') : ?>
                                     <!-- Kartu -->
-                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
+                                    <p style="text-align: left;">Nama&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?><br />Nomor SO: <?= $o['transaksi_noso'] ?><br />Quantity: <?= $o['transaksi_jumlah'] ?><br />Tanggal : <?= $o['transaksi_tanggal'] ?>
                                         <br />Jumlah Lembar Awal/Akhir &nbsp; &nbsp;: <?= $o['transaksi_spkkartu_jumlahlembarawal'] ?> / <?= $o['transaksi_spkkartu_jumlahlembarakhir'] ?>
                                         <br />Jumlah Overlay Awal/Akhir &nbsp; : <?= $o['transaksi_spkkartu_jumlahoverlayawal'] ?> / <?= $o['transaksi_spkkartu_jumlahoverlayakhir'] ?>
                                         <br />Jumlah Chip Awal/Akhir&nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahchipawal'] ?> / <?= $o['transaksi_spkkartu_jumlahchipakhir'] ?>
@@ -2813,6 +2840,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <?= $o['transaksi_spkkartu_jumlahkarturusak'] ?>
                                         <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spkkartu_jumlahlembarrusak'] ?>
                                         <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_operator'] ?>
+                                        <br />Material&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_material'] ?>
                                     </p>
                                     <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                         <tbody>
@@ -2864,7 +2892,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                             </tr>
                                             <tr style="height: 18px;">
-                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                                 <td style="width: 50%; height: 18px;">Function</td>
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                             </tr>
@@ -2888,7 +2916,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '1') : ?>
                                     <!-- Aksesoris -->
@@ -2953,7 +2984,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '2') : ?>
                                     <!-- Tali -->
@@ -3015,7 +3049,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '3') : ?>
                                     <!-- E-Money -->
@@ -3101,7 +3138,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '4') : ?>
                                     <!-- Flashdisk -->
@@ -3187,7 +3227,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_no_penyelesaian'] ?>
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <?= $o['transaksi_spk_tanggaljamfix'] ?? 'Belum diatur'; ?>
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_kodefix'] ?? 'Belum diatur'; ?>
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_speeling'] ?? 'Belum diatur'; ?>
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?? 'Belum diatur'; ?>
                                     </p>
                                 <?php endif; ?>
                             </div>
@@ -3203,6 +3246,9 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
             </div>
         </div>
     </div>
+    <?php
+    $spkMaterial = $this->db->query("SELECT transaksi_material FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
+    ?>
 
     <div class="modal fade" id="status_printedit3" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -3228,6 +3274,8 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         <br />Jumlah Kartu Rusak &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; : <input type="number" name="JKartuRusakp" id="JKartuRusakp" placeholder="Masukkan Jumlah Kartu Rusak" value="<?= $JKartuRusak['transaksi_spkkartu_jumlahkarturusak']; ?>">
                                         <br />Jumlah Lembar Rusak &nbsp; &nbsp; &nbsp; &nbsp; : <input type="number" name="JLembarRusakp" id="JLembarRusakp" placeholder="Masukkan Jumlah Lembar Rusak" value="<?= $JLembarRusak['transaksi_spkkartu_jumlahlembarrusak']; ?>">
                                         <br />Operator&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkoperatorp" id="spkOperatorp" placeholder="Masukkan nama operator" value="<?= $spkOperator['transaksi_spk_operator']; ?>">
+                                        <br />Material&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="spkMaterial" id="spkMaterial" placeholder="Masukkan Material" value="<?= $spkMaterial['transaksi_material']; ?>">
+
                                     </p>
                                     <table style="border-collapse: collapse; width: 49.9029%; height: 198px;" border="1">
                                         <tbody>
@@ -3279,7 +3327,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $statusFinishing; ?></td>
                                             </tr>
                                             <tr style="height: 18px;">
-                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID']; ?>
+                                                <?php $namaFunction = ['Tidak dipilih', 'Print Thermal', 'Scan Barcode', 'Swipe Magnetic', 'Tap RFID', 'No Function']; ?>
                                                 <td style="width: 50%; height: 18px;">Function</td>
                                                 <td style="width: 50%; height: 18px;">&nbsp;<?= $namaFunction[$o['transaksi_function'] ?? 0]; ?></td>
                                             </tr>
@@ -3303,7 +3351,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '1') : ?>
                                     <!-- Aksesoris -->
@@ -3368,7 +3419,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '2') : ?>
                                     <!-- Tali -->
@@ -3430,7 +3484,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '3') : ?>
                                     <!-- E-Money -->
@@ -3516,7 +3573,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
                                     </p>
                                 <?php elseif ($p['product_tipe'] == '4') : ?>
                                     <!-- Flashdisk -->
@@ -3602,7 +3662,10 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                                         </tbody>
                                     </table>
                                     <p style="text-align: left;">No.Penyelesain &nbsp; &nbsp; &nbsp;: <input type="text" name="noPenyelesaian" id="noPenyelesaian" placeholder="Masukkan no penyelesaian" value="<?= $noPenyelesaian['transaksi_no_penyelesaian']; ?>">
-                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <?= $o['transaksi_spk_deadline'] ?>
+                                        <br />Tanggal/Jam Fix &nbsp; &nbsp; : <input type="datetime-local" name="tanggalJamFix" id="tanggalJamFix" value="<?= $tanggalJamFix['transaksi_spk_tanggaljamfix']; ?>">
+                                        <br />Kode Fix&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="kodeFix" id="kodeFix" placeholder="Masukkan Kode Fix" value="<?= $kodeFix['transaksi_spk_kodefix']; ?>">
+                                        <br />Speeling&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="text" name="Speeling" id="Speeling" placeholder="Masukkan Speeling" value="<?= $Speeling['transaksi_spk_speeling']; ?>">
+                                        <br />Deadline&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
                                     </p>
                                 <?php endif; ?>
                             </div>
@@ -4102,6 +4165,7 @@ switch ($tipe) {
                 JKartuRusak: $('#JKartuRusakp').val(),
                 JLembarRusak: $('#JLembarRusakp').val(),
                 spkOperator: $('#spkOperatorp').val(),
+                spkMaterial: $('#spkMaterial').val(),
                 tanggalJamFix: $('#tanggalJamFix').val(),
                 kodeFix: $('#kodeFix').val(),
                 Speeling: $('#Speeling').val(),

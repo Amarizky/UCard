@@ -169,7 +169,9 @@
                                         <input id="function3" type="radio" placeholder="function" name="function" value="3" required>
                                         <label for="function3">Swipe Magnetic</label><br>
                                         <input id="function4" type="radio" placeholder="function" name="function" value="4" required>
-                                        <label for="function4">Tap RFID</label>
+                                        <label for="function4">Tap RFID</label><br>
+                                        <input id="function5" type="radio" placeholder="function" name="function" value="5" required>
+                                        <label for="function5">No Function</label>
                                     </div>
                                     <div class="grid-item p-0 pb-3">
                                         <b>Packaging</b>

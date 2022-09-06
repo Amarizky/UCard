@@ -1166,7 +1166,20 @@ class Order extends CI_Controller
 <?php
         }
     }
-
+    function update_kodeproduk()
+    {
+        $id = $this->input->post('transaksi_id');
+        $kode = $this->input->post('kode');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_kodeproduk = '$kode' WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
+    }
+    function update_noso()
+    {
+        $id = $this->input->post('transaksi_id');
+        $noso = $this->input->post('noso');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_noso = '$noso' WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
+    }
     function update_resi()
     {
         $id = $this->input->post('transaksi_id');
@@ -1273,6 +1286,7 @@ class Order extends CI_Controller
         $JStopperAwal = $this->input->post('JStopperAwal');
         $JStopperAkhir = $this->input->post('JStopperAkhir');
         $spkOperator = $this->input->post('spkOperator');
+        $spkMaterial = $this->input->post('spkMaterial');
         $tanggalJamFix = $this->input->post('tanggalJamFix');
         $kodeFix = $this->input->post('kodeFix');
         $Speeling = $this->input->post('Speeling');
@@ -1301,6 +1315,7 @@ class Order extends CI_Controller
             'transaksi_spk_jumlahstopperawal'                          => $JStopperAwal,
             'transaksi_spk_jumlahstopperakhir'                         => $JStopperAkhir,
             'transaksi_spk_operator'                                   => $spkOperator,
+            'transaksi_material'                                   => $spkMaterial,
             'transaksi_spk_tanggaljamfix'                              => $tanggalJamFix,
             'transaksi_spk_kodefix'                                    => $kodeFix,
             'transaksi_spk_speeling'                                   => $Speeling,
