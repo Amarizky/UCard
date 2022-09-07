@@ -172,28 +172,28 @@ $stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
                                             <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')" id="defaultOpen"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verif['verif_kirimambil']) ? " ($verif[verif_kirimambil])" : "") ?></b></a>
                                         <?php else : ?>
                                             <?php
-                                            $verifikator = "";
+                                            $verifier = "";
                                             switch ($s['status_id']) {
                                                 case "1":
-                                                    $verifikator = !empty($verif['verif_pesanan']) ? $verif['verif_pesanan'] : "-";
+                                                    $verifier = !empty($verif['verif_pesanan']) ? $verif['verif_pesanan'] : "-";
                                                     break;
                                                 case "2":
-                                                    $verifikator = !empty($verif['verif_desain']) ? $verif['verif_desain'] : "-";
+                                                    $verifier = !empty($verif['verif_desain']) ? $verif['verif_desain'] : "-";
                                                     break;
                                                 case "3":
-                                                    $verifikator = !empty($verif['verif_pembayaran']) ? $verif['verif_pembayaran'] : "-";
+                                                    $verifier = !empty($verif['verif_pembayaran']) ? $verif['verif_pembayaran'] : "-";
                                                     break;
                                                 case "4":
-                                                    $verifikator = !empty($verif['verif_approval']) ? $verif['verif_approval'] : "-";
+                                                    $verifier = !empty($verif['verif_approval']) ? $verif['verif_approval'] : "-";
                                                     break;
                                                 case "5":
-                                                    $verifikator = !empty($verif['verif_produksi']) ? $verif['verif_produksi'] : "-";
+                                                    $verifier = !empty($verif['verif_produksi']) ? $verif['verif_produksi'] : "-";
                                                     break;
                                                 default:
-                                                    $verifikator = "admin";
+                                                    $verifier = "admin";
                                             }
                                             ?>
-                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifikator) ? " ($verifikator)" : "") ?></b></a>
+                                            <a type="button" class="tablinks" onclick="status(event, 'status<?= $s['status_id'] ?>')"><b class="font-weight-bold"><?= $s['status_status'] . (!empty($verifier) ? " ($verifier)" : "") ?></b></a>
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
