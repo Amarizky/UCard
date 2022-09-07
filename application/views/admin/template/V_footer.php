@@ -60,15 +60,16 @@
             success: function(data) {
                 data = JSON.parse(data);
 
-                po.textContent = data.o;
-                pd.textContent = data.d;
-                pp.textContent = data.p;
-                pa.textContent = data.a;
-                pc.textContent = data.c;
-                pk.textContent = data.k;
-
-                if (pv.textContent < data.v) btnNotif.click();
-                else pv.textContent = data.v;
+                if (po) po.textContent = data.o;
+                if (pd) pd.textContent = data.d;
+                if (pp) pp.textContent = data.p;
+                if (pa) pa.textContent = data.a;
+                if (pc) pc.textContent = data.c;
+                if (pk) pk.textContent = data.k;
+                if (pv) {
+                    if (pv.textContent < data.v) btnNotif.click();
+                    else pv.textContent = data.v;
+                }
             }
         });
     }, 6000);
