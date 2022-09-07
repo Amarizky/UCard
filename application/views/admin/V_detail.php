@@ -1,12 +1,13 @@
 <?php
-$stp = $this->db->where('transaksi_order_id', $this->uri->segment(3))->order_by('transaksi_id', 'desc')->limit(1)->get('tbl_status_transaksi')->row_array();
+$id = $this->uri->segment(3);
+$stp = $this->db->where('transaksi_order_id', $id)->order_by('transaksi_id', 'desc')->limit(1)->get('tbl_status_transaksi')->row_array();
 $stp_status_id = $stp['transaksi_status_id'];
 $stp_prod_status_id = @$stp['transaksi_produksi_status_id'];
 
 $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_product_id'])->get('tbl_product')->row_array()['product_tipe'];
 ?>
 
-<input type="hidden" value="<?= $this->uri->segment(3) ?>" id="id">
+<input type="hidden" value="<?= $id ?>" id="id">
 <input type="hidden" id="status_id" value="<?= $stp_status_id; ?>">
 <input type="hidden" id="prod_status_id" value="<?= $stp_prod_status_id ?? '0'; ?>">
 
@@ -161,14 +162,13 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                 <div class="card-body">
                     <div class="timeline timeline-one-side" data-timeline-content="axis" data-timeline-axis-style="dashed">
                         <?php
-                        $id_transaksi = $this->uri->segment(3);
-                        $ctk = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_status_id = '5' AND transaksi_order_id = '$id_transaksi' ORDER BY transaksi_id DESC ")->row_array();
+                        $ctk = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_status_id = '5' AND transaksi_order_id = '$id' ORDER BY transaksi_id DESC ")->row_array();
                         $statusproduksi = @$ctk['transaksi_produksi_status_id'];
 
                         foreach ($status as $s) :
                             $status_id = $s['status_id'];
-                            $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' AND transaksi_status_id = '$status_id' ORDER BY transaksi_id DESC ")->row_array();
-                            $verif = $this->db->query("SELECT * FROM tbl_verifikasi WHERE transaksi_id = '$id_transaksi';")->row_array();
+                            $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' AND transaksi_status_id = '$status_id' ORDER BY transaksi_id DESC ")->row_array();
+                            $verif = $this->db->query("SELECT * FROM tbl_verifikasi WHERE transaksi_id = '$id';")->row_array();
                             if (!empty($st) && ($st['transaksi_status'] == NULL || $st['transaksi_status'] == '2')) : ?>
                                 <div class="timeline-block">
                                     <span style="background-color: blue;color: white;" class="timeline-step badge-success">
@@ -265,14 +265,15 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
                                             <?php $dtstd_tanggal = new DateTime("@$st[transaksi_tanggal]"); ?>
+                                            <?php $print_status = $this->db->query("SELECT transaksi_print_spk_sales sales, transaksi_print_spk_approval approval, transaksi_print_spk_produksi produksi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array(); ?>
                                             <span class="badge badge-pill badge-success">Diterima pada <?= $dtstd_tanggal->format('d/m/Y H:i'); ?></span>
                                             <?php if ($s['status_id'] == "1") : ?>
                                                 <br><br>
-                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_sales"><i class="fa fa-print"> SPK Sales</i></button>
+                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_sales"><i class="fa fa-print"></i> SPK Sales<?= $print_status['sales'] == 1 ? '<i class="fa fa-check"></i>' : ''; ?></button>
                                             <?php elseif ($s['status_id'] == "4") : ?>
                                                 <br><br>
-                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_approval"><i class="fa fa-print"></i> SPK Approval</button>
-                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_produksi"><i class="fa fa-print"></i> SPK Produksi</button>
+                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_approval"><i class="fa fa-print"></i> SPK Approval<?= $print_status['approval'] == 1 ? '<i class="fa fa-check"></i>' : ''; ?></button>
+                                                <button id-status="<?= $s['status_id'] == '' ? $statusproduksi : $s['status_id'] ?>" class="btn btn-primary btn-sm status" data-toggle="modal" data-target="#spk_produksi"><i class="fa fa-print"></i> SPK Produksi<?= $print_status['produksi'] == 1 ? '<i class="fa fa-check"></i>' : ''; ?></button>
                                             <?php endif; ?>
                                             <?php if ($st['transaksi_keterangan']) : ?>
                                                 <p class="text-sm mt-2">
@@ -595,10 +596,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                 </div>
                             <?php endif; ?>
                             <hr>
-                            <?php
-                            $id = $this->uri->segment(3);
-                            $kode = $this->db->query("SELECT transaksi_kodeproduk FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
-                            ?>
+                            <?php $kode = $this->db->query("SELECT transaksi_kodeproduk FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array(); ?>
                             <b>Kode Produk</b>
                             <form action="<?= base_url('Order/update_kodeproduk'); ?>" method="post" class="form-group row">
                                 <input type="hidden" name="transaksi_id" value="<?= $id; ?>">
@@ -639,7 +637,6 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                         <p>File dan/atau URL akan muncul jika pelanggan sudah mengunggahnya</p>
                         <hr>
                         <?php
-                        $id = $this->uri->segment(3);
                         $design = $this->db->query("SELECT * FROM tbl_user_design WHERE design_transaksi_id = '$id' ")->result_array();
                         $upload = $this->db->query("SELECT * FROM tbl_design_kirim WHERE design_transaksi_id = '$id' ")->result_array();
                         $link = $this->db->query("SELECT transaksi_link_desain FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
@@ -698,7 +695,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                 <h3 class="mb-0">Pembayaran</h3>
                             </div>
                             <div class="col">
-                                <?php $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id_transaksi' ORDER BY transaksi_id DESC LIMIT 1 ")->row_array(); ?>
+                                <?php $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' ORDER BY transaksi_id DESC LIMIT 1 ")->row_array(); ?>
                                 <?php if ($st['transaksi_status_id'] == '3') : ?>
                                     <div class="text-right">
                                         <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ubah_harga">
@@ -736,7 +733,6 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
 
                         <hr>
                         <?php
-                        $id = $this->uri->segment(3);
                         $pembayaran = $this->db->query("SELECT * FROM tbl_pembayaran WHERE pembayaran_transaksi_id = '$id' ")->result_array();
                         $noso = $this->db->query("SELECT transaksi_noso FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
                         ?>
@@ -818,7 +814,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                         </div>
                         <hr>
                         <form method="post" action="<?= base_url('Order/upload_approval1') ?>" enctype="multipart/form-data">
-                            <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                            <input type="hidden" name="transaksi_id" value="<?= $id ?>">
                             <label for="apv1"><?= $o['transaksi_approval_acc'] == 1 ? "<b>Original (dipilih)</b>" : "Original"; ?></label><br>
                             <?php if ($o['transaksi_approval_1']) : ?>
                                 <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval1">
@@ -831,7 +827,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                         </form>
                         <br>
                         <form method="post" action="<?= base_url('Order/upload_approval2') ?>" enctype="multipart/form-data">
-                            <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                            <input type="hidden" name="transaksi_id" value="<?= $id ?>">
                             <label for="apv2"><?= $o['transaksi_approval_acc'] == 2 ? "<b>Gelap (dipilih)</b>" : "Gelap"; ?></label><br>
                             <?php if ($o['transaksi_approval_2']) : ?>
                                 <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval2">
@@ -844,7 +840,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                         </form>
                         <br>
                         <form method="post" action="<?= base_url('Order/upload_approval3') ?>" enctype="multipart/form-data">
-                            <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                            <input type="hidden" name="transaksi_id" value="<?= $id ?>">
                             <label for="apv3"><?= $o['transaksi_approval_acc'] == 3 ? "<b>Terang (dipilih)</b>" : "Terang"; ?></label><br>
                             <?php if ($o['transaksi_approval_3']) : ?>
                                 <a type="button" class="modal_lihat" data-toggle="modal" data-target="#approval3">
@@ -906,7 +902,6 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                             $produksi = $this->db->get('tbl_status')->result_array();
                             $produksicount = current($produksi);
 
-                            $id = $this->uri->segment(3);
                             $verif = $this->db->where('transaksi_id', $id)->get('tbl_verifikasi')->row_array();
                             ?>
                             <?php foreach ($produksi as $pr) : ?>
@@ -937,7 +932,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                     $logo       = 'fas fa-box';
                                 }
                                 $keterangan = $this->db
-                                    ->where('transaksi_order_id', $id_transaksi)
+                                    ->where('transaksi_order_id', $id)
                                     ->where('transaksi_produksi_status_id', $pr['status_id'])
                                     ->get('tbl_status_transaksi')
                                     ->row_array()['transaksi_keterangan'] ?? 'Tidak ada keterangan';
@@ -1032,7 +1027,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         </form>
                                         <b>Foto Resi</b>
                                         <form method="post" action="<?= base_url('Order/upload_foto_resi') ?>" enctype="multipart/form-data" class="form-group row">
-                                            <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                                            <input type="hidden" name="transaksi_id" value="<?= $id ?>">
                                             <?php if ($o['transaksi_foto_resi']) : ?>
                                                 <img style="width: 100%;" src="<?= base_url('foto_resi/' . $o['transaksi_foto_resi']) ?>">
                                                 <br>
@@ -1077,7 +1072,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="transaksi_id" value="<?= $this->uri->segment(3) ?>">
+                <input type="hidden" name="transaksi_id" value="<?= $id ?>">
                 <div class="form-group">
                     <label for="harga"><b>Harga</b></label>
                     <input class="form-control" id="harga" type="number" name="harga" value="<?= $o['transaksi_harga']; ?>">
@@ -1114,7 +1109,6 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
 </div>
 
 <?php
-$id = $this->uri->segment(3);
 $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON p.product_id = t.transaksi_product_id WHERE transaksi_id = '$id' ")->row_array();
 ?>
 
@@ -1136,6 +1130,7 @@ $y = $this->db->query("SELECT * FROM tbl_product AS p JOIN tbl_transaksi AS t ON
 $assesoris = $this->db->query("SELECT transaksi_spkkartu_assesoris FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
 $keteranganspk = $this->db->query("SELECT transaksi_keterangan_accesoris FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
 $dt = new DateTime("@$o[transaksi_tanggal]");
+$print_status = $this->db->query("SELECT transaksi_print_spk_sales sales, transaksi_print_spk_approval approval, transaksi_print_spk_produksi produksi FROM tbl_transaksi WHERE transaksi_id='$id';")->row_array();
 ?>
 <div>
     <div class="modal fade" id="spk_sales" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -1514,7 +1509,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                 </page>
                 <div class="modal-footer">
                     <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit1">Edit</button>
-                    <button class="btn btn-primary" id="printSpk">Print</button>
+                    <button class="btn btn-primary" id="printSpk">Print<?= $print_status['sales'] == 1 ? ' <i class="fa fa-check"></i>' : ''; ?></button>
                 </div>
                 <div id="alert_status"></div>
                 <div id="data_status"></div>
@@ -1525,7 +1520,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
     <div class="modal fade" id="status_printedit1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <form class="modal-content" method="post" action="<?= base_url('Order/savespksales') ?>">
-                <input type="hidden" name="id" value="<?= $this->uri->segment(3) ?>">
+                <input type="hidden" name="id" value="<?= $id ?>">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLongTitle">Edit SPK Sales</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -2321,7 +2316,7 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                 </page>
                 <div class="modal-footer">
                     <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit2">Edit</button>
-                    <button class="btn btn-primary" id="printSpk1">Print</button>
+                    <button class="btn btn-primary" id="printSpk1">Print<?= $print_status['approval'] == 1 ? ' <i class="fa fa-check"></i>' : ''; ?></button>
                 </div>
                 <div id="alert_status"></div>
                 <div id="data_status"></div>
@@ -3228,13 +3223,13 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit3">Edit</button><br>
-                        <button class="btn btn-primary" id="printSpk2">Print</button>
-                    </div>
-                    <div id="alert_status"></div>
-                    <div id="data_status"></div>
                 </page>
+                <div class="modal-footer">
+                    <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit3">Edit</button><br>
+                    <button class="btn btn-primary" id="printSpk2">Print<?= $print_status['produksi'] == 1 ? ' <i class="fa fa-check"></i>' : ''; ?></button>
+                </div>
+                <div id="alert_status"></div>
+                <div id="data_status"></div>
             </div>
         </div>
     </div>
@@ -3700,24 +3695,23 @@ $dt = new DateTime("@$o[transaksi_tanggal]");
 </div>
 
 <?php
-$id_transaksi = $this->uri->segment(3);
 $statusproduksi = $this->db
     ->select('transaksi_produksi_status_id')
     ->where('transaksi_status_id', '5')
-    ->where('transaksi_order_id', $id_transaksi)
+    ->where('transaksi_order_id', $id)
     ->order_by('transaksi_id', 'desc')
     ->limit(1)
     ->get('tbl_status_transaksi')
     ->row_array()['transaksi_produksi_status_id'] ?? null;
 
-$ket_51 = $this->db->where('transaksi_produksi_status_id', '51')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_52 = $this->db->where('transaksi_produksi_status_id', '52')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_53 = $this->db->where('transaksi_produksi_status_id', '53')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_54 = $this->db->where('transaksi_produksi_status_id', '54')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_55 = $this->db->where('transaksi_produksi_status_id', '55')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_56 = $this->db->where('transaksi_produksi_status_id', '56')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_57 = $this->db->where('transaksi_produksi_status_id', '57')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_58 = $this->db->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $id_transaksi)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_51 = $this->db->where('transaksi_produksi_status_id', '51')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_52 = $this->db->where('transaksi_produksi_status_id', '52')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_53 = $this->db->where('transaksi_produksi_status_id', '53')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_54 = $this->db->where('transaksi_produksi_status_id', '54')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_55 = $this->db->where('transaksi_produksi_status_id', '55')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_56 = $this->db->where('transaksi_produksi_status_id', '56')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_57 = $this->db->where('transaksi_produksi_status_id', '57')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$ket_58 = $this->db->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
 
 $show_prod_51 = false;
 $show_prod_52 = false;
@@ -4133,7 +4127,7 @@ switch ($tipe) {
                 JStopperAkhir: $('#JStopperAkhir').val(),
             },
             success: function(data) {
-                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#status_print4') ?>';
+                window.location = '<?= base_url('Order/detail/' . $id . '#status_print4') ?>';
                 location.reload();
             }
         });
@@ -4175,7 +4169,7 @@ switch ($tipe) {
                 JStopperAkhir: $('#JStopperAkhirp').val(),
             },
             success: function(data) {
-                window.location = '<?= base_url('Order/detail/' . $this->uri->segment(3) . '#spk_produksi') ?>';
+                window.location = '<?= base_url('Order/detail/' . $id . '#spk_produksi') ?>';
                 location.reload();
             }
         });
@@ -4183,25 +4177,49 @@ switch ($tipe) {
 </script>
 <script>
     document.getElementById("printSpk").onclick = function() {
+        $.ajax({
+            type: 'POST',
+            url: "<?= base_url('Order/printSPKSales') ?>",
+            data: {
+                id: $('#id').val(),
+            }
+        });
         printElement(document.getElementById("printThis"));
         $('#printThis2').show();
         printElement(document.getElementById("printThis2"), true, "<hr>");
         $('#printThis2').hide();
         window.print();
+        location.reload();
     }
     document.getElementById("printSpk1").onclick = function() {
+        $.ajax({
+            type: 'POST',
+            url: "<?= base_url('Order/printSPKApproval') ?>",
+            data: {
+                id: $('#id').val(),
+            }
+        });
         printElement(document.getElementById("printThis3"));
         $('#printThis2').show();
         printElement(document.getElementById("printThis2"), true, "<hr />");
         $('#printThis2').hide();
         window.print();
+        location.reload();
     }
     document.getElementById("printSpk2").onclick = function() {
+        $.ajax({
+            type: 'POST',
+            url: "<?= base_url('Order/printSPKProduksi') ?>",
+            data: {
+                id: $('#id').val(),
+            }
+        });
         printElement(document.getElementById("printThis4"));
         $('#printThis2').show();
         printElement(document.getElementById("printThis2"), true, "<hr />");
         $('#printThis2').hide();
         window.print();
+        location.reload();
     }
 
     function printElement(elem, append, delimiter) {

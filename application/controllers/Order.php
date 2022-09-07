@@ -1194,6 +1194,24 @@ class Order extends CI_Controller
         $this->db->query("UPDATE tbl_transaksi SET transaksi_ekspedisi = '$ekspedisi' WHERE transaksi_id = '$id';");
         redirect(base_url('Order/detail/' . $id));
     }
+    function printSPKSales()
+    {
+        $id = $this->input->post('id');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_print_spk_sales = 1 WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
+    }
+    function printSPKApproval()
+    {
+        $id = $this->input->post('id');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_print_spk_approval = 1 WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
+    }
+    function printSPKProduksi()
+    {
+        $id = $this->input->post('id');
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_print_spk_produksi = 1 WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id));
+    }
     function savespksales()
     {
         $id = $this->input->post('id');
