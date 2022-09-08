@@ -417,7 +417,7 @@ class Order extends CI_Controller
         $status_id      = 50 < $status_id_full && $status_id_full < 58 ? '5' : ($status_id_full == 58 ? '6' : $this->input->post('id_status') + 1); // 1 - 6 // full + 1
         $keputusan      = $this->input->post('keputusan');
         $keterangan     = $this->input->post('keterangan');
-        $jumlah         = $this->input->post('jumlah');
+        $jumlah         = $this->input->post('jumlah') ?? 0;
         $user           = $_SESSION['admin_nama'];
         $tanggal_ini    = time();
 
@@ -433,7 +433,7 @@ class Order extends CI_Controller
             $this->db
                 ->set('transaksi_status', $keputusan)
                 ->set('transaksi_keterangan', $keterangan)
-                ->set('transaksi_jumlah', $jumlah)
+                ->set('transaksi_jumlah_produksi', $jumlah)
                 ->group_start()
                 ->where('transaksi_produksi_status_id', $status_id_full)
                 ->or_where('transaksi_status_id', $status_id_full)
