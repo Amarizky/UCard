@@ -417,6 +417,7 @@ class Order extends CI_Controller
         $status_id      = 50 < $status_id_full && $status_id_full < 58 ? '5' : ($status_id_full == 58 ? '6' : $this->input->post('id_status') + 1); // 1 - 6 // full + 1
         $keputusan      = $this->input->post('keputusan');
         $keterangan     = $this->input->post('keterangan');
+        $jumlah         = $this->input->post('jumlah');
         $user           = $_SESSION['admin_nama'];
         $tanggal_ini    = time();
 
@@ -432,6 +433,7 @@ class Order extends CI_Controller
             $this->db
                 ->set('transaksi_status', $keputusan)
                 ->set('transaksi_keterangan', $keterangan)
+                ->set('transaksi_jumlah', $jumlah)
                 ->group_start()
                 ->where('transaksi_produksi_status_id', $status_id_full)
                 ->or_where('transaksi_status_id', $status_id_full)
@@ -691,7 +693,9 @@ class Order extends CI_Controller
             $index = array_search($id_status, array_column($status, 'status_id'));
             $curr = $status[$index];
             $next = $status[$curr !== end($status) ? $index + 1 : count($status) - 1];
-            $keterangan = $this->db->where('transaksi_produksi_status_id', $curr['status_id'])->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+            $q_ket = $this->db->where('transaksi_produksi_status_id', $curr['status_id'])->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+            $jumlah = $q_ket['transaksi_jumlah_produksi'] ?? 0;
+            $keterangan = $q_ket['transaksi_keterangan'] ?? null;
         ?>
             <div class="modal-body pt-0">
                 <input type="hidden" value="<?= $id_status; ?>" id="id_status">
@@ -700,10 +704,14 @@ class Order extends CI_Controller
                     <p>Status saat ini: <b><?= $curr['status_status']; ?></b><br>Status selanjutnya: <b><?= $next['status_status']; ?></b><br></p>
                 </div>
                 <div class="form-group">
+                    <label for="jumlah">Jumlah Diproduksi</label>
+                    <input class="form-control" type="number" name="jumlah" id="jumlah" value="<?= $jumlah; ?>" placeholder="Masukkan jumlah produksi" required min="1">
+                </div>
+                <div class="form-group">
                     <label for="keterangan">Keterangan</label>
                     <input class="form-control" type="text" name="keterangan" id="keterangan" value="<?= $keterangan; ?>" placeholder="Masukkan keterangan">
                 </div>
-                <p>Apakah Anda yakin ingin melanjutkannya ke tahap selanjutnya?</p>
+                <p>Apakah Anda yakin ingin melanjutkan produksi ke tahap selanjutnya?</p>
                 <button style="width:100%;" id="update-status" class="btn btn-primary">Ya</button>
             </div>
         <?php
@@ -1373,24 +1381,73 @@ class Order extends CI_Controller
 
     function edit_keterangan()
     {
-        $transaksi_id              = $this->input->post('id');
-        $keterangan_gudang         = $this->input->post('keterangan_gudang');
-        $keterangan_identifikasi   = $this->input->post('keterangan_identifikasi');
-        $keterangan_cetak          = $this->input->post('keterangan_cetak');
-        $keterangan_press          = $this->input->post('keterangan_press');
-        $keterangan_plong          = $this->input->post('keterangan_plong');
-        $keterangan_finishing      = $this->input->post('keterangan_finishing');
-        $keterangan_qualitycontrol = $this->input->post('keterangan_qualitycontrol');
-        $keterangan_siapkirim      = $this->input->post('keterangan_siapkirim');
+        $transaksi_id                 = $this->input->post('id');
+        $keterangan_gudang            = $this->input->post('keterangan_gudang');
+        $keterangan_identifikasi      = $this->input->post('keterangan_identifikasi');
+        $keterangan_cetak             = $this->input->post('keterangan_cetak');
+        $keterangan_press             = $this->input->post('keterangan_press');
+        $keterangan_plong             = $this->input->post('keterangan_plong');
+        $keterangan_finishing         = $this->input->post('keterangan_finishing');
+        $keterangan_qualitycontrol    = $this->input->post('keterangan_qualitycontrol');
+        $keterangan_siapkirim         = $this->input->post('keterangan_siapkirim');
 
-        if ($keterangan_gudang)         $this->db->set('transaksi_keterangan', $keterangan_gudang)->where('transaksi_produksi_status_id', '51')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_identifikasi)   $this->db->set('transaksi_keterangan', $keterangan_identifikasi)->where('transaksi_produksi_status_id', '52')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_cetak)          $this->db->set('transaksi_keterangan', $keterangan_cetak)->where('transaksi_produksi_status_id', '53')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_press)          $this->db->set('transaksi_keterangan', $keterangan_press)->where('transaksi_produksi_status_id', '54')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_plong)          $this->db->set('transaksi_keterangan', $keterangan_plong)->where('transaksi_produksi_status_id', '55')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_finishing)      $this->db->set('transaksi_keterangan', $keterangan_finishing)->where('transaksi_produksi_status_id', '56')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_qualitycontrol) $this->db->set('transaksi_keterangan', $keterangan_qualitycontrol)->where('transaksi_produksi_status_id', '57')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
-        if ($keterangan_siapkirim)      $this->db->set('transaksi_keterangan', $keterangan_siapkirim)->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
+        $jumlah_gudang                = $this->input->post('jumlah_gudang');
+        $jumlah_identifikasi          = $this->input->post('jumlah_identifikasi');
+        $jumlah_cetak                 = $this->input->post('jumlah_cetak');
+        $jumlah_press                 = $this->input->post('jumlah_press');
+        $jumlah_plong                 = $this->input->post('jumlah_plong');
+        $jumlah_finishing             = $this->input->post('jumlah_finishing');
+        $jumlah_qualitycontrol        = $this->input->post('jumlah_qualitycontrol');
+        $jumlah_siapkirim             = $this->input->post('jumlah_siapkirim');
+
+        if ($keterangan_gudang)         $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_gudang)
+            ->set('transaksi_keterangan', $keterangan_gudang)
+            ->where('transaksi_produksi_status_id', '51')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_identifikasi)   $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_identifikasi)
+            ->set('transaksi_keterangan', $keterangan_identifikasi)
+            ->where('transaksi_produksi_status_id', '52')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_cetak)          $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_cetak)
+            ->set('transaksi_keterangan', $keterangan_cetak)
+            ->where('transaksi_produksi_status_id', '53')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_press)          $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_press)
+            ->set('transaksi_keterangan', $keterangan_press)
+            ->where('transaksi_produksi_status_id', '54')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_plong)          $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_plong)
+            ->set('transaksi_keterangan', $keterangan_plong)
+            ->where('transaksi_produksi_status_id', '55')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_finishing)      $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_finishing)
+            ->set('transaksi_keterangan', $keterangan_finishing)
+            ->where('transaksi_produksi_status_id', '56')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_qualitycontrol) $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_qualitycontrol)
+            ->set('transaksi_keterangan', $keterangan_qualitycontrol)
+            ->where('transaksi_produksi_status_id', '57')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
+        if ($keterangan_siapkirim)      $this->db
+            ->set('transaksi_jumlah_produksi', $jumlah_siapkirim)
+            ->set('transaksi_keterangan', $keterangan_siapkirim)
+            ->where('transaksi_produksi_status_id', '58')
+            ->where('transaksi_order_id', $transaksi_id)
+            ->update('tbl_status_transaksi');
 
         redirect(base_url('Order/detail/' . $transaksi_id));
     }

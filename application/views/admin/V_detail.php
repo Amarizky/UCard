@@ -167,6 +167,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
 
                         $max = $this->db->query("SELECT MAX(status_id) AS akhir FROM tbl_status WHERE status_id LIKE '_';")->row_array();
                         $perms = $this->db->where('admin_id', $this->session->admin_id)->get('tbl_admin')->row_array();
+
                         switch ($statusproduksi) {
                             case '51':
                                 $showButtons = $perms['admin_perm_orderproduksi_gudang'] == '1';
@@ -193,7 +194,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                 $showButtons = $perms['admin_perm_orderproduksi_siapkirim'] == '1';
                                 break;
                             default:
-                                $showButtons = false;
+                                $showButtons = true;
                                 break;
                         }
 
@@ -202,7 +203,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                             $st = $this->db->query("SELECT * FROM tbl_status_transaksi WHERE transaksi_order_id = '$id' AND transaksi_status_id = '$status_id' ORDER BY transaksi_id DESC ")->row_array();
                             $verif = $this->db->query("SELECT * FROM tbl_verifikasi WHERE transaksi_id = '$id';")->row_array();
 
-                            $showButtons = $showButtons && $s['status_id'] != $max['akhir'];
+                            $showButtons = $showButtons && ($s['status_id'] != $max['akhir']);
 
                             if (!empty($st) && ($st['transaksi_status'] == NULL || $st['transaksi_status'] == '2')) : ?>
                                 <div class="timeline-block">
@@ -216,11 +217,17 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         <?php endif; ?>
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <?php if ($s['status_jangka_waktu'] != NULL) : ?>
-                                            <strong>Batas kirim: </strong>
-                                            <b><?= date('d/m/Y H:m', $st['transaksi_tanggal_hangus']) ?></b>
+                                            <?php if ($st['transaksi_status'] == '4') : ?>
+                                                <b>Sudah lewat tanggal</b>
+                                            <?php else : ?>
+                                                <strong>Batas kirim: </strong>
+                                                <b><?= date('d/m/Y H:m', $st['transaksi_tanggal_hangus']) ?></b>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                         <div class="mt-3">
-                                            <span class="badge badge-pill badge-info">Menunggu konfirmasi</span>
+                                            <?php if ($st['transaksi_status'] == '2') : ?>
+                                                <span class="badge badge-pill badge-info">Menunggu konfirmasi</span>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -290,7 +297,12 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         <p class=" text-sm mt-1 mb-0"><?= $s['status_keterangan'] ?></p>
                                         <div class="mt-3">
                                             <?php if ($s['status_jangka_waktu'] != NULL) : ?>
-                                                <b>Sudah lewat tanggal</b>
+                                                <?php if ($st['transaksi_status'] == '4') : ?>
+                                                    <b>Sudah lewat tanggal</b>
+                                                <?php else : ?>
+                                                    <strong>Batas kirim</strong>
+                                                    <b><?= date('d/m/Y H:m', $st['transaksi_tanggal_hangus']) ?></b>
+                                                <?php endif; ?>
                                             <?php endif; ?><br>
                                             <?php $dtstt_tanggal = new DateTime("@$st[transaksi_tanggal]"); ?>
                                             <span class="badge badge-pill badge-danger">Ditolak pada <?= $dtstt_tanggal->format('d/m/Y H:i'); ?></span>
@@ -873,8 +885,8 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                     </div>
                                     <?php if ($showButtons) : ?>
                                         <div class="col-md-4 text-right">
-                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#produksi_keterangan">
-                                                <i class="fa fa-pen"></i> Keterangan
+                                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#status_produksi">
+                                                <i class="fa fa-pen"></i> Status
                                             </button>
                                         </div>
                                     <?php endif; ?>
@@ -931,21 +943,22 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                         $verifier   = $verif['verif_produksi_siapkirim'];
                                         $logo       = 'fas fa-box';
                                     }
-                                    $keterangan = $this->db
+                                    $st = $this->db
                                         ->where('transaksi_order_id', $id)
                                         ->where('transaksi_produksi_status_id', $pr['status_id'])
                                         ->get('tbl_status_transaksi')
-                                        ->row_array()['transaksi_keterangan'] ?? 'Tidak ada keterangan';
+                                        ->row_array();
+                                    $keterangan = isset($st['transaksi_keterangan']) && !is_null($st['transaksi_keterangan']) && !empty($st['transaksi_keterangan']) ? $st['transaksi_keterangan'] : 'Tidak ada keterangan';
 
-                                    if ($verifier) $verifier = ' (' . $verifier . ')';
                                     ?>
                                     <div class="timeline-block mt-1 mb-0">
                                         <span style="background-color: <?= ($statusproduksi == $produksicount['status_id']) ? "blue" : ($statusproduksi > $produksicount['status_id'] ? "green" : "grey"); ?>;color: white;" class="timeline-step badge-success">
                                             <i class="<?= $logo ?? 'fa fa-print'; ?>"></i>
                                         </span>
                                         <div class="timeline-content">
-                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . $verifier; ?></b></p>
-                                            <p class=" text-sm mt-1 mb-0"><?= $keterangan; ?></p>
+                                            <p class="my-0"><b class="font-weight-bold"><?= $pr['status_status'] . ($verifier ? ' (' . $verifier . ')' : ''); ?></b></p>
+                                            <p class="text-sm mt-1 mb-0">Jumlah diproduksi: <?= $st['transaksi_jumlah_produksi'] ?? 'Belum ada produksi'; ?></p>
+                                            <p class="text-sm mb-0">Keterangan: <?= $keterangan; ?></p>
                                         </div>
                                     </div>
                                     <?php $produksicount = next($produksi) ?>
@@ -3707,14 +3720,32 @@ $statusproduksi = $this->db
     ->get('tbl_status_transaksi')
     ->row_array()['transaksi_produksi_status_id'] ?? null;
 
-$ket_51 = $this->db->where('transaksi_produksi_status_id', '51')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_52 = $this->db->where('transaksi_produksi_status_id', '52')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_53 = $this->db->where('transaksi_produksi_status_id', '53')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_54 = $this->db->where('transaksi_produksi_status_id', '54')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_55 = $this->db->where('transaksi_produksi_status_id', '55')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_56 = $this->db->where('transaksi_produksi_status_id', '56')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_57 = $this->db->where('transaksi_produksi_status_id', '57')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
-$ket_58 = $this->db->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array()['transaksi_keterangan'] ?? null;
+$query_51 = $this->db->where('transaksi_produksi_status_id', '51')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_52 = $this->db->where('transaksi_produksi_status_id', '52')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_53 = $this->db->where('transaksi_produksi_status_id', '53')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_54 = $this->db->where('transaksi_produksi_status_id', '54')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_55 = $this->db->where('transaksi_produksi_status_id', '55')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_56 = $this->db->where('transaksi_produksi_status_id', '56')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_57 = $this->db->where('transaksi_produksi_status_id', '57')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+$query_58 = $this->db->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $id)->get('tbl_status_transaksi')->row_array();
+
+$ket_51 = $query_51['transaksi_keterangan'] ?? null;
+$ket_52 = $query_52['transaksi_keterangan'] ?? null;
+$ket_53 = $query_53['transaksi_keterangan'] ?? null;
+$ket_54 = $query_54['transaksi_keterangan'] ?? null;
+$ket_55 = $query_55['transaksi_keterangan'] ?? null;
+$ket_56 = $query_56['transaksi_keterangan'] ?? null;
+$ket_57 = $query_57['transaksi_keterangan'] ?? null;
+$ket_58 = $query_58['transaksi_keterangan'] ?? null;
+
+$jml_51 = $query_51['transaksi_jumlah_produksi'] ?? 0;
+$jml_52 = $query_52['transaksi_jumlah_produksi'] ?? 0;
+$jml_53 = $query_53['transaksi_jumlah_produksi'] ?? 0;
+$jml_54 = $query_54['transaksi_jumlah_produksi'] ?? 0;
+$jml_55 = $query_55['transaksi_jumlah_produksi'] ?? 0;
+$jml_56 = $query_56['transaksi_jumlah_produksi'] ?? 0;
+$jml_57 = $query_57['transaksi_jumlah_produksi'] ?? 0;
+$jml_58 = $query_58['transaksi_jumlah_produksi'] ?? 0;
 
 $show_prod_51 = false;
 $show_prod_52 = false;
@@ -3757,45 +3788,77 @@ switch ($tipe) {
 }
 ?>
 
-<form action="<?= base_url('Order/edit_keterangan'); ?>" method="post" class="modal fade" id="produksi_keterangan" tabindex="-1" role="dialog">
+<form action="<?= base_url('Order/edit_keterangan'); ?>" method="post" class="modal fade" id="status_produksi" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Keterangan</h5>
+                <h5 class="modal-title">Edit Status Produksi</h5>
             </div>
             <div class="modal-body">
                 <input type="hidden" name="id" value="<?= $id; ?>">
                 <div class="form-group" <?= $statusproduksi >= '51' && $show_prod_51 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_gudang"><b>Gudang</b></label>
+                    <b>Gudang</b><br>
+                    <label for="jumlah_gudang">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_gudang" id="jumlah_gudang" value="<?= $jml_51; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_gudang">Keterangan</label>
                     <input class="form-control" type="text" name="keterangan_gudang" id="keterangan_gudang" value="<?= $ket_51; ?>" placeholder="Masukkan keterangan gudang">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '52' && $show_prod_52 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_identifikasi"><b>Input Identifikasi</b></label>
-                    <input class="form-control" type="text" name="keterangan_identifikasi" id="keterangan_identifikasi" value="<?= $ket_52; ?>" placeholder="Masukkan keterangan input identifikasi">
+                    <b>Identifikasi</b><br>
+                    <label for="jumlah_identifikasi">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_identifikasi" id="jumlah_identifikasi" value="<?= $jml_52; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_identifikasi">Keterangan</label>
+                    <input class="form-control" type="text" name="keterangan_identifikasi" id="keterangan_identifikasi" value="<?= $ket_52; ?>" placeholder="Masukkan keterangan identifikasi">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '53' && $show_prod_53 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_cetak"><b>Cetak</b></label>
+                    <b>Cetak</b><br>
+                    <label for="jumlah_cetak">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_cetak" id="jumlah_cetak" value="<?= $jml_53; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_cetak">Keterangan</label>
                     <input class="form-control" type="text" name="keterangan_cetak" id="keterangan_cetak" value="<?= $ket_53; ?>" placeholder="Masukkan keterangan cetak">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '54' && $show_prod_54 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_press"><b>Press</b></label>
+                    <b>Press</b><br>
+                    <label for="jumlah_press">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_press" id="jumlah_press" value="<?= $jml_54; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_press">Keterangan</label>
                     <input class="form-control" type="text" name="keterangan_press" id="keterangan_press" value="<?= $ket_54; ?>" placeholder="Masukkan keterangan press">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '55' && $show_prod_55 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_plong"><b>Plong</b></label>
+                    <b>Plong</b><br>
+                    <label for="jumlah_plong">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_plong" id="jumlah_plong" value="<?= $jml_55; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_plong">Keterangan</label>
                     <input class="form-control" type="text" name="keterangan_plong" id="keterangan_plong" value="<?= $ket_55; ?>" placeholder="Masukkan keterangan plong">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '56' && $show_prod_56 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_finishing"><b>Finishing</b></label>
+                    <b>Finishing</b><br>
+                    <label for="jumlah_finishing">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_finishing" id="jumlah_finishing" value="<?= $jml_56; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_finishing">Keterangan</label>
                     <input class="form-control" type="text" name="keterangan_finishing" id="keterangan_finishing" value="<?= $ket_56; ?>" placeholder="Masukkan keterangan finishing">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '57' && $show_prod_57 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_qualitycontrol"><b>Quality Control</b></label>
-                    <input class="form-control" type="text" name="keterangan_qualitycontrol" id="keterangan_qualitycontrol" value="<?= $ket_57; ?>" placeholder="Masukkan keterangan quality control">
+                    <b>Quality Control</b><br>
+                    <label for="jumlah_qualitycontrol">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_qualitycontrol" id="jumlah_qualitycontrol" value="<?= $jml_57; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_qualitycontrol">Keterangan</label>
+                    <input class="form-control" type="text" name="keterangan_qualitycontrol" id="keterangan_qualitycontrol" value="<?= $ket_57; ?>" placeholder="Masukkan keterangan qualitycontrol">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
                 <div class="form-group" <?= $statusproduksi >= '58' && $show_prod_58 ? '' : 'hidden'; ?>>
-                    <label for="keterangan_siapkirim"><b>Siap Kirim</b></label>
-                    <input class="form-control" type="text" name="keterangan_siapkirim" id="keterangan_siapkirim" value="<?= $ket_58; ?>" placeholder="Masukkan keterangan siap kirim">
+                    <b>Siap Kirim</b><br>
+                    <label for="jumlah_siapkirim">Jumlah Produksi</label>
+                    <input class="form-control" type="number" name="jumlah_siapkirim" id="jumlah_siapkirim" value="<?= $jml_58; ?>" placeholder="Masukkan jumlah produksi">
+                    <label for="keterangan_siapkirim">Keterangan</label>
+                    <input class="form-control" type="text" name="keterangan_siapkirim" id="keterangan_siapkirim" value="<?= $ket_58; ?>" placeholder="Masukkan keterangan siapkirim">
+                    <hr style="margin: 1rem 0 1rem 0;">
                 </div>
             </div>
             <div class="modal-footer">
@@ -3910,9 +3973,11 @@ switch ($tipe) {
     $(document).on('click', '#update-status', function() {
         var url = document.URL.substring(0, document.URL.lastIndexOf('#'));
         var keputusan = $('#keputusan').val();
+        var keterangan = $('#keterangan').val();
+        var jumlah = $('#jumlah').val();
         if (keputusan !== '') {
-            if (keputusan == '0' && keterangan == '') {
-                $('#alert_status').html('<div class="alert alert-danger alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"><i class="fa fa-times"></i></span><span class="alert-text"><strong>Harus Ada Keterangan</strong></span></div>');
+            if (keputusan == '0' && keterangan == '' && jumlah == '') {
+                $('#alert_status').html('<div class="alert alert-danger alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"><i class="fa fa-times"></i></span><span class="alert-text"><strong>Silahkan lengkapi form</strong></span></div>');
             } else {
                 $('#alert_status').html('<div class="alert alert-info alert-dismissible fade show" style="border-radius:0px;" role="alert"><span class="alert-icon"></span><span class="alert-text"><strong>Loading...</strong></span></div>');
                 $.ajax({
@@ -3941,6 +4006,7 @@ switch ($tipe) {
                         varian: $('input[name="varian"]:checked').val(),
                         status: $('input[name="status"]:checked').val(),
                         keterangan: $('#keterangan').val(),
+                        jumlah: $('#jumlah').val(),
                     },
                     success: function(data) {
                         // alert(data);
