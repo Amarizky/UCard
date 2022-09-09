@@ -84,16 +84,6 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
         transition: all 0.3s ease;
     }
 
-    .page[size="A6"] {
-        background: white;
-        font: "Lucida Console";
-        width: 10.5cm;
-        height: 14.8cm;
-        display: block;
-        margin: 0 auto;
-        box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.5);
-    }
-
     @media screen {
         #printSection {
             display: none;
@@ -111,7 +101,7 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
         }
 
         #printSection {
-            position: absolute;
+            position: contain;
             left: 0;
             top: 0;
         }
@@ -146,6 +136,55 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
     #option-1:checked:checked~.option-1 span,
     #option-2:checked:checked~.option-2 span {
         color: #fff;
+    }
+
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover,
+    .dropbtn:focus {
+        background-color: #2980B9;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+        background-color: #ddd
+    }
+
+    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+    .show {
+        display: block;
     }
 </style>
 <!-- Header -->
@@ -863,6 +902,11 @@ $tipe = $this->db->select('product_tipe')->where('product_id', $o['transaksi_pro
                                 <div class="col-md-4 text-right">
                                     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#produksi_keterangan">
                                         <i class="fa fa-pen"></i> Keterangan
+                                    </button>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#formGP">
+                                        <i class="fa fa-print"></i> Form GP
                                     </button>
                                 </div>
                             </div>
@@ -3754,6 +3798,273 @@ switch ($tipe) {
     </div>
 </form>
 
+<div class="modal fade" id="formGP" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Print Form Gagal Produksi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <page size="A6">
+                <div id="printThis5">
+                    <div class="modal-body">
+                        <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>Form Gagal Produksi</strong></span></p>
+                        <p style="text-align: left;">Nama Pelanggan&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?>
+                            <br />Tanggal Pengajuan : <?= $o['transaksi_gp_pengajuan'] ?>
+                            </br>Tanggal Validasi &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_gp_validasi'] ?>
+                            <br />Status Validasi &nbsp; &nbsp; &nbsp; &nbsp;: <?= $o['transaksi_gp_statusvalidasi'] ?>
+                        </p>
+                        <div>
+                            <br>
+                            <?php
+                            $id = $this->uri->segment(3);
+                            $kebutuhan_bahan = $this->db->query("SELECT * FROM tbl_gp WHERE gp_transaksi_id = '$id' ")->result_array();
+                            ?>
+                            <h3 align="center">Kebutuhan Bahan</h3>
+                            <br>
+                            <table id="kebutuhan_bahan" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Bahan</th>
+                                        <th>Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($kebutuhan_bahan) : ?>
+                                        <?php foreach ($kebutuhan_bahan as $keb_han) : ?>
+                                            <tr>
+                                                <td><?php echo $keb_han['gp_bahan']; ?></td>
+                                                <td><?php echo $keb_han['gp_jumlah']; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Belum ada list bahan untuk produksi ulang</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <br><br>
+                            <h3 align="center">General </h3>
+                            <br>
+                            <table id="kebutuhan_bahan" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>QTY</th>
+                                        <th>Alasan</th>
+                                        <th>Operator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($o) : ?>
+                                        <tr>
+                                            <td><?php echo $o['transaksi_gp_qty']; ?></td>
+                                            <td><?php echo $o['transaksi_gp_alasan']; ?></td>
+                                            <td><?php echo $o['transaksi_gp_operator']; ?></td>
+                                        </tr>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Belum ada list bahan untuk produksi ulang</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </page>
+            <div class="modal-footer">
+                <button class="btn btn-primary status" data-toggle="modal" data-target="#editformGP">Edit</button>
+                <button class="btn btn-primary" id="printGP">Print</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="editformGP" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <form class="modal-content" method="post" action="<?= base_url('Order/savegp') ?>">
+            <input type="hidden" name="id" value="<?= $this->uri->segment(3) ?>">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Form Gagal Produksi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <page size="A6">
+                <div id="printThis">
+                    <div class="modal-body">
+                        <p style="text-align: left;">Nama Pelanggan&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?>
+                            <br />Tanggal Pengajuan : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
+                            </br>Tanggal Validasi &nbsp; &nbsp; &nbsp;: <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
+                            <br />Status Validasi &nbsp; &nbsp; &nbsp; &nbsp;: <select id="statusValidasi" name="validasiGP" required="">
+                                <option value="" disabled selected>Pilih salah satu</option>
+                                <option value="1">Diterima</option>
+                                <option value="2">Ditolak</option>
+                            </select>
+                        </p>
+                        <div>
+                            <div>
+                                Nama Bahan &nbsp; : <input type="text" name="kebutuhanbahan" id="namabahan" placeholder="Masukan Nama Bahan"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?>
+                                &nbsp; &nbsp; &nbsp; Jumlah : &nbsp; <input type="text" name="kebutuhanbahan" id="jumlahbahan" placeholder="Masukan Jumlah Bahan"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?>
+                            </div>
+                            <br>
+                            <h3 align="center">Kebutuhan Bahan</h3>
+                            <br>
+                            <table id="kebutuhan_bahan" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nama Bahan</th>
+                                        <th>Jumlah</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($kebutuhan_bahan) : ?>
+                                        <?php foreach ($kebutuhan_bahan as $keb_han) : ?>
+                                            <tr>
+                                                <td><?php echo $keb_han['gp_bahan']; ?></td>
+                                                <td><?php echo $keb_han['gp_jumlah']; ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Belum ada list bahan untuk produksi ulang</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                            <br>
+                            <div>
+                                Nama Bahan &nbsp; : <input type="text" name="kebutuhanbahan" id="namabahan" placeholder="Masukan Nama Bahan"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?>
+                                &nbsp; &nbsp; &nbsp; Jumlah : &nbsp; <input type="text" name="kebutuhanbahan" id="jumlahbahan" placeholder="Masukan Jumlah Bahan"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?>
+                            </div>
+                            <br>
+                            <h3 align="center">General </h3>
+                            <br>
+                            <table id="kebutuhan_bahan" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>QTY</th>
+                                        <th>Alasan</th>
+                                        <th>Operator</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($o) : ?>
+                                        <tr>
+                                            <td><?php echo $o['transaksi_gp_qty']; ?></td>
+                                            <td><?php echo $o['transaksi_gp_alasan']; ?></td>
+                                            <td><?php echo $o['transaksi_gp_operator']; ?></td>
+                                        </tr>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="2">Belum ada list bahan untuk produksi ulang</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </page>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            <div id="alert_status"></div>
+            <div id="data_status"></div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="editformgp" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Form Gagal Produksi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <p style="text-align: left;"><strong> </strong><span style="text-decoration: underline;"><strong>Form Gagal Produksi</strong></span></p>
+            <div class="modal-body">
+                <p style="text-align: left;">Nama Pelanggan&nbsp; &nbsp; : <?= $o['pelanggan_nama'] ?>
+                    <br />Tanggal Pengajuan : <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
+                    </br>Tanggal Validasi &nbsp; &nbsp; &nbsp;: <input type="date" name="deadline" id="deadline" value="<?= $deadline['transaksi_spk_deadline']; ?>">
+                    <br />Status Validasi &nbsp; &nbsp; &nbsp; &nbsp;: <select id="statusValidasi" name="validasiGP" required="">
+                        <option value="" disabled selected>Pilih salah satu</option>
+                        <option value="1">Diterima</option>
+                        <option value="2">Ditolak</option>
+                    </select>
+                </p>
+                <div>
+                    <div>
+                        Nama Bahan &nbsp; : <input type="text" name="kebutuhanbahan" id="namabahan" placeholder="Masukan Nama Bahan"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?>
+                        &nbsp; &nbsp; &nbsp; Jumlah : &nbsp; <input type="text" name="kebutuhanbahan" id="jumlahbahan" placeholder="Masukan Jumlah Bahan"><?= $keteranganspk['transaksi_keterangan_accesoris'] ?>
+                        &nbsp; &nbsp; &nbsp; &nbsp;<button type="button" name="add" id="add" class="btn btn-info">Add</button>
+                    </div>
+                    <br>
+                    <h3 align="center">Kebutuhan Bahan</h3>
+                    <br>
+                    <table id="kebutuhan_bahan" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nama Bahan</th>
+                                <th>Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($kebutuhan_bahan) : ?>
+                                <?php foreach ($kebutuhan_bahan as $keb_han) : ?>
+                                    <tr>
+                                        <td><?php echo $keb_han['gp_bahan']; ?></td>
+                                        <td><?php echo $keb_han['gp_jumlah']; ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else : ?>
+                                <tr>
+                                    <td colspan="2">Belum ada list bahan untuk produksi ulang</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                    <br><br>
+                    <h3 align="center">General </h3>
+                    <br>
+                    <table id="kebutuhan_bahan" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>QTY</th>
+                                <th>Alasan</th>
+                                <th>Operator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($o) : ?>
+                                <tr>
+                                    <td><?php echo $o['transaksi_gp_qty']; ?></td>
+                                    <td><?php echo $o['transaksi_gp_alasan']; ?></td>
+                                    <td><?php echo $o['transaksi_gp_operator']; ?></td>
+                                </tr>
+                            <?php else : ?>
+                                <tr>
+                                    <td colspan="2">Belum ada list bahan untuk produksi ulang</td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary status" data-toggle="modal" data-target="#status_printedit2">Edit</button>
+                <button class="btn btn-primary" id="printSpk1">Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="bukti" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -4142,6 +4453,13 @@ switch ($tipe) {
     }
     document.getElementById("printSpk2").onclick = function() {
         printElement(document.getElementById("printThis4"));
+        $('#printThis2').show();
+        printElement(document.getElementById("printThis2"), true, "<hr />");
+        $('#printThis2').hide();
+        window.print();
+    }
+    document.getElementById("printGP").onclick = function() {
+        printElement(document.getElementById("printThis5"));
         $('#printThis2').show();
         printElement(document.getElementById("printThis2"), true, "<hr />");
         $('#printThis2').hide();

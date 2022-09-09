@@ -1312,6 +1312,17 @@ class Order extends CI_Controller
         $this->db->where('transaksi_id', $id);
         $this->db->update('tbl_transaksi', $data);
     }
+    function savegp()
+    {
+        $id = $this->input->post('id');
+        $JLembarAwal = $this->input->post('JLembarAwal');
+
+        $data = array(
+            'transaksi_spkkartu_jumlahlembarawal'                      => $JLembarAwal,
+        );
+        $this->db->where('transaksi_id', $id);
+        $this->db->update('tbl_transaksi', $data);
+    }
     function upload_foto_resi()
     {
         $id = $this->input->post('id');
@@ -1360,5 +1371,29 @@ class Order extends CI_Controller
         if ($keterangan_siapkirim)      $this->db->set('transaksi_keterangan', $keterangan_siapkirim)->where('transaksi_produksi_status_id', '58')->where('transaksi_order_id', $transaksi_id)->update('tbl_status_transaksi');
 
         redirect(base_url('Order/detail/' . $transaksi_id));
+    }
+
+    function gp_insert()
+    {
+        $id = $this->input->post('id');
+        $bahan  = $this->input->post('gp_bahan');
+        $jumlah = $this->input->post('gp_jumlah');
+        $this->db->query("INSERT INTO tbl_gp VALUES (NULL,'$id','$bahan','$jumlah') ");
+    }
+
+    function gp_delete()
+    {
+        $id = $this->input->post('id');
+        $this->db->query("DELETE FROM tbl_transaksi WHERE transaksi_id = '$id' ");
+    }
+
+    function gp_update()
+    {
+        $id = $this->input->post('id');
+        $assesoris = $this->input->post('assesoris');
+        $keteranganspk = $this->input->post('keteranganspk');
+        $this->db->query("UPDATE t SET transaksi_keterangan_accesoris = '$keteranganspk' WHERE transaksi_id = '$id';");
+        $this->db->query("UPDATE tbl_transaksi SET transaksi_spkkartu_assesoris = '$assesoris' WHERE transaksi_id = '$id';");
+        redirect(base_url('Order/detail/' . $id . '#formGP'));
     }
 }
